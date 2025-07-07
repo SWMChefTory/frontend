@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="f27af066-df74-4e5a-8f9f-73387afc8958" name="Changes" comment="refactor(project): 파일 디렉토리 변경 및 그에 따른 네이밍 수정&#10;- 기존 파일 디렉토리를 표준 리액트 디렉토리 구조로 변경&#10;- 그에 따른 각 feature 도메인 이름 리펙토링 및 구조화&#10;&#10;chore(project): react-native-linear-gradient 스크립트 Mac 용 추가&#10;- 기존 Window 에서만 작동하던 스크립트를 Mac 에서도 작동하게 수정&#10;&#10;chore(ios): iOS 프로젝트 파일 추가 및 설정 변경&#10;- expo prebuild 진행&#10;- ios/ 폴더 내 프로젝트 파일 추가&#10;- 빌드 설정 수정&#10;&#10;chore(android): Android 프로젝트 파일 추가 및 설정 변경&#10;- expo prebuild 진행&#10;- android/ 폴더 내 프로젝트 파일 추가&#10;- 빌드 설정 수정">
+      <change afterPath="$PROJECT_DIR$/src/app/(tabs)/profile.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/__tests__/recipes/CookStep.test.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/__tests__/recipes/PopularRecipe.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/__tests__/recipes/PopularRecipe.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/__tests__/recipes/RecentRecipe.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/__tests__/recipes/RecentRecipe.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/__tests__/recipes/RecipeCard.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/__tests__/recipes/RecipeCard.test.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/__tests__/recipes/useRecipeDetailViewModel.test.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/__tests__/recipes/useRecipeListViewModel.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/__tests__/recipes/useRecipeListViewModel.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coverage/lcov-report/prettify.css" beforeDir="false" afterPath="$PROJECT_DIR$/coverage/lcov-report/prettify.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Podfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Podfile.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/cheiftory/Images.xcassets/AppIcon.appiconset/Contents.json" beforeDir="false" afterPath="$PROJECT_DIR$/ios/cheiftory/Images.xcassets/AppIcon.appiconset/Contents.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/cheiftory/Images.xcassets/SplashScreenBackground.colorset/Contents.json" beforeDir="false" afterPath="$PROJECT_DIR$/ios/cheiftory/Images.xcassets/SplashScreenBackground.colorset/Contents.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/cheiftory/Images.xcassets/SplashScreenLogo.imageset/Contents.json" beforeDir="false" afterPath="$PROJECT_DIR$/ios/cheiftory/Images.xcassets/SplashScreenLogo.imageset/Contents.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/(tabs)/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(tabs)/_layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/(tabs)/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(tabs)/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/_layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/recipe/cook.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/recipe/detail.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/recipeFlow/_layout.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/recipeFlow/cook.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/recipeFlow/detail.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/cook/components/CookStepCard.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/cook/components/CookStepsView.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/cook/components/CookStepsView1.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/cook/components/CookStepsView2.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/cook/components/CookStepsView3.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/cook/types/CookStep.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/recipe/detail/api/__mocks__/fetchRecipeDetail.mock.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/recipe/detail/components/RecipeDetailView.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/recipe/link/components/RecipeLinkInput.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/recipe/summary/api/__mocks__/fetchRecipeSummary.mock.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/recipe/summary/api/recipeSummaryApi.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/recipe/summary/hooks/useRecipeThumbnail.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/recipe/summary/popular/components/PopularRecipeSummaryCard.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/recipe/summary/popular/components/PopularRecipeSummaryList.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/recipe/summary/popular/types/PopularRecipeSummary.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/recipe/summary/recent/components/RecentRecipeSummaryCard.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/recipe/summary/recent/components/RecentRecipeSummaryList.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/recipe/summary/recent/types/RecentSummaryRecipe.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/recipe/summary/shared/components/RecipeSectionHeader.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/recipe/summary/viewmodels/useRecipeSummaryViewModel.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/recipeFlow/api/RecipeFlowApi.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/recipeFlow/store/recipeFlowStore.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/recipeFlow/types/RecipeFlow.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/recipeFlow/types/RecipeFlowMode.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/recipeFlow/viewmodels/useRecipeFlowViewModel.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/shared/components/video/YoutubeVideoPlayer.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/shared/components/video/youtubePlayerStore.ts" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="TypeScript JSX File" />
+        <option value="TypeScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="feature/9-recipe-view" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;banseok1216&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;git@github.com:SWMChiefTory/frontend.git&quot;,
+    &quot;accountId&quot;: &quot;de2a0609-5ccb-4549-afcc-5d24619dc0cb&quot;
+  }
+}</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
+  <component name="ProjectId" id="2ydmMhlTvgSsz72gO6yL7pLtos1" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "JavaScript 디버그.localhost:8081.executor": "Debug",
+    "Jest.모든 테스트.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHELLCHECK.PATH": "/Users/kimbanseok/Library/Application Support/JetBrains/WebStorm2025.1/plugins/Shell Script/shellcheck",
+    "git-widget-placeholder": "CHEF-61-레시피-생성-구현",
+    "last_opened_file_path": "/Users/kimbanseok/git/cheiftory_frontend/src/modules/cook/components",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs.jest.jest_package": "/Users/kimbanseok/git/cheiftory_frontend/node_modules/jest",
+    "nodejs_interpreter_path": "/Users/kimbanseok/Library/Application Support/JetBrains/WebStorm2025.1/node/versions/22.16.0/bin/node",
+    "nodejs_package_manager_path": "npm",
+    "npm.android.executor": "Run",
+    "npm.format.executor": "Run",
+    "npm.ios.executor": "Run",
+    "npm.lint.executor": "Run",
+    "npm.postinstall.executor": "Run",
+    "npm.start.executor": "Run",
+    "npm.test.executor": "Run",
+    "prettierjs.PrettierConfiguration.Package": "/Users/kimbanseok/git/cheiftory_frontend/node_modules/prettier",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "reference.settings.ide.settings.notifications",
+    "ts.external.directory.path": "/Users/kimbanseok/git/cheiftory_frontend/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/modules/cook/components" />
+      <recent name="$PROJECT_DIR$/android/app/src/main/cpp/rnnoise/src" />
+      <recent name="$PROJECT_DIR$/ios" />
+      <recent name="$PROJECT_DIR$/ios/cheiftory" />
+      <recent name="$PROJECT_DIR$/src/modules/cook/components/audio" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/modules/shared/components/video" />
+      <recent name="$PROJECT_DIR$/packages/rnnoise" />
+      <recent name="$PROJECT_DIR$/android/app/src/main/java/com/anonymous/cheiftory/rnnoise" />
+      <recent name="$PROJECT_DIR$/packages/rnnoise/android/src/main/cpp/rnnoise" />
+      <recent name="$PROJECT_DIR$/packages/rnnoise/android/src/main/cpp" />
+    </key>
+  </component>
+  <component name="RunManager" selected="npm.lint">
+    <configuration name="localhost:8081" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:8081">
+      <method v="2" />
+    </configuration>
+    <configuration name="android" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="android" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="format" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="format" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="ios" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="ios" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="lint" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="lint" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="npm.lint" />
+        <item itemvalue="npm.format" />
+        <item itemvalue="npm.ios" />
+        <item itemvalue="JavaScript 디버그.localhost:8081" />
+        <item itemvalue="npm.android" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-b26f3e71634d-JavaScript-WS-251.26094.131" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f27af066-df74-4e5a-8f9f-73387afc8958" name="Changes" comment="" />
+      <created>1750172777559</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1750172777559</updated>
+      <workItem from="1750172778802" duration="294000" />
+      <workItem from="1750173081489" duration="45000" />
+      <workItem from="1750173134259" duration="23787000" />
+      <workItem from="1750301005763" duration="133366000" />
+      <workItem from="1750835830661" duration="61962000" />
+      <workItem from="1751187776443" duration="37584000" />
+      <workItem from="1751359417753" duration="4173000" />
+      <workItem from="1751437013911" duration="1000" />
+      <workItem from="1751437310732" duration="1904000" />
+      <workItem from="1751519584702" duration="55000" />
+      <workItem from="1751520262143" duration="823000" />
+      <workItem from="1751523535755" duration="2768000" />
+    </task>
+    <task id="LOCAL-00001" summary="refactor(project): 파일 디렉토리 변경 및 그에 따른 네이밍 수정&#10;- 기존 파일 디렉토리를 표준 리액트 디렉토리 구조로 변경&#10;- 그에 따른 각 feature 도메인 이름 리펙토링 및 구조화&#10;&#10;chore(project): react-native-linear-gradient 스크립트 Mac 용 추가&#10;- 기존 Window 에서만 작동하던 스크립트를 Mac 에서도 작동하게 수정&#10;&#10;chore(ios): iOS 프로젝트 파일 추가 및 설정 변경&#10;- expo prebuild 진행&#10;- ios/ 폴더 내 프로젝트 파일 추가&#10;- 빌드 설정 수정&#10;&#10;chore(android): Android 프로젝트 파일 추가 및 설정 변경&#10;- expo prebuild 진행&#10;- android/ 폴더 내 프로젝트 파일 추가&#10;- 빌드 설정 수정">
+      <option name="closed" value="true" />
+      <created>1750308664236</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1750308664237</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="refactor(project): 파일 디렉토리 변경 및 그에 따른 네이밍 수정&#10;- 기존 파일 디렉토리를 표준 리액트 디렉토리 구조로 변경&#10;- 그에 따른 각 feature 도메인 이름 리펙토링 및 구조화&#10;&#10;chore(project): react-native-linear-gradient 스크립트 Mac 용 추가&#10;- 기존 Window 에서만 작동하던 스크립트를 Mac 에서도 작동하게 수정&#10;&#10;chore(ios): iOS 프로젝트 파일 추가 및 설정 변경&#10;- expo prebuild 진행&#10;- ios/ 폴더 내 프로젝트 파일 추가&#10;- 빌드 설정 수정&#10;&#10;chore(android): Android 프로젝트 파일 추가 및 설정 변경&#10;- expo prebuild 진행&#10;- android/ 폴더 내 프로젝트 파일 추가&#10;- 빌드 설정 수정" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor(project): 파일 디렉토리 변경 및 그에 따른 네이밍 수정&#10;- 기존 파일 디렉토리를 표준 리액트 디렉토리 구조로 변경&#10;- 그에 따른 각 feature 도메인 이름 리펙토링 및 구조화&#10;&#10;chore(project): react-native-linear-gradient 스크립트 Mac 용 추가&#10;- 기존 Window 에서만 작동하던 스크립트를 Mac 에서도 작동하게 수정&#10;&#10;chore(ios): iOS 프로젝트 파일 추가 및 설정 변경&#10;- expo prebuild 진행&#10;- ios/ 폴더 내 프로젝트 파일 추가&#10;- 빌드 설정 수정&#10;&#10;chore(android): Android 프로젝트 파일 추가 및 설정 변경&#10;- expo prebuild 진행&#10;- android/ 폴더 내 프로젝트 파일 추가&#10;- 빌드 설정 수정" />
+  </component>
+</project>

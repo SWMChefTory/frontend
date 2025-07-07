@@ -1,0 +1,2839 @@
+{
+  "/Users/kimbanseok/git/cheiftory_frontend/eslint.config.js": {
+    "path": "/Users/kimbanseok/git/cheiftory_frontend/eslint.config.js",
+    "statementMap": {
+      "0": {
+        "start": { "line": 2, "column": 25 },
+        "end": { "line": 2, "column": 49 }
+      },
+      "1": {
+        "start": { "line": 3, "column": 19 },
+        "end": { "line": 3, "column": 53 }
+      },
+      "2": {
+        "start": { "line": 4, "column": 40 },
+        "end": { "line": 4, "column": 85 }
+      },
+      "3": {
+        "start": { "line": 6, "column": 0 },
+        "end": { "line": 12, "column": 3 }
+      }
+    },
+    "fnMap": {},
+    "branchMap": {},
+    "s": { "0": 0, "1": 0, "2": 0, "3": 0 },
+    "f": {},
+    "b": {}
+  },
+  "/Users/kimbanseok/git/cheiftory_frontend/expo-router.config.js": {
+    "path": "/Users/kimbanseok/git/cheiftory_frontend/expo-router.config.js",
+    "statementMap": {
+      "0": {
+        "start": { "line": 1, "column": 0 },
+        "end": { "line": 3, "column": 2 }
+      }
+    },
+    "fnMap": {},
+    "branchMap": {},
+    "s": { "0": 0 },
+    "f": {},
+    "b": {}
+  },
+  "/Users/kimbanseok/git/cheiftory_frontend/scripts/replaceLinearGradient.js": {
+    "path": "/Users/kimbanseok/git/cheiftory_frontend/scripts/replaceLinearGradient.js",
+    "statementMap": {
+      "0": {
+        "start": { "line": 2, "column": 11 },
+        "end": { "line": 2, "column": 24 }
+      },
+      "1": {
+        "start": { "line": 3, "column": 13 },
+        "end": { "line": 3, "column": 28 }
+      },
+      "2": {
+        "start": { "line": 5, "column": 16 },
+        "end": { "line": 8, "column": 1 }
+      },
+      "3": {
+        "start": { "line": 11, "column": 15 },
+        "end": { "line": 11, "column": 49 }
+      },
+      "4": {
+        "start": { "line": 12, "column": 18 },
+        "end": { "line": 16, "column": 79 }
+      },
+      "5": {
+        "start": { "line": 18, "column": 2 },
+        "end": { "line": 21, "column": 3 }
+      },
+      "6": {
+        "start": { "line": 19, "column": 4 },
+        "end": { "line": 19, "column": 49 }
+      },
+      "7": {
+        "start": { "line": 20, "column": 4 },
+        "end": { "line": 20, "column": 64 }
+      },
+      "8": {
+        "start": { "line": 25, "column": 2 },
+        "end": { "line": 30, "column": 3 }
+      },
+      "9": {
+        "start": { "line": 26, "column": 17 },
+        "end": { "line": 26, "column": 38 }
+      },
+      "10": {
+        "start": { "line": 27, "column": 17 },
+        "end": { "line": 27, "column": 34 }
+      },
+      "11": {
+        "start": { "line": 28, "column": 4 },
+        "end": { "line": 29, "column": 70 }
+      },
+      "12": {
+        "start": { "line": 28, "column": 28 },
+        "end": { "line": 28, "column": 39 }
+      },
+      "13": {
+        "start": { "line": 29, "column": 9 },
+        "end": { "line": 29, "column": 70 }
+      },
+      "14": {
+        "start": { "line": 29, "column": 50 },
+        "end": { "line": 29, "column": 70 }
+      },
+      "15": {
+        "start": { "line": 33, "column": 0 },
+        "end": { "line": 33, "column": 70 }
+      },
+      "16": {
+        "start": { "line": 34, "column": 0 },
+        "end": { "line": 35, "column": 53 }
+      },
+      "17": {
+        "start": { "line": 34, "column": 28 },
+        "end": { "line": 34, "column": 42 }
+      },
+      "18": {
+        "start": { "line": 35, "column": 5 },
+        "end": { "line": 35, "column": 53 }
+      }
+    },
+    "fnMap": {
+      "0": {
+        "name": "replaceInFile",
+        "decl": {
+          "start": { "line": 10, "column": 9 },
+          "end": { "line": 10, "column": 22 }
+        },
+        "loc": {
+          "start": { "line": 10, "column": 33 },
+          "end": { "line": 22, "column": 1 }
+        },
+        "line": 10
+      },
+      "1": {
+        "name": "walk",
+        "decl": {
+          "start": { "line": 24, "column": 9 },
+          "end": { "line": 24, "column": 13 }
+        },
+        "loc": {
+          "start": { "line": 24, "column": 19 },
+          "end": { "line": 31, "column": 1 }
+        },
+        "line": 24
+      }
+    },
+    "branchMap": {
+      "0": {
+        "loc": {
+          "start": { "line": 18, "column": 2 },
+          "end": { "line": 21, "column": 3 }
+        },
+        "type": "if",
+        "locations": [
+          {
+            "start": { "line": 18, "column": 2 },
+            "end": { "line": 21, "column": 3 }
+          },
+          { "start": {}, "end": {} }
+        ],
+        "line": 18
+      },
+      "1": {
+        "loc": {
+          "start": { "line": 28, "column": 4 },
+          "end": { "line": 29, "column": 70 }
+        },
+        "type": "if",
+        "locations": [
+          {
+            "start": { "line": 28, "column": 4 },
+            "end": { "line": 29, "column": 70 }
+          },
+          {
+            "start": { "line": 29, "column": 9 },
+            "end": { "line": 29, "column": 70 }
+          }
+        ],
+        "line": 28
+      },
+      "2": {
+        "loc": {
+          "start": { "line": 29, "column": 9 },
+          "end": { "line": 29, "column": 70 }
+        },
+        "type": "if",
+        "locations": [
+          {
+            "start": { "line": 29, "column": 9 },
+            "end": { "line": 29, "column": 70 }
+          },
+          { "start": {}, "end": {} }
+        ],
+        "line": 29
+      },
+      "3": {
+        "loc": {
+          "start": { "line": 34, "column": 0 },
+          "end": { "line": 35, "column": 53 }
+        },
+        "type": "if",
+        "locations": [
+          {
+            "start": { "line": 34, "column": 0 },
+            "end": { "line": 35, "column": 53 }
+          },
+          {
+            "start": { "line": 35, "column": 5 },
+            "end": { "line": 35, "column": 53 }
+          }
+        ],
+        "line": 34
+      }
+    },
+    "s": {
+      "0": 0,
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0,
+      "8": 0,
+      "9": 0,
+      "10": 0,
+      "11": 0,
+      "12": 0,
+      "13": 0,
+      "14": 0,
+      "15": 0,
+      "16": 0,
+      "17": 0,
+      "18": 0
+    },
+    "f": { "0": 0, "1": 0 },
+    "b": { "0": [0, 0], "1": [0, 0], "2": [0, 0], "3": [0, 0] }
+  },
+  "/Users/kimbanseok/git/cheiftory_frontend/src/app/+not-found.tsx": {
+    "path": "/Users/kimbanseok/git/cheiftory_frontend/src/app/+not-found.tsx",
+    "statementMap": {
+      "0": {
+        "start": { "line": 5, "column": 2 },
+        "end": { "line": 14, "column": 4 }
+      },
+      "1": {
+        "start": { "line": 17, "column": 15 },
+        "end": { "line": 30, "column": 2 }
+      }
+    },
+    "fnMap": {
+      "0": {
+        "name": "NotFoundScreen",
+        "decl": {
+          "start": { "line": 4, "column": 24 },
+          "end": { "line": 4, "column": 38 }
+        },
+        "loc": {
+          "start": { "line": 4, "column": 41 },
+          "end": { "line": 15, "column": 1 }
+        },
+        "line": 4
+      }
+    },
+    "branchMap": {},
+    "s": { "0": 0, "1": 0 },
+    "f": { "0": 0 },
+    "b": {}
+  },
+  "/Users/kimbanseok/git/cheiftory_frontend/src/app/_layout.tsx": {
+    "path": "/Users/kimbanseok/git/cheiftory_frontend/src/app/_layout.tsx",
+    "statementMap": {
+      "0": {
+        "start": { "line": 5, "column": 2 },
+        "end": { "line": 14, "column": 4 }
+      },
+      "1": {
+        "start": { "line": 9, "column": 26 },
+        "end": { "line": 9, "column": 46 }
+      }
+    },
+    "fnMap": {
+      "0": {
+        "name": "RootLayout",
+        "decl": {
+          "start": { "line": 4, "column": 24 },
+          "end": { "line": 4, "column": 34 }
+        },
+        "loc": {
+          "start": { "line": 4, "column": 37 },
+          "end": { "line": 15, "column": 1 }
+        },
+        "line": 4
+      },
+      "1": {
+        "name": "(anonymous_1)",
+        "decl": {
+          "start": { "line": 9, "column": 20 },
+          "end": { "line": 9, "column": 21 }
+        },
+        "loc": {
+          "start": { "line": 9, "column": 26 },
+          "end": { "line": 9, "column": 46 }
+        },
+        "line": 9
+      }
+    },
+    "branchMap": {},
+    "s": { "0": 0, "1": 0 },
+    "f": { "0": 0, "1": 0 },
+    "b": {}
+  },
+  "/Users/kimbanseok/git/cheiftory_frontend/src/app/(tabs)/_layout.tsx": {
+    "path": "/Users/kimbanseok/git/cheiftory_frontend/src/app/(tabs)/_layout.tsx",
+    "statementMap": {
+      "0": {
+        "start": { "line": 5, "column": 2 },
+        "end": { "line": 27, "column": 4 }
+      },
+      "1": {
+        "start": { "line": 14, "column": 29 },
+        "end": { "line": 14, "column": 43 }
+      }
+    },
+    "fnMap": {
+      "0": {
+        "name": "TabLayout",
+        "decl": {
+          "start": { "line": 4, "column": 24 },
+          "end": { "line": 4, "column": 33 }
+        },
+        "loc": {
+          "start": { "line": 4, "column": 36 },
+          "end": { "line": 28, "column": 1 }
+        },
+        "line": 4
+      },
+      "1": {
+        "name": "(anonymous_1)",
+        "decl": {
+          "start": { "line": 14, "column": 23 },
+          "end": { "line": 14, "column": 24 }
+        },
+        "loc": {
+          "start": { "line": 14, "column": 29 },
+          "end": { "line": 14, "column": 43 }
+        },
+        "line": 14
+      }
+    },
+    "branchMap": {},
+    "s": { "0": 0, "1": 0 },
+    "f": { "0": 0, "1": 0 },
+    "b": {}
+  },
+  "/Users/kimbanseok/git/cheiftory_frontend/src/app/(tabs)/index.tsx": {
+    "path": "/Users/kimbanseok/git/cheiftory_frontend/src/app/(tabs)/index.tsx",
+    "statementMap": {
+      "0": {
+        "start": { "line": 15, "column": 4 },
+        "end": { "line": 15, "column": 31 }
+      },
+      "1": {
+        "start": { "line": 16, "column": 17 },
+        "end": { "line": 16, "column": 28 }
+      },
+      "2": {
+        "start": { "line": 18, "column": 28 },
+        "end": { "line": 27, "column": 3 }
+      },
+      "3": {
+        "start": { "line": 23, "column": 4 },
+        "end": { "line": 26, "column": 7 }
+      },
+      "4": {
+        "start": { "line": 29, "column": 2 },
+        "end": { "line": 48, "column": 4 }
+      },
+      "5": {
+        "start": { "line": 51, "column": 15 },
+        "end": { "line": 60, "column": 2 }
+      }
+    },
+    "fnMap": {
+      "0": {
+        "name": "HomeScreen",
+        "decl": {
+          "start": { "line": 13, "column": 24 },
+          "end": { "line": 13, "column": 34 }
+        },
+        "loc": {
+          "start": { "line": 13, "column": 37 },
+          "end": { "line": 49, "column": 1 }
+        },
+        "line": 13
+      },
+      "1": {
+        "name": "(anonymous_1)",
+        "decl": {
+          "start": { "line": 18, "column": 28 },
+          "end": { "line": 18, "column": 29 }
+        },
+        "loc": {
+          "start": { "line": 22, "column": 52 },
+          "end": { "line": 27, "column": 3 }
+        },
+        "line": 22
+      },
+      "2": {
+        "name": "(anonymous_2)",
+        "decl": {
+          "start": { "line": 36, "column": 57 },
+          "end": { "line": 36, "column": 58 }
+        },
+        "loc": {
+          "start": { "line": 36, "column": 63 },
+          "end": { "line": 36, "column": 65 }
+        },
+        "line": 36
+      },
+      "3": {
+        "name": "(anonymous_3)",
+        "decl": {
+          "start": { "line": 41, "column": 53 },
+          "end": { "line": 41, "column": 54 }
+        },
+        "loc": {
+          "start": { "line": 41, "column": 59 },
+          "end": { "line": 41, "column": 61 }
+        },
+        "line": 41
+      }
+    },
+    "branchMap": {},
+    "s": { "0": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0 },
+    "f": { "0": 0, "1": 0, "2": 0, "3": 0 },
+    "b": {}
+  },
+  "/Users/kimbanseok/git/cheiftory_frontend/src/app/recipe/[recipeId].tsx": {
+    "path": "/Users/kimbanseok/git/cheiftory_frontend/src/app/recipe/[recipeId].tsx",
+    "statementMap": {
+      "0": {
+        "start": { "line": 14, "column": 41 },
+        "end": { "line": 18, "column": 6 }
+      },
+      "1": {
+        "start": { "line": 19, "column": 30 },
+        "end": { "line": 23, "column": 3 }
+      },
+      "2": {
+        "start": { "line": 24, "column": 26 },
+        "end": { "line": 24, "column": 79 }
+      },
+      "3": {
+        "start": { "line": 25, "column": 20 },
+        "end": { "line": 25, "column": 50 }
+      },
+      "4": {
+        "start": { "line": 27, "column": 2 },
+        "end": { "line": 63, "column": 4 }
+      },
+      "5": {
+        "start": { "line": 35, "column": 18 },
+        "end": { "line": 39, "column": 20 }
+      },
+      "6": {
+        "start": { "line": 37, "column": 22 },
+        "end": { "line": 37, "column": 53 }
+      },
+      "7": {
+        "start": { "line": 41, "column": 22 },
+        "end": { "line": 41, "column": 42 }
+      },
+      "8": {
+        "start": { "line": 51, "column": 29 },
+        "end": { "line": 51, "column": 57 }
+      },
+      "9": {
+        "start": { "line": 57, "column": 28 },
+        "end": { "line": 57, "column": 58 }
+      },
+      "10": {
+        "start": { "line": 66, "column": 15 },
+        "end": { "line": 112, "column": 2 }
+      }
+    },
+    "fnMap": {
+      "0": {
+        "name": "RecipeFlowScreen",
+        "decl": {
+          "start": { "line": 13, "column": 24 },
+          "end": { "line": 13, "column": 40 }
+        },
+        "loc": {
+          "start": { "line": 13, "column": 43 },
+          "end": { "line": 64, "column": 1 }
+        },
+        "line": 13
+      },
+      "1": {
+        "name": "(anonymous_1)",
+        "decl": {
+          "start": { "line": 34, "column": 16 },
+          "end": { "line": 34, "column": 17 }
+        },
+        "loc": {
+          "start": { "line": 35, "column": 18 },
+          "end": { "line": 39, "column": 20 }
+        },
+        "line": 35
+      },
+      "2": {
+        "name": "(anonymous_2)",
+        "decl": {
+          "start": { "line": 36, "column": 29 },
+          "end": { "line": 36, "column": 30 }
+        },
+        "loc": {
+          "start": { "line": 36, "column": 35 },
+          "end": { "line": 38, "column": 21 }
+        },
+        "line": 36
+      },
+      "3": {
+        "name": "(anonymous_3)",
+        "decl": {
+          "start": { "line": 41, "column": 16 },
+          "end": { "line": 41, "column": 17 }
+        },
+        "loc": {
+          "start": { "line": 41, "column": 22 },
+          "end": { "line": 41, "column": 42 }
+        },
+        "line": 41
+      },
+      "4": {
+        "name": "(anonymous_4)",
+        "decl": {
+          "start": { "line": 51, "column": 23 },
+          "end": { "line": 51, "column": 24 }
+        },
+        "loc": {
+          "start": { "line": 51, "column": 29 },
+          "end": { "line": 51, "column": 57 }
+        },
+        "line": 51
+      },
+      "5": {
+        "name": "(anonymous_5)",
+        "decl": {
+          "start": { "line": 57, "column": 22 },
+          "end": { "line": 57, "column": 23 }
+        },
+        "loc": {
+          "start": { "line": 57, "column": 28 },
+          "end": { "line": 57, "column": 58 }
+        },
+        "line": 57
+      }
+    },
+    "branchMap": {
+      "0": {
+        "loc": {
+          "start": { "line": 33, "column": 12 },
+          "end": { "line": 41, "column": 42 }
+        },
+        "type": "cond-expr",
+        "locations": [
+          {
+            "start": { "line": 34, "column": 16 },
+            "end": { "line": 40, "column": 17 }
+          },
+          {
+            "start": { "line": 41, "column": 16 },
+            "end": { "line": 41, "column": 42 }
+          }
+        ],
+        "line": 33
+      },
+      "1": {
+        "loc": {
+          "start": { "line": 48, "column": 11 },
+          "end": { "line": 59, "column": 18 }
+        },
+        "type": "cond-expr",
+        "locations": [
+          {
+            "start": { "line": 49, "column": 12 },
+            "end": { "line": 52, "column": 14 }
+          },
+          {
+            "start": { "line": 53, "column": 14 },
+            "end": { "line": 59, "column": 18 }
+          }
+        ],
+        "line": 48
+      },
+      "2": {
+        "loc": {
+          "start": { "line": 53, "column": 14 },
+          "end": { "line": 59, "column": 18 }
+        },
+        "type": "cond-expr",
+        "locations": [
+          {
+            "start": { "line": 54, "column": 12 },
+            "end": { "line": 58, "column": 14 }
+          },
+          {
+            "start": { "line": 59, "column": 14 },
+            "end": { "line": 59, "column": 18 }
+          }
+        ],
+        "line": 53
+      }
+    },
+    "s": {
+      "0": 0,
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0,
+      "8": 0,
+      "9": 0,
+      "10": 0
+    },
+    "f": { "0": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0 },
+    "b": { "0": [0, 0], "1": [0, 0], "2": [0, 0] }
+  },
+  "/Users/kimbanseok/git/cheiftory_frontend/src/modules/cook/components/CookStepCard.tsx": {
+    "path": "/Users/kimbanseok/git/cheiftory_frontend/src/modules/cook/components/CookStepCard.tsx",
+    "statementMap": {
+      "0": {
+        "start": { "line": 16, "column": 21 },
+        "end": { "line": 16, "column": 30 }
+      },
+      "1": {
+        "start": { "line": 18, "column": 23 },
+        "end": { "line": 25, "column": 4 }
+      },
+      "2": {
+        "start": { "line": 19, "column": 20 },
+        "end": { "line": 23, "column": 5 }
+      },
+      "3": {
+        "start": { "line": 24, "column": 4 },
+        "end": { "line": 24, "column": 52 }
+      },
+      "4": {
+        "start": { "line": 27, "column": 2 },
+        "end": { "line": 38, "column": 4 }
+      },
+      "5": {
+        "start": { "line": 41, "column": 15 },
+        "end": { "line": 72, "column": 2 }
+      }
+    },
+    "fnMap": {
+      "0": {
+        "name": "CookStepCard",
+        "decl": {
+          "start": { "line": 15, "column": 16 },
+          "end": { "line": 15, "column": 28 }
+        },
+        "loc": {
+          "start": { "line": 15, "column": 62 },
+          "end": { "line": 39, "column": 1 }
+        },
+        "line": 15
+      },
+      "1": {
+        "name": "(anonymous_1)",
+        "decl": {
+          "start": { "line": 18, "column": 40 },
+          "end": { "line": 18, "column": 41 }
+        },
+        "loc": {
+          "start": { "line": 18, "column": 46 },
+          "end": { "line": 25, "column": 3 }
+        },
+        "line": 18
+      }
+    },
+    "branchMap": {},
+    "s": { "0": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0 },
+    "f": { "0": 0, "1": 0 },
+    "b": {}
+  },
+  "/Users/kimbanseok/git/cheiftory_frontend/src/modules/cook/components/CookStepsView.tsx": {
+    "path": "/Users/kimbanseok/git/cheiftory_frontend/src/modules/cook/components/CookStepsView.tsx",
+    "statementMap": {
+      "0": {
+        "start": { "line": 10, "column": 31 },
+        "end": { "line": 10, "column": 55 }
+      },
+      "1": {
+        "start": { "line": 19, "column": 22 },
+        "end": { "line": 19, "column": 34 }
+      },
+      "2": {
+        "start": { "line": 20, "column": 50 },
+        "end": { "line": 20, "column": 61 }
+      },
+      "3": {
+        "start": { "line": 21, "column": 38 },
+        "end": { "line": 21, "column": 50 }
+      },
+      "4": {
+        "start": { "line": 22, "column": 22 },
+        "end": { "line": 22, "column": 53 }
+      },
+      "5": {
+        "start": { "line": 24, "column": 22 },
+        "end": { "line": 24, "column": 51 }
+      },
+      "6": {
+        "start": { "line": 26, "column": 2 },
+        "end": { "line": 56, "column": 5 }
+      },
+      "7": {
+        "start": { "line": 27, "column": 17 },
+        "end": { "line": 27, "column": 51 }
+      },
+      "8": {
+        "start": { "line": 28, "column": 4 },
+        "end": { "line": 28, "column": 37 }
+      },
+      "9": {
+        "start": { "line": 29, "column": 4 },
+        "end": { "line": 29, "column": 24 }
+      },
+      "10": {
+        "start": { "line": 31, "column": 4 },
+        "end": { "line": 55, "column": 5 }
+      },
+      "11": {
+        "start": { "line": 32, "column": 6 },
+        "end": { "line": 32, "column": 32 }
+      },
+      "12": {
+        "start": { "line": 33, "column": 23 },
+        "end": { "line": 33, "column": 77 }
+      },
+      "13": {
+        "start": { "line": 34, "column": 6 },
+        "end": { "line": 34, "column": 36 }
+      },
+      "14": {
+        "start": { "line": 35, "column": 6 },
+        "end": { "line": 35, "column": 57 }
+      },
+      "15": {
+        "start": { "line": 36, "column": 6 },
+        "end": { "line": 36, "column": 42 }
+      },
+      "16": {
+        "start": { "line": 37, "column": 6 },
+        "end": { "line": 37, "column": 56 }
+      },
+      "17": {
+        "start": { "line": 37, "column": 33 },
+        "end": { "line": 37, "column": 54 }
+      },
+      "18": {
+        "start": { "line": 38, "column": 6 },
+        "end": { "line": 42, "column": 9 }
+      },
+      "19": {
+        "start": { "line": 43, "column": 11 },
+        "end": { "line": 55, "column": 5 }
+      },
+      "20": {
+        "start": { "line": 44, "column": 6 },
+        "end": { "line": 44, "column": 32 }
+      },
+      "21": {
+        "start": { "line": 45, "column": 23 },
+        "end": { "line": 45, "column": 56 }
+      },
+      "22": {
+        "start": { "line": 46, "column": 6 },
+        "end": { "line": 46, "column": 36 }
+      },
+      "23": {
+        "start": { "line": 47, "column": 6 },
+        "end": { "line": 47, "column": 57 }
+      },
+      "24": {
+        "start": { "line": 48, "column": 6 },
+        "end": { "line": 48, "column": 42 }
+      },
+      "25": {
+        "start": { "line": 49, "column": 6 },
+        "end": { "line": 49, "column": 56 }
+      },
+      "26": {
+        "start": { "line": 49, "column": 33 },
+        "end": { "line": 49, "column": 54 }
+      },
+      "27": {
+        "start": { "line": 50, "column": 6 },
+        "end": { "line": 54, "column": 9 }
+      },
+      "28": {
+        "start": { "line": 58, "column": 2 },
+        "end": { "line": 80, "column": 9 }
+      },
+      "29": {
+        "start": { "line": 59, "column": 35 },
+        "end": { "line": 72, "column": 5 }
+      },
+      "30": {
+        "start": { "line": 61, "column": 8 },
+        "end": { "line": 61, "column": 67 }
+      },
+      "31": {
+        "start": { "line": 62, "column": 6 },
+        "end": { "line": 66, "column": 7 }
+      },
+      "32": {
+        "start": { "line": 63, "column": 8 },
+        "end": { "line": 63, "column": 56 }
+      },
+      "33": {
+        "start": { "line": 64, "column": 8 },
+        "end": { "line": 64, "column": 17 }
+      },
+      "34": {
+        "start": { "line": 65, "column": 8 },
+        "end": { "line": 65, "column": 15 }
+      },
+      "35": {
+        "start": { "line": 67, "column": 6 },
+        "end": { "line": 71, "column": 9 }
+      },
+      "36": {
+        "start": { "line": 74, "column": 4 },
+        "end": { "line": 74, "column": 29 }
+      },
+      "37": {
+        "start": { "line": 76, "column": 4 },
+        "end": { "line": 79, "column": 6 }
+      },
+      "38": {
+        "start": { "line": 77, "column": 6 },
+        "end": { "line": 77, "column": 49 }
+      },
+      "39": {
+        "start": { "line": 78, "column": 6 },
+        "end": { "line": 78, "column": 41 }
+      },
+      "40": {
+        "start": { "line": 82, "column": 2 },
+        "end": { "line": 99, "column": 20 }
+      },
+      "41": {
+        "start": { "line": 83, "column": 21 },
+        "end": { "line": 95, "column": 11 }
+      },
+      "42": {
+        "start": { "line": 84, "column": 6 },
+        "end": { "line": 94, "column": 7 }
+      },
+      "43": {
+        "start": { "line": 85, "column": 27 },
+        "end": { "line": 85, "column": 77 }
+      },
+      "44": {
+        "start": { "line": 86, "column": 8 },
+        "end": { "line": 91, "column": 9 }
+      },
+      "45": {
+        "start": { "line": 90, "column": 10 },
+        "end": { "line": 90, "column": 65 }
+      },
+      "46": {
+        "start": { "line": 93, "column": 8 },
+        "end": { "line": 93, "column": 56 }
+      },
+      "47": {
+        "start": { "line": 97, "column": 4 },
+        "end": { "line": 97, "column": 41 }
+      },
+      "48": {
+        "start": { "line": 97, "column": 17 },
+        "end": { "line": 97, "column": 40 }
+      },
+      "49": {
+        "start": { "line": 101, "column": 2 },
+        "end": { "line": 134, "column": 4 }
+      },
+      "50": {
+        "start": { "line": 119, "column": 10 },
+        "end": { "line": 119, "column": 37 }
+      },
+      "51": {
+        "start": { "line": 120, "column": 23 },
+        "end": { "line": 120, "column": 41 }
+      },
+      "52": {
+        "start": { "line": 121, "column": 10 },
+        "end": { "line": 121, "column": 58 }
+      },
+      "53": {
+        "start": { "line": 124, "column": 10 },
+        "end": { "line": 130, "column": 12 }
+      },
+      "54": {
+        "start": { "line": 137, "column": 15 },
+        "end": { "line": 145, "column": 2 }
+      }
+    },
+    "fnMap": {
+      "0": {
+        "name": "CookStepsView",
+        "decl": {
+          "start": { "line": 18, "column": 16 },
+          "end": { "line": 18, "column": 29 }
+        },
+        "loc": {
+          "start": { "line": 18, "column": 68 },
+          "end": { "line": 135, "column": 1 }
+        },
+        "line": 18
+      },
+      "1": {
+        "name": "(anonymous_1)",
+        "decl": {
+          "start": { "line": 26, "column": 38 },
+          "end": { "line": 26, "column": 39 }
+        },
+        "loc": {
+          "start": { "line": 26, "column": 55 },
+          "end": { "line": 56, "column": 3 }
+        },
+        "line": 26
+      },
+      "2": {
+        "name": "(anonymous_2)",
+        "decl": {
+          "start": { "line": 37, "column": 24 },
+          "end": { "line": 37, "column": 25 }
+        },
+        "loc": {
+          "start": { "line": 37, "column": 33 },
+          "end": { "line": 37, "column": 54 }
+        },
+        "line": 37
+      },
+      "3": {
+        "name": "(anonymous_3)",
+        "decl": {
+          "start": { "line": 49, "column": 24 },
+          "end": { "line": 49, "column": 25 }
+        },
+        "loc": {
+          "start": { "line": 49, "column": 33 },
+          "end": { "line": 49, "column": 54 }
+        },
+        "line": 49
+      },
+      "4": {
+        "name": "(anonymous_4)",
+        "decl": {
+          "start": { "line": 58, "column": 12 },
+          "end": { "line": 58, "column": 13 }
+        },
+        "loc": {
+          "start": { "line": 58, "column": 18 },
+          "end": { "line": 80, "column": 3 }
+        },
+        "line": 58
+      },
+      "5": {
+        "name": "(anonymous_5)",
+        "decl": {
+          "start": { "line": 59, "column": 35 },
+          "end": { "line": 59, "column": 36 }
+        },
+        "loc": {
+          "start": { "line": 59, "column": 47 },
+          "end": { "line": 72, "column": 5 }
+        },
+        "line": 59
+      },
+      "6": {
+        "name": "(anonymous_6)",
+        "decl": {
+          "start": { "line": 76, "column": 11 },
+          "end": { "line": 76, "column": 12 }
+        },
+        "loc": {
+          "start": { "line": 76, "column": 17 },
+          "end": { "line": 79, "column": 5 }
+        },
+        "line": 76
+      },
+      "7": {
+        "name": "(anonymous_7)",
+        "decl": {
+          "start": { "line": 82, "column": 12 },
+          "end": { "line": 82, "column": 13 }
+        },
+        "loc": {
+          "start": { "line": 82, "column": 18 },
+          "end": { "line": 99, "column": 3 }
+        },
+        "line": 82
+      },
+      "8": {
+        "name": "(anonymous_8)",
+        "decl": {
+          "start": { "line": 83, "column": 33 },
+          "end": { "line": 83, "column": 34 }
+        },
+        "loc": {
+          "start": { "line": 83, "column": 45 },
+          "end": { "line": 95, "column": 5 }
+        },
+        "line": 83
+      },
+      "9": {
+        "name": "(anonymous_9)",
+        "decl": {
+          "start": { "line": 97, "column": 11 },
+          "end": { "line": 97, "column": 12 }
+        },
+        "loc": {
+          "start": { "line": 97, "column": 17 },
+          "end": { "line": 97, "column": 40 }
+        },
+        "line": 97
+      },
+      "10": {
+        "name": "(anonymous_10)",
+        "decl": {
+          "start": { "line": 118, "column": 22 },
+          "end": { "line": 118, "column": 23 }
+        },
+        "loc": {
+          "start": { "line": 118, "column": 33 },
+          "end": { "line": 122, "column": 9 }
+        },
+        "line": 118
+      },
+      "11": {
+        "name": "(anonymous_11)",
+        "decl": {
+          "start": { "line": 123, "column": 20 },
+          "end": { "line": 123, "column": 21 }
+        },
+        "loc": {
+          "start": { "line": 123, "column": 50 },
+          "end": { "line": 131, "column": 9 }
+        },
+        "line": 123
+      }
+    },
+    "branchMap": {
+      "0": {
+        "loc": {
+          "start": { "line": 27, "column": 17 },
+          "end": { "line": 27, "column": 51 }
+        },
+        "type": "binary-expr",
+        "locations": [
+          {
+            "start": { "line": 27, "column": 17 },
+            "end": { "line": 27, "column": 45 }
+          },
+          {
+            "start": { "line": 27, "column": 49 },
+            "end": { "line": 27, "column": 51 }
+          }
+        ],
+        "line": 27
+      },
+      "1": {
+        "loc": {
+          "start": { "line": 31, "column": 4 },
+          "end": { "line": 55, "column": 5 }
+        },
+        "type": "if",
+        "locations": [
+          {
+            "start": { "line": 31, "column": 4 },
+            "end": { "line": 55, "column": 5 }
+          },
+          {
+            "start": { "line": 43, "column": 11 },
+            "end": { "line": 55, "column": 5 }
+          }
+        ],
+        "line": 31
+      },
+      "2": {
+        "loc": {
+          "start": { "line": 43, "column": 11 },
+          "end": { "line": 55, "column": 5 }
+        },
+        "type": "if",
+        "locations": [
+          {
+            "start": { "line": 43, "column": 11 },
+            "end": { "line": 55, "column": 5 }
+          },
+          { "start": {}, "end": {} }
+        ],
+        "line": 43
+      },
+      "3": {
+        "loc": {
+          "start": { "line": 62, "column": 6 },
+          "end": { "line": 66, "column": 7 }
+        },
+        "type": "if",
+        "locations": [
+          {
+            "start": { "line": 62, "column": 6 },
+            "end": { "line": 66, "column": 7 }
+          },
+          { "start": {}, "end": {} }
+        ],
+        "line": 62
+      },
+      "4": {
+        "loc": {
+          "start": { "line": 85, "column": 27 },
+          "end": { "line": 85, "column": 77 }
+        },
+        "type": "binary-expr",
+        "locations": [
+          {
+            "start": { "line": 85, "column": 28 },
+            "end": { "line": 85, "column": 71 }
+          },
+          {
+            "start": { "line": 85, "column": 76 },
+            "end": { "line": 85, "column": 77 }
+          }
+        ],
+        "line": 85
+      },
+      "5": {
+        "loc": {
+          "start": { "line": 86, "column": 8 },
+          "end": { "line": 91, "column": 9 }
+        },
+        "type": "if",
+        "locations": [
+          {
+            "start": { "line": 86, "column": 8 },
+            "end": { "line": 91, "column": 9 }
+          },
+          { "start": {}, "end": {} }
+        ],
+        "line": 86
+      },
+      "6": {
+        "loc": {
+          "start": { "line": 87, "column": 10 },
+          "end": { "line": 88, "column": 43 }
+        },
+        "type": "binary-expr",
+        "locations": [
+          {
+            "start": { "line": 87, "column": 10 },
+            "end": { "line": 87, "column": 44 }
+          },
+          {
+            "start": { "line": 88, "column": 10 },
+            "end": { "line": 88, "column": 43 }
+          }
+        ],
+        "line": 87
+      }
+    },
+    "s": {
+      "0": 0,
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0,
+      "8": 0,
+      "9": 0,
+      "10": 0,
+      "11": 0,
+      "12": 0,
+      "13": 0,
+      "14": 0,
+      "15": 0,
+      "16": 0,
+      "17": 0,
+      "18": 0,
+      "19": 0,
+      "20": 0,
+      "21": 0,
+      "22": 0,
+      "23": 0,
+      "24": 0,
+      "25": 0,
+      "26": 0,
+      "27": 0,
+      "28": 0,
+      "29": 0,
+      "30": 0,
+      "31": 0,
+      "32": 0,
+      "33": 0,
+      "34": 0,
+      "35": 0,
+      "36": 0,
+      "37": 0,
+      "38": 0,
+      "39": 0,
+      "40": 0,
+      "41": 0,
+      "42": 0,
+      "43": 0,
+      "44": 0,
+      "45": 0,
+      "46": 0,
+      "47": 0,
+      "48": 0,
+      "49": 0,
+      "50": 0,
+      "51": 0,
+      "52": 0,
+      "53": 0,
+      "54": 0
+    },
+    "f": {
+      "0": 0,
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0,
+      "8": 0,
+      "9": 0,
+      "10": 0,
+      "11": 0
+    },
+    "b": {
+      "0": [0, 0],
+      "1": [0, 0],
+      "2": [0, 0],
+      "3": [0, 0],
+      "4": [0, 0],
+      "5": [0, 0],
+      "6": [0, 0]
+    }
+  },
+  "/Users/kimbanseok/git/cheiftory_frontend/src/modules/cook/types/CookStep.ts": {
+    "path": "/Users/kimbanseok/git/cheiftory_frontend/src/modules/cook/types/CookStep.ts",
+    "statementMap": {
+      "0": {
+        "start": { "line": 17, "column": 4 },
+        "end": { "line": 17, "column": 25 }
+      },
+      "1": {
+        "start": { "line": 18, "column": 4 },
+        "end": { "line": 18, "column": 35 }
+      },
+      "2": {
+        "start": { "line": 19, "column": 4 },
+        "end": { "line": 19, "column": 31 }
+      },
+      "3": {
+        "start": { "line": 20, "column": 4 },
+        "end": { "line": 20, "column": 27 }
+      },
+      "4": {
+        "start": { "line": 21, "column": 4 },
+        "end": { "line": 21, "column": 23 }
+      },
+      "5": {
+        "start": { "line": 25, "column": 4 },
+        "end": { "line": 31, "column": 6 }
+      }
+    },
+    "fnMap": {
+      "0": {
+        "name": "(anonymous_0)",
+        "decl": {
+          "start": { "line": 10, "column": 2 },
+          "end": { "line": 10, "column": 3 }
+        },
+        "loc": {
+          "start": { "line": 16, "column": 4 },
+          "end": { "line": 22, "column": 3 }
+        },
+        "line": 16
+      },
+      "1": {
+        "name": "(anonymous_1)",
+        "decl": {
+          "start": { "line": 24, "column": 2 },
+          "end": { "line": 24, "column": 3 }
+        },
+        "loc": {
+          "start": { "line": 24, "column": 56 },
+          "end": { "line": 32, "column": 3 }
+        },
+        "line": 24
+      }
+    },
+    "branchMap": {},
+    "s": { "0": 17, "1": 17, "2": 17, "3": 17, "4": 17, "5": 17 },
+    "f": { "0": 17, "1": 17 },
+    "b": {},
+    "_coverageSchema": "1a1c01bbd47fc00a2c39e90264f33305004495a9",
+    "hash": "112b2284e119c0d9d0149660a810df06b5c98ba6"
+  },
+  "/Users/kimbanseok/git/cheiftory_frontend/src/modules/recipe/detail/components/RecipeDetailView.tsx": {
+    "path": "/Users/kimbanseok/git/cheiftory_frontend/src/modules/recipe/detail/components/RecipeDetailView.tsx",
+    "statementMap": {
+      "0": {
+        "start": { "line": 11, "column": 2 },
+        "end": { "line": 41, "column": 4 }
+      },
+      "1": {
+        "start": { "line": 23, "column": 12 },
+        "end": { "line": 25, "column": 19 }
+      },
+      "2": {
+        "start": { "line": 30, "column": 12 },
+        "end": { "line": 32, "column": 19 }
+      },
+      "3": {
+        "start": { "line": 44, "column": 15 },
+        "end": { "line": 67, "column": 2 }
+      }
+    },
+    "fnMap": {
+      "0": {
+        "name": "RecipeDetailView",
+        "decl": {
+          "start": { "line": 10, "column": 16 },
+          "end": { "line": 10, "column": 32 }
+        },
+        "loc": {
+          "start": { "line": 10, "column": 61 },
+          "end": { "line": 42, "column": 1 }
+        },
+        "line": 10
+      },
+      "1": {
+        "name": "(anonymous_1)",
+        "decl": {
+          "start": { "line": 22, "column": 34 },
+          "end": { "line": 22, "column": 35 }
+        },
+        "loc": {
+          "start": { "line": 23, "column": 12 },
+          "end": { "line": 25, "column": 19 }
+        },
+        "line": 23
+      },
+      "2": {
+        "name": "(anonymous_2)",
+        "decl": {
+          "start": { "line": 29, "column": 28 },
+          "end": { "line": 29, "column": 29 }
+        },
+        "loc": {
+          "start": { "line": 30, "column": 12 },
+          "end": { "line": 32, "column": 19 }
+        },
+        "line": 30
+      }
+    },
+    "branchMap": {},
+    "s": { "0": 0, "1": 0, "2": 0, "3": 0 },
+    "f": { "0": 0, "1": 0, "2": 0 },
+    "b": {}
+  },
+  "/Users/kimbanseok/git/cheiftory_frontend/src/modules/recipe/link/components/RecipeLinkInput.tsx": {
+    "path": "/Users/kimbanseok/git/cheiftory_frontend/src/modules/recipe/link/components/RecipeLinkInput.tsx",
+    "statementMap": {
+      "0": {
+        "start": { "line": 8, "column": 2 },
+        "end": { "line": 17, "column": 4 }
+      },
+      "1": {
+        "start": { "line": 20, "column": 15 },
+        "end": { "line": 43, "column": 2 }
+      }
+    },
+    "fnMap": {
+      "0": {
+        "name": "RecipeLinkInput",
+        "decl": {
+          "start": { "line": 7, "column": 16 },
+          "end": { "line": 7, "column": 31 }
+        },
+        "loc": {
+          "start": { "line": 7, "column": 75 },
+          "end": { "line": 18, "column": 1 }
+        },
+        "line": 7
+      }
+    },
+    "branchMap": {},
+    "s": { "0": 0, "1": 0 },
+    "f": { "0": 0 },
+    "b": {}
+  },
+  "/Users/kimbanseok/git/cheiftory_frontend/src/modules/recipe/summary/api/recipeSummaryApi.ts": {
+    "path": "/Users/kimbanseok/git/cheiftory_frontend/src/modules/recipe/summary/api/recipeSummaryApi.ts",
+    "statementMap": {
+      "0": {
+        "start": { "line": 31, "column": 2 },
+        "end": { "line": 38, "column": 5 }
+      },
+      "1": {
+        "start": { "line": 32, "column": 4 },
+        "end": { "line": 37, "column": 13 }
+      },
+      "2": {
+        "start": { "line": 33, "column": 6 },
+        "end": { "line": 36, "column": 9 }
+      }
+    },
+    "fnMap": {
+      "0": {
+        "name": "fetchRecipeSummary",
+        "decl": {
+          "start": { "line": 30, "column": 22 },
+          "end": { "line": 30, "column": 40 }
+        },
+        "loc": {
+          "start": { "line": 30, "column": 75 },
+          "end": { "line": 39, "column": 1 }
+        },
+        "line": 30
+      },
+      "1": {
+        "name": "(anonymous_1)",
+        "decl": {
+          "start": { "line": 31, "column": 21 },
+          "end": { "line": 31, "column": 22 }
+        },
+        "loc": {
+          "start": { "line": 31, "column": 34 },
+          "end": { "line": 38, "column": 3 }
+        },
+        "line": 31
+      },
+      "2": {
+        "name": "(anonymous_2)",
+        "decl": {
+          "start": { "line": 32, "column": 15 },
+          "end": { "line": 32, "column": 16 }
+        },
+        "loc": {
+          "start": { "line": 32, "column": 21 },
+          "end": { "line": 37, "column": 5 }
+        },
+        "line": 32
+      }
+    },
+    "branchMap": {},
+    "s": { "0": 0, "1": 0, "2": 0 },
+    "f": { "0": 0, "1": 0, "2": 0 },
+    "b": {},
+    "_coverageSchema": "1a1c01bbd47fc00a2c39e90264f33305004495a9",
+    "hash": "74b7af0f94882039e4d897ea629618c4a3f05dd5"
+  },
+  "/Users/kimbanseok/git/cheiftory_frontend/src/modules/recipe/summary/hooks/useRecipeThumbnail.ts": {
+    "path": "/Users/kimbanseok/git/cheiftory_frontend/src/modules/recipe/summary/hooks/useRecipeThumbnail.ts",
+    "statementMap": {
+      "0": {
+        "start": { "line": 9, "column": 36 },
+        "end": { "line": 9, "column": 65 }
+      },
+      "1": {
+        "start": { "line": 11, "column": 2 },
+        "end": { "line": 15, "column": 25 }
+      },
+      "2": {
+        "start": { "line": 12, "column": 4 },
+        "end": { "line": 14, "column": 7 }
+      },
+      "3": {
+        "start": { "line": 13, "column": 6 },
+        "end": { "line": 13, "column": 63 }
+      },
+      "4": {
+        "start": { "line": 13, "column": 30 },
+        "end": { "line": 13, "column": 63 }
+      },
+      "5": {
+        "start": { "line": 17, "column": 2 },
+        "end": { "line": 17, "column": 23 }
+      }
+    },
+    "fnMap": {
+      "0": {
+        "name": "useRecipeThumbnail",
+        "decl": {
+          "start": { "line": 6, "column": 16 },
+          "end": { "line": 6, "column": 34 }
+        },
+        "loc": {
+          "start": { "line": 8, "column": 2 },
+          "end": { "line": 18, "column": 1 }
+        },
+        "line": 8
+      },
+      "1": {
+        "name": "(anonymous_1)",
+        "decl": {
+          "start": { "line": 11, "column": 12 },
+          "end": { "line": 11, "column": 13 }
+        },
+        "loc": {
+          "start": { "line": 11, "column": 18 },
+          "end": { "line": 15, "column": 3 }
+        },
+        "line": 11
+      },
+      "2": {
+        "name": "(anonymous_2)",
+        "decl": {
+          "start": { "line": 12, "column": 42 },
+          "end": { "line": 12, "column": 43 }
+        },
+        "loc": {
+          "start": { "line": 12, "column": 52 },
+          "end": { "line": 14, "column": 5 }
+        },
+        "line": 12
+      }
+    },
+    "branchMap": {
+      "0": {
+        "loc": {
+          "start": { "line": 13, "column": 6 },
+          "end": { "line": 13, "column": 63 }
+        },
+        "type": "if",
+        "locations": [
+          {
+            "start": { "line": 13, "column": 6 },
+            "end": { "line": 13, "column": 63 }
+          },
+          { "start": {}, "end": {} }
+        ],
+        "line": 13
+      }
+    },
+    "s": { "0": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0 },
+    "f": { "0": 0, "1": 0, "2": 0 },
+    "b": { "0": [0, 0] }
+  },
+  "/Users/kimbanseok/git/cheiftory_frontend/src/modules/recipe/summary/popular/components/PopularRecipeSummaryCard.tsx": {
+    "path": "/Users/kimbanseok/git/cheiftory_frontend/src/modules/recipe/summary/popular/components/PopularRecipeSummaryCard.tsx",
+    "statementMap": {
+      "0": {
+        "start": { "line": 12, "column": 24 },
+        "end": { "line": 12, "column": 50 }
+      },
+      "1": {
+        "start": { "line": 14, "column": 2 },
+        "end": { "line": 29, "column": 4 }
+      },
+      "2": {
+        "start": { "line": 17, "column": 21 },
+        "end": { "line": 17, "column": 36 }
+      },
+      "3": {
+        "start": { "line": 32, "column": 15 },
+        "end": { "line": 36, "column": 2 }
+      }
+    },
+    "fnMap": {
+      "0": {
+        "name": "PopularRecipeSummaryCard",
+        "decl": {
+          "start": { "line": 11, "column": 16 },
+          "end": { "line": 11, "column": 40 }
+        },
+        "loc": {
+          "start": { "line": 11, "column": 69 },
+          "end": { "line": 30, "column": 1 }
+        },
+        "line": 11
+      },
+      "1": {
+        "name": "(anonymous_1)",
+        "decl": {
+          "start": { "line": 17, "column": 15 },
+          "end": { "line": 17, "column": 16 }
+        },
+        "loc": {
+          "start": { "line": 17, "column": 21 },
+          "end": { "line": 17, "column": 36 }
+        },
+        "line": 17
+      }
+    },
+    "branchMap": {},
+    "s": { "0": 9, "1": 9, "2": 3, "3": 1 },
+    "f": { "0": 9, "1": 3 },
+    "b": {},
+    "_coverageSchema": "1a1c01bbd47fc00a2c39e90264f33305004495a9",
+    "hash": "91f6ab9b4f17f206afa87ae99788c1c409802b48"
+  },
+  "/Users/kimbanseok/git/cheiftory_frontend/src/modules/recipe/summary/popular/components/PopularRecipeSummaryList.tsx": {
+    "path": "/Users/kimbanseok/git/cheiftory_frontend/src/modules/recipe/summary/popular/components/PopularRecipeSummaryList.tsx",
+    "statementMap": {
+      "0": {
+        "start": { "line": 11, "column": 2 },
+        "end": { "line": 22, "column": 4 }
+      },
+      "1": {
+        "start": { "line": 16, "column": 30 },
+        "end": { "line": 16, "column": 43 }
+      },
+      "2": {
+        "start": { "line": 19, "column": 8 },
+        "end": { "line": 19, "column": 68 }
+      },
+      "3": {
+        "start": { "line": 25, "column": 15 },
+        "end": { "line": 27, "column": 2 }
+      }
+    },
+    "fnMap": {
+      "0": {
+        "name": "PopularRecipeSummaryList",
+        "decl": {
+          "start": { "line": 10, "column": 16 },
+          "end": { "line": 10, "column": 40 }
+        },
+        "loc": {
+          "start": { "line": 10, "column": 70 },
+          "end": { "line": 23, "column": 1 }
+        },
+        "line": 10
+      },
+      "1": {
+        "name": "(anonymous_1)",
+        "decl": {
+          "start": { "line": 16, "column": 20 },
+          "end": { "line": 16, "column": 21 }
+        },
+        "loc": {
+          "start": { "line": 16, "column": 30 },
+          "end": { "line": 16, "column": 43 }
+        },
+        "line": 16
+      },
+      "2": {
+        "name": "(anonymous_2)",
+        "decl": {
+          "start": { "line": 18, "column": 18 },
+          "end": { "line": 18, "column": 19 }
+        },
+        "loc": {
+          "start": { "line": 19, "column": 8 },
+          "end": { "line": 19, "column": 68 }
+        },
+        "line": 19
+      }
+    },
+    "branchMap": {},
+    "s": { "0": 0, "1": 0, "2": 0, "3": 0 },
+    "f": { "0": 0, "1": 0, "2": 0 },
+    "b": {}
+  },
+  "/Users/kimbanseok/git/cheiftory_frontend/src/modules/recipe/summary/popular/types/PopularRecipeSummary.ts": {
+    "path": "/Users/kimbanseok/git/cheiftory_frontend/src/modules/recipe/summary/popular/types/PopularRecipeSummary.ts",
+    "statementMap": {
+      "0": {
+        "start": { "line": 19, "column": 4 },
+        "end": { "line": 19, "column": 29 }
+      },
+      "1": {
+        "start": { "line": 20, "column": 4 },
+        "end": { "line": 20, "column": 23 }
+      },
+      "2": {
+        "start": { "line": 21, "column": 4 },
+        "end": { "line": 21, "column": 31 }
+      },
+      "3": {
+        "start": { "line": 22, "column": 4 },
+        "end": { "line": 22, "column": 23 }
+      },
+      "4": {
+        "start": { "line": 23, "column": 4 },
+        "end": { "line": 23, "column": 31 }
+      },
+      "5": {
+        "start": { "line": 24, "column": 4 },
+        "end": { "line": 24, "column": 37 }
+      },
+      "6": {
+        "start": { "line": 28, "column": 4 },
+        "end": { "line": 35, "column": 6 }
+      }
+    },
+    "fnMap": {
+      "0": {
+        "name": "(anonymous_0)",
+        "decl": {
+          "start": { "line": 11, "column": 2 },
+          "end": { "line": 11, "column": 3 }
+        },
+        "loc": {
+          "start": { "line": 18, "column": 4 },
+          "end": { "line": 25, "column": 3 }
+        },
+        "line": 18
+      },
+      "1": {
+        "name": "(anonymous_1)",
+        "decl": {
+          "start": { "line": 27, "column": 2 },
+          "end": { "line": 27, "column": 3 }
+        },
+        "loc": {
+          "start": { "line": 27, "column": 77 },
+          "end": { "line": 36, "column": 3 }
+        },
+        "line": 27
+      }
+    },
+    "branchMap": {},
+    "s": { "0": 14, "1": 14, "2": 14, "3": 14, "4": 14, "5": 14, "6": 14 },
+    "f": { "0": 14, "1": 14 },
+    "b": {},
+    "_coverageSchema": "1a1c01bbd47fc00a2c39e90264f33305004495a9",
+    "hash": "0944e208ac0a268651b718559049449c092fd844"
+  },
+  "/Users/kimbanseok/git/cheiftory_frontend/src/modules/recipe/summary/recent/components/RecentRecipeSummaryCard.tsx": {
+    "path": "/Users/kimbanseok/git/cheiftory_frontend/src/modules/recipe/summary/recent/components/RecentRecipeSummaryCard.tsx",
+    "statementMap": {
+      "0": {
+        "start": { "line": 12, "column": 24 },
+        "end": { "line": 12, "column": 50 }
+      },
+      "1": {
+        "start": { "line": 14, "column": 2 },
+        "end": { "line": 30, "column": 4 }
+      },
+      "2": {
+        "start": { "line": 15, "column": 50 },
+        "end": { "line": 15, "column": 65 }
+      },
+      "3": {
+        "start": { "line": 33, "column": 15 },
+        "end": { "line": 69, "column": 2 }
+      }
+    },
+    "fnMap": {
+      "0": {
+        "name": "RecentRecipeSummaryCard",
+        "decl": {
+          "start": { "line": 11, "column": 16 },
+          "end": { "line": 11, "column": 39 }
+        },
+        "loc": {
+          "start": { "line": 11, "column": 68 },
+          "end": { "line": 31, "column": 1 }
+        },
+        "line": 11
+      },
+      "1": {
+        "name": "(anonymous_1)",
+        "decl": {
+          "start": { "line": 15, "column": 44 },
+          "end": { "line": 15, "column": 45 }
+        },
+        "loc": {
+          "start": { "line": 15, "column": 50 },
+          "end": { "line": 15, "column": 65 }
+        },
+        "line": 15
+      }
+    },
+    "branchMap": {},
+    "s": { "0": 0, "1": 0, "2": 0, "3": 0 },
+    "f": { "0": 0, "1": 0 },
+    "b": {}
+  },
+  "/Users/kimbanseok/git/cheiftory_frontend/src/modules/recipe/summary/recent/components/RecentRecipeSummaryList.tsx": {
+    "path": "/Users/kimbanseok/git/cheiftory_frontend/src/modules/recipe/summary/recent/components/RecentRecipeSummaryList.tsx",
+    "statementMap": {
+      "0": {
+        "start": { "line": 12, "column": 2 },
+        "end": { "line": 24, "column": 4 }
+      },
+      "1": {
+        "start": { "line": 17, "column": 30 },
+        "end": { "line": 17, "column": 54 }
+      },
+      "2": {
+        "start": { "line": 18, "column": 36 },
+        "end": { "line": 18, "column": 63 }
+      },
+      "3": {
+        "start": { "line": 21, "column": 8 },
+        "end": { "line": 21, "column": 67 }
+      },
+      "4": {
+        "start": { "line": 27, "column": 15 },
+        "end": { "line": 30, "column": 2 }
+      }
+    },
+    "fnMap": {
+      "0": {
+        "name": "RecentRecipeSummaryList",
+        "decl": {
+          "start": { "line": 11, "column": 24 },
+          "end": { "line": 11, "column": 47 }
+        },
+        "loc": {
+          "start": { "line": 11, "column": 77 },
+          "end": { "line": 25, "column": 1 }
+        },
+        "line": 11
+      },
+      "1": {
+        "name": "(anonymous_1)",
+        "decl": {
+          "start": { "line": 17, "column": 20 },
+          "end": { "line": 17, "column": 21 }
+        },
+        "loc": {
+          "start": { "line": 17, "column": 30 },
+          "end": { "line": 17, "column": 54 }
+        },
+        "line": 17
+      },
+      "2": {
+        "name": "(anonymous_2)",
+        "decl": {
+          "start": { "line": 18, "column": 30 },
+          "end": { "line": 18, "column": 31 }
+        },
+        "loc": {
+          "start": { "line": 18, "column": 36 },
+          "end": { "line": 18, "column": 63 }
+        },
+        "line": 18
+      },
+      "3": {
+        "name": "(anonymous_3)",
+        "decl": {
+          "start": { "line": 20, "column": 18 },
+          "end": { "line": 20, "column": 19 }
+        },
+        "loc": {
+          "start": { "line": 21, "column": 8 },
+          "end": { "line": 21, "column": 67 }
+        },
+        "line": 21
+      }
+    },
+    "branchMap": {},
+    "s": { "0": 0, "1": 0, "2": 0, "3": 0, "4": 0 },
+    "f": { "0": 0, "1": 0, "2": 0, "3": 0 },
+    "b": {}
+  },
+  "/Users/kimbanseok/git/cheiftory_frontend/src/modules/recipe/summary/recent/types/RecentSummaryRecipe.ts": {
+    "path": "/Users/kimbanseok/git/cheiftory_frontend/src/modules/recipe/summary/recent/types/RecentSummaryRecipe.ts",
+    "statementMap": {
+      "0": {
+        "start": { "line": 21, "column": 4 },
+        "end": { "line": 21, "column": 29 }
+      },
+      "1": {
+        "start": { "line": 22, "column": 4 },
+        "end": { "line": 22, "column": 23 }
+      },
+      "2": {
+        "start": { "line": 23, "column": 4 },
+        "end": { "line": 23, "column": 31 }
+      },
+      "3": {
+        "start": { "line": 24, "column": 4 },
+        "end": { "line": 24, "column": 31 }
+      },
+      "4": {
+        "start": { "line": 25, "column": 4 },
+        "end": { "line": 25, "column": 37 }
+      },
+      "5": {
+        "start": { "line": 26, "column": 4 },
+        "end": { "line": 26, "column": 29 }
+      },
+      "6": {
+        "start": { "line": 27, "column": 4 },
+        "end": { "line": 27, "column": 35 }
+      },
+      "7": {
+        "start": { "line": 31, "column": 4 },
+        "end": { "line": 39, "column": 6 }
+      }
+    },
+    "fnMap": {
+      "0": {
+        "name": "(anonymous_0)",
+        "decl": {
+          "start": { "line": 12, "column": 2 },
+          "end": { "line": 12, "column": 3 }
+        },
+        "loc": {
+          "start": { "line": 20, "column": 4 },
+          "end": { "line": 28, "column": 3 }
+        },
+        "line": 20
+      },
+      "1": {
+        "name": "(anonymous_1)",
+        "decl": {
+          "start": { "line": 30, "column": 2 },
+          "end": { "line": 30, "column": 3 }
+        },
+        "loc": {
+          "start": { "line": 30, "column": 75 },
+          "end": { "line": 40, "column": 3 }
+        },
+        "line": 30
+      }
+    },
+    "branchMap": {},
+    "s": { "0": 5, "1": 5, "2": 5, "3": 5, "4": 5, "5": 5, "6": 5, "7": 5 },
+    "f": { "0": 5, "1": 5 },
+    "b": {},
+    "_coverageSchema": "1a1c01bbd47fc00a2c39e90264f33305004495a9",
+    "hash": "a319a7a38bb9169c48877375bf6f54a3e72dfdf3"
+  },
+  "/Users/kimbanseok/git/cheiftory_frontend/src/modules/recipe/summary/shared/components/RecipeSectionHeader.tsx": {
+    "path": "/Users/kimbanseok/git/cheiftory_frontend/src/modules/recipe/summary/shared/components/RecipeSectionHeader.tsx",
+    "statementMap": {
+      "0": {
+        "start": { "line": 11, "column": 2 },
+        "end": { "line": 20, "column": 4 }
+      },
+      "1": {
+        "start": { "line": 23, "column": 15 },
+        "end": { "line": 38, "column": 2 }
+      }
+    },
+    "fnMap": {
+      "0": {
+        "name": "RecipeSectionHeader",
+        "decl": {
+          "start": { "line": 4, "column": 16 },
+          "end": { "line": 4, "column": 35 }
+        },
+        "loc": {
+          "start": { "line": 10, "column": 3 },
+          "end": { "line": 21, "column": 1 }
+        },
+        "line": 10
+      }
+    },
+    "branchMap": {
+      "0": {
+        "loc": {
+          "start": { "line": 14, "column": 7 },
+          "end": { "line": 18, "column": 7 }
+        },
+        "type": "binary-expr",
+        "locations": [
+          {
+            "start": { "line": 14, "column": 7 },
+            "end": { "line": 14, "column": 14 }
+          },
+          {
+            "start": { "line": 15, "column": 8 },
+            "end": { "line": 17, "column": 27 }
+          }
+        ],
+        "line": 14
+      }
+    },
+    "s": { "0": 0, "1": 0 },
+    "f": { "0": 0 },
+    "b": { "0": [0, 0] }
+  },
+  "/Users/kimbanseok/git/cheiftory_frontend/src/modules/recipe/summary/viewmodels/useRecipeSummaryViewModel.ts": {
+    "path": "/Users/kimbanseok/git/cheiftory_frontend/src/modules/recipe/summary/viewmodels/useRecipeSummaryViewModel.ts",
+    "statementMap": {
+      "0": {
+        "start": { "line": 12, "column": 46 },
+        "end": { "line": 14, "column": 3 }
+      },
+      "1": {
+        "start": { "line": 15, "column": 44 },
+        "end": { "line": 15, "column": 79 }
+      },
+      "2": {
+        "start": { "line": 16, "column": 32 },
+        "end": { "line": 16, "column": 46 }
+      },
+      "3": {
+        "start": { "line": 17, "column": 28 },
+        "end": { "line": 17, "column": 56 }
+      },
+      "4": {
+        "start": { "line": 19, "column": 2 },
+        "end": { "line": 38, "column": 9 }
+      },
+      "5": {
+        "start": { "line": 20, "column": 25 },
+        "end": { "line": 35, "column": 5 }
+      },
+      "6": {
+        "start": { "line": 21, "column": 6 },
+        "end": { "line": 34, "column": 7 }
+      },
+      "7": {
+        "start": { "line": 22, "column": 21 },
+        "end": { "line": 22, "column": 47 }
+      },
+      "8": {
+        "start": { "line": 23, "column": 8 },
+        "end": { "line": 25, "column": 10 }
+      },
+      "9": {
+        "start": { "line": 24, "column": 39 },
+        "end": { "line": 24, "column": 74 }
+      },
+      "10": {
+        "start": { "line": 26, "column": 8 },
+        "end": { "line": 28, "column": 10 }
+      },
+      "11": {
+        "start": { "line": 27, "column": 38 },
+        "end": { "line": 27, "column": 72 }
+      },
+      "12": {
+        "start": { "line": 30, "column": 8 },
+        "end": { "line": 30, "column": 33 }
+      },
+      "13": {
+        "start": { "line": 31, "column": 8 },
+        "end": { "line": 31, "column": 30 }
+      },
+      "14": {
+        "start": { "line": 33, "column": 8 },
+        "end": { "line": 33, "column": 26 }
+      },
+      "15": {
+        "start": { "line": 37, "column": 4 },
+        "end": { "line": 37, "column": 24 }
+      },
+      "16": {
+        "start": { "line": 40, "column": 2 },
+        "end": { "line": 45, "column": 4 }
+      }
+    },
+    "fnMap": {
+      "0": {
+        "name": "useRecipeSummaryViewModel",
+        "decl": {
+          "start": { "line": 6, "column": 16 },
+          "end": { "line": 6, "column": 41 }
+        },
+        "loc": {
+          "start": { "line": 11, "column": 2 },
+          "end": { "line": 46, "column": 1 }
+        },
+        "line": 11
+      },
+      "1": {
+        "name": "(anonymous_1)",
+        "decl": {
+          "start": { "line": 19, "column": 12 },
+          "end": { "line": 19, "column": 13 }
+        },
+        "loc": {
+          "start": { "line": 19, "column": 18 },
+          "end": { "line": 38, "column": 3 }
+        },
+        "line": 19
+      },
+      "2": {
+        "name": "(anonymous_2)",
+        "decl": {
+          "start": { "line": 20, "column": 25 },
+          "end": { "line": 20, "column": 26 }
+        },
+        "loc": {
+          "start": { "line": 20, "column": 37 },
+          "end": { "line": 35, "column": 5 }
+        },
+        "line": 20
+      },
+      "3": {
+        "name": "(anonymous_3)",
+        "decl": {
+          "start": { "line": 24, "column": 27 },
+          "end": { "line": 24, "column": 28 }
+        },
+        "loc": {
+          "start": { "line": 24, "column": 39 },
+          "end": { "line": 24, "column": 74 }
+        },
+        "line": 24
+      },
+      "4": {
+        "name": "(anonymous_4)",
+        "decl": {
+          "start": { "line": 27, "column": 26 },
+          "end": { "line": 27, "column": 27 }
+        },
+        "loc": {
+          "start": { "line": 27, "column": 38 },
+          "end": { "line": 27, "column": 72 }
+        },
+        "line": 27
+      }
+    },
+    "branchMap": {},
+    "s": {
+      "0": 10,
+      "1": 10,
+      "2": 10,
+      "3": 10,
+      "4": 10,
+      "5": 5,
+      "6": 5,
+      "7": 5,
+      "8": 4,
+      "9": 6,
+      "10": 3,
+      "11": 3,
+      "12": 2,
+      "13": 2,
+      "14": 5,
+      "15": 5,
+      "16": 10
+    },
+    "f": { "0": 10, "1": 5, "2": 5, "3": 6, "4": 3 },
+    "b": {},
+    "_coverageSchema": "1a1c01bbd47fc00a2c39e90264f33305004495a9",
+    "hash": "8a55385f5f72e7428412c727d026c6c21df98864"
+  },
+  "/Users/kimbanseok/git/cheiftory_frontend/src/modules/recipeFlow/api/RecipeFlowApi.ts": {
+    "path": "/Users/kimbanseok/git/cheiftory_frontend/src/modules/recipeFlow/api/RecipeFlowApi.ts",
+    "statementMap": {
+      "0": {
+        "start": { "line": 22, "column": 2 },
+        "end": { "line": 31, "column": 5 }
+      },
+      "1": {
+        "start": { "line": 23, "column": 4 },
+        "end": { "line": 30, "column": 13 }
+      },
+      "2": {
+        "start": { "line": 24, "column": 21 },
+        "end": { "line": 24, "column": 40 }
+      },
+      "3": {
+        "start": { "line": 25, "column": 6 },
+        "end": { "line": 29, "column": 7 }
+      },
+      "4": {
+        "start": { "line": 26, "column": 8 },
+        "end": { "line": 26, "column": 45 }
+      },
+      "5": {
+        "start": { "line": 28, "column": 8 },
+        "end": { "line": 28, "column": 24 }
+      }
+    },
+    "fnMap": {
+      "0": {
+        "name": "fetchRecipeFlow",
+        "decl": {
+          "start": { "line": 19, "column": 22 },
+          "end": { "line": 19, "column": 37 }
+        },
+        "loc": {
+          "start": { "line": 21, "column": 36 },
+          "end": { "line": 32, "column": 1 }
+        },
+        "line": 21
+      },
+      "1": {
+        "name": "(anonymous_1)",
+        "decl": {
+          "start": { "line": 22, "column": 21 },
+          "end": { "line": 22, "column": 22 }
+        },
+        "loc": {
+          "start": { "line": 22, "column": 42 },
+          "end": { "line": 31, "column": 3 }
+        },
+        "line": 22
+      },
+      "2": {
+        "name": "(anonymous_2)",
+        "decl": {
+          "start": { "line": 23, "column": 15 },
+          "end": { "line": 23, "column": 16 }
+        },
+        "loc": {
+          "start": { "line": 23, "column": 21 },
+          "end": { "line": 30, "column": 5 }
+        },
+        "line": 23
+      }
+    },
+    "branchMap": {
+      "0": {
+        "loc": {
+          "start": { "line": 25, "column": 6 },
+          "end": { "line": 29, "column": 7 }
+        },
+        "type": "if",
+        "locations": [
+          {
+            "start": { "line": 25, "column": 6 },
+            "end": { "line": 29, "column": 7 }
+          },
+          {
+            "start": { "line": 27, "column": 13 },
+            "end": { "line": 29, "column": 7 }
+          }
+        ],
+        "line": 25
+      }
+    },
+    "s": { "0": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0 },
+    "f": { "0": 0, "1": 0, "2": 0 },
+    "b": { "0": [0, 0] },
+    "_coverageSchema": "1a1c01bbd47fc00a2c39e90264f33305004495a9",
+    "hash": "74b0aed769f3ab837a119d999c28669043c7e521"
+  },
+  "/Users/kimbanseok/git/cheiftory_frontend/src/modules/recipeFlow/types/RecipeFlow.ts": {
+    "path": "/Users/kimbanseok/git/cheiftory_frontend/src/modules/recipeFlow/types/RecipeFlow.ts",
+    "statementMap": {
+      "0": {
+        "start": { "line": 22, "column": 4 },
+        "end": { "line": 22, "column": 29 }
+      },
+      "1": {
+        "start": { "line": 23, "column": 4 },
+        "end": { "line": 23, "column": 23 }
+      },
+      "2": {
+        "start": { "line": 24, "column": 4 },
+        "end": { "line": 24, "column": 31 }
+      },
+      "3": {
+        "start": { "line": 25, "column": 4 },
+        "end": { "line": 25, "column": 27 }
+      },
+      "4": {
+        "start": { "line": 26, "column": 4 },
+        "end": { "line": 26, "column": 31 }
+      },
+      "5": {
+        "start": { "line": 27, "column": 4 },
+        "end": { "line": 27, "column": 35 }
+      },
+      "6": {
+        "start": { "line": 28, "column": 4 },
+        "end": { "line": 28, "column": 23 }
+      },
+      "7": {
+        "start": { "line": 36, "column": 4 },
+        "end": { "line": 44, "column": 6 }
+      },
+      "8": {
+        "start": { "line": 48, "column": 4 },
+        "end": { "line": 50, "column": 5 }
+      },
+      "9": {
+        "start": { "line": 49, "column": 6 },
+        "end": { "line": 49, "column": 24 }
+      },
+      "10": {
+        "start": { "line": 52, "column": 18 },
+        "end": { "line": 52, "column": 44 }
+      },
+      "11": {
+        "start": { "line": 53, "column": 20 },
+        "end": { "line": 53, "column": 34 }
+      },
+      "12": {
+        "start": { "line": 55, "column": 4 },
+        "end": { "line": 61, "column": 5 }
+      },
+      "13": {
+        "start": { "line": 56, "column": 6 },
+        "end": { "line": 56, "column": 38 }
+      },
+      "14": {
+        "start": { "line": 57, "column": 11 },
+        "end": { "line": 61, "column": 5 }
+      },
+      "15": {
+        "start": { "line": 58, "column": 6 },
+        "end": { "line": 58, "column": 26 }
+      },
+      "16": {
+        "start": { "line": 60, "column": 6 },
+        "end": { "line": 60, "column": 27 }
+      },
+      "17": {
+        "start": { "line": 65, "column": 4 },
+        "end": { "line": 73, "column": 6 }
+      },
+      "18": {
+        "start": { "line": 72, "column": 38 },
+        "end": { "line": 72, "column": 55 }
+      }
+    },
+    "fnMap": {
+      "0": {
+        "name": "(anonymous_0)",
+        "decl": {
+          "start": { "line": 13, "column": 2 },
+          "end": { "line": 13, "column": 3 }
+        },
+        "loc": {
+          "start": { "line": 21, "column": 4 },
+          "end": { "line": 29, "column": 3 }
+        },
+        "line": 21
+      },
+      "1": {
+        "name": "(anonymous_1)",
+        "decl": {
+          "start": { "line": 31, "column": 2 },
+          "end": { "line": 31, "column": 3 }
+        },
+        "loc": {
+          "start": { "line": 35, "column": 16 },
+          "end": { "line": 45, "column": 3 }
+        },
+        "line": 35
+      },
+      "2": {
+        "name": "(anonymous_2)",
+        "decl": {
+          "start": { "line": 47, "column": 2 },
+          "end": { "line": 47, "column": 3 }
+        },
+        "loc": {
+          "start": { "line": 47, "column": 47 },
+          "end": { "line": 62, "column": 3 }
+        },
+        "line": 47
+      },
+      "3": {
+        "name": "(anonymous_3)",
+        "decl": {
+          "start": { "line": 64, "column": 2 },
+          "end": { "line": 64, "column": 3 }
+        },
+        "loc": {
+          "start": { "line": 64, "column": 66 },
+          "end": { "line": 74, "column": 3 }
+        },
+        "line": 64
+      },
+      "4": {
+        "name": "(anonymous_4)",
+        "decl": {
+          "start": { "line": 72, "column": 28 },
+          "end": { "line": 72, "column": 29 }
+        },
+        "loc": {
+          "start": { "line": 72, "column": 38 },
+          "end": { "line": 72, "column": 55 }
+        },
+        "line": 72
+      }
+    },
+    "branchMap": {
+      "0": {
+        "loc": {
+          "start": { "line": 38, "column": 6 },
+          "end": { "line": 38, "column": 17 }
+        },
+        "type": "binary-expr",
+        "locations": [
+          {
+            "start": { "line": 38, "column": 6 },
+            "end": { "line": 38, "column": 11 }
+          },
+          {
+            "start": { "line": 38, "column": 15 },
+            "end": { "line": 38, "column": 17 }
+          }
+        ],
+        "line": 38
+      },
+      "1": {
+        "loc": {
+          "start": { "line": 39, "column": 6 },
+          "end": { "line": 39, "column": 21 }
+        },
+        "type": "binary-expr",
+        "locations": [
+          {
+            "start": { "line": 39, "column": 6 },
+            "end": { "line": 39, "column": 15 }
+          },
+          {
+            "start": { "line": 39, "column": 19 },
+            "end": { "line": 39, "column": 21 }
+          }
+        ],
+        "line": 39
+      },
+      "2": {
+        "loc": {
+          "start": { "line": 48, "column": 4 },
+          "end": { "line": 50, "column": 5 }
+        },
+        "type": "if",
+        "locations": [
+          {
+            "start": { "line": 48, "column": 4 },
+            "end": { "line": 50, "column": 5 }
+          },
+          { "start": {}, "end": {} }
+        ],
+        "line": 48
+      },
+      "3": {
+        "loc": {
+          "start": { "line": 55, "column": 4 },
+          "end": { "line": 61, "column": 5 }
+        },
+        "type": "if",
+        "locations": [
+          {
+            "start": { "line": 55, "column": 4 },
+            "end": { "line": 61, "column": 5 }
+          },
+          {
+            "start": { "line": 57, "column": 11 },
+            "end": { "line": 61, "column": 5 }
+          }
+        ],
+        "line": 55
+      },
+      "4": {
+        "loc": {
+          "start": { "line": 55, "column": 8 },
+          "end": { "line": 55, "column": 32 }
+        },
+        "type": "binary-expr",
+        "locations": [
+          {
+            "start": { "line": 55, "column": 8 },
+            "end": { "line": 55, "column": 17 }
+          },
+          {
+            "start": { "line": 55, "column": 21 },
+            "end": { "line": 55, "column": 32 }
+          }
+        ],
+        "line": 55
+      },
+      "5": {
+        "loc": {
+          "start": { "line": 57, "column": 11 },
+          "end": { "line": 61, "column": 5 }
+        },
+        "type": "if",
+        "locations": [
+          {
+            "start": { "line": 57, "column": 11 },
+            "end": { "line": 61, "column": 5 }
+          },
+          {
+            "start": { "line": 59, "column": 11 },
+            "end": { "line": 61, "column": 5 }
+          }
+        ],
+        "line": 57
+      }
+    },
+    "s": {
+      "0": 17,
+      "1": 17,
+      "2": 17,
+      "3": 17,
+      "4": 17,
+      "5": 17,
+      "6": 17,
+      "7": 13,
+      "8": 12,
+      "9": 2,
+      "10": 10,
+      "11": 10,
+      "12": 10,
+      "13": 1,
+      "14": 9,
+      "15": 2,
+      "16": 7,
+      "17": 7,
+      "18": 16
+    },
+    "f": { "0": 17, "1": 13, "2": 12, "3": 7, "4": 16 },
+    "b": {
+      "0": [13, 3],
+      "1": [13, 3],
+      "2": [2, 10],
+      "3": [1, 9],
+      "4": [10, 3],
+      "5": [2, 7]
+    },
+    "_coverageSchema": "1a1c01bbd47fc00a2c39e90264f33305004495a9",
+    "hash": "0457ffd3c4bcd42dfbb3c372a9f7d2fdc7906882"
+  },
+  "/Users/kimbanseok/git/cheiftory_frontend/src/modules/recipeFlow/types/RecipeFlowMode.ts": {
+    "path": "/Users/kimbanseok/git/cheiftory_frontend/src/modules/recipeFlow/types/RecipeFlowMode.ts",
+    "statementMap": {},
+    "fnMap": {},
+    "branchMap": {},
+    "s": {},
+    "f": {},
+    "b": {}
+  },
+  "/Users/kimbanseok/git/cheiftory_frontend/src/modules/recipeFlow/viewmodels/useRecipeFlowViewModel.ts": {
+    "path": "/Users/kimbanseok/git/cheiftory_frontend/src/modules/recipeFlow/viewmodels/useRecipeFlowViewModel.ts",
+    "statementMap": {
+      "0": {
+        "start": { "line": 14, "column": 30 },
+        "end": { "line": 16, "column": 3 }
+      },
+      "1": {
+        "start": { "line": 18, "column": 32 },
+        "end": { "line": 18, "column": 46 }
+      },
+      "2": {
+        "start": { "line": 19, "column": 28 },
+        "end": { "line": 19, "column": 56 }
+      },
+      "3": {
+        "start": { "line": 21, "column": 2 },
+        "end": { "line": 34, "column": 49 }
+      },
+      "4": {
+        "start": { "line": 22, "column": 22 },
+        "end": { "line": 31, "column": 5 }
+      },
+      "5": {
+        "start": { "line": 23, "column": 6 },
+        "end": { "line": 30, "column": 7 }
+      },
+      "6": {
+        "start": { "line": 24, "column": 21 },
+        "end": { "line": 24, "column": 52 }
+      },
+      "7": {
+        "start": { "line": 25, "column": 8 },
+        "end": { "line": 25, "column": 54 }
+      },
+      "8": {
+        "start": { "line": 25, "column": 28 },
+        "end": { "line": 25, "column": 52 }
+      },
+      "9": {
+        "start": { "line": 27, "column": 8 },
+        "end": { "line": 27, "column": 31 }
+      },
+      "10": {
+        "start": { "line": 29, "column": 8 },
+        "end": { "line": 29, "column": 26 }
+      },
+      "11": {
+        "start": { "line": 33, "column": 4 },
+        "end": { "line": 33, "column": 21 }
+      },
+      "12": {
+        "start": { "line": 36, "column": 2 },
+        "end": { "line": 36, "column": 36 }
+      }
+    },
+    "fnMap": {
+      "0": {
+        "name": "useRecipeFlowViewModel",
+        "decl": {
+          "start": { "line": 5, "column": 16 },
+          "end": { "line": 5, "column": 38 }
+        },
+        "loc": {
+          "start": { "line": 13, "column": 2 },
+          "end": { "line": 37, "column": 1 }
+        },
+        "line": 13
+      },
+      "1": {
+        "name": "(anonymous_1)",
+        "decl": {
+          "start": { "line": 21, "column": 12 },
+          "end": { "line": 21, "column": 13 }
+        },
+        "loc": {
+          "start": { "line": 21, "column": 18 },
+          "end": { "line": 34, "column": 3 }
+        },
+        "line": 21
+      },
+      "2": {
+        "name": "(anonymous_2)",
+        "decl": {
+          "start": { "line": 22, "column": 22 },
+          "end": { "line": 22, "column": 23 }
+        },
+        "loc": {
+          "start": { "line": 22, "column": 34 },
+          "end": { "line": 31, "column": 5 }
+        },
+        "line": 22
+      },
+      "3": {
+        "name": "(anonymous_3)",
+        "decl": {
+          "start": { "line": 25, "column": 18 },
+          "end": { "line": 25, "column": 19 }
+        },
+        "loc": {
+          "start": { "line": 25, "column": 28 },
+          "end": { "line": 25, "column": 52 }
+        },
+        "line": 25
+      }
+    },
+    "branchMap": {},
+    "s": {
+      "0": 9,
+      "1": 7,
+      "2": 7,
+      "3": 7,
+      "4": 4,
+      "5": 4,
+      "6": 4,
+      "7": 3,
+      "8": 5,
+      "9": 1,
+      "10": 4,
+      "11": 4,
+      "12": 7
+    },
+    "f": { "0": 9, "1": 4, "2": 4, "3": 5 },
+    "b": {},
+    "_coverageSchema": "1a1c01bbd47fc00a2c39e90264f33305004495a9",
+    "hash": "cbd82117543c6d1117aacb798d6007d924aa1aa8"
+  },
+  "/Users/kimbanseok/git/cheiftory_frontend/src/modules/shared/components/CustomBackButton.tsx": {
+    "path": "/Users/kimbanseok/git/cheiftory_frontend/src/modules/shared/components/CustomBackButton.tsx",
+    "statementMap": {
+      "0": {
+        "start": { "line": 10, "column": 17 },
+        "end": { "line": 10, "column": 28 }
+      },
+      "1": {
+        "start": { "line": 12, "column": 2 },
+        "end": { "line": 19, "column": 4 }
+      },
+      "2": {
+        "start": { "line": 15, "column": 41 },
+        "end": { "line": 15, "column": 54 }
+      }
+    },
+    "fnMap": {
+      "0": {
+        "name": "CustomBackButton",
+        "decl": {
+          "start": { "line": 9, "column": 16 },
+          "end": { "line": 9, "column": 32 }
+        },
+        "loc": {
+          "start": { "line": 9, "column": 53 },
+          "end": { "line": 20, "column": 1 }
+        },
+        "line": 9
+      },
+      "1": {
+        "name": "(anonymous_1)",
+        "decl": {
+          "start": { "line": 15, "column": 35 },
+          "end": { "line": 15, "column": 36 }
+        },
+        "loc": {
+          "start": { "line": 15, "column": 41 },
+          "end": { "line": 15, "column": 54 }
+        },
+        "line": 15
+      }
+    },
+    "branchMap": {
+      "0": {
+        "loc": {
+          "start": { "line": 15, "column": 15 },
+          "end": { "line": 15, "column": 54 }
+        },
+        "type": "cond-expr",
+        "locations": [
+          {
+            "start": { "line": 15, "column": 25 },
+            "end": { "line": 15, "column": 32 }
+          },
+          {
+            "start": { "line": 15, "column": 35 },
+            "end": { "line": 15, "column": 54 }
+          }
+        ],
+        "line": 15
+      }
+    },
+    "s": { "0": 0, "1": 0, "2": 0 },
+    "f": { "0": 0, "1": 0 },
+    "b": { "0": [0, 0] }
+  },
+  "/Users/kimbanseok/git/cheiftory_frontend/src/modules/shared/components/HomeHeader.tsx": {
+    "path": "/Users/kimbanseok/git/cheiftory_frontend/src/modules/shared/components/HomeHeader.tsx",
+    "statementMap": {
+      "0": {
+        "start": { "line": 5, "column": 2 },
+        "end": { "line": 10, "column": 4 }
+      },
+      "1": {
+        "start": { "line": 13, "column": 15 },
+        "end": { "line": 24, "column": 2 }
+      }
+    },
+    "fnMap": {
+      "0": {
+        "name": "HomeHeader",
+        "decl": {
+          "start": { "line": 4, "column": 16 },
+          "end": { "line": 4, "column": 26 }
+        },
+        "loc": {
+          "start": { "line": 4, "column": 29 },
+          "end": { "line": 11, "column": 1 }
+        },
+        "line": 4
+      }
+    },
+    "branchMap": {},
+    "s": { "0": 0, "1": 0 },
+    "f": { "0": 0 },
+    "b": {}
+  },
+  "/Users/kimbanseok/git/cheiftory_frontend/src/modules/shared/components/LoadingView.tsx": {
+    "path": "/Users/kimbanseok/git/cheiftory_frontend/src/modules/shared/components/LoadingView.tsx",
+    "statementMap": {
+      "0": {
+        "start": { "line": 11, "column": 2 },
+        "end": { "line": 65, "column": 4 }
+      },
+      "1": {
+        "start": { "line": 68, "column": 15 },
+        "end": { "line": 72, "column": 2 }
+      }
+    },
+    "fnMap": {
+      "0": {
+        "name": "LoadingView",
+        "decl": {
+          "start": { "line": 10, "column": 16 },
+          "end": { "line": 10, "column": 27 }
+        },
+        "loc": {
+          "start": { "line": 10, "column": 58 },
+          "end": { "line": 66, "column": 1 }
+        },
+        "line": 10
+      }
+    },
+    "branchMap": {
+      "0": {
+        "loc": {
+          "start": { "line": 14, "column": 22 },
+          "end": { "line": 14, "column": 60 }
+        },
+        "type": "cond-expr",
+        "locations": [
+          {
+            "start": { "line": 14, "column": 32 },
+            "end": { "line": 14, "column": 48 }
+          },
+          {
+            "start": { "line": 14, "column": 51 },
+            "end": { "line": 14, "column": 60 }
+          }
+        ],
+        "line": 14
+      }
+    },
+    "s": { "0": 0, "1": 0 },
+    "f": { "0": 0 },
+    "b": { "0": [0, 0] }
+  },
+  "/Users/kimbanseok/git/cheiftory_frontend/src/modules/shared/components/YoutubeVideoPlayer.tsx": {
+    "path": "/Users/kimbanseok/git/cheiftory_frontend/src/modules/shared/components/YoutubeVideoPlayer.tsx",
+    "statementMap": {
+      "0": {
+        "start": { "line": 10, "column": 2 },
+        "end": { "line": 10, "column": 80 }
+      }
+    },
+    "fnMap": {
+      "0": {
+        "name": "YoutubeVideoPlayer",
+        "decl": {
+          "start": { "line": 9, "column": 16 },
+          "end": { "line": 9, "column": 34 }
+        },
+        "loc": {
+          "start": { "line": 9, "column": 60 },
+          "end": { "line": 11, "column": 1 }
+        },
+        "line": 9
+      }
+    },
+    "branchMap": {},
+    "s": { "0": 0 },
+    "f": { "0": 0 },
+    "b": {}
+  }
+}

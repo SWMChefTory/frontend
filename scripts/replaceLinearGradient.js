@@ -1,35 +1,35 @@
-// scripts/replaceLinearGradient.js
-const fs = require('fs');
-const path = require('path');
+// scripts/patchLinearGradient.js
+const fs = require("fs");
+const path = require("path");
 
-// eslint-disable-next-line no-undef
-const dir = path.resolve(__dirname, '../node_modules/react-native-reanimated-skeleton');
+const rootDir = path.resolve(
+  __dirname,
+  "../node_modules/react-native-reanimated-skeleton",
+);
 
 function replaceInFile(filePath) {
-    if (!fs.existsSync(filePath)) return;
+  const code = fs.readFileSync(filePath, "utf-8");
+  const patched = code
+    // LinearGradient → { LinearGradient }
+    .replace(/import\s+LinearGradient\b/g, "import { LinearGradient }")
+    // 큰‧작은따옴표 모두 매칭
+    .replace(/["']react-native-linear-gradient["']/g, "'expo-linear-gradient'");
 
-    const content = fs.readFileSync(filePath, 'utf-8');
-    const replaced = content
-        .replace(/import LinearGradient/g, 'import { LinearGradient }')
-        .replace(/'react-native-linear-gradient'/g, "'expo-linear-gradient'");
-
-    if (content !== replaced) {
-        fs.writeFileSync(filePath, replaced, 'utf-8');
-        console.log(`✅ Patched: ${filePath}`);
-    }
+  if (patched !== code) {
+    fs.writeFileSync(filePath, patched, "utf-8");
+    console.log("✅ Patched:", path.relative(rootDir, filePath));
+  }
 }
 
-function walk(dirPath) {
-    fs.readdirSync(dirPath).forEach((file) => {
-        const fullPath = path.join(dirPath, file);
-        const stat = fs.statSync(fullPath);
-        if (stat.isDirectory()) {
-            walk(fullPath);
-        } else if (fullPath.endsWith('.js') || fullPath.endsWith('.ts')) {
-            replaceInFile(fullPath);
-        }
-    });
+function walk(dir) {
+  for (const entry of fs.readdirSync(dir)) {
+    const full = path.join(dir, entry);
+    const stat = fs.statSync(full);
+    if (stat.isDirectory()) walk(full);
+    else if (/\.(c?m?js|jsx|ts|tsx)$/.test(full)) replaceInFile(full);
+  }
 }
 
-console.log('🚀 Running patch for expo-linear-gradient...');
-walk(dir);
+console.log("🚀 Patching react-native-reanimated-skeleton for Expo…");
+if (fs.existsSync(rootDir)) walk(rootDir);
+else console.log("⚠️  package not found – skipping");

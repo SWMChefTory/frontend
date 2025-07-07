@@ -1,3 +1,3 @@
 module.exports = {
-    appDir: './src/app',
+  appDir: "./src/app",
 };
