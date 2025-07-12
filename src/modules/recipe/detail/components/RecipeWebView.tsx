@@ -42,10 +42,13 @@ export function RecipeWebView({
       onHttpError={onHttpError}
       
       // 미디어 재생 최적화 설정
-      mediaCapturePermissionGrantType="grantIfSameHostElsePrompt"
-      allowsInlineMediaPlayback={true}
       mediaPlaybackRequiresUserAction={false}
+      allowsInlineMediaPlayback={true}
+      mediaCapturePermissionGrantType="grant"
+      
+      // 추가 권한 설정
       allowsFullscreenVideo={true}
+      allowsBackForwardNavigationGestures={true}
       
       // JavaScript 및 DOM 설정
       javaScriptEnabled={true}
@@ -57,6 +60,7 @@ export function RecipeWebView({
       
       // iOS 전용 최적화
       {...(Platform.OS === 'ios' && {
+        allowingReadAccessToURL: 'http://localhost:3000',
         allowsLinkPreview: false,
         automaticallyAdjustContentInsets: false,
         scrollEnabled: true,
@@ -67,11 +71,15 @@ export function RecipeWebView({
       
       // Android 전용 최적화
       {...(Platform.OS === 'android' && {
-        mixedContentMode: 'always',
+        mixedContentMode: 'compatibility',
         thirdPartyCookiesEnabled: true,
         allowFileAccess: true,
         allowUniversalAccessFromFileURLs: true,
         setSupportMultipleWindows: false,
+        // 권한 요청 처리 (Android)
+        onPermissionRequest: (request: any) => {
+          request.grant();
+        },
       })}
     />
   );

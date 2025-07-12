@@ -1,7 +1,7 @@
 import { Platform } from "react-native";
 
 export const WEBVIEW_CONFIG = {
-  BASE_URL: 'https://colossal-heat.surge.sh',
+  BASE_URL: 'https://cheftory-youtube-webview.surge.sh',
   
   USER_AGENTS: {
     IOS: "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1",
@@ -85,5 +85,5 @@ export const getUserAgent = (): string => {
 };
 
 export const getWebViewUrl = (recipeId: string): string => {
-  return `${WEBVIEW_CONFIG.BASE_URL}/#/recipeId/${recipeId}`;
+  return `${WEBVIEW_CONFIG.BASE_URL}/#/recipes/${recipeId}`;
 }; 

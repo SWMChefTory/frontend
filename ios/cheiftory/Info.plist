@@ -61,6 +61,14 @@
     <array>
       <string>audio</string>
     </array>
+    <key>AVAudioSessionCategoryDefaultToSpeaker</key>
+    <true/>
+    <key>AVAudioSessionCategoryOptions</key>
+    <array>
+      <string>AVAudioSessionCategoryOptionMixWithOthers</string>
+      <string>AVAudioSessionCategoryOptionAllowBluetooth</string>
+      <string>AVAudioSessionCategoryOptionDefaultToSpeaker</string>
+    </array>
     <key>UILaunchStoryboardName</key>
     <string>SplashScreen</string>
     <key>UIRequiredDeviceCapabilities</key>
