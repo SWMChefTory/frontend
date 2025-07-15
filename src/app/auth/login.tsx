@@ -1,0 +1,29 @@
+// src/screens/LoginPage.tsx
+
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
+import GoogleLoginButton from "@/src/modules/login/google/components/GoogleLoginButton";
+
+export default function LoginPage() {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>Cheftory에 로그인하세요</Text>
+      <GoogleLoginButton />
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 24,
+    backgroundColor: "#fff",
+  },
+  title: {
+    fontSize: 24,
+    marginBottom: 32,
+    fontWeight: "bold",
+  },
+});
