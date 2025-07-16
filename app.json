@@ -4,7 +4,7 @@
     "slug": "cheiftory",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/splash2.png",
     "scheme": "cheiftory",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -24,8 +24,8 @@
         "android.permission.AUDIO_CAPTURE"
       ],
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/images/splash2.png",
+        "backgroundColor": "#fb923c"
       },
       "edgeToEdgeEnabled": true,
       "package": "com.anonymous.cheiftory"
@@ -40,10 +40,10 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
+          "image": "./assets/images/splash2.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
+          "backgroundColor": "#fb923c"
         }
       ]
     ],
