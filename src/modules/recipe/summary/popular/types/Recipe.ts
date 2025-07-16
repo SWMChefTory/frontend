@@ -1,11 +1,10 @@
-import { PopularRecipeApiResponse } from "@/src/modules/recipe/summary/api/Api";
+import { PopularRecipeOverview } from "../api/api";
 
 export class PopularSummaryRecipe {
   recipeId: string;
   title: string;
   youtubeId: string;
   count: number;
-  createdAt: Date;
   thumbnailUrl: string;
 
   private constructor(
@@ -13,25 +12,22 @@ export class PopularSummaryRecipe {
     title: string,
     youtubeId: string,
     count: number,
-    createdAt: Date,
     thumbnailUrl: string,
   ) {
     this.recipeId = recipeId;
     this.title = title;
     this.youtubeId = youtubeId;
     this.count = count;
-    this.createdAt = createdAt;
     this.thumbnailUrl = thumbnailUrl;
   }
 
-  static create(apiResponse: PopularRecipeApiResponse): PopularSummaryRecipe {
+  static create(apiResponse: PopularRecipeOverview): PopularSummaryRecipe {
     return new PopularSummaryRecipe(
-      apiResponse.recipeId,
-      apiResponse.title,
-      apiResponse.youtubeId,
+      apiResponse.id,
+      apiResponse.videoInfo.title,
+      apiResponse.videoInfo.videoId,
       apiResponse.count,
-      new Date(apiResponse.createdAt),
-      apiResponse.thumbnailUrl,
+      apiResponse.videoInfo.thumbnailUrl,
     );
   }
 }

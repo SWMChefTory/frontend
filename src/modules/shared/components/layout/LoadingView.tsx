@@ -1,63 +1,67 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import Skeleton from "react-native-reanimated-skeleton";
+import { ICustomViewStyle } from "react-native-reanimated-skeleton/lib/typescript/constants";
+import { PopularRecipesSkeleton } from "@/src/modules/recipe/summary/popular/shared/Skeleton";
+import { RecentRecipesSkeleton } from "@/src/modules/recipe/summary/recent/shared/Skeleton";
+
+type SkeletonLayout = "popularRecipes" | "recentRecipes" | "default";
 
 type Props = {
   loading: boolean;
   children: React.ReactNode;
+  skeletonLayout?: SkeletonLayout;
 };
 
-export function LoadingView({ loading, children }: Props) {
+const getSkeletonLayout = (layout: SkeletonLayout): ICustomViewStyle[] => {
+  switch (layout) {
+    case "default":
+    default:
+      return [
+        {
+          key: "header",
+          width: "100%",
+          height: 220,
+          borderRadius: 12,
+          marginBottom: 20,
+        },
+        {
+          key: "title",
+          width: "60%",
+          height: 24,
+          borderRadius: 4,
+          marginBottom: 12,
+        },
+        {
+          key: "subtitle",
+          width: "80%",
+          height: 18,
+          borderRadius: 4,
+          marginBottom: 20,
+        },
+      ];
+  }
+};
+
+export function LoadingView({
+  loading,
+  children,
+  skeletonLayout = "default",
+}: Props) {
   if (loading) {
+    if (skeletonLayout === "popularRecipes") {
+      return <PopularRecipesSkeleton />;
+    }
+    if (skeletonLayout === "recentRecipes") {
+      return <RecentRecipesSkeleton />;
+    }
+
     return (
       <View style={styles.container}>
         <Skeleton
           isLoading={true}
-          layout={[
-            {
-              key: "header",
-              width: "100%",
-              height: 220,
-              borderRadius: 12,
-              marginBottom: 20,
-            },
-            {
-              key: "title",
-              width: "60%",
-              height: 24,
-              borderRadius: 4,
-              marginBottom: 12,
-            },
-            {
-              key: "subtitle",
-              width: "80%",
-              height: 18,
-              borderRadius: 4,
-              marginBottom: 20,
-            },
-            {
-              key: "block-1",
-              width: "90%",
-              height: 14,
-              borderRadius: 4,
-              marginBottom: 10,
-            },
-            {
-              key: "block-2",
-              width: "85%",
-              height: 14,
-              borderRadius: 4,
-              marginBottom: 10,
-            },
-            {
-              key: "block-3",
-              width: "70%",
-              height: 14,
-              borderRadius: 4,
-              marginBottom: 10,
-            },
-          ]}
-          boneColor="#E1E9EE"
+          layout={getSkeletonLayout(skeletonLayout)}
+          boneColor="#FF4500"
           highlightColor="#F2F8FC"
           animationType="shiver"
         />
@@ -69,8 +73,5 @@ export function LoadingView({ loading, children }: Props) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-  },
+  container: {},
 });

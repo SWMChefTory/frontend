@@ -1,4 +1,4 @@
-import { RecentRecipeApiResponse } from "@/src/modules/recipe/summary/api/Api";
+import { RecentRecipeApiResponse } from "../api/api";
 
 export class RecentSummaryRecipe {
   recipeId: string;

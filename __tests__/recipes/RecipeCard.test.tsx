@@ -1,8 +1,8 @@
 import { PopularRecipeSummaryCard } from "@/src/modules/recipe/summary/popular/components/Card";
-import { recipeSummariesMock } from "@/src/modules/recipe/summary/api/__mocks__/api.mock";
+import { recipeSummariesMock } from "@/src/modules/recipe/summary/popular/__mocks__/api.mock";
 import { fireEvent, render, screen } from "@testing-library/react-native";
-import { PopularSummaryRecipe } from "@/src/modules/recipe/summary/popular/types/PopularSummaryRecipe";
-import { RecentSummaryRecipe } from "@/src/modules/recipe/summary/recent/types/RecentRecipe";
+import { PopularSummaryRecipe } from "@/src/modules/recipe/summary/popular/types/Recipe";
+import { RecentSummaryRecipe } from "@/src/modules/recipe/summary/recent/types/Recipe";
 
 jest.mock("@/src/modules/recipe/summary/hooks/useRecipeThumbnail", () => ({
   useRecipeThumbnail: (recipe: PopularSummaryRecipe | RecentSummaryRecipe) => ({
