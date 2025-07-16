@@ -1,12 +1,12 @@
 import { StyleSheet, View, FlatList } from "react-native";
-import { useRecipeSummaryViewModel } from "@/src/modules/recipe/summary/viewmodels/useViewModel";
+import { usePopularSummaryViewModel } from "@/src/modules/recipe/summary/popular/viewmodels/useViewModels";
 import { useRouter } from "expo-router";
 import { LoadingView } from "@/src/modules/shared/components/layout/LoadingView";
 import { PopularSummaryRecipe } from "@/src/modules/recipe/summary/popular/types/Recipe";
 import { ListPageRecipeCard } from "@/src/modules/recipe/list/popular/component/ListPageRecipeCard";
 
 export default function PopularRecipesScreen() {
-  const { popularRecipes, loading } = useRecipeSummaryViewModel();
+  const { popularRecipes, loading } = usePopularSummaryViewModel();
   const router = useRouter();
 
   const handleRecipePress = (recipe: PopularSummaryRecipe) => {

@@ -1,5 +1,6 @@
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { RecentSummaryRecipe } from "../types/Recipe";
+import { COLORS } from "@/src/modules/shared/constants/colors";
 
 type Props = {
   recipe: RecentSummaryRecipe;
@@ -30,9 +31,9 @@ const styles = StyleSheet.create({
   card: {
     width: 140,
     marginVertical: 8,
-    backgroundColor: "#fff",
+    backgroundColor: COLORS.background.white,
     borderRadius: 16,
-    shadowColor: "#ff9800",
+    shadowColor: COLORS.shadow.lightOrange,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.15,
     shadowRadius: 8,
@@ -55,26 +56,24 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 13,
     fontWeight: "600",
-    color: "#111827",
+    color: COLORS.text.black,
     lineHeight: 18,
   },
-  row: { flexDirection: "row", alignItems: "center", marginTop: 4 },
-  meta: { fontSize: 12, color: "#6B7280" },
   progressBg: {
     width: "100%",
     height: 3,
-    backgroundColor: "#F3F4F6",
+    backgroundColor: COLORS.background.lightGray,
     borderRadius: 2,
     marginTop: 6,
   },
   progressFg: {
     height: "100%",
-    backgroundColor: "#ff9800",
+    backgroundColor: COLORS.background.orange,
     borderRadius: 2,
   },
   progressText: {
     fontSize: 11,
-    color: "#6B7280",
+    color: COLORS.text.gray,
     marginTop: 4,
     fontWeight: "500",
   },

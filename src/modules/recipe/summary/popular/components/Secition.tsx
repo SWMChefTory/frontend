@@ -1,22 +1,22 @@
 import { View, StyleSheet } from "react-native";
 import { RecipeSectionHeader } from "../../../summary/shared/components/SectionHeader";
 import { PopularSummaryRecipe } from "../../../summary/popular/types/Recipe";
-import { PopularRecipeSummaryList } from "../../../summary/popular/components/List";
+import { PopularRecipeSectionContent } from "./SerctionContent";
+import { PopularRecipeError } from "../shared/Fallback";
+import { ApiErrorBoundary } from "@/src/modules/shared/components/error/ApiErrorBoundary";
+
 interface Props {
-  recipes: PopularSummaryRecipe[];
   onRecipePress: (recipe: PopularSummaryRecipe) => void;
   onViewAllPress: () => void;
 }
 
-export function PopularRecipeSection({
-  recipes,
-  onRecipePress,
-  onViewAllPress,
-}: Props) {
+export function PopularRecipeSection({ onRecipePress, onViewAllPress }: Props) {
   return (
     <View style={styles.recipeSectionCard}>
       <RecipeSectionHeader title="추천 레시피" onPress={onViewAllPress} />
-      <PopularRecipeSummaryList recipes={recipes} onPress={onRecipePress} />
+      <ApiErrorBoundary fallbackComponent={PopularRecipeError}>
+        <PopularRecipeSectionContent onPress={onRecipePress} />
+      </ApiErrorBoundary>
     </View>
   );
 }

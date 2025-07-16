@@ -1,4 +1,5 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { COLORS } from "@/src/modules/shared/constants/colors";
 
 export function RecipeSectionHeader({
   title,
@@ -36,10 +37,10 @@ const styles = StyleSheet.create({
   orangeAccentBar: {
     width: 5,
     height: 26,
-    backgroundColor: "#FF4500",
+    backgroundColor: COLORS.background.orange,
     borderRadius: 3,
     marginRight: 14,
-    shadowColor: "#FF4500",
+    shadowColor: COLORS.shadow.orange,
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.4,
     shadowRadius: 6,
@@ -47,14 +48,14 @@ const styles = StyleSheet.create({
   modernSectionTitle: {
     fontSize: 20,
     fontWeight: "700",
-    color: "#111827",
+    color: COLORS.text.black,
     letterSpacing: -0.5,
   },
   modernViewAllText: {
     fontSize: 15,
     fontWeight: "700",
-    color: "#FF4500",
+    color: COLORS.orange.main,
     textDecorationLine: "underline",
-    textDecorationColor: "#FF4500",
+    textDecorationColor: COLORS.orange.main,
   },
 });

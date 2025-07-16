@@ -5,11 +5,22 @@ import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { useEffect, useState } from "react";
 import * as ExpoSplashScreen from "expo-splash-screen";
 import { SplashScreen } from "../modules/shared/splash/SplashScreen";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 ExpoSplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [showSplash, setShowSplash] = useState(true);
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        throwOnError: true,
+      },
+      mutations: {
+        throwOnError: true,
+      },
+    },
+  });
 
   useEffect(() => {
     async function prepareApp() {
@@ -34,17 +45,19 @@ export default function RootLayout() {
   }
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <BottomSheetModalProvider>
-        <Stack
-          screenOptions={{
-            headerBackVisible: false,
-            headerLeft: () => <CustomBackButton />,
-          }}
-        >
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        </Stack>
-      </BottomSheetModalProvider>
-    </GestureHandlerRootView>
+    <QueryClientProvider client={queryClient}>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <BottomSheetModalProvider>
+          <Stack
+            screenOptions={{
+              headerBackVisible: false,
+              headerLeft: () => <CustomBackButton />,
+            }}
+          >
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          </Stack>
+        </BottomSheetModalProvider>
+      </GestureHandlerRootView>
+    </QueryClientProvider>
   );
 }
