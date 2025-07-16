@@ -1,42 +1,40 @@
 import { View, StyleSheet } from "react-native";
 import { RecentSummaryRecipe } from "../types/Recipe";
 import { RecipeSectionHeader } from "../../shared/components/SectionHeader";
-import RecentRecipeSummaryList from "@/src/modules/recipe/summary/recent/components/List";
+import { RecentRecipeSectionContent } from "./SerctionContent";
+import { RecentRecipeError } from "../shared/Fallback";
+import { COLORS } from "@/src/modules/shared/constants/colors";
+import { ApiErrorBoundary } from "@/src/modules/shared/components/error/ApiErrorBoundary";
 
 interface Props {
-  recipes: RecentSummaryRecipe[];
   onRecipePress: (recipe: RecentSummaryRecipe) => void;
   onViewAllPress: () => void;
 }
 
-export function RecentRecipeSection({
-  recipes,
-  onRecipePress,
-  onViewAllPress,
-}: Props) {
+export function RecentRecipeSection({ onRecipePress, onViewAllPress }: Props) {
   return (
     <View style={styles.recipeSectionCard}>
       <RecipeSectionHeader
         title="최근 시청한 레시피"
         onPress={onViewAllPress}
       />
-      <RecentRecipeSummaryList recipes={recipes} onPress={onRecipePress} />
+      <ApiErrorBoundary fallbackComponent={RecentRecipeError}>
+        <RecentRecipeSectionContent onPress={onRecipePress} />
+      </ApiErrorBoundary>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   recipeSectionCard: {
-    backgroundColor: "#ffffff",
+    backgroundColor: COLORS.background.white,
     borderRadius: 24,
     padding: 24,
     marginBottom: 24,
-    shadowColor: "#FF4500",
+    shadowColor: COLORS.shadow.orange,
     shadowOffset: { width: 0, height: 6 },
     shadowOpacity: 0.12,
     shadowRadius: 20,
     elevation: 8,
-    borderWidth: 1,
-    borderColor: "rgba(255, 69, 0, 0.08)",
   },
 });

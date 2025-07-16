@@ -1,42 +1,32 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useRef } from "react";
 import { useRouter } from "expo-router";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import { RecipeBottomSheet } from "@/src/modules/recipe/create/components/RecipeCreateBottomSheet";
-import { useRecipeCreateViewModel } from "@/src/modules/recipe/create/viewmodel/useViewModel";
+import { RecipeBottomSheet } from "@/src/modules/recipe/create/form/components/BottomSheet";
 
 export function FloatingButton() {
   const modalRef = useRef<BottomSheetModal>(null);
-  const [videoUrl, setVideoUrl] = useState("");
-  const { recipeId, loading, error } = useRecipeCreateViewModel(videoUrl);
-
   const router = useRouter();
 
-  const openBottomSheet = () => {
+  const openBottomSheet = useCallback(() => {
     modalRef.current?.present();
-  };
+  }, []);
 
-  useEffect(() => {
-    if (recipeId && !loading) {
-      modalRef.current?.dismiss();
+  const handleRecipeCreated = useCallback(
+    (recipeId: string) => {
       router.push({
         pathname: "/recipe/create",
         params: { recipeId },
       });
-      setVideoUrl("");
-    }
-  }, [recipeId, loading]);
-
-  const handleSubmit = (videoUrl: string) => {
-    setVideoUrl(videoUrl);
-  };
+    },
+    [router],
+  );
 
   return (
     <>
       <RecipeBottomSheet
         modalRef={modalRef}
-        handleSubmit={handleSubmit}
-        loading={loading}
+        onRecipeCreated={handleRecipeCreated}
       />
 
       <View pointerEvents="box-none" style={styles.fabContainer}>
