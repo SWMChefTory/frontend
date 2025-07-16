@@ -7,11 +7,9 @@ export interface LoginInfo{
 
 export interface SignupData {
   provider: string;
-  accessToken: string;
-  additionalInfo: {
-    nickname: string;
-    gender: Gender;
-  };
+  token: string;
+  nickname: string;
+  gender: Gender;
 }
 
 export interface AuthContextType {

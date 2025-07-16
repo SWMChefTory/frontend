@@ -7,9 +7,9 @@ import { AuthContextType, LoginInfo, SignupData } from "@/src/types/auth";
 import proxyServerClient from "@/src/app/client/proxyserverClient";
 import { Alert } from "react-native";
 
-const LOGIN_PATH = "/api/auth/social-login";
-const SIGNUP_PATH = "/api/auth/signup";
-const LOGOUT_PATH = "/api/auth/logout";
+const LOGIN_PATH = "/v1/account/login/oauth";
+const SIGNUP_PATH = "/v1/account/signup/oauth";
+const LOGOUT_PATH = "/v1/account/logout";
 const DELETE_USER_PATH = "/api/users/me";
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -54,7 +54,7 @@ export const AuthProvider = ({ children } : AuthProviderProps) => {
 
   const logout = async () => {
     await proxyServerClient
-    .post(LOGOUT_PATH,{"refresh_token" : findRefreshToken()})
+    .post(LOGOUT_PATH,{"refreshToken" : findRefreshToken()})
     .catch(err=>{
       if(err instanceof AxiosError){
         const errorInfo = extractAxiosErrorInfo(err);
@@ -69,17 +69,17 @@ export const AuthProvider = ({ children } : AuthProviderProps) => {
   const signin = async ({provider_token, provider}: LoginInfo) => {
     return await proxyServerClient.post(LOGIN_PATH, {
         "provider" : provider,
-        "accessToken" : provider_token,
+        "token" : provider_token,
       })
       .then(async res =>{
         setAccessToken(res.data.accessToken);
         setUser(res.data.user);
-        storeAuthToken(res.data.access_token, res.data.refresh_token);
+        storeAuthToken(res.data.accessToken, res.data.refreshToken);
       })
       .catch(err=>{
         if(err instanceof AxiosError){
           const errorInfo = extractAxiosErrorInfo(err);
-          if(errorInfo.code === StatusCodes.UNAUTHORIZED && errorInfo.error === "NOT_FOUND_USER"){
+          if(errorInfo.code === StatusCodes.UNAUTHORIZED && errorInfo.error === "USER_NOT_FOUND"){
             throw new Error(errorInfo.error);
           }
         } 
@@ -93,8 +93,8 @@ export const AuthProvider = ({ children } : AuthProviderProps) => {
         .post(SIGNUP_PATH, signupData);
         
         setUser(response.data.user);
-        setAccessToken(response.data.access_token);
-        storeAuthToken(response.data.access_token, response.data.refresh_token);
+        setAccessToken(response.data.accessToken);
+        storeAuthToken(response.data.accessToken, response.data.refreshToken);
       } catch (err) {
         if(err instanceof AxiosError){
           await toUnAuthorized();

@@ -24,11 +24,11 @@ export default function GoogleLoginButton() {
         const {idToken} = response.data;
         try{
             if (idToken) {
-                await login({provider_token: idToken, provider: 'google'});
+                await login({provider_token: idToken, provider: 'GOOGLE'});
+                router.replace('/(tabs)');
             }
         } catch (err) {
-            console.log(err);
-            if (err instanceof Error && err.message === 'NOT_FOUND_USER') {
+            if (err instanceof Error && err.message === 'USER_NOT_FOUND') {
                 // 회원가입 확인 Alert
                 Alert.alert(
                   '회원가입',
@@ -42,8 +42,8 @@ export default function GoogleLoginButton() {
                         router.push({
                           pathname: '/auth/signup',
                           params: {
-                            providerToken: idToken,
-                            provider: 'google'
+                            token: idToken,
+                            provider: 'GOOGLE'
                           }
                         });
                       }

@@ -11,24 +11,22 @@ export default function SignupPage() {
   const [loading, setLoading] = useState(false);
   
   const router = useRouter();
-  const { providerToken, provider } = useLocalSearchParams();
+  const { token, provider } = useLocalSearchParams();
   const { signup } = useAuth();
 
   const handleSignup = async () => {
     if (!nickname.trim()) {
       Alert.alert('오류', '닉네임을 입력해주세요.');
       return;
-    }
+    }     
 
     setLoading(true);
     try {
       await signup({
         provider: provider as string,
-        accessToken: providerToken as string,
-        additionalInfo: {
-          nickname: nickname.trim(),
-          gender: gender,
-        }
+        token: token as string,
+        nickname: nickname.trim(),
+        gender: gender,
       });
       
       // 회원가입 성공 시 메인 화면으로 이동
