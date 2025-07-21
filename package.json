@@ -13,7 +13,7 @@
     "postinstall": "node ./scripts/replaceLinearGradient.js",
     "test": "jest --watchAll"
   },
-  "dependencies": {
+  "dependencies": {https://github.com/SWMChefTory/frontend/pull/17/conflict?name=package.json&ancestor_oid=2514a69cb33e5c60cc1777187b24bb27498264fa&base_oid=6e6959828a43985c34c60f8d8e0c304a007a1492&head_oid=70cd1d0a0cd48983aa7dc4d79fcc3b74c6077253
     "@expo/vector-icons": "^14.1.0",
     "@gorhom/bottom-sheet": "^5.1.6",
     "@react-native-google-signin/google-signin": "^15.0.0",
@@ -22,12 +22,14 @@
     "axios": "^1.10.0",
     "dotenv": "^17.2.0",
     "expo": "~53.0.10",
+    "expo-av": "^15.1.7",
     "expo-constants": "~17.1.6",
     "expo-font": "~13.3.1",
     "expo-image": "~2.2.0",
     "expo-linear-gradient": "~14.1.5",
     "expo-linking": "~7.1.5",
     "expo-router": "~5.0.7",
+    "expo-speech": "^13.1.7",
     "expo-secure-store": "~14.2.3",
     "expo-splash-screen": "~0.30.9",
     "expo-status-bar": "~2.2.3",
@@ -47,7 +49,8 @@
     "react-native-reanimated-skeleton": "^1.6.0",
     "react-native-safe-area-context": "5.4.0",
     "react-native-screens": "~4.11.1",
-    "react-native-web": "~0.20.0"
+    "react-native-web": "~0.20.0",
+    "react-native-webview": "^13.15.0"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
