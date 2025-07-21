@@ -13,12 +13,14 @@
     "postinstall": "node ./scripts/replaceLinearGradient.js",
     "test": "jest --watchAll"
   },
-  "dependencies": {
+  "dependencies": {https://github.com/SWMChefTory/frontend/pull/17/conflict?name=package.json&ancestor_oid=2514a69cb33e5c60cc1777187b24bb27498264fa&base_oid=6e6959828a43985c34c60f8d8e0c304a007a1492&head_oid=70cd1d0a0cd48983aa7dc4d79fcc3b74c6077253
     "@expo/vector-icons": "^14.1.0",
     "@gorhom/bottom-sheet": "^5.1.6",
+    "@react-native-google-signin/google-signin": "^15.0.0",
     "@tanstack/react-query": "^5.83.0",
     "@types/jest": "^29.5.14",
     "axios": "^1.10.0",
+    "dotenv": "^17.2.0",
     "expo": "~53.0.10",
     "expo-av": "^15.1.7",
     "expo-constants": "~17.1.6",
@@ -28,11 +30,14 @@
     "expo-linking": "~7.1.5",
     "expo-router": "~5.0.7",
     "expo-speech": "^13.1.7",
+    "expo-secure-store": "~14.2.3",
     "expo-splash-screen": "~0.30.9",
     "expo-status-bar": "~2.2.3",
     "expo-symbols": "~0.4.5",
     "expo-system-ui": "~5.0.8",
     "expo-web-browser": "~14.1.6",
+    "git-filter-repo": "^0.0.30",
+    "http-status-codes": "^2.3.0",
     "jest": "~29.7.0",
     "jest-expo": "~53.0.7",
     "react": "19.1.0",
@@ -50,6 +55,7 @@
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@testing-library/react-native": "^13.2.0",
+    "@types/lodash": "^4.17.20",
     "@types/react": "~19.1.0",
     "eslint": "^9.25.0",
     "eslint-config-expo": "~9.2.0",

@@ -1,6 +1,13 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
+  ext {
+    buildToolsVersion = "a.b.c"             // 빌드 도구 버전 (예: "34.0.0")
+    minSdkVersion = x                       // 최소 지원 안드로이드 버전 (예: 21)
+    compileSdkVersion = y                  // 앱을 컴파일할 때 사용할 SDK 버전
+    targetSdkVersion = z                   // 앱이 대상으로 삼는 Android 버전
+    googlePlayServicesAuthVersion = "20.7.0" // Google 로그인 등 인증 관련 라이브러리 버전
+  }
   repositories {
     google()
     mavenCentral()

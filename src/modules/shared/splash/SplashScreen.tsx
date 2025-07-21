@@ -3,10 +3,19 @@ import { useSplashAnimation } from "./useSplashAnimation";
 import SplashBackground from "./SplashBackground";
 import SplashLogo from "./SplashLogo";
 import SplashTextSection from "./SplashTextSection";
+import { useEffect } from "react";
 
 export function SplashScreen({ onFinish }: { onFinish: () => void }) {
   const anim = useSplashAnimation(onFinish);
-
+  useEffect(() => {
+    return () => {
+      Object.values(anim).forEach((animation) => {
+        if (animation && typeof animation.stopAnimation === "function") {
+          animation.stopAnimation();
+        }
+      });
+    };
+  }, [anim]);
   return (
     <View style={styles.container}>
       <SplashBackground gradientOpacity={anim.gradientOpacity} />

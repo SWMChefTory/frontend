@@ -1,6 +1,7 @@
 import Expo
 import React
 import ReactAppDependencyProvider
+import GoogleSignIn
 
 @UIApplicationMain
 public class AppDelegate: ExpoAppDelegate {
@@ -8,6 +9,17 @@ public class AppDelegate: ExpoAppDelegate {
 
   var reactNativeDelegate: ExpoReactNativeFactoryDelegate?
   var reactNativeFactory: RCTReactNativeFactory?
+
+  // Google Sign In
+  public override func application(
+    _ application: UIApplication,
+    open url: URL,
+    options: [UIApplication.OpenURLOptionsKey : Any] = [:]
+  ) -> Bool {
+    return GIDSignIn.sharedInstance.handle(url)
+      || super.application(application, open: url, options: options)
+      || RCTLinkingManager.application(application, open: url, options: options)
+  }
 
   public override func application(
     _ application: UIApplication,
@@ -32,15 +44,6 @@ public class AppDelegate: ExpoAppDelegate {
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 
-  // Linking API
-  public override func application(
-    _ app: UIApplication,
-    open url: URL,
-    options: [UIApplication.OpenURLOptionsKey: Any] = [:]
-  ) -> Bool {
-    return super.application(app, open: url, options: options) || RCTLinkingManager.application(app, open: url, options: options)
-  }
-
   // Universal Links
   public override func application(
     _ application: UIApplication,
@@ -51,6 +54,7 @@ public class AppDelegate: ExpoAppDelegate {
     return super.application(application, continue: userActivity, restorationHandler: restorationHandler) || result
   }
 }
+
 
 class ReactNativeDelegate: ExpoReactNativeFactoryDelegate {
   // Extension point for config-plugins
