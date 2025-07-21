@@ -1,4 +1,4 @@
-import { recentRecipesApiMock } from "@/src/modules/recipe/summary/popular/__mocks__/api.mock";
+import { recentRecipesApiMock } from "@/src/modules/recipe/summary/recent/api/__mocks__/api.mock";
 
 export interface RecentRecipeApiResponse {
   recipeId: string;

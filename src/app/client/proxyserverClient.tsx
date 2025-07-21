@@ -1,10 +1,10 @@
-import axios from 'axios';
+import axios from "axios";
 
 const proxyServerClient = axios.create({
   baseURL: "http://172.16.100.8:8080",
   timeout: 10000,
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
 });
 

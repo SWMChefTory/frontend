@@ -12,8 +12,6 @@ function isNetworkError(error: unknown): boolean {
 axiosInstance.interceptors.response.use(
   (res) => res,
   (error) => {
-    console.log(error);
-    console.log(JSON.stringify(error.response?.data));
     if (isAxiosError(error) && isNetworkError(error)) {
       setTimeout(() => Promise.reject(error), 200);
     } else {

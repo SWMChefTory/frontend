@@ -1,32 +1,19 @@
 import { useCallback, useRef } from "react";
-import { useRouter } from "expo-router";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { RecipeBottomSheet } from "@/src/modules/recipe/create/form/components/BottomSheet";
 
 export function FloatingButton() {
   const modalRef = useRef<BottomSheetModal>(null);
-  const router = useRouter();
 
   const openBottomSheet = useCallback(() => {
     modalRef.current?.present();
   }, []);
 
-  const handleRecipeCreated = useCallback(
-    (recipeId: string) => {
-      router.push({
-        pathname: "/recipe/create",
-        params: { recipeId },
-      });
-    },
-    [router],
-  );
-
   return (
     <>
       <RecipeBottomSheet
         modalRef={modalRef}
-        onRecipeCreated={handleRecipeCreated}
       />
 
       <View pointerEvents="box-none" style={styles.fabContainer}>
