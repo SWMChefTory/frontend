@@ -4,13 +4,25 @@ import { RecipeCreateFormError } from "@/src/modules/recipe/create/form/shared/F
 import { RecipeBottomSheetContent } from "./BottomSheetContent";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 import { ApiErrorBoundary } from "@/src/modules/shared/components/error/ApiErrorBoundary";
+import { useRouter } from "expo-router";
 
 interface Props {
   modalRef: React.RefObject<BottomSheetModal | null>;
-  onRecipeCreated?: (recipeId: string) => void;
 }
 
-export function RecipeBottomSheet({ modalRef, onRecipeCreated }: Props) {
+export function RecipeBottomSheet({ modalRef }: Props) {
+  const router = useRouter();
+  
+  const handleRecipeCreated = useCallback(
+    (recipeId: string) => {
+      router.push({
+        pathname: "/recipe/create",
+        params: { recipeId },
+      });
+    },
+    [router],
+  );
+
   const renderBackdrop = useCallback(
     (props: any) => (
       <BottomSheetBackdrop
@@ -26,7 +38,7 @@ export function RecipeBottomSheet({ modalRef, onRecipeCreated }: Props) {
 
   const handleDismiss = useCallback(() => {
     modalRef.current?.dismiss();
-  }, [modalRef]);
+  }, []);
 
   return (
     <BottomSheetModal
@@ -43,7 +55,7 @@ export function RecipeBottomSheet({ modalRef, onRecipeCreated }: Props) {
     >
       <ApiErrorBoundary fallbackComponent={RecipeCreateFormError}>
         <RecipeBottomSheetContent
-          onRecipeCreated={onRecipeCreated}
+          onRecipeCreated={handleRecipeCreated}
           onDismiss={handleDismiss}
         />
       </ApiErrorBoundary>

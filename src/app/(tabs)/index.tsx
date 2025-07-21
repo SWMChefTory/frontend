@@ -17,7 +17,7 @@ export default function HomeScreen() {
         pathname: "/recipe/create",
         params: { recipeId: recipe.recipeId },
       });
-    } else if (recipe instanceof RecentSummaryRecipe) {
+    } else {
       router.push({
         pathname: "/recipe/detail",
         params: {

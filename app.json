@@ -45,11 +45,18 @@
           "resizeMode": "contain",
           "backgroundColor": "#fb923c"
         }
-      ]
+      ],
+      "expo-secure-store"
     ],
     "experiments": {
       "typedRoutes": true,
       "reactCanary": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "a9ab1ebc-c5d1-4424-8687-e71fbc8712cb"
+      }
     }
   }
 }

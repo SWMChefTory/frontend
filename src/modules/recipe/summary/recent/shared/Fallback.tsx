@@ -10,6 +10,14 @@ export function RecentRecipeError({
   error,
   resetError,
 }: RecentRecipeErrorProps) {
+
+
+  // !isAxiosError
+  // thorw 
+  // 500, 400 ErrorCode
+
+  // 500
+
   return (
     <View style={errorStyles.container}>
       <Text style={errorStyles.title}>최근 레시피를 불러올 수 없습니다</Text>
