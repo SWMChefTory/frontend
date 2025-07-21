@@ -1,4 +1,3 @@
-import { LinearGradient } from "expo-linear-gradient";
 import { View, Text, StyleSheet } from "react-native";
 
 export function HomeSectionHeader({
@@ -9,16 +8,12 @@ export function HomeSectionHeader({
   subtitle: string;
 }) {
   return (
-    <LinearGradient
-      colors={["#FF4500", "#FF6B35", "#FF8C42", "#FFA366", "#ffffff"]}
-      locations={[0, 0.25, 0.5, 0.75, 1]}
-      style={styles.headerSection}
-    >
+    <View style={styles.headerSection}>
       <View style={styles.headerContent}>
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.subtitle}>{subtitle}</Text>
       </View>
-    </LinearGradient>
+    </View>
   );
 }
 
