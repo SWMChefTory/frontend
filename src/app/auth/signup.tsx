@@ -8,18 +8,17 @@ import {
   StyleSheet,
 } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
-import { useAuth } from "@/src/modules/shared/context/auth/AuthContext";
 import { GenderOptions } from "@/src/modules/login/google/components/GenderOption";
 import { Gender } from "@/src/modules/login/enums/Gender";
+import { useSignupViewModel } from "@/src/modules/shared/context/auth/authViewModel";
 
 export default function SignupPage() {
   const [nickname, setNickname] = useState("");
   const [gender, setGender] = useState(Gender.NONE);
-  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
   const { token, provider } = useLocalSearchParams();
-  const { signup } = useAuth();
+  const { signup, isLoading } = useSignupViewModel();
 
   const handleSignup = async () => {
     if (!nickname.trim()) {
@@ -27,22 +26,14 @@ export default function SignupPage() {
       return;
     }
 
-    setLoading(true);
-    try {
-      await signup({
-        provider: provider as string,
-        token: token as string,
-        nickname: nickname.trim(),
-        gender: gender,
-      });
+    await signup({
+      provider: provider as string,
+      id_token: token as string,
+      nickname: nickname.trim(),
+      gender: gender,
+    });
 
-      // 회원가입 성공 시 메인 화면으로 이동
-      router.replace("/(tabs)");
-    } catch (error) {
-      Alert.alert("오류", "회원가입에 실패했습니다.");
-    } finally {
-      setLoading(false);
-    }
+    router.replace("/(tabs)");
   };
 
   const handleCancel = () => {
@@ -75,10 +66,10 @@ export default function SignupPage() {
         <TouchableOpacity
           style={[styles.button, styles.signupButton]}
           onPress={handleSignup}
-          disabled={loading}
+          disabled={isLoading}
         >
           <Text style={styles.signupButtonText}>
-            {loading ? "가입 중..." : "가입하기"}
+            {isLoading ? "가입 중..." : "가입하기"}
           </Text>
         </TouchableOpacity>
       </View>

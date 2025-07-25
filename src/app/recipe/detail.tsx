@@ -1,8 +1,8 @@
-import { LoadingOverlay } from '@/src/modules/recipe/detail/components/LoadingOverlay';
-import { RecipeWebView } from '@/src/modules/recipe/detail/components/RecipeWebView';
-import { useRecipeDetailViewModel } from '@/src/modules/recipe/detail/viewmodels/useRecipeDetailViewModel';
-import { Stack, useLocalSearchParams } from 'expo-router';
-import { SafeAreaView, StatusBar, StyleSheet } from 'react-native';
+import { LoadingOverlay } from "@/src/modules/recipe/detail/components/LoadingOverlay";
+import { RecipeWebView } from "@/src/modules/recipe/detail/components/RecipeWebView";
+import { useRecipeDetailViewModel } from "@/src/modules/recipe/detail/viewmodels/useRecipeDetailViewModel";
+import { Stack, useLocalSearchParams } from "expo-router";
+import { SafeAreaView, StatusBar, StyleSheet } from "react-native";
 
 export default function RecipeDetailScreen() {
   const params = useLocalSearchParams<{
@@ -10,7 +10,7 @@ export default function RecipeDetailScreen() {
     youtubeId?: string;
     title?: string;
   }>();
-  
+
   const {
     isLoading,
     webViewKey,
@@ -30,14 +30,14 @@ export default function RecipeDetailScreen() {
 
   return (
     <>
-      <StatusBar 
-        barStyle="dark-content" 
-        backgroundColor="white" 
-        translucent={false} 
+      <StatusBar
+        barStyle="dark-content"
+        backgroundColor="white"
+        translucent={false}
       />
       <SafeAreaView style={styles.container}>
         <Stack.Screen options={{ headerShown: false }} />
-        
+
         <LoadingOverlay isVisible={isLoading} />
 
         <RecipeWebView
@@ -59,6 +59,6 @@ export default function RecipeDetailScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: "white",
   },
 });

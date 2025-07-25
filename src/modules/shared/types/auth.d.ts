@@ -1,24 +1,20 @@
 import { Gender } from "../../login/enums/Gender";
 
 export interface LoginInfo {
-  provider_token: string;
+  id_token: string;
   provider: string;
 }
 
 export interface SignupData {
   provider: string;
-  token: string;
+  id_token: string;
   nickname: string;
   gender: Gender;
 }
 
 export interface AuthContextType {
   user: any;
-  accessToken: string | null;
   isLoggedIn: boolean;
-  signin: (loginInfo: LoginInfo) => Promise<void>;
-  signup: (signupData: SignupData) => Promise<void>;
-  logout: () => Promise<void>;
-  deleteUser: () => Promise<void>;
   loading: boolean;
+  setUser: (user: User | null) => void;
 }

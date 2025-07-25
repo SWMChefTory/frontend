@@ -1,8 +1,8 @@
-import React from 'react';
-import { Platform, StyleSheet } from 'react-native';
-import { WebView } from 'react-native-webview';
-import { getUserAgent } from '../constants/WebViewConfig';
-import { WebViewNavigationState } from '../types/RecipeDetail';
+import React from "react";
+import { Platform, StyleSheet } from "react-native";
+import { WebView } from "react-native-webview";
+import { getUserAgent } from "../constants/WebViewConfig";
+import { WebViewNavigationState } from "../types/RecipeDetail";
 
 interface RecipeWebViewProps {
   webViewRef: React.RefObject<WebView | null>;
@@ -40,27 +40,22 @@ export function RecipeWebView({
       onNavigationStateChange={onNavigationStateChange}
       onError={onError}
       onHttpError={onHttpError}
-      
       // 미디어 재생 최적화 설정
       mediaPlaybackRequiresUserAction={false}
       allowsInlineMediaPlayback={true}
       mediaCapturePermissionGrantType="grant"
-      
       // 추가 권한 설정
       allowsFullscreenVideo={true}
       allowsBackForwardNavigationGestures={true}
-      
       // JavaScript 및 DOM 설정
       javaScriptEnabled={true}
       domStorageEnabled={true}
-      
       // 성능 최적화 설정
       startInLoadingState={false}
       cacheEnabled={true}
-      
       // iOS 전용 최적화
-      {...(Platform.OS === 'ios' && {
-        allowingReadAccessToURL: 'http://localhost:3000',
+      {...(Platform.OS === "ios" && {
+        allowingReadAccessToURL: "http://localhost:3000",
         allowsLinkPreview: false,
         automaticallyAdjustContentInsets: false,
         scrollEnabled: true,
@@ -68,10 +63,9 @@ export function RecipeWebView({
         showsHorizontalScrollIndicator: false,
         showsVerticalScrollIndicator: false,
       })}
-      
       // Android 전용 최적화
-      {...(Platform.OS === 'android' && {
-        mixedContentMode: 'compatibility',
+      {...(Platform.OS === "android" && {
+        mixedContentMode: "compatibility",
         thirdPartyCookiesEnabled: true,
         allowFileAccess: true,
         allowUniversalAccessFromFileURLs: true,
@@ -88,6 +82,6 @@ export function RecipeWebView({
 const styles = StyleSheet.create({
   webview: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: "white",
   },
-}); 
+});

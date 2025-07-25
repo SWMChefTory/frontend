@@ -1,20 +1,21 @@
 import { recentRecipesApiMock } from "@/src/modules/recipe/summary/recent/api/__mocks__/api.mock";
+import { client } from "@/src/modules/shared/api/api";
+
 
 export interface RecentRecipeApiResponse {
-  recipeId: string;
-  title: string;
-  youtubeId: string;
-  createdAt: string;
-  thumbnailUrl: string;
-  progress: number;
-  watchedTime: string;
+  viewed_at: string;
+  last_play_seconds: number;
+  recipe_id: string;
+  recipe_title: string;
+  video_thumbnail_url: string;
+  video_id: string;
 }
 
-export async function fetchRecentSummary(): Promise<RecentRecipeApiResponse[]> {
-  console.log("fetchRecentSummary");
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(Object.values(recentRecipesApiMock));
-    }, 1000);
-  });
+export interface RecentRecipesApiResponse {
+  recent_recipes: RecentRecipeApiResponse[];
+}
+
+export async function fetchRecentSummary(): Promise<RecentRecipesApiResponse> {
+  const response = await client.get<RecentRecipesApiResponse>(`/recipes/recent`);
+  return response.data;
 }

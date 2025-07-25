@@ -10,9 +10,9 @@ export function usePopularSummaryViewModel(): {
     queryKey: ["popularRecipes"],
     queryFn: fetchPopularSummary,
   });
-
+  
   const popularRecipes =
-    data?.recipeOverviews.map((overview) =>
+    data?.recommend_recipes.map((overview) =>
       PopularSummaryRecipe.create(overview),
     ) || [];
 

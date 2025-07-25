@@ -13,7 +13,7 @@
     "postinstall": "node ./scripts/replaceLinearGradient.js",
     "test": "jest --watchAll"
   },
-  "dependencies": {https://github.com/SWMChefTory/frontend/pull/17/conflict?name=package.json&ancestor_oid=2514a69cb33e5c60cc1777187b24bb27498264fa&base_oid=6e6959828a43985c34c60f8d8e0c304a007a1492&head_oid=70cd1d0a0cd48983aa7dc4d79fcc3b74c6077253
+  "dependencies": {
     "@expo/vector-icons": "^14.1.0",
     "@gorhom/bottom-sheet": "^5.1.6",
     "@react-native-google-signin/google-signin": "^15.0.0",

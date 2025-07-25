@@ -1,24 +1,25 @@
 import { Platform } from "react-native";
 
 export const WEBVIEW_CONFIG = {
-  BASE_URL: 'https://cheftory-youtube-webview.surge.sh',
-  
+  BASE_URL: "https://cheftory-youtube-webview.surge.sh",
+
   USER_AGENTS: {
     IOS: "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1",
-    ANDROID: "Mozilla/5.0 (Linux; Android 10; SM-G975F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.120 Mobile Safari/537.36"
+    ANDROID:
+      "Mozilla/5.0 (Linux; Android 10; SM-G975F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.120 Mobile Safari/537.36",
   },
 
   LOADING_CONFIG: {
     LOADING_TEXT: "레시피를 불러오는 중...",
     SPINNER_COLOR: "#007AFF",
-    SPINNER_SIZE: "large" as const
+    SPINNER_SIZE: "large" as const,
   },
 
   ERROR_MESSAGES: {
     LOAD_ERROR: "페이지 로드 오류",
     LOAD_ERROR_DESCRIPTION: "페이지를 불러오는데 문제가 발생했습니다.",
     BACK_BUTTON_TEXT: "뒤로가기",
-    RETRY_BUTTON_TEXT: "다시 시도"
+    RETRY_BUTTON_TEXT: "다시 시도",
   },
 
   // 유튜브 최적화를 위한 JavaScript 주입
@@ -75,15 +76,15 @@ export const WEBVIEW_CONFIG = {
     })();
     
     true; // 필수 반환값
-  `
+  `,
 } as const;
 
 export const getUserAgent = (): string => {
-  return Platform.OS === 'ios' 
-    ? WEBVIEW_CONFIG.USER_AGENTS.IOS 
+  return Platform.OS === "ios"
+    ? WEBVIEW_CONFIG.USER_AGENTS.IOS
     : WEBVIEW_CONFIG.USER_AGENTS.ANDROID;
 };
 
 export const getWebViewUrl = (recipeId: string): string => {
   return `${WEBVIEW_CONFIG.BASE_URL}/#/recipes/${recipeId}`;
-}; 
+};

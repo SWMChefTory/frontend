@@ -9,9 +9,7 @@ interface Props {
 export function GlobalErrorBoundary({ children }: Props) {
   return (
     <QueryErrorResetBoundary>
-      <ErrorBoundary FallbackComponent={GlobalError}>
-        {children}
-      </ErrorBoundary>
+      <ErrorBoundary FallbackComponent={GlobalError}>{children}</ErrorBoundary>
     </QueryErrorResetBoundary>
   );
 }
