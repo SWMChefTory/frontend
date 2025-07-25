@@ -12,7 +12,7 @@ export function useRecentSummaryViewModel(): {
   });
 
   const recentRecipes =
-    data?.map((recipe) => RecentSummaryRecipe.create(recipe)) || [];
+    data?.recent_recipes.map((recipe) => RecentSummaryRecipe.create(recipe)) || [];
 
   return {
     recentRecipes,

@@ -6,8 +6,8 @@ export class RecentSummaryRecipe {
   youtubeId: string;
   createdAt: Date;
   thumbnailUrl: string;
-  progress: number;
-  watchedTime: string;
+  lastPlaySeconds: number;
+  viewedAt: Date;
 
   private constructor(
     recipeId: string,
@@ -15,27 +15,27 @@ export class RecentSummaryRecipe {
     youtubeId: string,
     createdAt: Date,
     thumbnailUrl: string,
-    progress: number,
-    watchedTime: string,
+    lastPlaySeconds: number,
+    viewedAt: Date,
   ) {
     this.recipeId = recipeId;
     this.title = title;
     this.youtubeId = youtubeId;
     this.createdAt = createdAt;
     this.thumbnailUrl = thumbnailUrl;
-    this.progress = progress;
-    this.watchedTime = watchedTime;
+    this.lastPlaySeconds = lastPlaySeconds;
+    this.viewedAt = viewedAt;
   }
 
   static create(apiResponse: RecentRecipeApiResponse): RecentSummaryRecipe {
     return new RecentSummaryRecipe(
-      apiResponse.recipeId,
-      apiResponse.title,
-      apiResponse.youtubeId,
-      new Date(apiResponse.createdAt),
-      apiResponse.thumbnailUrl,
-      apiResponse.progress,
-      apiResponse.watchedTime,
+      apiResponse.recipe_id,
+      apiResponse.recipe_title,
+      apiResponse.video_id,
+      new Date(apiResponse.viewed_at),
+      apiResponse.video_thumbnail_url,
+      apiResponse.last_play_seconds,
+      new Date(apiResponse.viewed_at),
     );
   }
 }

@@ -10,10 +10,8 @@ export function RecentRecipeError({
   error,
   resetError,
 }: RecentRecipeErrorProps) {
-
-
   // !isAxiosError
-  // thorw 
+  // thorw
   // 500, 400 ErrorCode
 
   // 500

@@ -1,25 +1,19 @@
-import { axiosInstance } from "@/src/modules/shared/api/api";
+import { client } from "@/src/modules/shared/api/api";
 
-export interface PopularRecipeVideoInfo {
-  videoUri: string;
-  title: string;
-  thumbnailUrl: string;
-  videoSeconds: number;
-  videoId: string;
-}
 
 export interface PopularRecipeOverview {
-  id: string;
-  videoInfo: PopularRecipeVideoInfo;
+  recipe_id: string;
+  recipe_title: string;
+  video_thumbnail_url: string;
+  video_id: string;
   count: number;
 }
 
 export interface PopularRecipeApiResponse {
-  recipeOverviews: PopularRecipeOverview[];
+  recommend_recipes: PopularRecipeOverview[];
 }
 
 export async function fetchPopularSummary(): Promise<PopularRecipeApiResponse> {
-  const response =
-    await axiosInstance.get<PopularRecipeApiResponse>(`/recipes`);
+  const response = await client.get<PopularRecipeApiResponse>(`/recipes/recommend`);
   return response.data;
 }

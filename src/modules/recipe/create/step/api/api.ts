@@ -1,5 +1,5 @@
 import { RecipeCreateStatus } from "../types/Status";
-import { axiosInstance } from "@/src/modules/shared/api/api";
+import { client } from "@/src/modules/shared/api/api";
 
 export interface RecipeVideoInfo {
   videoUri: string;
@@ -43,7 +43,7 @@ export interface RecipeCreateStatusApiResponse {
 export async function fetchRecipeCreateStatus(
   recipeId: string,
 ): Promise<RecipeCreateStatusApiResponse> {
-  const response = await axiosInstance.get<RecipeCreateStatusApiResponse>(
+  const response = await client.get<RecipeCreateStatusApiResponse>(
     `/recipes/${recipeId}`,
   );
   return response.data;

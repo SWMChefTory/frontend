@@ -23,7 +23,7 @@ function RootNavigator() {
       }}
     >
       {/* 인증된 사용자만 접근 가능한 라우트들 */}
-      <Stack.Protected guard={!isLoggedIn}>
+      <Stack.Protected guard={isLoggedIn}>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen
           name="settings/settings"
@@ -34,7 +34,7 @@ function RootNavigator() {
       </Stack.Protected>
 
       {/* 인증되지 않은 사용자만 접근 가능한 라우트들 */}
-      <Stack.Protected guard={isLoggedIn}>
+      <Stack.Protected guard={!isLoggedIn}>
         <Stack.Screen name="auth/login" options={{ headerShown: false }} />
         <Stack.Screen
           name="auth/signup"

@@ -1,7 +1,7 @@
-import { router } from 'expo-router';
-import { useEffect } from 'react';
-import { BackHandler } from 'react-native';
-import { WebView } from 'react-native-webview';
+import { router } from "expo-router";
+import { useEffect } from "react";
+import { BackHandler } from "react-native";
+import { WebView } from "react-native-webview";
 
 interface UseBackHandlerProps {
   webviewRef: React.RefObject<WebView | null>;
@@ -22,8 +22,11 @@ export function useBackHandler({ webviewRef, canGoBack }: UseBackHandlerProps) {
       }
     };
 
-    const backHandlerSubscription = BackHandler.addEventListener('hardwareBackPress', onBackPress);
+    const backHandlerSubscription = BackHandler.addEventListener(
+      "hardwareBackPress",
+      onBackPress,
+    );
 
     return () => backHandlerSubscription.remove();
   }, [webviewRef, canGoBack]);
-} 
+}

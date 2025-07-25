@@ -1,6 +1,6 @@
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
-import { RecentSummaryRecipe } from "../types/Recipe";
 import { COLORS } from "@/src/modules/shared/constants/colors";
+import { RecentSummaryRecipe } from "../types/Recipe";
 
 type Props = {
   recipe: RecentSummaryRecipe;
@@ -19,9 +19,9 @@ export function RecentRecipeSummaryCard({ recipe, onPress }: Props) {
           {recipe.title}
         </Text>
         <View style={styles.progressBg}>
-          <View style={[styles.progressFg, { width: `${recipe.progress}%` }]} />
+          <View style={[styles.progressFg, { width: `${recipe.lastPlaySeconds}%` }]} />
         </View>
-        <Text style={styles.progressText}>{recipe.watchedTime} 시청됨</Text>
+        <Text style={styles.progressText}>{recipe.viewedAt.toLocaleString()} 시청됨</Text>
       </View>
     </Pressable>
   );

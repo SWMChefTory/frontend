@@ -12,7 +12,7 @@ interface Props {
 
 export function RecipeBottomSheet({ modalRef }: Props) {
   const router = useRouter();
-  
+
   const handleRecipeCreated = useCallback(
     (recipeId: string) => {
       router.push({

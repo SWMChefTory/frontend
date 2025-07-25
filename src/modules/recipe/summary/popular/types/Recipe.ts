@@ -23,11 +23,11 @@ export class PopularSummaryRecipe {
 
   static create(apiResponse: PopularRecipeOverview): PopularSummaryRecipe {
     return new PopularSummaryRecipe(
-      apiResponse.id,
-      apiResponse.videoInfo.title,
-      apiResponse.videoInfo.videoId,
+      apiResponse.recipe_id,
+      apiResponse.recipe_title,
+      apiResponse.video_id,
       apiResponse.count,
-      apiResponse.videoInfo.thumbnailUrl,
+      apiResponse.video_thumbnail_url,
     );
   }
 }

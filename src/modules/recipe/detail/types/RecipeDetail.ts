@@ -18,13 +18,13 @@ export interface WebViewNavigationState {
 }
 
 export enum WebViewMessageType {
-  FINISH_COOKING = 'FINISH_COOKING',
-  BACK_PRESSED = 'BACK_PRESSED',
-  CLEAR_HISTORY = 'CLEAR_HISTORY'
+  FINISH_COOKING = "FINISH_COOKING",
+  BACK_PRESSED = "BACK_PRESSED",
+  CLEAR_HISTORY = "CLEAR_HISTORY",
 }
 
 export interface RecipeDetailState {
   isLoading: boolean;
   canGoBack: boolean;
   webViewKey: number;
-} 
+}
