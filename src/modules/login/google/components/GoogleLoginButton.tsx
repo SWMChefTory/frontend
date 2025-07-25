@@ -2,7 +2,7 @@ import {
   GoogleSignin,
   GoogleSigninButton,
 } from "@react-native-google-signin/google-signin";
-import { Alert } from "react-native";
+import { Alert, Platform } from "react-native";
 import { useRouter } from "expo-router";
 import { useLoginViewModel } from "../../../shared/context/auth/authViewModel";
 import { AxiosError } from "axios";
@@ -49,7 +49,14 @@ export default function GoogleLoginButton() {
 
   const handleSignIn = async () => {
     try {
-      await GoogleSignin.hasPlayServices();
+      if (Platform.OS === 'android') {
+        await GoogleSignin.hasPlayServices({
+          showPlayServicesUpdateDialog: true,
+        });
+      }
+      else{
+        await GoogleSignin.hasPlayServices();
+      }
       const response = await GoogleSignin.signIn();
 
       if (response.type === "success") {
