@@ -36,7 +36,7 @@ export function useRecipeCreateViewModel() {
   };
 
   return {
-    recipeId: data?.recipeId ?? null,
+    recipeId: data?.recipe_id ?? null,
     isLoading,
     create,
     validateUrl,

@@ -25,20 +25,19 @@ export function useRecipeCreateStatusViewModel(recipeId: string) {
   });
 
   useEffect(() => {
-    const createdAt = data?.recipeSubContentCreatedAt;
-    if (!createdAt) {
+    const videoCreated = data?.video_info;
+    const ingredientsCreated = data?.ingredients_info;
+    const recipeStepCreated = data?.recipe_steps;
+    if (!videoCreated) {
       setActualStatus(RecipeCreateStatus.VIDEO_ANALYSIS);
       return;
     }
 
-    const { captionCreatedAt, ingredientsCreatedAt, stepsCreatedAt } =
-      createdAt;
-
-    if (stepsCreatedAt) {
+    if (recipeStepCreated) {
       setActualStatus(RecipeCreateStatus.COMPLETED);
-    } else if (ingredientsCreatedAt) {
+    } else if (ingredientsCreated) {
       setActualStatus(RecipeCreateStatus.COOKING_STEPS_ANALYSIS);
-    } else if (captionCreatedAt) {
+    } else if (videoCreated) {
       setActualStatus(RecipeCreateStatus.INGREDIENTS_ANALYSIS);
     } else {
       setActualStatus(RecipeCreateStatus.VIDEO_ANALYSIS);

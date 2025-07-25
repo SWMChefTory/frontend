@@ -2,15 +2,14 @@ import { RecipeCreateStatus } from "../types/Status";
 import { client } from "@/src/modules/shared/api/api";
 
 export interface RecipeVideoInfo {
-  videoUri: string;
-  title: string;
-  thumbnailUrl: string;
-  videoSeconds: number;
-  videoId: string;
+  video_title: string;
+  video_thumbnail_url: string;
+  video_seconds: number;
+  video_id: string;
 }
 
 export interface RecipeIngredientsInfo {
-  ingredientsId: string;
+  id: string;
   ingredients: {
     name: string;
     amount: number;
@@ -19,25 +18,18 @@ export interface RecipeIngredientsInfo {
 }
 
 export interface RecipeStepInfo {
-  stepOrder: number;
+  step_order: number;
   subtitle: string;
   details: string[];
-  start: number;
-  end: number;
-}
-
-export interface RecipeSubContentCreatedAt {
-  captionCreatedAt: string;
-  ingredientsCreatedAt: string;
-  stepsCreatedAt: string;
+  start_time: number;
+  end_time: number;
 }
 
 export interface RecipeCreateStatusApiResponse {
-  recipeStatus: RecipeCreateStatus;
-  recipeSubContentCreatedAt: RecipeSubContentCreatedAt;
-  videoInfo: RecipeVideoInfo;
-  ingredientsInfo: RecipeIngredientsInfo;
-  recipeStepInfos: RecipeStepInfo[];
+  recipe_status: RecipeCreateStatus;
+  video_info: RecipeVideoInfo;
+  ingredients_info: RecipeIngredientsInfo;
+  recipe_steps: RecipeStepInfo[];
 }
 
 export async function fetchRecipeCreateStatus(
