@@ -18,11 +18,10 @@ interface Props {
 }
 
 export function RecipeStepContent({ recipeId, onCompleted }: Props) {
-  const { status } = useRecipeCreateStatusViewModel(recipeId);
+  const { status, progress } = useRecipeCreateStatusViewModel(recipeId);
   const { spin, reverseSpin, bounce, scaleValue } = useRecipeCreateAnimation();
 
   const currentStepIndex = STEP_ORDER.indexOf(status);
-  const progress = ((currentStepIndex + 1) / STEP_ORDER.length) * 100;
   const currentStepData = RECIPE_CREATE_STEPS[status];
 
   useEffect(() => {

@@ -13,7 +13,7 @@ export function ProgressSection({ progress, colors, scaleValue }: Props) {
     <View style={styles.progressSection}>
       <View style={styles.progressHeader}>
         <Text style={styles.progressLabel}>진행률</Text>
-        <Text style={styles.progressValue}>{Math.round(progress)}%</Text>
+        <Text style={styles.progressValue}>{progress.toFixed(1)}%</Text>
       </View>
       <View style={styles.progressBarContainer}>
         <View style={styles.progressBarBg}>
@@ -56,6 +56,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     color: "#1E293B",
+    minWidth: 60, 
+    textAlign: "right",
   },
   progressBarContainer: {
     width: "100%",

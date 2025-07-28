@@ -22,6 +22,7 @@ export interface SignupRequest {
   provider: string;
   nickname: string;
   gender: string;
+  birth_of_date: string;
 }
 
 export interface RefreshTokenRequest {
@@ -44,7 +45,7 @@ export async function loginUser(
     provider: loginInfo.provider,
   };
   const response = await client.post(
-    "/account/login/oauth", 
+    "/account/signin/oauth", 
     loginRequest,
     { skipAuth: true },
   );
@@ -59,6 +60,7 @@ export async function signupUser(
     provider: signupData.provider,
     nickname: signupData.nickname,
     gender: signupData.gender,
+    birth_of_date: "2000-01-01",
   };
   const response = await client.post("/account/signup/oauth", signupRequest, {
     skipAuth: true,
