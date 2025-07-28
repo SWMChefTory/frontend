@@ -1,5 +1,6 @@
+import { findAccessToken } from "@/src/modules/shared/context/auth/storage/SecureStorage"; // Import findAccessToken
 import { router } from "expo-router";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Alert } from "react-native";
 import { WebView } from "react-native-webview";
 import { getWebViewUrl, WEBVIEW_CONFIG } from "../constants/WebViewConfig";
@@ -18,6 +19,15 @@ export function useRecipeDetailViewModel(params: RecipeDetailParams) {
     canGoBack: false,
     webViewKey: 0,
   });
+  const [accessToken, setAccessToken] = useState<string | null>(null); // State to hold accessToken
+
+  useEffect(() => {
+    const fetchAccessToken = async () => {
+      const token = await findAccessToken();
+      setAccessToken(token);
+    };
+    fetchAccessToken();
+  }, []);
 
   const webviewUrl = getWebViewUrl(params.recipeId);
 
@@ -57,7 +67,7 @@ export function useRecipeDetailViewModel(params: RecipeDetailParams) {
     (navState: WebViewNavigationState) => {
       setCanGoBack(navState.canGoBack);
     },
-    [setCanGoBack],
+    [setCanGoBack]
   );
 
   const handleError = useCallback(
@@ -76,10 +86,10 @@ export function useRecipeDetailViewModel(params: RecipeDetailParams) {
             text: WEBVIEW_CONFIG.ERROR_MESSAGES.RETRY_BUTTON_TEXT,
             onPress: () => setIsLoading(true),
           },
-        ],
+        ]
       );
     },
-    [setIsLoading],
+    [setIsLoading]
   );
 
   const handleHttpError = useCallback(
@@ -87,7 +97,7 @@ export function useRecipeDetailViewModel(params: RecipeDetailParams) {
       console.error("HTTP 오류:", error);
       setIsLoading(false);
     },
-    [setIsLoading],
+    [setIsLoading]
   );
 
   return {
@@ -95,6 +105,7 @@ export function useRecipeDetailViewModel(params: RecipeDetailParams) {
     ...state,
     webviewUrl,
     webviewRef,
+    accessToken, // Return accessToken
 
     // Handlers
     handleMessage,

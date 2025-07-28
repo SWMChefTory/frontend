@@ -1,12 +1,12 @@
+import { getUser } from "@/src/modules/shared/context/auth/api";
+import { AuthContextType } from "@/src/modules/shared/types/auth";
 import {
   createContext,
+  ReactNode,
   useContext,
   useEffect,
   useState,
-  ReactNode,
 } from "react";
-import { AuthContextType } from "@/src/modules/shared/types/auth";
-import { getUser } from "@/src/modules/shared/context/auth/api";
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
@@ -35,16 +35,18 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   return (
     console.log(!!user),
-    <AuthContext.Provider
-      value={{
-        user,
-        isLoggedIn: !!user,
-        loading,
-        setUser,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
+    (
+      <AuthContext.Provider
+        value={{
+          user,
+          isLoggedIn: !!user,
+          loading,
+          setUser,
+        }}
+      >
+        {children}
+      </AuthContext.Provider>
+    )
   );
 };
 

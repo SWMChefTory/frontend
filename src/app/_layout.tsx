@@ -1,15 +1,15 @@
-import { Stack } from "expo-router";
+import { CustomBackButton } from "@/src/modules/shared/components/layout/CustomBackButton";
 import {
   AuthProvider,
   useAuth,
 } from "@/src/modules/shared/context/auth/AuthContext";
-import { CustomBackButton } from "@/src/modules/shared/components/layout/CustomBackButton";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { SplashScreenController } from "../modules/shared/splash/SplashScreenController";
+import { Stack } from "expo-router";
 import * as ExpoSplashScreen from "expo-splash-screen";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { GlobalErrorBoundary } from "../modules/shared/components/error/GlobalErrorBoundary";
+import { SplashScreenController } from "../modules/shared/splash/SplashScreenController";
 
 ExpoSplashScreen.preventAutoHideAsync();
 
