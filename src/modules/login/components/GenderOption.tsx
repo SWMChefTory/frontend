@@ -43,7 +43,7 @@ const GenderOption = ({
       styles.genderButton,
       gender === selectedGender && styles.genderSelected,
     ]}
-    onPress={() => setGender(selectedGender)}
+    onPress={() => setGender(gender)}
   >
     <Text
       style={[

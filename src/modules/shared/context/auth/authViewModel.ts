@@ -35,6 +35,7 @@ export function useLoginViewModel() {
             provider: variables.provider,
           },
         });
+        return;
       }
       Alert.alert("알 수 없는 이유로 로그인에 실패했습니다.");
     },
@@ -46,12 +47,15 @@ export function useLoginViewModel() {
 
 export function useSignupViewModel() {
   const { setUser } = useAuth();
-
   const { mutate: signup, isPending: isLoading, error } = useMutation({
-    mutationFn: (signupData: SignupData) => signupUser(signupData),
+    mutationFn: (signupData: SignupData) => {
+      return signupUser(signupData)},
     onSuccess: (data) => {
       setUser(data.user_info);
       storeAuthToken(data.access_token, data.refresh_token);
+    },
+    onError: (error) => {
+      console.log("signup error", error);
     },
   });
 

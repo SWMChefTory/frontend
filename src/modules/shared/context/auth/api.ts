@@ -57,6 +57,7 @@ export async function loginUser(
 export async function signupUser(
   signupData: SignupData,
 ): Promise<AuthorizationTokenResponse> {
+  console.log("signupData", signupData);
   const signupRequest: SignupRequest = {
     id_token: signupData.id_token,
     provider: signupData.provider,
@@ -64,6 +65,7 @@ export async function signupUser(
     gender: signupData.gender,
     date_of_birth: signupData.date_of_birth,
   };
+  console.log("signupRequest", signupRequest);
   const response = await client.post("/account/signup/oauth", signupRequest, {
     skipAuth: true,
   });

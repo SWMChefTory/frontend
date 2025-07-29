@@ -31,6 +31,7 @@ export default function SignupPage() {
   }, [error]);
 
   const handleSignupPress = () => {
+    console.log("handleSignupPress");
     if (!nickname.trim()) {
       Alert.alert("오류", "닉네임을 입력해주세요.");
       signup({
@@ -40,6 +41,7 @@ export default function SignupPage() {
         gender: gender,
         date_of_birth: dateOfBirth,
       });
+      console.log("signup success");
       return;
     }
   };
