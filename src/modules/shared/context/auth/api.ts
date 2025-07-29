@@ -1,5 +1,6 @@
 import { client } from "@/src/modules/shared/api/api";
 import { LoginInfo, SignupData } from "../../types/auth";
+import { UTCDateAtMidnight } from "../../utils/auth/UTCDateAtMidnight";
 
 export interface AuthorizationTokenResponse {
   access_token: string;
@@ -22,6 +23,7 @@ export interface SignupRequest {
   provider: string;
   nickname: string;
   gender: string;
+  date_of_birth: UTCDateAtMidnight;
 }
 
 export interface RefreshTokenRequest {
@@ -43,8 +45,9 @@ export async function loginUser(
     id_token: loginInfo.id_token,
     provider: loginInfo.provider,
   };
+  console.log("loginRequest", loginRequest);
   const response = await client.post(
-    "/account/login/oauth", 
+    "/account/signin/oauth", 
     loginRequest,
     { skipAuth: true },
   );
@@ -59,6 +62,7 @@ export async function signupUser(
     provider: signupData.provider,
     nickname: signupData.nickname,
     gender: signupData.gender,
+    date_of_birth: signupData.date_of_birth,
   };
   const response = await client.post("/account/signup/oauth", signupRequest, {
     skipAuth: true,

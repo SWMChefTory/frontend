@@ -75,6 +75,10 @@ client.interceptors.response.use(
     console.log("requestBody", originalRequest.data);
     console.log("errorResponse", error.response?.data);
 
+    if (originalRequest?.skipAuth) {
+      return Promise.reject(error);
+    }
+
     if (
       isAxiosError(error) &&
       error.response?.data?.errorCode?.startsWith("AUTH") &&

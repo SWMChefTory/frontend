@@ -3,12 +3,14 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import GoogleLoginButton from "@/src/modules/login/google/components/GoogleLoginButton";
+import { AppleLoginButton } from "@/src/modules/login/apple/components/AppleLoginButton";
 
 export default function LoginPage() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Cheftory에 로그인하세요</Text>
       <GoogleLoginButton />
+      <AppleLoginButton />
     </View>
   );
 }

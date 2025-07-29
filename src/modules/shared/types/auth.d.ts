@@ -2,7 +2,7 @@ import { Gender } from "../../login/enums/Gender";
 
 export interface LoginInfo {
   id_token: string;
-  provider: string;
+  provider: OauthProvider;
 }
 
 export interface SignupData {
@@ -10,6 +10,7 @@ export interface SignupData {
   id_token: string;
   nickname: string;
   gender: Gender;
+  date_of_birth: UTCDateAtMidnight;
 }
 
 export interface AuthContextType {
@@ -18,3 +19,4 @@ export interface AuthContextType {
   loading: boolean;
   setUser: (user: User | null) => void;
 }
+

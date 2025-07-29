@@ -1,7 +1,6 @@
 export enum Gender {
   MALE = "MALE",
   FEMALE = "FEMALE",
-  NONE = "NONE",
 }
 
 export function getGenderLabel(gender: Gender) {
@@ -10,8 +9,6 @@ export function getGenderLabel(gender: Gender) {
       return "남성";
     case Gender.FEMALE:
       return "여성";
-    case Gender.NONE:
-      return "선택 없음";
   }
 }
 
@@ -21,7 +18,5 @@ export function getGenderIconName(gender: Gender) {
       return "man";
     case Gender.FEMALE:
       return "woman";
-    case Gender.NONE:
-      return "remove-circle-outline";
   }
 }

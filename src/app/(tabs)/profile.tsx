@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { useAuth } from "@/src/modules/shared/context/auth/AuthContext";
+import { COLORS } from "@/src/modules/shared/constants/colors";
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -13,43 +14,37 @@ export default function ProfilePage() {
 
   return (
     <View style={styles.container}>
-      {/* 헤더 */}
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>프로필</Text>
+      {/* 상단 헤더 */}
+      <View style={styles.topHeader}>
         <TouchableOpacity
           style={styles.settingsButton}
           onPress={handleSettingsPress}
         >
-          <Ionicons name="settings-outline" size={24} color="#333" />
+          <Ionicons name="notifications-outline" size={28} color={COLORS.text.black} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.settingsButton}
+          onPress={handleSettingsPress}
+        >
+          <Ionicons name="settings-outline" size={28} color={COLORS.text.black} />
         </TouchableOpacity>
       </View>
 
-      {/* 프로필 정보 */}
+      {/* 프로필 섹션 */}
       <View style={styles.profileSection}>
         <View style={styles.avatarContainer}>
-          <Ionicons name="person-circle-outline" size={80} color="#ccc" />
+          <View style={styles.avatar}>
+            <Ionicons name="person" size={38} color={COLORS.text.white} />
+          </View>
         </View>
 
-        <Text style={styles.userName}>{user?.name || "사용자"}</Text>
-        <Text style={styles.userEmail}>
-          {user?.email || "example@email.com"}
-        </Text>
-      </View>
-
-      {/* 기타 프로필 정보 */}
-      <View style={styles.infoSection}>
-        <Text style={styles.sectionTitle}>내 정보</Text>
-
-        <View style={styles.infoItem}>
-          <Text style={styles.infoLabel}>이름</Text>
-          <Text style={styles.infoValue}>{user?.name || "사용자"}</Text>
-        </View>
-
-        <View style={styles.infoItem}>
-          <Text style={styles.infoLabel}>이메일</Text>
-          <Text style={styles.infoValue}>
-            {user?.email || "example@email.com"}
-          </Text>
+        <View style={styles.textContainer}>
+          <View style={styles.userNameContainer}>
+            <Text style={styles.greeting}>{"안녕하세요 "}</Text>
+            <Text style={styles.userName}>{user?.name || "클로이"}</Text>
+            <Text style={styles.greeting}>{" 셰프님."}</Text>
+          </View>
+          <Text style={styles.greeting}>오늘도 즐거하세요 :)</Text>
         </View>
       </View>
     </View>
@@ -59,69 +54,64 @@ export default function ProfilePage() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f5f5f5",
+    backgroundColor: COLORS.background.white,
+    paddingTop: 55,
   },
-  header: {
+  topHeader: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "flex-end",
     alignItems: "center",
-    padding: 16,
-    backgroundColor: "#fff",
-    borderBottomWidth: 1,
-    borderBottomColor: "#eee",
-  },
-  headerTitle: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#333",
+    paddingHorizontal: 24,
+    paddingVertical: 15,
+    gap: 20,
   },
   settingsButton: {
     padding: 8,
+    borderRadius: 8,
   },
   profileSection: {
-    backgroundColor: "#fff",
-    alignItems: "center",
-    padding: 32,
-    marginBottom: 16,
+    alignItems: "flex-start",
+    marginTop: -48,
+    paddingHorizontal: 40,
   },
   avatarContainer: {
-    marginBottom: 16,
+    marginBottom: 20,
+  },
+  avatar: {
+    width: 98,
+    height: 98,
+    borderRadius: 49,
+    backgroundColor: COLORS.background.gray,
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: COLORS.shadow.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+    marginBottom: 30,
+  },
+  userNameContainer: {
+    flexDirection: "row",
+    gap: 4,
+  },
+  textContainer: {
+    alignItems: "flex-start",
   },
   userName: {
-    fontSize: 24,
+    fontSize: 33,
     fontWeight: "bold",
-    color: "#333",
-    marginBottom: 4,
+    color: COLORS.text.black,
+    marginBottom: 6,
+    letterSpacing: -0.5,
   },
-  userEmail: {
-    fontSize: 16,
-    color: "#666",
-  },
-  infoSection: {
-    backgroundColor: "#fff",
-    padding: 16,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#333",
-    marginBottom: 16,
-  },
-  infoItem: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: "#f0f0f0",
-  },
-  infoLabel: {
-    fontSize: 16,
-    color: "#666",
-  },
-  infoValue: {
-    fontSize: 16,
-    color: "#333",
-    fontWeight: "500",
+  greeting: {
+    fontSize: 27,
+    color: COLORS.text.gray,
+    fontWeight: "400",
+    lineHeight: 36,
   },
 });
