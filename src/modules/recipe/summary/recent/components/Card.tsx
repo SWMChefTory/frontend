@@ -19,9 +19,19 @@ export function RecentRecipeSummaryCard({ recipe, onPress }: Props) {
           {recipe.title}
         </Text>
         <View style={styles.progressBg}>
-          <View style={[styles.progressFg, { width: `${recipe.lastPlaySeconds}%` }]} />
+          <View
+            style={[
+              styles.progressFg,
+              {
+                width: `${Math.min(
+                  (recipe.lastPlaySeconds / recipe.videoDuration) * 100,
+                  100
+                )}%`,
+              },
+            ]}
+          />
         </View>
-        <Text style={styles.progressText}>{recipe.viewedAt.toLocaleString()} 시청됨</Text>
+        <Text style={styles.progressText}>{recipe.getTimeAgo()} 시청됨</Text>
       </View>
     </Pressable>
   );
@@ -30,16 +40,17 @@ export function RecentRecipeSummaryCard({ recipe, onPress }: Props) {
 const styles = StyleSheet.create({
   card: {
     width: 140,
-    marginVertical: 8,
     backgroundColor: COLORS.background.white,
     borderRadius: 16,
-    shadowColor: COLORS.shadow.lightOrange,
+    paddingBottom: 12, // ✅ 내부 아래 여백 추가
+    shadowColor: COLORS.shadow.orange,
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.15,
-    shadowRadius: 8,
-    elevation: 3,
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    elevation: 4,
+    borderWidth: 1,
+    borderColor: '#F3F4F6',
   },
-  cardText: { fontSize: 13 },
   imageWrapper: {
     width: "100%",
     height: 80,
@@ -47,12 +58,19 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
   },
-  image: { width: "100%", height: "100%", resizeMode: "cover" },
+  image: {
+    width: "100%",
+    height: "100%",
+    resizeMode: "cover",
+  },
   overlay: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: "rgba(0,0,0,0.2)",
   },
-  body: { padding: 12 },
+  body: {
+    paddingHorizontal: 12, // ✅ 수평 padding만 적용
+    paddingTop: 12,        // ✅ 위쪽 여백
+  },
   title: {
     fontSize: 13,
     fontWeight: "600",

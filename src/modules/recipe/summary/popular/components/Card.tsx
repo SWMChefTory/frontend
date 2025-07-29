@@ -1,5 +1,6 @@
 import { Image, Pressable, StyleSheet, Text } from "react-native";
 import { PopularSummaryRecipe } from "../types/Recipe";
+import { COLORS } from "@/src/modules/shared/constants/colors";
 
 type Props = {
   recipe: PopularSummaryRecipe;
@@ -9,12 +10,10 @@ type Props = {
 export function PopularRecipeSummaryCard({ recipe, onPress }: Props) {
   return (
     <Pressable
-      testID={`recipe-card-${recipe.recipeId}`}
       onPress={() => onPress(recipe)}
       style={styles.card}
     >
       <Image
-        testID="recipe-image"
         source={{ uri: recipe.thumbnailUrl }}
         style={styles.image}
       />
@@ -26,7 +25,29 @@ export function PopularRecipeSummaryCard({ recipe, onPress }: Props) {
 }
 
 const styles = StyleSheet.create({
-  card: { width: "48%", marginTop: 12 },
-  image: { width: "100%", height: 100, borderRadius: 12 },
-  cardText: { marginTop: 6, fontSize: 13 },
+  card: { 
+    width: "48%",
+    height: 180,
+    paddingTop: 16,
+    paddingBottom: 12,
+    paddingHorizontal: 12,
+    backgroundColor: COLORS.background.white,
+    borderRadius: 16,
+    shadowColor: COLORS.shadow.orange,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    elevation: 4,
+    borderWidth: 1,
+    borderColor: COLORS.border.orangeLight,
+  },
+  image: {
+    width: "100%",
+    height: 80,
+    borderRadius: 12,
+  },
+  cardText: {
+    fontSize: 13,
+    marginTop: 6,
+  },
 });

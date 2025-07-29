@@ -9,9 +9,10 @@ import { ApiErrorBoundary } from "@/src/modules/shared/components/error/ApiError
 interface Props {
   onRecipePress: (recipe: RecentSummaryRecipe) => void;
   onViewAllPress: () => void;
+  onRefresh: number;
 }
 
-export function RecentRecipeSection({ onRecipePress, onViewAllPress }: Props) {
+export function RecentRecipeSection({ onRecipePress, onViewAllPress, onRefresh }: Props) {
   return (
     <View style={styles.recipeSectionCard}>
       <RecipeSectionHeader
@@ -19,7 +20,7 @@ export function RecentRecipeSection({ onRecipePress, onViewAllPress }: Props) {
         onPress={onViewAllPress}
       />
       <ApiErrorBoundary fallbackComponent={RecentRecipeError}>
-        <RecentRecipeSectionContent onPress={onRecipePress} />
+        <RecentRecipeSectionContent onPress={onRecipePress} onRefresh={onRefresh} />
       </ApiErrorBoundary>
     </View>
   );
@@ -29,7 +30,8 @@ const styles = StyleSheet.create({
   recipeSectionCard: {
     backgroundColor: COLORS.background.white,
     borderRadius: 24,
-    padding: 24,
+    paddingVertical: 24,
+    paddingHorizontal: 20,
     marginBottom: 24,
     shadowColor: COLORS.shadow.orange,
     shadowOffset: { width: 0, height: 6 },

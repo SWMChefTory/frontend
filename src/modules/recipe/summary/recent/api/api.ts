@@ -1,4 +1,3 @@
-import { recentRecipesApiMock } from "@/src/modules/recipe/summary/recent/api/__mocks__/api.mock";
 import { client } from "@/src/modules/shared/api/api";
 
 
@@ -9,6 +8,7 @@ export interface RecentRecipeApiResponse {
   recipe_title: string;
   video_thumbnail_url: string;
   video_id: string;
+  video_seconds: number;
 }
 
 export interface RecentRecipesApiResponse {

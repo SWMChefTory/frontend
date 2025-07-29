@@ -25,6 +25,7 @@ export const COLORS = {
     orange: "#FF6B35",
     lightGray: "#E5E7EB",
     white: "#ffffff",
+    orangeLight: "#F3F4F6"
   },
   skeleton: {
     bone: "#FAFAFA",

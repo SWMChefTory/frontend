@@ -5,8 +5,9 @@ import { RecentSummaryRecipe } from "@/src/modules/recipe/summary/recent/types/R
 export function useRecentSummaryViewModel(): {
   recentRecipes: RecentSummaryRecipe[];
   loading: boolean;
+  refetch: () => void;
 } {
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     queryKey: ["recentRecipes"],
     queryFn: fetchRecentSummary,
   });
@@ -17,5 +18,6 @@ export function useRecentSummaryViewModel(): {
   return {
     recentRecipes,
     loading: isLoading,
+    refetch,
   };
 }

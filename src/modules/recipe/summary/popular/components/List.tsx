@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 import { PopularRecipeSummaryCard } from "@/src/modules/recipe/summary/popular/components/Card";
 import { PopularSummaryRecipe } from "../types/Recipe";
 
@@ -8,20 +8,30 @@ type Props = {
 };
 
 export function PopularRecipeSummaryList({ recipes, onPress }: Props) {
+
   return (
-    <FlatList
-      data={recipes}
-      numColumns={2}
-      scrollEnabled={false}
-      keyExtractor={(item) => item.recipeId}
-      columnWrapperStyle={styles.columnWrapper}
-      renderItem={({ item }) => (
-        <PopularRecipeSummaryCard recipe={item} onPress={onPress} />
-      )}
-    />
+    <View style={styles.container}>
+      <FlatList
+        data={recipes}
+        numColumns={2}
+        scrollEnabled={false}
+        keyExtractor={(item) => item.recipeId}
+        columnWrapperStyle={styles.columnWrapper}
+        renderItem={({ item }) => (
+          <PopularRecipeSummaryCard recipe={item} onPress={onPress} />
+        )}
+      />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  columnWrapper: { justifyContent: "space-between" },
+  container: {
+    justifyContent: 'flex-start',
+    minHeight: 288,
+  },
+  columnWrapper: { 
+    justifyContent: "space-between",
+    paddingBottom: 8,
+  },
 });

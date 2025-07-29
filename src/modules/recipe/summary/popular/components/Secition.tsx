@@ -4,18 +4,20 @@ import { PopularSummaryRecipe } from "../../../summary/popular/types/Recipe";
 import { PopularRecipeSectionContent } from "./SerctionContent";
 import { PopularRecipeError } from "../shared/Fallback";
 import { ApiErrorBoundary } from "@/src/modules/shared/components/error/ApiErrorBoundary";
+import { COLORS } from "@/src/modules/shared/constants/colors";
 
 interface Props {
   onRecipePress: (recipe: PopularSummaryRecipe) => void;
   onViewAllPress: () => void;
+  onRefresh: number;
 }
 
-export function PopularRecipeSection({ onRecipePress, onViewAllPress }: Props) {
+export function PopularRecipeSection({ onRecipePress, onViewAllPress, onRefresh }: Props) {
   return (
     <View style={styles.recipeSectionCard}>
       <RecipeSectionHeader title="추천 레시피" onPress={onViewAllPress} />
       <ApiErrorBoundary fallbackComponent={PopularRecipeError}>
-        <PopularRecipeSectionContent onPress={onRecipePress} />
+        <PopularRecipeSectionContent onPress={onRecipePress} onRefresh={onRefresh} />
       </ApiErrorBoundary>
     </View>
   );
@@ -23,11 +25,11 @@ export function PopularRecipeSection({ onRecipePress, onViewAllPress }: Props) {
 
 const styles = StyleSheet.create({
   recipeSectionCard: {
-    backgroundColor: "#ffffff",
+    backgroundColor: COLORS.background.white,
     borderRadius: 24,
-    padding: 24,
+    padding: 20,
     marginBottom: 24,
-    shadowColor: "#FF4500",
+    shadowColor: COLORS.orange.main,
     shadowOffset: { width: 0, height: 6 },
     shadowOpacity: 0.12,
     shadowRadius: 20,
