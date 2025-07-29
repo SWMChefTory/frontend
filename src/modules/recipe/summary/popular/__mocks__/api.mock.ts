@@ -2,67 +2,54 @@ import { PopularRecipeApiResponse } from "../api/api";
 import { PopularSummaryRecipe } from "../types/Recipe";
 
 export const popularRecipesApiMock: PopularRecipeApiResponse = {
-  recipeOverviews: [
+  recommend_recipes: [
     {
-      id: "1",
-      videoInfo: {
-        videoUri: "https://youtube.com/watch?v=j7s9VRsrm9o",
-        title: "백종원의 제육볶음",
-        thumbnailUrl: "https://img.youtube.com/vi/j7s9VRsrm9o/hqdefault.jpg",
-        videoSeconds: 604,
-        videoId: "j7s9VRsrm9o",
-      },
+      recipe_id: "1",
+      recipe_title: "백종원의 제육볶음",
+      video_id: "j7s9VRsrm9o",
+      video_thumbnail_url: "https://img.youtube.com/vi/j7s9VRsrm9o/hqdefault.jpg",
       count: 120,
     },
     {
-      id: "2",
-      videoInfo: {
-        videoUri: "https://youtube.com/watch?v=j7s9VRsrm9o",
-        title: "백종원의 제육볶음",
-        thumbnailUrl: "https://img.youtube.com/vi/j7s9VRsrm9o/hqdefault.jpg",
-        videoSeconds: 604,
-        videoId: "j7s9VRsrm9o",
-      },
+      recipe_id: "2",
+      recipe_title: "백종원의 제육볶음",
+      video_id: "j7s9VRsrm9o",
+      video_thumbnail_url: "https://img.youtube.com/vi/j7s9VRsrm9o/hqdefault.jpg",
       count: 120,
     },
     {
-      id: "3",
-      videoInfo: {
-        videoUri: "https://youtube.com/watch?v=j7s9VRsrm9o",
-        title: "백종원의 제육볶음",
-        thumbnailUrl: "https://img.youtube.com/vi/j7s9VRsrm9o/hqdefault.jpg",
-        videoSeconds: 604,
-        videoId: "j7s9VRsrm9o",
-      },
+      recipe_id: "3",
+      recipe_title: "백종원의 제육볶음",
+      video_id: "j7s9VRsrm9o",
+      video_thumbnail_url: "https://img.youtube.com/vi/j7s9VRsrm9o/hqdefault.jpg",
       count: 120,
     },
     {
-      id: "4",
-      videoInfo: {
-        videoUri: "https://youtube.com/watch?v=j7s9VRsrm9o",
-        title: "백종원의 제육볶음",
-        thumbnailUrl: "https://img.youtube.com/vi/j7s9VRsrm9o/hqdefault.jpg",
-        videoSeconds: 604,
-        videoId: "j7s9VRsrm9o",
-      },
+      recipe_id: "4",
+      recipe_title: "백종원의 제육볶음",
+      video_id: "j7s9VRsrm9o",
+      video_thumbnail_url: "https://img.youtube.com/vi/j7s9VRsrm9o/hqdefault.jpg",
       count: 120,
     },
     {
-      id: "5",
-      videoInfo: {
-        videoUri: "https://youtube.com/watch?v=j7s9VRsrm9o",
-        title: "백종원의 제육볶음",
-        thumbnailUrl: "https://img.youtube.com/vi/j7s9VRsrm9o/hqdefault.jpg",
-        videoSeconds: 604,
-        videoId: "j7s9VRsrm9o",
-      },
+      recipe_id: "5",
+      recipe_title: "백종원의 제육볶음",
+      video_id: "j7s9VRsrm9o",
+      video_thumbnail_url: "https://img.youtube.com/vi/j7s9VRsrm9o/hqdefault.jpg",
+      count: 120,
+    },
+    {
+      recipe_id: "6",
+      recipe_title: "백종원의 제육볶음",
+      video_id: "j7s9VRsrm9o",
+      video_thumbnail_url: "https://img.youtube.com/vi/j7s9VRsrm9o/hqdefault.jpg",
       count: 120,
     },
   ],
 };
 
 export function recipeSummariesMock(): PopularSummaryRecipe[] {
-  return popularRecipesApiMock.recipeOverviews.map((overview) => {
-    return PopularSummaryRecipe.create(overview);
+  return popularRecipesApiMock.recommend_recipes.map((overview, index) => {
+    return PopularSummaryRecipe.create(overview, index + 1);
   });
 }

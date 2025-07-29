@@ -30,6 +30,8 @@ export function LoadingAnimation({
               transform: [{ rotate: spin }],
               borderTopColor: colors[0],
               borderRightColor: colors[1],
+              borderBottomColor: '#E2E8F0',
+              borderLeftColor: '#E2E8F0',
             },
           ]}
         />
@@ -41,6 +43,9 @@ export function LoadingAnimation({
             {
               transform: [{ rotate: reverseSpin }],
               borderBottomColor: colors[0],
+              borderTopColor: '#E2E8F0',
+              borderLeftColor: '#E2E8F0',
+              borderRightColor: '#E2E8F0',
             },
           ]}
         />
@@ -79,7 +84,7 @@ export function LoadingAnimation({
 
 const styles = StyleSheet.create({
   loadingContainer: {
-    marginBottom: 32,
+    paddingBottom: 32,
   },
   loadingWrapper: {
     width: 160,
@@ -94,7 +99,7 @@ const styles = StyleSheet.create({
     height: 160,
     borderRadius: 80,
     borderWidth: 4,
-    borderColor: "#E2E8F0",
+    borderColor: '#F5F5F5', // 연한 회색 베이스
   },
   outerRing: {
     position: "absolute",
@@ -102,7 +107,6 @@ const styles = StyleSheet.create({
     height: 160,
     borderRadius: 80,
     borderWidth: 4,
-    borderColor: "transparent",
   },
   innerRing: {
     position: "absolute",
@@ -110,7 +114,6 @@ const styles = StyleSheet.create({
     height: 136,
     borderRadius: 68,
     borderWidth: 2,
-    borderColor: "transparent",
   },
   iconContainer: {
     width: 96,
@@ -118,11 +121,6 @@ const styles = StyleSheet.create({
     borderRadius: 48,
     justifyContent: "center",
     alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.3,
-    shadowRadius: 16,
-    elevation: 16,
   },
   iconText: {
     fontSize: 48,

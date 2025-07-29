@@ -1,6 +1,9 @@
 import { Tabs } from "expo-router";
-import { HomeHeader } from "@/src/modules/shared/components/layout/HomeHeader";
+import { HomeHeader } from "@/src/modules/shared/components/header/HomeHeader";
 import { FloatingButton } from "@/src/modules/shared/components/layout/FloatingButton";
+import { CheftoryHeader } from "@/src/modules/shared/components/header/CheftoryHeader";
+import { Ionicons } from "@expo/vector-icons";
+import { View, TouchableOpacity } from "react-native";
 
 export default function TabLayout() {
   return (
@@ -32,13 +35,24 @@ export default function TabLayout() {
         }}
       >
         <Tabs.Screen
-          name="index"
-          options={{
-            headerTitle: () => <HomeHeader />,
-            headerTitleAlign: "left",
-            tabBarLabel: "홈",
-          }}
-        />
+            name="index"
+            options={{
+              header: () => (
+                <CheftoryHeader 
+                title=""
+                leftComponent={<HomeHeader />}
+                rightComponent={
+                  <View style={{ flexDirection: 'row', gap: 12, marginRight: 16 }}>
+                    <TouchableOpacity>
+                      <Ionicons name="notifications-outline" size={24} color="#000" />
+                    </TouchableOpacity>
+                  </View>
+                }
+              />
+              ),
+              tabBarLabel: "홈",
+            }}
+          />
         <Tabs.Screen
           name="profile"
           options={{

@@ -98,8 +98,6 @@ const styles = StyleSheet.create({
   contentCard: {
     flex: 1,
     backgroundColor: COLORS.background.white,
-    marginHorizontal: 16,
-    marginTop: 8,
     borderRadius: 24,
     padding: 24,
     shadowColor: COLORS.shadow.black,

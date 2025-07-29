@@ -20,27 +20,28 @@ export function StepInfoCard({
 }: Props) {
   return (
     <View style={styles.stepInfoCard}>
-      <Text style={styles.stepTitle}>{title}</Text>
-      <Text style={styles.stepDescription}>{description}</Text>
+      <View style={styles.innerContainer}>
+        <Text style={styles.stepTitle}>{title}</Text>
+        <Text style={styles.stepDescription}>{description}</Text>
 
-      {/* 단계 인디케이터 */}
-      <View style={styles.stepIndicators}>
-        {stepOrder.map((_, index) => (
-          <Animated.View
-            key={index}
-            style={[
-              styles.stepDot,
-              index <= currentStepIndex && styles.stepDotActive,
-              {
-                transform: [
-                  {
-                    scale: index <= currentStepIndex ? scaleValue : 1,
-                  },
-                ],
-              },
-            ]}
-          />
-        ))}
+        <View style={styles.stepIndicators}>
+          {stepOrder.map((_, index) => (
+            <Animated.View
+              key={index}
+              style={[
+                styles.stepDot,
+                index <= currentStepIndex && styles.stepDotActive,
+                {
+                  transform: [
+                    {
+                      scale: index <= currentStepIndex ? scaleValue : 1,
+                    },
+                  ],
+                },
+              ]}
+            />
+          ))}
+        </View>
       </View>
     </View>
   );
@@ -58,14 +59,16 @@ const styles = StyleSheet.create({
     elevation: 8,
     borderWidth: 1,
     borderColor: COLORS.border.lightGray,
-    marginBottom: 32,
+  },
+  innerContainer: {
     alignItems: "center",
+    paddingBottom: 8,
   },
   stepTitle: {
     fontSize: 24,
     fontWeight: "bold",
     color: COLORS.text.black,
-    marginBottom: 12,
+    paddingBottom: 12,
     textAlign: "center",
   },
   stepDescription: {
@@ -73,12 +76,13 @@ const styles = StyleSheet.create({
     color: COLORS.text.gray,
     lineHeight: 24,
     textAlign: "center",
-    marginBottom: 24,
+    paddingBottom: 24,
   },
   stepIndicators: {
     flexDirection: "row",
     justifyContent: "center",
     gap: 12,
+    paddingBottom: 8,
   },
   stepDot: {
     width: 8,

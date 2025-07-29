@@ -16,6 +16,7 @@ export function TipSection({ tipText }: Props) {
 const styles = StyleSheet.create({
   tipContainer: {
     alignItems: "center",
+    padding: 16,
   },
   tipText: {
     fontSize: 14,
