@@ -10,7 +10,7 @@ import {
   findRefreshToken,
   removeAuthToken,
   storeAuthToken,
-} from "./storage/SecureStorage";
+} from "../../utils/auth/storage/SecureStorage";
 import { LoginInfo, SignupData } from "../../types/auth";
 import { AxiosError } from "axios";
 import { Alert } from "react-native";
@@ -27,7 +27,8 @@ export function useLoginViewModel() {
       storeAuthToken(data.access_token, data.refresh_token);
     },
     onError: (error,variables) => {
-      if (error instanceof AxiosError && error.response?.data?.errorCode === "USER_1") {
+      console.log(error);
+      if (error instanceof AxiosError && error.response?.data?.errorCode === "USER_001") {
         router.push({
           pathname: "/auth/signup",
           params: {
@@ -57,6 +58,7 @@ export function useSignupViewModel() {
     onError: (error) => {
       console.log("signup error", error);
     },
+    throwOnError: false,
   });
 
   return { signup, isLoading, error };
@@ -66,7 +68,7 @@ export function useLogoutViewModel() {
   const { setUser } = useAuth();
   const { mutate: logout, isPending: isLoading } = useMutation({
     mutationFn: async () => {
-      const refreshToken = await findRefreshToken();
+      const refreshToken = findRefreshToken();
       if (refreshToken) {
         logoutUser(refreshToken);
       }

@@ -9,15 +9,15 @@ import { useLocalSearchParams } from "expo-router";
 import { GenderOptions } from "@/src/modules/login/components/GenderOption";
 import { Gender, getGenderLabel } from "@/src/modules/login/enums/Gender";
 import { useSignupViewModel } from "@/src/modules/shared/context/auth/authViewModel";
-import { makeUTCDateAtMidnight, UTCDateAtMidnight } from "@/src/modules/shared/utils/auth/UTCDateAtMidnight";
+import { makeUTCDateAtMidnight, UTCDateAtMidnight } from "@/src/modules/shared/utils/UTCDateAtMidnight";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 import { DateOfBirthPick } from "@/src/modules/login/components/DateOfBirthPick";
 import { NicknameInput } from "@/src/modules/login/components/NicknameInput";
 import { NextButton } from "@/src/modules/login/components/NextButton";
 
 export default function SignupPage() {
-  const [nickname, setNickname] = useState("");
-  const [gender, setGender] = useState(Gender.FEMALE);
+  const [nickname, setNickname] = useState<string>("");
+  const [gender, setGender] = useState<Gender>(Gender.FEMALE);
   const [dateOfBirth, setDateOfBirth] = useState<UTCDateAtMidnight>(makeUTCDateAtMidnight(1995, 1, 1));
   
   const { token, provider } = useLocalSearchParams();
@@ -32,8 +32,12 @@ export default function SignupPage() {
 
   const handleSignupPress = () => {
     console.log("handleSignupPress");
+    console.log("nickname", !nickname.trim());
     if (!nickname.trim()) {
       Alert.alert("오류", "닉네임을 입력해주세요.");
+      return;
+    }
+    else {
       signup({
         id_token: token as string,
         provider: provider as string,
@@ -41,8 +45,6 @@ export default function SignupPage() {
         gender: gender,
         date_of_birth: dateOfBirth,
       });
-      console.log("signup success");
-      return;
     }
   };
 

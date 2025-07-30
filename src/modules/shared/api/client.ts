@@ -5,7 +5,7 @@ import {
   removeAuthToken,
   storeAccessToken,
   storeRefreshToken,
-} from "@/src/modules/shared/context/auth/storage/SecureStorage";
+} from "@/src/modules/shared/utils/auth/storage/SecureStorage";
 import { refreshUser } from "@/src/modules/shared/context/auth/api";
 
 declare module "axios" {

@@ -1,4 +1,4 @@
-import { client } from "@/src/modules/shared/api/api";
+import { client } from "@/src/modules/shared/api/client";
 
 export interface CreateRecipeApiResponse {
   recipe_id: string;

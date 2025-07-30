@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet } from "react-native";
 import { Picker } from "@react-native-picker/picker";
-import { makeUTCDateAtMidnight, UTCDateAtMidnight } from "@/src/modules/shared/utils/auth/UTCDateAtMidnight";
+import { makeUTCDateAtMidnight, UTCDateAtMidnight } from "@/src/modules/shared/utils/UTCDateAtMidnight";
 import { COLORS } from "../../shared/constants/colors";
 
 const years = Array.from({ length: 100 }, (_, i) => (2025 - i));

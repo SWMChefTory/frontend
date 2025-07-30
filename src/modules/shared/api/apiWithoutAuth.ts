@@ -1,6 +1,6 @@
-import { client } from "@/src/modules/shared/api/client";
-import { LoginInfo, SignupData } from "../../types/auth";
-import { UTCDateAtMidnight } from "../../utils/UTCDateAtMidnight";
+import { clientWithoutAuth } from "@/src/modules/shared/api/apiWithoutAuth";
+import { LoginInfo, SignupData } from "@/src/modules/shared/types/auth"
+import { UTCDateAtMidnight } from "@/src/modules/shared/utils/UTCDateAtMidnight";
 
 export interface AuthorizationTokenResponse {
   access_token: string;
@@ -46,10 +46,9 @@ export async function loginUser(
     provider: loginInfo.provider,
   };
   console.log("loginRequest", loginRequest);
-  const response = await client.post(
+  const response = await clientWithoutAuth.post(
     "/account/login/oauth", 
     loginRequest,
-    { skipAuth: true },
   );
   return response.data;
 }
@@ -66,9 +65,10 @@ export async function signupUser(
     date_of_birth: signupData.date_of_birth,
   };
   console.log("signupRequest", signupRequest);
-  const response = await client.post("/account/signup/oauth", signupRequest, {
-    skipAuth: true,
-  });
+  const response = await clientWithoutAuth.post(
+    "/account/signup/oauth",
+     signupRequest,
+    );
   return response.data;
 }
 
@@ -76,10 +76,9 @@ export async function deleteAccount(refreshToken: string): Promise<void> {
   const deleteAccountRequest: DeleteAccountRequest = {
     refresh_token: refreshToken,
   };
-  const response = await client.post(
+  const response = await clientWithoutAuth.post(
     "/account/delete",
     deleteAccountRequest,
-    { skipAuth: true },
   );
   return response.data;
 }
@@ -88,10 +87,9 @@ export async function logoutUser(refreshToken: string): Promise<void> {
   const logoutRequest: LogoutRequest = {
     refresh_token: refreshToken,
   };
-  return await client.post(
+  return await clientWithoutAuth.post(
     "/account/logout",
     logoutRequest,
-    { skipAuth: true },
   );
 }
 
@@ -101,15 +99,9 @@ export async function refreshUser(
   const refreshTokenRequest: RefreshTokenRequest = {
     refresh_token: refreshToken,
   };
-  const response = await client.post(
+  const response = await clientWithoutAuth.post(
     "/auth/token/reissue",
     refreshTokenRequest,
-    { skipAuth: true },
   );
-  return response.data;
-}
-
-export async function getUser(): Promise<UserResponse> {
-  const response = await client.get("/users/me");
   return response.data;
 }
