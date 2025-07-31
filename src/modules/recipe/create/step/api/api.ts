@@ -1,5 +1,5 @@
 import { RecipeCreateStatus } from "../types/Status";
-import { client } from "@/src/modules/shared/api/api";
+import { client } from "@/src/modules/shared/api/client";
 
 export interface RecipeVideoInfo {
   video_title: string;

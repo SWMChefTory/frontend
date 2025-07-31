@@ -1,4 +1,4 @@
-import { findAccessToken } from "@/src/modules/shared/context/auth/storage/SecureStorage"; // Import findAccessToken
+import { findAccessToken } from "@/src/modules/shared/storage/SecureStorage"; // Import findAccessToken
 import { router } from "expo-router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Alert } from "react-native";

@@ -9,11 +9,12 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-import { useAuth } from "@/src/modules/shared/context/auth/AuthContext";
+import { useDeleteUserViewModel, useLogoutViewModel } from "@/src/modules/login/form/viewmodel/authViewModel";
 
 export default function SettingsPage() {
   const router = useRouter();
-  const { logout, deleteUser } = useAuth();
+  const { logout } = useLogoutViewModel();
+  const { deleteUser } = useDeleteUserViewModel();
 
   const handleLogout = async () => {
     Alert.alert("로그아웃", "정말 로그아웃하시겠습니까?", [
@@ -23,8 +24,7 @@ export default function SettingsPage() {
         style: "destructive",
         onPress: async () => {
           try {
-            await logout();
-            router.replace("/auth/login");
+          logout();
           } catch (error) {
             Alert.alert("오류", "로그아웃에 실패했습니다.");
           }
@@ -54,8 +54,7 @@ export default function SettingsPage() {
                   style: "destructive",
                   onPress: async () => {
                     try {
-                      await deleteUser();
-                      router.replace("/auth/login");
+                      deleteUser();
                     } catch (error) {
                       Alert.alert("오류", "회원탈퇴에 실패했습니다.");
                     }

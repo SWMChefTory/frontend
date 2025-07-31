@@ -1,4 +1,6 @@
-import { client } from "@/src/modules/shared/api/api";
+import { recentRecipesApiMock } from "@/src/modules/recipe/summary/recent/api/__mocks__/api.mock";
+import { client } from "@/src/modules/shared/api/client";
+
 
 
 export interface RecentRecipeApiResponse {

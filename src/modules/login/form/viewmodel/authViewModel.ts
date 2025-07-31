@@ -4,23 +4,41 @@ import {
   loginUser,
   logoutUser,
   signupUser,
-} from "./api";
-import { useAuth } from "./AuthContext";
+} from "@/src/modules/shared/api/apiWithoutAuth";
+import { useUserStore } from "@/src/modules/shared/store/userStore";
 import {
   findRefreshToken,
   removeAuthToken,
   storeAuthToken,
-} from "./storage/SecureStorage";
-import { LoginInfo, SignupData } from "../../types/auth";
+} from "../../../shared/storage/SecureStorage";
+import { LoginInfo, SignupData } from "../../../shared/types/auth";
+import { AxiosError } from "axios";
+import { Alert } from "react-native";
+import { useRouter } from "expo-router";
 
 export function useLoginViewModel() {
-  const { setUser } = useAuth();
+  const { setUser } = useUserStore();
+  const router = useRouter();
 
   const { mutate: login, isPending: isLoading, error } = useMutation({
     mutationFn: (loginInfo: LoginInfo) => loginUser(loginInfo),
     onSuccess: (data) => {
       setUser(data.user_info);
       storeAuthToken(data.access_token, data.refresh_token);
+    },
+    onError: (error,variables) => {
+      console.log(error);
+      if (error instanceof AxiosError && error.response?.data?.errorCode === "USER_001") {
+        router.push({
+          pathname: "/auth/signup",
+          params: {
+            token: variables.id_token,
+            provider: variables.provider,
+          },
+        });
+        return;
+      }
+      Alert.alert("알 수 없는 이유로 로그인에 실패했습니다.");
     },
     throwOnError: false,
   });
@@ -29,24 +47,28 @@ export function useLoginViewModel() {
 }
 
 export function useSignupViewModel() {
-  const { setUser } = useAuth();
-
-  const { mutate: signup, isPending: isLoading } = useMutation({
-    mutationFn: (signupData: SignupData) => signupUser(signupData),
+  const { setUser } = useUserStore();
+  const { mutate: signup, isPending: isLoading, error } = useMutation({
+    mutationFn: (signupData: SignupData) => {
+      return signupUser(signupData)},
     onSuccess: (data) => {
       setUser(data.user_info);
       storeAuthToken(data.access_token, data.refresh_token);
     },
+    onError: (error) => {
+      console.log("signup error", error);
+    },
+    throwOnError: false,
   });
 
-  return { signup, isLoading };
+  return { signup, isLoading, error };
 }
 
 export function useLogoutViewModel() {
-  const { setUser } = useAuth();
+  const { setUser } = useUserStore();
   const { mutate: logout, isPending: isLoading } = useMutation({
     mutationFn: async () => {
-      const refreshToken = await findRefreshToken();
+      const refreshToken = findRefreshToken();
       if (refreshToken) {
         logoutUser(refreshToken);
       }
@@ -61,11 +83,11 @@ export function useLogoutViewModel() {
 }
 
 export function useDeleteUserViewModel() {
-  const { setUser } = useAuth();
+  const { setUser } = useUserStore();
 
   const { mutate: deleteUser, isPending: isLoading } = useMutation({
     mutationFn: async () => {
-      const refreshToken = await findRefreshToken();
+      const refreshToken = findRefreshToken();
       if (refreshToken) {
         return deleteAccount(refreshToken);
       }
