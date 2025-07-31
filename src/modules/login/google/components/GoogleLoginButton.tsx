@@ -3,7 +3,7 @@ import {
   GoogleSigninButton,
 } from "@react-native-google-signin/google-signin";
 import { Alert } from "react-native";
-import { useLoginViewModel } from "../../../shared/context/auth/authViewModel";
+import { useLoginViewModel } from "../../form/viewmodel/authViewModel";
 import { OauthProvider } from "@/src/modules/login/enums/OauthProvider";
 
 GoogleSignin.configure({

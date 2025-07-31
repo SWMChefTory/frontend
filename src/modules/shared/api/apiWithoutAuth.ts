@@ -1,4 +1,4 @@
-import { clientWithoutAuth } from "@/src/modules/shared/api/apiWithoutAuth";
+import { clientWithoutAuth } from "@/src/modules/shared/api/clientWithoutAuth";
 import { LoginInfo, SignupData } from "@/src/modules/shared/types/auth"
 import { UTCDateAtMidnight } from "@/src/modules/shared/utils/UTCDateAtMidnight";
 
@@ -87,13 +87,14 @@ export async function logoutUser(refreshToken: string): Promise<void> {
   const logoutRequest: LogoutRequest = {
     refresh_token: refreshToken,
   };
-  return await clientWithoutAuth.post(
+  const response = await clientWithoutAuth.post(
     "/account/logout",
     logoutRequest,
   );
+  return response.data;
 }
 
-export async function refreshUser(
+export async function reissueRefreshToken(
   refreshToken: string,
 ): Promise<AuthorizationTokenResponse> {
   const refreshTokenRequest: RefreshTokenRequest = {

@@ -5,8 +5,8 @@ import {
   removeAuthToken,
   storeAccessToken,
   storeRefreshToken,
-} from "@/src/modules/shared/utils/auth/storage/SecureStorage";
-import { refreshUser } from "@/src/modules/shared/context/auth/api";
+} from "@/src/modules/shared/storage/SecureStorage";
+import { reissueRefreshToken } from "@/src/modules/shared/api/apiWithoutAuth";
 
 declare module "axios" {
   export interface AxiosRequestConfig {
@@ -19,12 +19,13 @@ const client = axios.create({
   timeout: 10000,
 });
 
+//todo 유저 상태 값 갱신해줘야 할듯. 에러 발생 시 토큰을 지우면 로그인 상태가 아닌데, 유저값이 갱신되지 않음.
 export async function refreshToken() {
   try {
     const refreshToken = findRefreshToken();
     if (!refreshToken) throw new Error("No refresh token");
 
-    const response = await refreshUser(refreshToken);
+    const response = await reissueRefreshToken(refreshToken);
     await storeAccessToken(response.access_token);
     await storeRefreshToken(response.refresh_token);
     return response.access_token;
@@ -63,6 +64,7 @@ client.interceptors.request.use(
   },
 );
 
+//응답을 받았을 때, access token이 만료되었을 때의 오류라면 refresh token으로 다시 발급 받거나, 발급에 실패하면 로그 아웃 상태로 바꾼다.
 client.interceptors.response.use(
   async (res) => {
     console.log("response", res.data);
@@ -75,12 +77,9 @@ client.interceptors.response.use(
     console.log("requestBody", originalRequest.data);
     console.log("errorResponse", error.response?.data);
 
-    if (originalRequest?.skipAuth) {
-      return Promise.reject(error);
-    }
-
     if (
       isAxiosError(error) &&
+      //todo : accesstoken가 만료되었을 때만? 혹은 유효하지 않은 것까지?
       error.response?.data?.errorCode?.startsWith("AUTH") &&
       !originalRequest._retry
     ) {

@@ -1,12 +1,10 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-import { useAuth } from "@/src/modules/shared/context/auth/AuthContext";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 
 export default function ProfilePage() {
   const router = useRouter();
-  const { user } = useAuth();
 
   const handleSettingsPress = () => {
     router.push("/settings/settings");
@@ -41,7 +39,7 @@ export default function ProfilePage() {
         <View style={styles.textContainer}>
           <View style={styles.userNameContainer}>
             <Text style={styles.greeting}>{"안녕하세요 "}</Text>
-            <Text style={styles.userName}>{user?.name || "클로이"}</Text>
+            <Text style={styles.userName}>{"클로이"}</Text>
             <Text style={styles.greeting}>{" 셰프님."}</Text>
           </View>
           <Text style={styles.greeting}>오늘도 즐거하세요 :)</Text>

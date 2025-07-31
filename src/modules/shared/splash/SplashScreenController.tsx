@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useAuth } from "@/src/modules/shared/context/auth/AuthContext";
+import { useAuthBootstrap } from "@/src/modules/login/authBootstrap";
 import * as ExpoSplashScreen from "expo-splash-screen";
 import { SplashScreen } from "../splash/SplashScreen";
 
@@ -8,7 +8,7 @@ export function SplashScreenController({
 }: {
   children: React.ReactNode;
 }) {
-  const { loading } = useAuth();
+  const { loading } = useAuthBootstrap();
   const [showCustomSplash, setShowCustomSplash] = useState(true);
 
   useEffect(() => {

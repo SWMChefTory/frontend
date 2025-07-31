@@ -1,5 +1,5 @@
 import appleAuth, {AppleButton,} from '@invertase/react-native-apple-authentication';
-import { useLoginViewModel } from "../../../shared/context/auth/authViewModel";
+import { useLoginViewModel } from "../../form/viewmodel/authViewModel";
 import { OauthProvider } from "@/src/modules/login/enums/OauthProvider";
 import { Alert } from "react-native";
   

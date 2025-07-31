@@ -8,7 +8,7 @@ import {
 import { useLocalSearchParams } from "expo-router";
 import { GenderOptions } from "@/src/modules/login/components/GenderOption";
 import { Gender, getGenderLabel } from "@/src/modules/login/enums/Gender";
-import { useSignupViewModel } from "@/src/modules/shared/context/auth/authViewModel";
+import { useSignupViewModel } from "@/src/modules/login/form/viewmodel/authViewModel";
 import { makeUTCDateAtMidnight, UTCDateAtMidnight } from "@/src/modules/shared/utils/UTCDateAtMidnight";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 import { DateOfBirthPick } from "@/src/modules/login/components/DateOfBirthPick";

@@ -4,20 +4,20 @@ import {
   loginUser,
   logoutUser,
   signupUser,
-} from "./api";
-import { useAuth } from "./AuthContext";
+} from "@/src/modules/shared/api/apiWithoutAuth";
+import { useUserStore } from "@/src/modules/shared/store/userStore";
 import {
   findRefreshToken,
   removeAuthToken,
   storeAuthToken,
-} from "../../utils/auth/storage/SecureStorage";
-import { LoginInfo, SignupData } from "../../types/auth";
+} from "../../../shared/storage/SecureStorage";
+import { LoginInfo, SignupData } from "../../../shared/types/auth";
 import { AxiosError } from "axios";
 import { Alert } from "react-native";
 import { useRouter } from "expo-router";
 
 export function useLoginViewModel() {
-  const { setUser } = useAuth();
+  const { setUser } = useUserStore();
   const router = useRouter();
 
   const { mutate: login, isPending: isLoading, error } = useMutation({
@@ -47,7 +47,7 @@ export function useLoginViewModel() {
 }
 
 export function useSignupViewModel() {
-  const { setUser } = useAuth();
+  const { setUser } = useUserStore();
   const { mutate: signup, isPending: isLoading, error } = useMutation({
     mutationFn: (signupData: SignupData) => {
       return signupUser(signupData)},
@@ -65,7 +65,7 @@ export function useSignupViewModel() {
 }
 
 export function useLogoutViewModel() {
-  const { setUser } = useAuth();
+  const { setUser } = useUserStore();
   const { mutate: logout, isPending: isLoading } = useMutation({
     mutationFn: async () => {
       const refreshToken = findRefreshToken();
@@ -83,11 +83,11 @@ export function useLogoutViewModel() {
 }
 
 export function useDeleteUserViewModel() {
-  const { setUser } = useAuth();
+  const { setUser } = useUserStore();
 
   const { mutate: deleteUser, isPending: isLoading } = useMutation({
     mutationFn: async () => {
-      const refreshToken = await findRefreshToken();
+      const refreshToken = findRefreshToken();
       if (refreshToken) {
         return deleteAccount(refreshToken);
       }

@@ -1,6 +1,3 @@
-// src/screens/LoginPage.tsx
-
-import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import GoogleLoginButton from "@/src/modules/login/google/components/GoogleLoginButton";
 import { AppleLoginButton } from "@/src/modules/login/apple/components/AppleLoginButton";
