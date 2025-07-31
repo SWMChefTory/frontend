@@ -2,6 +2,7 @@ import { recentRecipesApiMock } from "@/src/modules/recipe/summary/recent/api/__
 import { client } from "@/src/modules/shared/api/client";
 
 
+
 export interface RecentRecipeApiResponse {
   viewed_at: string;
   last_play_seconds: number;
@@ -9,6 +10,7 @@ export interface RecentRecipeApiResponse {
   recipe_title: string;
   video_thumbnail_url: string;
   video_id: string;
+  video_seconds: number;
 }
 
 export interface RecentRecipesApiResponse {

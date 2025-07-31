@@ -1,7 +1,7 @@
 import { Platform } from "react-native";
 
 export const WEBVIEW_CONFIG = {
-  BASE_URL: "https://cheftory-youtube-webview.surge.sh",
+  BASE_URL: "https://webview.cheftories.com",
 
   USER_AGENTS: {
     IOS: "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1",
@@ -23,6 +23,7 @@ export const WEBVIEW_CONFIG = {
   },
 
   // 유튜브 최적화를 위한 JavaScript 주입
+  /*
   OPTIMIZATION_SCRIPT: `
     // 유튜브 플레이어 최적화
     (function() {
@@ -63,6 +64,7 @@ export const WEBVIEW_CONFIG = {
         }
       });
 
+
       // 페이지 로드 최적화
       document.addEventListener('DOMContentLoaded', function() {
         // 불필요한 애니메이션 제거
@@ -77,6 +79,7 @@ export const WEBVIEW_CONFIG = {
     
     true; // 필수 반환값
   `,
+  */
 } as const;
 
 export const getUserAgent = (): string => {

@@ -22,6 +22,7 @@ export default function RecipeDetailScreen() {
     handleNavigationStateChange,
     handleError,
     handleHttpError,
+    accessToken, // Destructure accessToken from viewModel
   } = useRecipeDetailViewModel({
     recipeId: params.recipeId,
     youtubeId: params.youtubeId,
@@ -48,8 +49,17 @@ export default function RecipeDetailScreen() {
           onLoadStart={handleLoadStart}
           onLoadEnd={handleLoadEnd}
           onNavigationStateChange={handleNavigationStateChange}
-          onError={handleError}
-          onHttpError={handleHttpError}
+          //onError={handleError}
+          //onHttpError={handleHttpError}
+          accessToken={accessToken}
+          onError={(syntheticEvent) => {
+            const { nativeEvent } = syntheticEvent;
+            console.error("WebView onError:", nativeEvent);
+          }}
+          onHttpError={(syntheticEvent) => {
+            const { nativeEvent } = syntheticEvent;
+            console.error("WebView onHttpError:", nativeEvent);
+          }}
         />
       </SafeAreaView>
     </>

@@ -10,10 +10,11 @@ interface RecipeWebViewProps {
   webViewKey: number;
   onMessage: (event: any) => void;
   onLoadStart: () => void;
-  onLoadEnd: () => void;
+  onLoadEnd: () => void; // 이 prop은 이제 웹뷰로 토큰을 보내는 로직을 포함하게 됩니다.
   onNavigationStateChange: (navState: WebViewNavigationState) => void;
   onError: (error: any) => void;
   onHttpError: (error: any) => void;
+  accessToken: string | null;
 }
 
 export function RecipeWebView({
@@ -22,11 +23,38 @@ export function RecipeWebView({
   webViewKey,
   onMessage,
   onLoadStart,
-  onLoadEnd,
+  onLoadEnd, // 이 prop을 직접 WebView에 전달
   onNavigationStateChange,
   onError,
   onHttpError,
+  accessToken,
 }: RecipeWebViewProps) {
+  // 기존 onLoadEnd 콜백을 감싸고, 여기에 웹뷰로 토큰을 보내는 로직을 추가
+  const handleWebViewLoadEnd = (syntheticEvent: any) => {
+    if (onLoadEnd) {
+      onLoadEnd();
+    }
+
+    if (webViewRef.current && accessToken) {
+      if (Platform.OS === "android") {
+        const script = `
+          window.postMessage(${JSON.stringify({
+            type: "ACCESS_TOKEN",
+            token: accessToken,
+          })}, '*');
+          true;
+        `;
+        webViewRef.current.injectJavaScript(script);
+      } else {
+        webViewRef.current.postMessage(
+          JSON.stringify({ type: "ACCESS_TOKEN", token: accessToken })
+        );
+      }
+
+      console.log(`[Native] 액세스 토큰을 웹뷰로 전송: ${accessToken}`);
+    }
+  };
+
   return (
     <WebView
       key={webViewKey}
@@ -36,26 +64,20 @@ export function RecipeWebView({
       userAgent={getUserAgent()}
       onMessage={onMessage}
       onLoadStart={onLoadStart}
-      onLoadEnd={onLoadEnd}
+      onLoadEnd={handleWebViewLoadEnd}
       onNavigationStateChange={onNavigationStateChange}
       onError={onError}
       onHttpError={onHttpError}
-      // 미디어 재생 최적화 설정
       mediaPlaybackRequiresUserAction={false}
       allowsInlineMediaPlayback={true}
       mediaCapturePermissionGrantType="grant"
-      // 추가 권한 설정
       allowsFullscreenVideo={true}
       allowsBackForwardNavigationGestures={true}
-      // JavaScript 및 DOM 설정
       javaScriptEnabled={true}
       domStorageEnabled={true}
-      // 성능 최적화 설정
       startInLoadingState={false}
       cacheEnabled={true}
-      // iOS 전용 최적화
       {...(Platform.OS === "ios" && {
-        allowingReadAccessToURL: "http://localhost:3000",
         allowsLinkPreview: false,
         automaticallyAdjustContentInsets: false,
         scrollEnabled: true,
@@ -63,14 +85,12 @@ export function RecipeWebView({
         showsHorizontalScrollIndicator: false,
         showsVerticalScrollIndicator: false,
       })}
-      // Android 전용 최적화
       {...(Platform.OS === "android" && {
         mixedContentMode: "compatibility",
         thirdPartyCookiesEnabled: true,
         allowFileAccess: true,
         allowUniversalAccessFromFileURLs: true,
         setSupportMultipleWindows: false,
-        // 권한 요청 처리 (Android)
         onPermissionRequest: (request: any) => {
           request.grant();
         },
