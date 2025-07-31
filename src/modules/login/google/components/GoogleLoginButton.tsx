@@ -5,6 +5,8 @@ import {
 import { Alert } from "react-native";
 import { useLoginViewModel } from "../../form/viewmodel/authViewModel";
 import { OauthProvider } from "@/src/modules/login/enums/OauthProvider";
+import { FullScreenLoader } from "@/src/modules/shared/splash/loading/lottieview/FullScreenLoader";
+import { useState } from "react";
 
 GoogleSignin.configure({
   webClientId: process.env.EXPO_PUBLIC_WEB_ID,
@@ -15,7 +17,7 @@ GoogleSignin.configure({
 });
 
 export default function GoogleLoginButton() {
-  const {login, isLoading} = useLoginViewModel();
+  const {login,isLoading} = useLoginViewModel();
 
   const handleSignIn = async () => {
     try {
@@ -39,5 +41,10 @@ export default function GoogleLoginButton() {
     }
   };
 
-  return <GoogleSigninButton onPress={handleSignIn} disabled={isLoading} />;
+  return (
+    <>
+      {isLoading&&<FullScreenLoader/>}
+      <GoogleSigninButton onPress={handleSignIn}/>
+    </>
+  );
 }

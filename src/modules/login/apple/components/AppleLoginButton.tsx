@@ -2,9 +2,10 @@ import appleAuth, {AppleButton,} from '@invertase/react-native-apple-authenticat
 import { useLoginViewModel } from "../../form/viewmodel/authViewModel";
 import { OauthProvider } from "@/src/modules/login/enums/OauthProvider";
 import { Alert } from "react-native";
+import { FullScreenLoader } from "@/src/modules/shared/splash/loading/lottieview/FullScreenLoader"
   
 export function AppleLoginButton() {
-  const {login} = useLoginViewModel();
+  const {login, isLoading} = useLoginViewModel();
   
   async function handleSignInApple() {
     const isSupported = appleAuth.isSupported;
@@ -36,14 +37,17 @@ export function AppleLoginButton() {
   }
 
   return (
-    <AppleButton
-      buttonStyle={AppleButton.Style.WHITE}
-      buttonType={AppleButton.Type.SIGN_IN}
-      style={{
-        width: '100%', // You must specify a width
-        height: 45, // You must specify a height
-      }}
-      onPress={handleSignInApple}
-    />
+    <>
+      {isLoading&&<FullScreenLoader/>}
+      <AppleButton
+        buttonStyle={AppleButton.Style.WHITE}
+        buttonType={AppleButton.Type.SIGN_IN}
+        style={{
+          width: '100%', // You must specify a width
+          height: 45, // You must specify a height
+        }}
+        onPress={handleSignInApple}
+      />
+    </>
   );
 }

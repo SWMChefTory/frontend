@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet } from "react-native";
 import GoogleLoginButton from "@/src/modules/login/google/components/GoogleLoginButton";
 import { AppleLoginButton } from "@/src/modules/login/apple/components/AppleLoginButton";
+import { FullScreenLoader } from "@/src/modules/shared/splash/loading/lottieview/FullScreenLoader";
 
 export default function LoginPage() {
   return (
