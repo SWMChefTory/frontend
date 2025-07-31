@@ -16,18 +16,24 @@ import { AxiosError } from "axios";
 import { Alert } from "react-native";
 import { useRouter } from "expo-router";
 
+const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
+
 export function useLoginViewModel() {
   const { setUser } = useUserStore();
   const router = useRouter();
 
   const { mutate: login, isPending: isLoading, error } = useMutation({
-    mutationFn: (loginInfo: LoginInfo) => loginUser(loginInfo),
+    mutationFn: async (loginInfo: LoginInfo) => {
+      return loginUser(loginInfo)},
     onSuccess: (data) => {
       setUser(data.user_info);
       storeAuthToken(data.access_token, data.refresh_token);
     },
     onError: (error,variables) => {
-      console.log(error);
+      if (error instanceof AxiosError){
+        console.log(error.response?.data);
+      }
+
       if (error instanceof AxiosError && error.response?.data?.errorCode === "USER_001") {
         router.push({
           pathname: "/auth/signup",

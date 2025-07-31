@@ -39,16 +39,16 @@ export default function TabLayout() {
             options={{
               header: () => (
                 <CheftoryHeader 
-                title=""
-                leftComponent={<HomeHeader />}
-                rightComponent={
-                  <View style={{ flexDirection: 'row', gap: 12, marginRight: 16 }}>
-                    <TouchableOpacity>
-                      <Ionicons name="notifications-outline" size={24} color="#000" />
-                    </TouchableOpacity>
-                  </View>
-                }
-              />
+                  title=""
+                  leftComponent={<HomeHeader />}
+                  rightComponent={
+                    <View style={{ flexDirection: 'row', gap: 12, marginRight: 16 }}>
+                      <TouchableOpacity>
+                        <Ionicons name="notifications-outline" size={24} color="#000" />
+                      </TouchableOpacity>
+                    </View>
+                  }
+                />
               ),
               tabBarLabel: "홈",
             }}
@@ -56,7 +56,22 @@ export default function TabLayout() {
         <Tabs.Screen
           name="profile"
           options={{
-            headerTitle: "프로필",
+            header: ( )=> (
+              <CheftoryHeader 
+                title=""
+                leftComponent={<></>}
+                rightComponent={
+                  <View style={{ flexDirection: 'row', gap: 12, marginRight: 16 }}>
+                    <TouchableOpacity>
+                      <Ionicons name="notifications-outline" size={24} color="#000" />
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="settings-outline" size={24} color="#000" />
+                    </TouchableOpacity>
+                  </View>
+                }
+              />
+              ),
             tabBarLabel: "마이",
           }}
         />

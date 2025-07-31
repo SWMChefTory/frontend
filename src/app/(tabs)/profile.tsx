@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { COLORS } from "@/src/modules/shared/constants/colors";
+import { Greeting } from "@/src/modules/shared/splash/greeting/lottieview/Greeting";
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -12,48 +13,34 @@ export default function ProfilePage() {
 
   return (
     <View style={styles.container}>
-      {/* 상단 헤더 */}
-      <View style={styles.topHeader}>
-        <TouchableOpacity
-          style={styles.settingsButton}
-          onPress={handleSettingsPress}
-        >
-          <Ionicons name="notifications-outline" size={28} color={COLORS.text.black} />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.settingsButton}
-          onPress={handleSettingsPress}
-        >
-          <Ionicons name="settings-outline" size={28} color={COLORS.text.black} />
-        </TouchableOpacity>
-      </View>
-
-      {/* 프로필 섹션 */}
-      <View style={styles.profileSection}>
-        <View style={styles.avatarContainer}>
-          <View style={styles.avatar}>
-            <Ionicons name="person" size={38} color={COLORS.text.white} />
+      <View style={styles.textContainer}>
+        <View style ={styles.welcomeContainer}>
+          <Greeting/>
+          <View style={styles.userNameContainer}>
+            <Text style={styles.greeting}>{"안녕하세요, 클로이님"}</Text>
           </View>
         </View>
-
-        <View style={styles.textContainer}>
-          <View style={styles.userNameContainer}>
-            <Text style={styles.greeting}>{"안녕하세요 "}</Text>
-            <Text style={styles.userName}>{"클로이"}</Text>
-            <Text style={styles.greeting}>{" 셰프님."}</Text>
-          </View>
-          <Text style={styles.greeting}>오늘도 즐거하세요 :)</Text>
+        <View style={styles.manageContainer}>
+          <Text>관리</Text>
         </View>
       </View>
     </View>
+    
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingHorizontal: 10,
     backgroundColor: COLORS.background.white,
-    paddingTop: 55,
+    borderRadius: 12,
+    marginHorizontal: 24,
+    marginBottom: 24,
+    shadowColor: COLORS.shadow.orange,
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.12,
+    shadowRadius: 20,
   },
   topHeader: {
     flexDirection: "row",
@@ -94,22 +81,36 @@ const styles = StyleSheet.create({
   },
   userNameContainer: {
     flexDirection: "row",
-    gap: 4,
+    gap: 0,
+  },
+  welcomeContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 6
   },
   textContainer: {
-    alignItems: "flex-start",
-  },
-  userName: {
-    fontSize: 33,
-    fontWeight: "bold",
-    color: COLORS.text.black,
-    marginBottom: 6,
-    letterSpacing: -0.5,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingTop: 20,
   },
   greeting: {
-    fontSize: 27,
-    color: COLORS.text.gray,
-    fontWeight: "400",
-    lineHeight: 36,
+    fontSize: 22,
+    color: COLORS.text.black,
+    fontWeight: "bold",
+  },
+  manageContainer: {
+    flex: 1
+  },
+  recipeSectionCard: {
+    backgroundColor: COLORS.background.white,
+    borderRadius: 24,
+    paddingVertical: 24,
+    paddingHorizontal: 20,
+    marginBottom: 24,
+    shadowColor: COLORS.shadow.orange,
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.12,
+    shadowRadius: 20,
+    elevation: 8,
   },
 });
