@@ -50,9 +50,9 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     backgroundColor: COLORS.background.white,
     borderRadius: 16,
-    borderWidth: 2,
-    borderColor: COLORS.orange.light,
-    borderStyle: 'dashed',
+    borderWidth: 1,
+    borderColor: COLORS.font.dark,
+    // borderStyle: 'dashed',
   },
   emptyCardInactive: {
     opacity: 0.3,

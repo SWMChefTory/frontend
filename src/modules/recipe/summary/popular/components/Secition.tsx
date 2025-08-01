@@ -25,16 +25,13 @@ export function PopularRecipeSection({ onRecipePress, onViewAllPress, onRefresh 
 
 const styles = StyleSheet.create({
   recipeSectionCard: {
-    backgroundColor: COLORS.background.white,
+    fontFamily:"NotoSerifKR_400Regular",
+    backgroundColor: COLORS.priamry.cook,
     borderRadius: 24,
     padding: 20,
     marginBottom: 24,
-    shadowColor: COLORS.orange.main,
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.12,
-    shadowRadius: 20,
-    elevation: 8,
-    borderWidth: 1,
-    borderColor: "rgba(255, 69, 0, 0.08)",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
   },
 });

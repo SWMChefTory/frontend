@@ -18,7 +18,7 @@ export function HomeSectionHeader({
 
 const styles = StyleSheet.create({
   headerSection: {
-    backgroundColor: COLORS.priamry.main,
+    backgroundColor: "transparent",
     paddingTop: 24,
     paddingBottom: 32,
     paddingHorizontal: 24,
@@ -26,15 +26,17 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 28,
   },
   title: {
+    fontFamily: 'NotoSerifKR_700Bold',
     fontSize: 32,
     fontWeight: "800",
-    color: COLORS.text.black,
+    color: "#2F2F2F",
     marginBottom: 8,
     lineHeight: 40,
   },
   subtitle: {
+    fontFamily: 'NotoSerifKR_400Regular',
     fontSize: 16,
-    color: COLORS.text.gray,
+    color: "#2F2F2F",
     lineHeight: 24,
   },
 });

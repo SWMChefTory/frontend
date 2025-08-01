@@ -5,6 +5,7 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
+  Image
 } from "react-native";
 import { FontAwesome5 as Icon } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
@@ -115,23 +116,25 @@ export function HomeHeader() {
           ]}
         >
           <LinearGradient
-            colors={[COLORS.orange.main, COLORS.orange.light]}
+            colors={[COLORS.priamry.cook, COLORS.priamry.cook]}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 1 }}
             style={styles.logoBackground}
           >
-            <Animated.View style={{ transform: [{ rotate }] }}>
-              <Icon name="utensils" size={16} color={COLORS.text.white} />
-            </Animated.View>
+            <Image
+              source={require('@/assets/images/logo.png')}
+              style={{ width: 50, height: 50 }}
+              resizeMode="contain"
+            />
           </LinearGradient>
         </Animated.View>
 
         <View style={styles.titleContainer}>
           <Text style={styles.titleGradient}>쉐프토리</Text>
           <View style={styles.taglineContainer}>
-            <Animated.View
+            {/* <Animated.View
               style={[styles.dot, { transform: [{ scale: pulseValue }] }]}
-            />
+            /> */}
             <Text style={styles.tagline}>요리의 시작</Text>
           </View>
         </View>
@@ -177,25 +180,26 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   logoBackground: {
-    width: 32,
-    height: 32,
+    width: 50,
+    height: 50,
     borderRadius: 8,
     justifyContent: "center",
     alignItems: "center",
-    marginRight: 12,
-    shadowColor: COLORS.orange.main,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 4,
+    // marginRight: 12,
+    // shadowColor: COLORS.orange.main,
+    // shadowOffset: { width: 0, height: 2 },
+    // shadowOpacity: 0.25,
+    // shadowRadius: 4,
+    // elevation: 4,
   },
   titleContainer: {
     justifyContent: "center",
   },
   titleGradient: {
+    fontFamily:"NotoSerifKR_700Bold",
     fontSize: 22,
     fontWeight: "800",
-    color: COLORS.orange.main,
+    color: COLORS.font.dark,
     letterSpacing: -0.5,
     lineHeight: 26,
   },
@@ -212,10 +216,12 @@ const styles = StyleSheet.create({
     marginRight: 6,
   },
   tagline: {
+    fontFamily: 'NotoSerifKR_400Regular',
     fontSize: 11,
     color: "#666",
     fontWeight: "500",
     letterSpacing: 0.2,
+    marginLeft: 2,
   },
   decorativeElements: {
     flexDirection: "row",

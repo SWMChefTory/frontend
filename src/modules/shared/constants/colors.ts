@@ -1,7 +1,11 @@
 export const COLORS = {
   priamry:{
-    main: "(245, 245, 244)",
-    cook: "(216, 201, 182)",
+    main: "rgb(245, 245, 244)",
+    cook: "#FFFFFF",
+  },
+  font:{
+    dark:  "#2F2F2F",
+    bright: "rgb(245, 245, 244)",
   },
   orange: {
     main: "#FF4500",

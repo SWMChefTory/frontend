@@ -50,27 +50,27 @@ export default function HomeScreen() {
     router.push("/recipe/recent");
   };
 
-  const headerAnimatedStyle = {
-    shadowOpacity: scrollY.interpolate({
-      inputRange: [0, 50],
-      outputRange: [0.08, 0.25],
-      extrapolate: 'clamp',
-    }),
-    shadowRadius: scrollY.interpolate({
-      inputRange: [0, 50],
-      outputRange: [12, 20],
-      extrapolate: 'clamp',
-    }),
-  };
+  // const headerAnimatedStyle = {
+  //   shadowOpacity: scrollY.interpolate({
+  //     inputRange: [0, 50],
+  //     outputRange: [0.08, 0.25],
+  //     extrapolate: 'clamp',
+  //   }),
+  //   shadowRadius: scrollY.interpolate({
+  //     inputRange: [0, 50],
+  //     outputRange: [12, 20],
+  //     extrapolate: 'clamp',
+  //   }),
+  // };
 
   return (
     <View style={styles.container}>
-      <Animated.View style={[styles.headerContainer, headerAnimatedStyle]}>
+      {/* <Animated.View style={[styles.headerContainer, headerAnimatedStyle]}>
         <HomeSectionHeader
           title="맛있는 요리의 시작"
           subtitle="영상 링크로 간편하게 레시피를 만들어보세요"
         />
-      </Animated.View>
+      </Animated.View> */}
       
       <Animated.ScrollView 
         style={styles.scrollView} 
@@ -91,6 +91,10 @@ export default function HomeScreen() {
         )}
         scrollEventThrottle={16}
       >
+        <HomeSectionHeader
+          title="맛있는 요리의 시작"
+          subtitle="영상 링크로 간편하게 레시피를 만들어보세요"
+        />
         <View style={styles.contentWrapper}>
           <RecentRecipeSection
             onRecipePress={handleRecipePress}
@@ -112,10 +116,10 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background.white,
+    backgroundColor: COLORS.priamry.main,
   },
   headerContainer: {
-    backgroundColor: COLORS.background.white,
+    backgroundColor: "transparent",
   },
   scrollView: {
     flex: 1,

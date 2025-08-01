@@ -28,15 +28,13 @@ export function RecentRecipeSection({ onRecipePress, onViewAllPress, onRefresh }
 
 const styles = StyleSheet.create({
   recipeSectionCard: {
-    backgroundColor: COLORS.background.white,
+    backgroundColor: COLORS.priamry.cook,
     borderRadius: 24,
     paddingVertical: 24,
     paddingHorizontal: 20,
     marginBottom: 24,
-    shadowColor: COLORS.shadow.orange,
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.12,
-    shadowRadius: 20,
-    elevation: 8,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
   },
 });

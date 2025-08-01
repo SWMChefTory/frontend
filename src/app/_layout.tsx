@@ -8,11 +8,33 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { GlobalErrorBoundary } from "../modules/shared/components/error/GlobalErrorBoundary";
 import { useAuthBootstrap } from "../modules/login/authBootstrap";
 import { SplashScreenController } from "../modules/shared/splash/SplashScreenController";
+import {
+  NotoSerifKR_400Regular,
+  NotoSerifKR_700Bold,
+  useFonts,
+} from '@expo-google-fonts/noto-serif-kr';
+import * as SplashScreen from 'expo-splash-screen';
+import {useEffect} from 'react';
+
 
 ExpoSplashScreen.preventAutoHideAsync();
 
 function RootNavigator() {
   const { isLoggedIn } = useAuthBootstrap();
+  const [loaded, error] = useFonts({
+    NotoSerifKR_400Regular,
+    NotoSerifKR_700Bold,
+  });
+
+  useEffect(() => {
+    if (loaded || error) {
+      SplashScreen.hideAsync();
+    }
+  }, [loaded, error]);
+
+  if (!loaded && !error) {
+    return null;
+  }
   return (
     <Stack
       screenOptions={{

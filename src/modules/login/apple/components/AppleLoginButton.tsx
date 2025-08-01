@@ -43,8 +43,16 @@ export function AppleLoginButton() {
         buttonStyle={AppleButton.Style.WHITE}
         buttonType={AppleButton.Type.SIGN_IN}
         style={{
-          width: '100%', // You must specify a width
-          height: 45, // You must specify a height
+          width: '62%', // You must specify a width
+          height: 40, // You must specify a height
+          shadowColor: '#000',
+          shadowOffset: {
+            width: 0,
+            height: 1,
+          },
+          shadowOpacity: 0.1,
+          shadowRadius: 4,
+          elevation: 2,
         }}
         onPress={handleSignInApple}
       />
