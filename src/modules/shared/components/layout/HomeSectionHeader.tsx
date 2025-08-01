@@ -18,7 +18,7 @@ export function HomeSectionHeader({
 
 const styles = StyleSheet.create({
   headerSection: {
-    backgroundColor: "transparent",
+    backgroundColor: COLORS.priamry.main,
     paddingTop: 24,
     paddingBottom: 32,
     paddingHorizontal: 24,

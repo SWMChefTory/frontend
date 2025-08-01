@@ -1,4 +1,8 @@
 export const COLORS = {
+  priamry:{
+    main: "(245, 245, 244)",
+    cook: "(216, 201, 182)",
+  },
   orange: {
     main: "#FF4500",
     light: "#ff9800",
