@@ -11,6 +11,7 @@ export interface AuthorizationTokenResponse {
 export interface UserResponse {
   email: string;
   nickname: string;
+  date_of_birth: string;
 }
 
 export interface LoginRequest {

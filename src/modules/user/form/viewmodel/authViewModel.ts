@@ -15,6 +15,7 @@ import { LoginInfo, SignupData } from "../../../shared/types/auth";
 import { AxiosError } from "axios";
 import { Alert } from "react-native";
 import { useRouter } from "expo-router";
+import { fromString } from "@/src/modules/shared/utils/UTCDateAtMidnight";
 
 const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
@@ -26,7 +27,13 @@ export function useLoginViewModel() {
     mutationFn: async (loginInfo: LoginInfo) => {
       return loginUser(loginInfo)},
     onSuccess: (data) => {
-      setUser(data.user_info);
+      console.log(data);
+      console.log(data.user_info.date_of_birth);
+      setUser(
+        {nickname: data.user_info.nickname
+        , dateOfBirth: fromString(data.user_info.date_of_birth)
+        , email: data.user_info.email}
+      );
       storeAuthToken(data.access_token, data.refresh_token);
     },
     onError: (error,variables) => {
@@ -58,7 +65,11 @@ export function useSignupViewModel() {
     mutationFn: (signupData: SignupData) => {
       return signupUser(signupData)},
     onSuccess: (data) => {
-      setUser(data.user_info);
+      setUser(
+        {nickname: data.user_info.nickname
+        , dateOfBirth: fromString(data.user_info.date_of_birth)
+        , email: data.user_info.email}
+      );
       storeAuthToken(data.access_token, data.refresh_token);
     },
     onError: (error) => {

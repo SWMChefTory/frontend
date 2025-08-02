@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import {
   Gender,
   getGenderLabel,
-} from "@/src/modules/login/enums/Gender";
+} from "@/src/modules/user/enums/Gender";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 
 export const GenderOptions = ({

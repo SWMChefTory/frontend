@@ -1,5 +1,6 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { COLORS } from "@/src/modules/shared/constants/colors";
+import { Ionicons } from "@expo/vector-icons";
 
 export function RecipeSectionHeader({
   title,
@@ -16,7 +17,8 @@ export function RecipeSectionHeader({
       </View>
       {onPress && (
         <TouchableOpacity onPress={onPress}>
-          <Text style={styles.modernViewAllText}>전체 보기</Text>
+          <Ionicons name="resize-sharp" size={25} color={COLORS.orange.main} />
+          {/* <Text style={styles.modernViewAllText}>전체 보기</Text> */}
         </TouchableOpacity>
       )}
     </View>
@@ -37,9 +39,10 @@ const styles = StyleSheet.create({
   orangeAccentBar: {
     width: 5,
     height: 26,
-    backgroundColor: COLORS.font.dark,
+    backgroundColor: COLORS.orange.main,
     borderRadius: 3,
     marginRight: 14,
+    // color: COLORS.orange.main,
     // shadowColor: "#2F2F2F",
     // shadowOffset: { width: 0, height: 3 },
     // shadowOpacity: 0.4,
@@ -55,8 +58,8 @@ const styles = StyleSheet.create({
   modernViewAllText: {
     fontSize: 15,
     fontWeight: "700",
-    color: COLORS.font.dark,
+    color: COLORS.orange.main,
     textDecorationLine: "underline",
-    textDecorationColor: COLORS.font.dark,
+    textDecorationColor: COLORS.orange.main,
   },
 });

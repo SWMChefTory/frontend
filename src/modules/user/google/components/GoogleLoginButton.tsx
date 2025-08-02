@@ -4,7 +4,7 @@ import {
 } from "@react-native-google-signin/google-signin";
 import { Alert } from "react-native";
 import { useLoginViewModel } from "../../form/viewmodel/authViewModel";
-import { OauthProvider } from "@/src/modules/login/enums/OauthProvider";
+import { OauthProvider } from "@/src/modules/user/enums/OauthProvider";
 import { FullScreenLoader } from "@/src/modules/shared/splash/loading/lottieview/FullScreenLoader";
 
 GoogleSignin.configure({

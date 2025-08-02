@@ -6,15 +6,16 @@ import { Stack } from "expo-router";
 import * as ExpoSplashScreen from "expo-splash-screen";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { GlobalErrorBoundary } from "../modules/shared/components/error/GlobalErrorBoundary";
-import { useAuthBootstrap } from "../modules/login/authBootstrap";
+import { useAuthBootstrap } from "../modules/user/authBootstrap";
 import { SplashScreenController } from "../modules/shared/splash/SplashScreenController";
-import {
-  NotoSerifKR_400Regular,
-  NotoSerifKR_700Bold,
-  useFonts,
-} from '@expo-google-fonts/noto-serif-kr';
+// import {
+//   NotoSerifKR_400Regular,
+//   NotoSerifKR_700Bold,
+//   useFonts,
+// } from '@expo-google-fonts/noto-serif-kr';
 import * as SplashScreen from 'expo-splash-screen';
 import {useEffect} from 'react';
+import { useFonts, BagelFatOne_400Regular } from '@expo-google-fonts/bagel-fat-one';
 
 
 ExpoSplashScreen.preventAutoHideAsync();
@@ -22,8 +23,7 @@ ExpoSplashScreen.preventAutoHideAsync();
 function RootNavigator() {
   const { isLoggedIn } = useAuthBootstrap();
   const [loaded, error] = useFonts({
-    NotoSerifKR_400Regular,
-    NotoSerifKR_700Bold,
+    BagelFatOne_400Regular
   });
 
   useEffect(() => {

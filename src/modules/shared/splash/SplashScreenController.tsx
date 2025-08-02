@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useAuthBootstrap } from "@/src/modules/login/authBootstrap";
+import { useAuthBootstrap } from "@/src/modules/user/authBootstrap";
 import * as ExpoSplashScreen from "expo-splash-screen";
 import { SplashScreen } from "../splash/SplashScreen";
 

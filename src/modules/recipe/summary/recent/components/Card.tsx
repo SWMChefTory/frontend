@@ -40,7 +40,7 @@ export function RecentRecipeSummaryCard({ recipe, onPress }: Props) {
 const styles = StyleSheet.create({
   card: {
     width: 140,
-    backgroundColor: COLORS.background.white,
+    backgroundColor: COLORS.priamry.main,
     borderRadius: 16,
     paddingBottom: 12, // ✅ 내부 아래 여백 추가
     shadowColor: COLORS.shadow.orange,

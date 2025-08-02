@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet } from "react-native";
 import { Picker } from "@react-native-picker/picker";
-import { makeUTCDateAtMidnight, UTCDateAtMidnight } from "@/src/modules/shared/utils/UTCDateAtMidnight";
+import { getDay, getMonth, getYear, makeUTCDateAtMidnight, UTCDateAtMidnight } from "@/src/modules/shared/utils/UTCDateAtMidnight";
 import { COLORS } from "../../shared/constants/colors";
 
 const years = Array.from({ length: 100 }, (_, i) => (2025 - i));
@@ -14,10 +14,10 @@ export const DateOfBirthPick = ({dateOfBirth, setDateOfBirth}: {dateOfBirth: UTC
     <View style={styles.birthContainer}>
       <View style={styles.yearPickerWrapper}>
         <Picker
-          selectedValue={dateOfBirth.getFullYear()}
+          selectedValue={getYear(dateOfBirth)}
           style={styles.picker}
           itemStyle={styles.pickerItem}
-          onValueChange={(itemValue) => setDateOfBirth(makeUTCDateAtMidnight(itemValue, dateOfBirth.getMonth(), dateOfBirth.getDate()))}
+          onValueChange={(itemValue) => setDateOfBirth(makeUTCDateAtMidnight(itemValue, getMonth(dateOfBirth), getDay(dateOfBirth)))}
         >
           {years.map((y) => (
             <Picker.Item key={y} label={`${y}년`} value={y} />
@@ -27,10 +27,10 @@ export const DateOfBirthPick = ({dateOfBirth, setDateOfBirth}: {dateOfBirth: UTC
     
       <View style={styles.pickerWrapper}>
         <Picker
-          selectedValue={dateOfBirth.getMonth()}
+          selectedValue={getMonth(dateOfBirth)}
           style={styles.picker}
           itemStyle={styles.pickerItem}
-          onValueChange={(itemValue) => setDateOfBirth(makeUTCDateAtMidnight(dateOfBirth.getFullYear(), itemValue + 1,dateOfBirth.getDate()))}
+          onValueChange={(itemValue) => setDateOfBirth(makeUTCDateAtMidnight(getYear(dateOfBirth), itemValue ,getDay(dateOfBirth)))}
         >
           {months.map((m) => (
             <Picker.Item key={m} label={`${m}월`} value={m} />
@@ -40,10 +40,10 @@ export const DateOfBirthPick = ({dateOfBirth, setDateOfBirth}: {dateOfBirth: UTC
     
       <View style={styles.pickerWrapper}>
         <Picker
-          selectedValue={dateOfBirth.getDate()}
+          selectedValue={getDay(dateOfBirth)}
           style={styles.picker}
           itemStyle={styles.pickerItem}
-          onValueChange={(itemValue) => setDateOfBirth(makeUTCDateAtMidnight(dateOfBirth.getFullYear(), dateOfBirth.getMonth(), itemValue))}
+          onValueChange={(itemValue) => setDateOfBirth(makeUTCDateAtMidnight(getYear(dateOfBirth), getMonth(dateOfBirth), itemValue))}
         >
           {days.map((d) => (
             <Picker.Item key={d} label={`${d}일`} value={d} />

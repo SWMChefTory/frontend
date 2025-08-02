@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet } from "react-native";
-import GoogleLoginButton from "@/src/modules/login/google/components/GoogleLoginButton";
-import { AppleLoginButton } from "@/src/modules/login/apple/components/AppleLoginButton";
+import GoogleLoginButton from "@/src/modules/user/google/components/GoogleLoginButton";
+import { AppleLoginButton } from "@/src/modules/user/apple/components/AppleLoginButton";
 import { Image } from "expo-image";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 

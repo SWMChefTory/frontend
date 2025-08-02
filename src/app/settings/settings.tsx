@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-import { useDeleteUserViewModel, useLogoutViewModel } from "@/src/modules/login/form/viewmodel/authViewModel";
+import { useDeleteUserViewModel, useLogoutViewModel } from "@/src/modules/user/form/viewmodel/authViewModel";
 
 export default function SettingsPage() {
   const router = useRouter();

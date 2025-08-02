@@ -1,12 +1,19 @@
-import { View, Text, StyleSheet, TouchableOpacity, Modal, Button, TouchableWithoutFeedback, } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Modal, Button, TouchableWithoutFeedback, Alert, } from "react-native";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 import { useState } from "react";
+import { useUserStore } from "@/src/modules/shared/store/userStore";
+import { toString } from "@/src/modules/shared/utils/UTCDateAtMidnight";
+import { useDeleteUserViewModel, useLogoutViewModel } from "@/src/modules/user/form/viewmodel/authViewModel";
 
 export default function ProfilePage() {
   const router = useRouter();
+  const {user} = useUserStore();
   const [userInfoVisible, setUserInfoVisible] = useState(false);
+  const {logout} = useLogoutViewModel();
+  const {deleteUser} = useDeleteUserViewModel();
+  const [isDeleteClicked, setisDeleteClicked] = useState(false);
 
   const handleSettingsPress = () => {
     router.push("/settings/settings");
@@ -16,6 +23,23 @@ export default function ProfilePage() {
     setUserInfoVisible(true);
   }
 
+  const handleLogoutPress = () => {
+    logout();
+  }
+
+  const handleDeleteUserPress = () => {
+    setisDeleteClicked(true);
+    Alert.alert("회원탈퇴", "정말 회원탈퇴하시겠습니까?", [
+      {text: "취소", onPress: () => {
+        setisDeleteClicked(false);
+      }},
+      {text: "회원탈퇴", onPress: () => {
+        deleteUser();
+        Alert.alert("회원탈퇴가 완료되었습니다.");
+      }},
+    ]);
+  }
+
   return (
     <View style={styles.container}>
       
@@ -23,7 +47,7 @@ export default function ProfilePage() {
 
         <View style ={styles.welcomeContainer}>
           <View style={styles.userNameContainer}>
-            <Text style={styles.greeting}>{"안녕하세요, 클로이님"}</Text>
+            <Text style={styles.greeting}>{`안녕하세요, ${user?.nickname}님`}</Text>
           </View>
         </View>
 
@@ -54,14 +78,14 @@ export default function ProfilePage() {
               <Text style = {styles.modalTitle}>회원정보</Text>
 
               <View style = {styles.modalContent}>
-              <TouchableOpacity style = {styles.modalTextContainer}>
+                <TouchableOpacity style = {styles.modalTextContainer}>
                   <Text style={styles.modalTextLeft}>이름</Text>
-                  <Text style={styles.modalTextRight}>황교준</Text>
+                  <Text style={styles.modalTextRight}>{user?.nickname}</Text>
                   <Ionicons name="chevron-forward" size={16} color="grey" />
                 </TouchableOpacity>
                 <TouchableOpacity style = {styles.modalTextContainer}>
                   <Text style={styles.modalTextLeft}>생년월일</Text>
-                  <Text style={styles.modalTextRight}>1998.06.08</Text>
+                  <Text style={styles.modalTextRight}>{toString(user?.dateOfBirth)}</Text>
                   <Ionicons name="chevron-forward" size={16} color="grey" />
                 </TouchableOpacity>
                 <TouchableOpacity style = {styles.modalTextContainer}>
@@ -73,11 +97,11 @@ export default function ProfilePage() {
               </View>
 
               <View style={styles.userAcessContainer}>
-                <TouchableOpacity style={styles.userAccessTouchable}>
+                <TouchableOpacity style={styles.userAccessTouchable} onPress={handleLogoutPress}>
                   <Text style={styles.userAccessText}>로그아웃</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.userAccessTouchable}>
+                <TouchableOpacity style={styles.userAccessTouchable} onPress={handleDeleteUserPress}>
                   <Text style={styles.userAccessText}>회원탈퇴</Text>
                 </TouchableOpacity>
               </View>
