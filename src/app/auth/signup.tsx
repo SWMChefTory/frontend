@@ -6,14 +6,14 @@ import {
   StyleSheet,
 } from "react-native";
 import { useLocalSearchParams } from "expo-router";
-import { GenderOptions } from "@/src/modules/login/components/GenderOption";
-import { Gender, getGenderLabel } from "@/src/modules/login/enums/Gender";
-import { useSignupViewModel } from "@/src/modules/login/form/viewmodel/authViewModel";
+import { GenderOptions } from "@/src/modules/user/components/GenderOption";
+import { Gender, getGenderLabel } from "@/src/modules/user/enums/Gender";
+import { useSignupViewModel } from "@/src/modules/user/form/viewmodel/authViewModel";
 import { makeUTCDateAtMidnight, UTCDateAtMidnight } from "@/src/modules/shared/utils/UTCDateAtMidnight";
 import { COLORS } from "@/src/modules/shared/constants/colors";
-import { DateOfBirthPick } from "@/src/modules/login/components/DateOfBirthPick";
-import { NicknameInput } from "@/src/modules/login/components/NicknameInput";
-import { NextButton } from "@/src/modules/login/components/NextButton";
+import { DateOfBirthPick } from "@/src/modules/user/components/DateOfBirthPick";
+import { NicknameInput } from "@/src/modules/user/components/NicknameInput";
+import { NextButton } from "@/src/modules/user/components/NextButton";
 import { FullScreenLoader } from "@/src/modules/shared/splash/loading/lottieview/FullScreenLoader";
 
 export default function SignupPage() {

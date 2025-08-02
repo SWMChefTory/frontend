@@ -1,4 +1,4 @@
-import { getUser } from '@/src/modules/login/api/api';
+import { getUser } from '@/src/modules/user/api/api';
 import { useUserStore } from '@/src/modules/shared/store/userStore';
 import { useEffect,useState } from 'react';
 
