@@ -15,13 +15,11 @@ import { PopularSummaryRecipe } from "@/src/modules/recipe/summary/popular/types
 import { PopularRecipeSection } from "@/src/modules/recipe/summary/popular/components/Secition";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 
-
 export default function HomeScreen() {
   const router = useRouter();
   const scrollY = useRef(new Animated.Value(0)).current;
   const [refreshing, setRefreshing] = useState(false);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
-
 
   const handleRecipePress = (
     recipe: PopularSummaryRecipe | RecentSummaryRecipe,

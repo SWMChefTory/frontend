@@ -33,7 +33,7 @@ export async function refreshToken() {
     return response.access_token;
   } catch (error) {
     await removeAuthToken();
-    useUserStore.getState().setUser(null); 
+    useUserStore.getState().setUser(null);
 
     throw error;
   }

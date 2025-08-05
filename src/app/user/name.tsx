@@ -1,18 +1,21 @@
 import React, { useState } from "react";
-import { 
-  View, 
-  Text, 
-  SafeAreaView, 
-  TextInput, 
-  TouchableOpacity, 
-  StyleSheet, 
+import {
+  View,
+  Text,
+  SafeAreaView,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
   Alert,
   KeyboardAvoidingView,
   Platform,
-  ScrollView 
+  ScrollView,
 } from "react-native";
 import { COLORS } from "@/src/modules/shared/constants/colors";
-import { useChangeNameViewModel, useUserViewModel } from "@/src/modules/user/business/service/useUserSerivce";
+import {
+  useChangeNameViewModel,
+  useUserViewModel,
+} from "@/src/modules/user/business/service/useUserSerivce";
 import { router } from "expo-router";
 
 function NameScreen() {
@@ -48,22 +51,22 @@ function NameScreen() {
     changeNickname(nickname.trim(), {
       onSuccess: () => {
         Alert.alert("성공", "닉네임이 변경되었습니다!", [
-          { text: "확인", onPress: () => router.back() }
+          { text: "확인", onPress: () => router.back() },
         ]);
       },
       onError: (error: any) => {
         setError(error.message || "닉네임 변경에 실패했습니다.");
-      }
+      },
     });
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView 
+      <KeyboardAvoidingView
         style={styles.keyboardView}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
-        <ScrollView 
+        <ScrollView
           contentContainerStyle={styles.scrollContent}
           keyboardShouldPersistTaps="handled"
         >
@@ -82,7 +85,7 @@ function NameScreen() {
               style={[
                 styles.textInput,
                 error ? styles.textInputError : {},
-                nickname.trim().length > 0 ? styles.textInputFilled : {}
+                nickname.trim().length > 0 ? styles.textInputFilled : {},
               ]}
               value={nickname}
               onChangeText={handleNicknameChange}
@@ -92,7 +95,7 @@ function NameScreen() {
               autoFocus
               editable={!isLoading}
             />
-            
+
             {/* 글자 수 표시 */}
             <View style={styles.characterCount}>
               <Text style={styles.characterCountText}>
@@ -101,9 +104,7 @@ function NameScreen() {
             </View>
 
             {/* 에러 메시지 */}
-            {error ? (
-              <Text style={styles.errorText}>{error}</Text>
-            ) : null}
+            {error ? <Text style={styles.errorText}>{error}</Text> : null}
           </View>
 
           {/* 현재 닉네임 표시 */}
@@ -120,16 +121,19 @@ function NameScreen() {
           <TouchableOpacity
             style={[
               styles.saveButton,
-              (!nickname.trim() || isLoading) && styles.saveButtonDisabled
+              (!nickname.trim() || isLoading) && styles.saveButtonDisabled,
             ]}
             onPress={handleSave}
             disabled={!nickname.trim() || isLoading}
             activeOpacity={0.8}
           >
-            <Text style={[
-              styles.saveButtonText,
-              (!nickname.trim() || isLoading) && styles.saveButtonTextDisabled
-            ]}>
+            <Text
+              style={[
+                styles.saveButtonText,
+                (!nickname.trim() || isLoading) &&
+                  styles.saveButtonTextDisabled,
+              ]}
+            >
               {isLoading ? "저장 중..." : "저장하기"}
             </Text>
           </TouchableOpacity>
@@ -158,14 +162,14 @@ const styles = StyleSheet.create({
     marginBottom: 40,
   },
   title: {
-    fontFamily: 'NotoSerifKR_700Bold',
+    fontFamily: "NotoSerifKR_700Bold",
     fontSize: 28,
-    fontWeight: '700',
+    fontWeight: "700",
     color: COLORS.text.black,
     marginBottom: 8,
   },
   subtitle: {
-    fontFamily: 'NotoSerifKR_400Regular',
+    fontFamily: "NotoSerifKR_400Regular",
     fontSize: 16,
     color: COLORS.text.gray,
     lineHeight: 24,
@@ -176,14 +180,14 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   label: {
-    fontFamily: 'NotoSerifKR_700Bold',
+    fontFamily: "NotoSerifKR_700Bold",
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
     color: COLORS.text.black,
     marginBottom: 12,
   },
   textInput: {
-    fontFamily: 'NotoSerifKR_400Regular',
+    fontFamily: "NotoSerifKR_400Regular",
     fontSize: 16,
     color: COLORS.text.black,
     backgroundColor: COLORS.background.white,
@@ -210,16 +214,16 @@ const styles = StyleSheet.create({
     borderColor: COLORS.error.red,
   },
   characterCount: {
-    alignItems: 'flex-end',
+    alignItems: "flex-end",
     marginTop: 8,
   },
   characterCountText: {
-    fontFamily: 'NotoSerifKR_400Regular',
+    fontFamily: "NotoSerifKR_400Regular",
     fontSize: 12,
     color: COLORS.text.gray,
   },
   errorText: {
-    fontFamily: 'NotoSerifKR_400Regular',
+    fontFamily: "NotoSerifKR_400Regular",
     fontSize: 14,
     color: COLORS.error.red,
     marginTop: 8,
@@ -233,13 +237,13 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   currentLabel: {
-    fontFamily: 'NotoSerifKR_400Regular',
+    fontFamily: "NotoSerifKR_400Regular",
     fontSize: 12,
     color: COLORS.text.gray,
     marginBottom: 4,
   },
   currentValue: {
-    fontFamily: 'NotoSerifKR_700Bold',
+    fontFamily: "NotoSerifKR_700Bold",
     fontSize: 16,
     color: COLORS.text.black,
   },
@@ -254,7 +258,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.orange.main,
     borderRadius: 12,
     paddingVertical: 16,
-    alignItems: 'center',
+    alignItems: "center",
     shadowColor: COLORS.shadow.orange,
     shadowOffset: {
       width: 0,
@@ -270,9 +274,9 @@ const styles = StyleSheet.create({
     elevation: 0,
   },
   saveButtonText: {
-    fontFamily: 'NotoSerifKR_700Bold',
+    fontFamily: "NotoSerifKR_700Bold",
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
     color: COLORS.text.white,
   },
   saveButtonTextDisabled: {

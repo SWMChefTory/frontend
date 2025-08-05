@@ -1,10 +1,5 @@
 import React, { useCallback } from "react";
-import {
-  StyleSheet,
-  View,
-  FlatList,
-  RefreshControl,
-} from "react-native";
+import { StyleSheet, View, FlatList, RefreshControl } from "react-native";
 import { Stack, Tabs, useRouter } from "expo-router";
 import { useRecentSummaryViewModel } from "@/src/modules/recipe/summary/recent/viewmodels/useViewModels";
 import { RecentSummaryRecipe } from "@/src/modules/recipe/summary/recent/types/Recipe";
@@ -35,7 +30,7 @@ export default function RecentRecipeSummaryScreen() {
     return (
       <AllRecipeEmptyState
         title="아직 시청한 영상이 없어요"
-        subtitle={`요리 영상을 시청하고${'\n'}맛있는 레시피를 만들어보세요`}
+        subtitle={`요리 영상을 시청하고${"\n"}맛있는 레시피를 만들어보세요`}
         iconName="restaurant-outline"
         buttonText="다시 확인하기"
         onRefresh={refetch}
@@ -47,19 +42,10 @@ export default function RecentRecipeSummaryScreen() {
     <View style={styles.container}>
       {/* 영상 목록 */}
       <Stack.Screen
-      name="recent"
-      options={{
-        header: () => (
-          <Stack.Screen
-            options={{
-              header: () => (
-                <RecipeRecentHeader />
-              ),
-            }}
-          />
-        ),
-      }}
-    />
+        options={{
+          header: () => <RecipeRecentHeader />,
+        }}
+      />
       <FlatList
         data={recentRecipes}
         keyExtractor={(item) => item.recipeId}
@@ -70,7 +56,7 @@ export default function RecentRecipeSummaryScreen() {
         ListEmptyComponent={renderEmptyState}
         refreshControl={
           <RefreshControl
-            refreshing={true}
+            refreshing={false}
             onRefresh={refetch}
             colors={[COLORS.orange.main]}
             tintColor={COLORS.orange.main}

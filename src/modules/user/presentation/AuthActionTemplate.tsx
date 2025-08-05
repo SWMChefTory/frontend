@@ -1,20 +1,29 @@
-import { View, Text, StyleSheet, TouchableOpacity, Modal, Button, TouchableWithoutFeedback, Alert, } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 
-import { COLORS } from "@/src/modules/shared/constants/colors";
-
-export default function AuthActionTemplate({authAction, actionName}: {authAction: () => void, actionName: string}) {
+export default function AuthActionTemplate({
+  authAction,
+  actionName,
+}: {
+  authAction: () => void;
+  actionName: string;
+}) {
   return (
-      <TouchableOpacity style={styles.userAccessTouchable} onPress={authAction}>
-       <Text style={styles.userAccessText}>{actionName}</Text>
-     </TouchableOpacity>
-  )
+    <TouchableOpacity style={styles.userAccessTouchable} onPress={authAction}>
+      <Text style={styles.userAccessText}>{actionName}</Text>
+    </TouchableOpacity>
+  );
 }
 
 const styles = StyleSheet.create({
-  userAccessTouchable:{
-    alignItems: 'center',
+  userAccessTouchable: {
+    alignItems: "center",
   },
-  userAccessText:{
-    color: 'grey',
-  }
+  userAccessText: {
+    color: "grey",
+  },
 });

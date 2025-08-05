@@ -15,7 +15,7 @@ import { AllRecipeEmptyState } from "@/src/modules/recipe/list/EmptyState";
 import RecipePopularHeader from "@/src/header/RecipePopularHeader";
 
 export default function PopularRecipeSummaryScreen() {
-  const { popularRecipes, loading, refetch } = usePopularSummaryViewModel();
+  const { popularRecipes, refetch } = usePopularSummaryViewModel();
   const router = useRouter();
 
   const handleRecipeView = useCallback((recipe: PopularSummaryRecipe) => {
@@ -25,22 +25,22 @@ export default function PopularRecipeSummaryScreen() {
     });
   }, []);
 
-  const renderItem = useCallback(({ item }: { item: PopularSummaryRecipe }) => {
-    return (
-      <View style={styles.itemContainer}>
-        <AllPopularRecipeCard 
-          recipe={item} 
-          onPress={handleRecipeView}
-        />
-      </View>
-    );
-  }, [handleRecipeView]);
+  const renderItem = useCallback(
+    ({ item }: { item: PopularSummaryRecipe }) => {
+      return (
+        <View style={styles.itemContainer}>
+          <AllPopularRecipeCard recipe={item} onPress={handleRecipeView} />
+        </View>
+      );
+    },
+    [handleRecipeView],
+  );
 
   const renderEmptyState = useCallback(() => {
     return (
       <AllRecipeEmptyState
         title="아직 준비된 레시피가 없어요"
-        subtitle={`맛있는 인기 레시피들을 준비하고 있어요${'\n'}조금만 기다려주세요!`}
+        subtitle={`맛있는 인기 레시피들을 준비하고 있어요${"\n"}조금만 기다려주세요!`}
         iconName="restaurant-outline"
         buttonText="다시 확인하기"
         onRefresh={refetch}
@@ -51,11 +51,8 @@ export default function PopularRecipeSummaryScreen() {
   return (
     <View style={styles.container}>
       <Stack.Screen
-        name="popular"
         options={{
-          header: () => (
-            <RecipePopularHeader />
-          ),
+          header: () => <RecipePopularHeader />,
         }}
       />
       <FlatList
@@ -63,13 +60,15 @@ export default function PopularRecipeSummaryScreen() {
         numColumns={2}
         keyExtractor={(item) => item.recipeId}
         renderItem={renderItem}
-        columnWrapperStyle={popularRecipes.length > 1 ? styles.columnWrapper : undefined}
+        columnWrapperStyle={
+          popularRecipes.length > 1 ? styles.columnWrapper : undefined
+        }
         contentContainerStyle={styles.listContainer}
         showsVerticalScrollIndicator={false}
-        ListEmptyComponent={!loading ? renderEmptyState : null}
+        ListEmptyComponent={renderEmptyState}
         refreshControl={
           <RefreshControl
-            refreshing={loading}
+            refreshing={false}
             onRefresh={refetch}
             colors={[COLORS.orange.main]}
             tintColor={COLORS.orange.main}
@@ -91,7 +90,7 @@ const styles = StyleSheet.create({
   },
   itemContainer: {
     flex: 1,
-    maxWidth: '48%',
+    maxWidth: "48%",
     margin: 8,
   },
   columnWrapper: {

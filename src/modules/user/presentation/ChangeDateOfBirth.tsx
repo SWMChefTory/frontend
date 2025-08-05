@@ -1,18 +1,23 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { useChangeDateOfBirthViewModel, useUserViewModel } from "@/src/modules/user/business/service/useUserSerivce";
+import {
+  useChangeDateOfBirthViewModel,
+  useUserViewModel,
+} from "@/src/modules/user/business/service/useUserSerivce";
 import { useState } from "react";
-import { DateOfBirthPick } from "@/src/modules/user/presentation/components/DateOfBirthPick"; 
+import { DateOfBirthPick } from "@/src/modules/user/presentation/components/DateOfBirthPick";
 import { COLORS } from "../../shared/constants/colors";
 import { DateOnly } from "@/src/modules/shared/utils/DateOnly";
 
 export default function ChangeDateOfBirth() {
   const user = useUserViewModel();
-  const [dateOfBirthInput, setDateOfBirthInput] = useState<DateOnly>(user?.dateOfBirth||DateOnly.create(new Date().toISOString()));
-  const {changeDateOfBirth, isLoading} = useChangeDateOfBirthViewModel();
+  const [dateOfBirthInput, setDateOfBirthInput] = useState<DateOnly>(
+    user?.dateOfBirth || DateOnly.create(new Date().toISOString()),
+  );
+  const { changeDateOfBirth, isLoading } = useChangeDateOfBirthViewModel();
   const [isDateOfBirthChanged, setIsDateOfBirthChanged] = useState(false);
 
   const handleChangeDateOfBirth = () => {
-    if(dateOfBirthInput.toJSON() === user?.dateOfBirth?.toJSON()) {
+    if (dateOfBirthInput.toJSON() === user?.dateOfBirth?.toJSON()) {
       setIsDateOfBirthChanged(false);
     } else {
       setIsDateOfBirthChanged(true);
@@ -22,10 +27,15 @@ export default function ChangeDateOfBirth() {
 
   return (
     <View style={styles.container}>
-      <DateOfBirthPick dateOfBirth={dateOfBirthInput} setDateOfBirth={setDateOfBirthInput} />
-      <TouchableOpacity style={[styles.button, !isDateOfBirthChanged && styles.buttonDisabled]} 
+      <DateOfBirthPick
+        dateOfBirth={dateOfBirthInput}
+        setDateOfBirth={setDateOfBirthInput}
+      />
+      <TouchableOpacity
+        style={[styles.button, !isDateOfBirthChanged && styles.buttonDisabled]}
         onPress={handleChangeDateOfBirth}
-        disabled={isLoading||!isDateOfBirthChanged}>
+        disabled={isLoading || !isDateOfBirthChanged}
+      >
         <Text style={styles.buttonText}>변경</Text>
       </TouchableOpacity>
     </View>

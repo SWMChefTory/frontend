@@ -20,8 +20,6 @@ export default function RecipeDetailScreen() {
     handleLoadStart,
     handleLoadEnd,
     handleNavigationStateChange,
-    handleError,
-    handleHttpError,
     accessToken, // Destructure accessToken from viewModel
   } = useRecipeDetailViewModel({
     recipeId: params.recipeId,

@@ -1,6 +1,6 @@
 import { Tabs } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-import { View, TouchableOpacity,Text,StyleSheet } from "react-native";
+import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useCallback, useRef } from "react";
@@ -46,28 +46,27 @@ export default function TabLayout() {
         }}
       >
         <Tabs.Screen
-            name="index"
-            options={{
-              header: () => (
-                <IndexHeader />
-              ),
-              tabBarLabel: "홈",
-              tabBarIcon: ({ color, size }) => (
-                <Ionicons name="home-outline" size={size} color={color} />
-              ),
-            }}
-          />
+          name="index"
+          options={{
+            header: () => <IndexHeader />,
+            tabBarLabel: "홈",
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="home-outline" size={size} color={color} />
+            ),
+          }}
+        />
         <Tabs.Screen
           name="dummy"
           options={{
             tabBarButton: () => (
               <View style={style.container}>
                 <RecipeBottomSheet modalRef={modalRef} />
-                <TouchableOpacity
-                  onPress={openBottomSheet}
-                  activeOpacity={0.8}
-                >
-                  <Ionicons name="add-circle-outline" size={48} color={"#543f30"} />
+                <TouchableOpacity onPress={openBottomSheet} activeOpacity={0.8}>
+                  <Ionicons
+                    name="add-circle-outline"
+                    size={48}
+                    color={"#543f30"}
+                  />
                 </TouchableOpacity>
               </View>
             ),
@@ -76,12 +75,14 @@ export default function TabLayout() {
         <Tabs.Screen
           name="collection"
           options={{
-            header: ( )=> (
-              <CollectionHeader />
-              ),
+            header: () => <CollectionHeader />,
             tabBarLabel: "컬렉션",
             tabBarIcon: ({ color, size }) => (
-              <Ionicons name="file-tray-stacked-outline" size={size} color={color} />
+              <Ionicons
+                name="file-tray-stacked-outline"
+                size={size}
+                color={color}
+              />
             ),
           }}
         />
@@ -94,10 +95,9 @@ const style = StyleSheet.create({
   container: {
     flex: 1,
     // backgroundColor: COLORS.priamry.main,
-    alignItems: 'center',
-    justifyContent: 'center',
-  }
-})
-
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});
 
 // src/app/(app)/(tabs)/index.tsx

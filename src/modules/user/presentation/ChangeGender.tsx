@@ -1,5 +1,8 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { useUserViewModel, useChangeGenderViewModel } from "../business/service/useUserSerivce";
+import {
+  useUserViewModel,
+  useChangeGenderViewModel,
+} from "../business/service/useUserSerivce";
 import { GenderOptions } from "./components/GenderOption";
 import { useState } from "react";
 import { Gender } from "../enums/Gender";
@@ -7,25 +10,32 @@ import { COLORS } from "../../shared/constants/colors";
 
 export default function ChangeGenderPage() {
   const user = useUserViewModel();
-  const {changeGender, isLoading} = useChangeGenderViewModel();
-  const [gender, setGender] = useState<Gender>(user?.gender||Gender.MALE);
+  const { changeGender, isLoading } = useChangeGenderViewModel();
+  const [gender, setGender] = useState<Gender>(user?.gender || Gender.MALE);
   const [isGenderChanged, setIsGenderChanged] = useState(false);
 
   const handleChangedGenderSubmit = (gender: Gender) => {
     console.log("gender", gender);
     console.log(user?.gender);
-    if(gender === user?.gender) {
+    if (gender === user?.gender) {
       setIsGenderChanged(false);
     } else {
-      setIsGenderChanged(true); 
+      setIsGenderChanged(true);
     }
     setGender(gender);
   };
 
   return (
     <View style={styles.container}>
-      <GenderOptions selectedGender={gender} setGender={handleChangedGenderSubmit} />
-      <TouchableOpacity style={[styles.button, !isGenderChanged && styles.buttonDisabled]} onPress={()=>changeGender(gender)} disabled={isLoading||!isGenderChanged}>
+      <GenderOptions
+        selectedGender={gender}
+        setGender={handleChangedGenderSubmit}
+      />
+      <TouchableOpacity
+        style={[styles.button, !isGenderChanged && styles.buttonDisabled]}
+        onPress={() => changeGender(gender)}
+        disabled={isLoading || !isGenderChanged}
+      >
         <Text style={styles.buttonText}>변경</Text>
       </TouchableOpacity>
     </View>
@@ -33,7 +43,7 @@ export default function ChangeGenderPage() {
 }
 
 const styles = StyleSheet.create({
-    container: {
+  container: {
     width: 400,
     // paddingHorizontal: 75,
     paddingTop: 16,

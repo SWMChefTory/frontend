@@ -3,11 +3,11 @@ import { HeaderTemplate } from "./template/HeaderTemplate";
 import { router } from "expo-router";
 
 export default function RecipeRecentHeader() {
-  return(
-    <HeaderTemplate 
+  return (
+    <HeaderTemplate
       title={<AllRecentRecipeTitle />}
       showBackButton={true}
       onBackPress={() => router.back()}
     />
-  )
+  );
 }

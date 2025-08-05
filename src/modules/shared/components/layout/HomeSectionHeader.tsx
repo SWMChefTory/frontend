@@ -13,7 +13,7 @@ export function HomeSectionHeader({
     <LinearGradient
       colors={[COLORS.priamry.main, COLORS.background.white]}
       start={{ x: 0.5, y: 1 }}
-      end={{ x: 0.5, y:  0.5}}
+      end={{ x: 0.5, y: 0.5 }}
       style={styles.headerSection}
     >
       <Text style={styles.title}>{title}</Text>

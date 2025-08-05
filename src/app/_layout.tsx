@@ -1,4 +1,3 @@
-
 import { CustomBackButton } from "@/src/modules/shared/components/layout/CustomBackButton";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -7,17 +6,17 @@ import * as ExpoSplashScreen from "expo-splash-screen";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { GlobalErrorBoundary } from "../modules/shared/components/error/GlobalErrorBoundary";
 import { SplashScreenController } from "../modules/shared/splash/SplashScreenController";
-import { useFonts, DoHyeon_400Regular } from '@expo-google-fonts/do-hyeon';
-import * as SplashScreen from 'expo-splash-screen';
-import {useEffect} from 'react';
-import {useAuthBootstrap} from '../modules/user/authBootstrap';
+import { useFonts, DoHyeon_400Regular } from "@expo-google-fonts/do-hyeon";
+import * as SplashScreen from "expo-splash-screen";
+import { useEffect } from "react";
+import { useAuthBootstrap } from "../modules/user/authBootstrap";
 
 ExpoSplashScreen.preventAutoHideAsync();
 
 function RootNavigator() {
   const { isLoggedIn, loading } = useAuthBootstrap();
   const [loaded, error] = useFonts({
-    DoHyeon_400Regular
+    DoHyeon_400Regular,
   });
 
   useEffect(() => {
@@ -63,11 +62,11 @@ export default function RootLayout() {
     <QueryClientProvider client={queryClient}>
       <GestureHandlerRootView style={{ flex: 1 }}>
         <BottomSheetModalProvider>
-            <GlobalErrorBoundary>
-              <SplashScreenController>
-                <RootNavigator />
-              </SplashScreenController>
-            </GlobalErrorBoundary>
+          <GlobalErrorBoundary>
+            <SplashScreenController>
+              <RootNavigator />
+            </SplashScreenController>
+          </GlobalErrorBoundary>
         </BottomSheetModalProvider>
       </GestureHandlerRootView>
     </QueryClientProvider>

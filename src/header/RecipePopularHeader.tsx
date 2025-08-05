@@ -4,7 +4,7 @@ import { router } from "expo-router";
 
 function RecipePopularHeader() {
   return (
-    <HeaderTemplate 
+    <HeaderTemplate
       title={<AllPopularRecipeTitle />}
       showBackButton={true}
       onBackPress={() => router.back()}

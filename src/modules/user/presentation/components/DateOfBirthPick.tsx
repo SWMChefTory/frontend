@@ -1,40 +1,43 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { DateTime } from "luxon";
 import { COLORS } from "../../../shared/constants/colors";
 import { DateOnly } from "@/src/modules/shared/utils/DateOnly";
 
-const years = Array.from({ length: 100 }, (_, i) => (2025 - i));
+const years = Array.from({ length: 100 }, (_, i) => 2025 - i);
 const months = Array.from({ length: 12 }, (_, i) => i + 1);
 
 // 월별 일수 계산 함수
 const getDaysInMonth = (year: number, month: number): number[] => {
   const daysCount = DateTime.local(year, month).daysInMonth;
-  return Array.from({ length: daysCount||0 }, (_, i) => i + 1);
+  return Array.from({ length: daysCount || 0 }, (_, i) => i + 1);
 };
 
 export const DateOfBirthPick = ({
-  dateOfBirth, 
-  setDateOfBirth
+  dateOfBirth,
+  setDateOfBirth,
 }: {
-  dateOfBirth: DateOnly, 
-  setDateOfBirth: (date: DateOnly) => void
+  dateOfBirth: DateOnly;
+  setDateOfBirth: (date: DateOnly) => void;
 }) => {
-  
   // 현재 선택된 날짜에서 년, 월, 일 추출
   const currentYear = dateOfBirth.dateOfBirth.year;
   const currentMonth = dateOfBirth.dateOfBirth.month;
   const currentDay = dateOfBirth.dateOfBirth.day;
-  
+
   // 현재 선택된 년/월에 해당하는 일수 계산
   const availableDays = getDaysInMonth(currentYear, currentMonth);
-  
+
   // 새로운 날짜로 DateOnly 생성
-  const createNewDate = (year: number, month: number, day: number): DateOnly => {
+  const createNewDate = (
+    year: number,
+    month: number,
+    day: number,
+  ): DateOnly => {
     // 해당 월의 마지막 날보다 큰 일수가 선택된 경우 마지막 날로 조정
     const maxDay = DateTime.local(year, month).daysInMonth;
-    const adjustedDay = Math.min(day, maxDay||0);
-    
+    const adjustedDay = Math.min(day, maxDay || 0);
+
     const newDateTime = DateTime.local(year, month, adjustedDay);
     const newDate = DateOnly.create(newDateTime.toISODate() || "");
     console.log("newDateTime", newDateTime.toISODate());
@@ -60,7 +63,7 @@ export const DateOfBirthPick = ({
           ))}
         </Picker>
       </View>
-    
+
       {/* 월 선택 */}
       <View style={styles.pickerWrapper}>
         <Picker
@@ -77,7 +80,7 @@ export const DateOfBirthPick = ({
           ))}
         </Picker>
       </View>
-    
+
       {/* 일 선택 */}
       <View style={styles.pickerWrapper}>
         <Picker
@@ -103,7 +106,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   birthContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: 8,
     borderRadius: 12,
     padding: 4,
@@ -112,14 +115,14 @@ const styles = StyleSheet.create({
   yearPickerWrapper: {
     flex: 1.3,
     height: 160,
-    overflow: 'hidden',
+    overflow: "hidden",
     backgroundColor: COLORS.background.white,
     borderRadius: 8,
   },
   pickerWrapper: {
     flex: 1,
     height: 160,
-    overflow: 'hidden',
+    overflow: "hidden",
     backgroundColor: COLORS.background.white,
     borderRadius: 8,
   },

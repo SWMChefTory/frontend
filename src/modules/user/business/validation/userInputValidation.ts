@@ -1,8 +1,8 @@
 import { userSchema } from "./userScheme";
 
 export function validateNickname(nickname: string) {
-  const result = userSchema.pick({nickname: true}).safeParse({nickname});
-  
+  const result = userSchema.pick({ nickname: true }).safeParse({ nickname });
+
   if (result.success) {
     return { isValid: true, message: "" };
   } else {

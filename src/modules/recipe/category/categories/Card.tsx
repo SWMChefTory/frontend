@@ -423,7 +423,7 @@ export function CategoryCard({
                     : isReceiving
                       ? COLORS.text.white
                       : isSelected
-                        ? COLORS.orange.black
+                        ? COLORS.priamry.cook
                         : COLORS.orange.main
               }
             />

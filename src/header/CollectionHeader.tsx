@@ -9,19 +9,19 @@ export default function CollectionHeader() {
   const router = useRouter();
   const handleSettingPress = () => {
     router.push("/settings/settings");
-  }
-  
+  };
+
   return (
-    <HeaderTemplate 
+    <HeaderTemplate
       title=""
       leftComponent={<></>}
       rightComponent={
-        <View style={{ flexDirection: 'row', gap: 12, marginRight: 16 }}>
+        <View style={{ flexDirection: "row", gap: 12, marginRight: 16 }}>
           <TouchableOpacity>
             <Ionicons name="notifications-outline" size={24} color="#000" />
           </TouchableOpacity>
           <TouchableOpacity onPress={handleSettingPress}>
-              <Ionicons name="settings-outline" size={24} color="#000" />
+            <Ionicons name="settings-outline" size={24} color="#000" />
           </TouchableOpacity>
         </View>
       }

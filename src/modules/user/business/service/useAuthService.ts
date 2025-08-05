@@ -22,25 +22,33 @@ export function useLoginViewModel() {
   const { setUser } = useUserStore();
   const router = useRouter();
 
-  const { mutate: login, isPending: isLoading, error } = useMutation({
+  const {
+    mutate: login,
+    isPending: isLoading,
+    error,
+  } = useMutation({
     mutationFn: async (loginInfo: LoginInfo) => {
-      return loginUser(loginInfo)},
+      return loginUser(loginInfo);
+    },
     onSuccess: (data) => {
       setUser(
         User.create({
           gender: data.user_info.gender,
           nickname: data.user_info.nickname,
-          dateOfBirth: DateOnly.create(data.user_info.date_of_birth)
-        })
+          dateOfBirth: DateOnly.create(data.user_info.date_of_birth),
+        }),
       );
       storeAuthToken(data.access_token, data.refresh_token);
     },
-    onError: (error,variables) => {
-      if (error instanceof AxiosError){
+    onError: (error, variables) => {
+      if (error instanceof AxiosError) {
         console.log(error.response?.data);
       }
 
-      if (error instanceof AxiosError && error.response?.data?.errorCode === "USER_001") {
+      if (
+        error instanceof AxiosError &&
+        error.response?.data?.errorCode === "USER_001"
+      ) {
         router.push({
           pathname: "/(auth)/signup",
           params: {
@@ -60,16 +68,21 @@ export function useLoginViewModel() {
 
 export function useSignupViewModel() {
   const { setUser } = useUserStore();
-  const { mutate: signup, isPending: isLoading, error } = useMutation({
+  const {
+    mutate: signup,
+    isPending: isLoading,
+    error,
+  } = useMutation({
     mutationFn: (signupData: SignupData) => {
-      return signupUser(signupData)},
+      return signupUser(signupData);
+    },
     onSuccess: (data) => {
       setUser(
         User.create({
           gender: data.user_info.gender,
           nickname: data.user_info.nickname,
-          dateOfBirth: DateOnly.create(data.user_info.date_of_birth)
-        })
+          dateOfBirth: DateOnly.create(data.user_info.date_of_birth),
+        }),
       );
       storeAuthToken(data.access_token, data.refresh_token);
     },

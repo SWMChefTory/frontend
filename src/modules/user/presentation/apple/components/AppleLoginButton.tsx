@@ -1,12 +1,14 @@
-import appleAuth, {AppleButton,} from '@invertase/react-native-apple-authentication';
+import appleAuth, {
+  AppleButton,
+} from "@invertase/react-native-apple-authentication";
 import { useLoginViewModel } from "@/src/modules/user/business/service/useAuthService";
 import { OauthProvider } from "@/src/modules/user/enums/OauthProvider";
 import { Alert } from "react-native";
-import { FullScreenLoader } from "@/src/modules/shared/splash/loading/lottieview/FullScreenLoader"
-  
+import { FullScreenLoader } from "@/src/modules/shared/splash/loading/lottieview/FullScreenLoader";
+
 export function AppleLoginButton() {
-  const {login, isLoading} = useLoginViewModel();
-  
+  const { login, isLoading } = useLoginViewModel();
+
   async function handleSignInApple() {
     const appleAuthRequestResponse = await appleAuth.performRequest({
       requestedOperation: appleAuth.Operation.LOGIN,
@@ -17,32 +19,38 @@ export function AppleLoginButton() {
     const credentialState = await appleAuth.getCredentialStateForUser(
       appleAuthRequestResponse.user,
     );
-    
-    if(!appleAuthRequestResponse.identityToken) {
+
+    if (!appleAuthRequestResponse.identityToken) {
       Alert.alert("오류", "Apple 로그인에 실패했습니다.");
       return;
     }
-  
+
     // use credentialState response to ensure the user is authenticated
-    if (credentialState === appleAuth.State.AUTHORIZED || credentialState === appleAuth.State.TRANSFERRED) {
+    if (
+      credentialState === appleAuth.State.AUTHORIZED ||
+      credentialState === appleAuth.State.TRANSFERRED
+    ) {
       console.log("AppleLoginButton 로그인 성공");
-      login({ id_token: appleAuthRequestResponse.identityToken, provider: OauthProvider.APPLE });
+      login({
+        id_token: appleAuthRequestResponse.identityToken,
+        provider: OauthProvider.APPLE,
+      });
       return;
     }
-  
+
     Alert.alert("오류", "Apple 로그인에 실패했습니다.");
   }
 
   return (
     <>
-      {isLoading&&<FullScreenLoader/>}
+      {isLoading && <FullScreenLoader />}
       <AppleButton
         buttonStyle={AppleButton.Style.WHITE}
         buttonType={AppleButton.Type.SIGN_IN}
         style={{
-          width: '62%', // You must specify a width
+          width: "62%", // You must specify a width
           height: 40, // You must specify a height
-          shadowColor: '#000',
+          shadowColor: "#000",
           shadowOffset: {
             width: 0,
             height: 1,
