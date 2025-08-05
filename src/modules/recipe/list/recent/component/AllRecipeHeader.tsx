@@ -1,5 +1,11 @@
 import { useRef, useEffect } from "react";
-import { Animated, View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import {
+  Animated,
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 
@@ -8,7 +14,7 @@ export function AllRecentRecipeTitle() {
   const scaleValue = useRef(new Animated.Value(1)).current;
   const iconRotate = useRef(new Animated.Value(0)).current;
   const pulseValue = useRef(new Animated.Value(1)).current;
-  
+
   // 자동 애니메이션값들 (HomeHeader처럼)
   const sparkleOpacity = useRef(new Animated.Value(0.4)).current;
   const decorativeOpacity = useRef(new Animated.Value(0.3)).current;
@@ -27,7 +33,7 @@ export function AllRecentRecipeTitle() {
           duration: 2000,
           useNativeDriver: true,
         }),
-      ])
+      ]),
     );
 
     const decorativeAnimation = Animated.loop(
@@ -42,7 +48,7 @@ export function AllRecentRecipeTitle() {
           duration: 1800,
           useNativeDriver: true,
         }),
-      ])
+      ]),
     );
 
     sparkleAnimation.start();
@@ -103,16 +109,18 @@ export function AllRecentRecipeTitle() {
 
   const iconRotateInterpolate = iconRotate.interpolate({
     inputRange: [0, 1],
-    outputRange: ['0deg', '360deg'], // 한 바퀴 회전
+    outputRange: ["0deg", "360deg"], // 한 바퀴 회전
   });
 
   return (
-    <Animated.View style={[
-      styles.titleContainer,
-      {
-        transform: [{ scale: scaleValue }],
-      }
-    ]}>
+    <Animated.View
+      style={[
+        styles.titleContainer,
+        {
+          transform: [{ scale: scaleValue }],
+        },
+      ]}
+    >
       <TouchableOpacity
         style={styles.touchableContainer}
         onPressIn={handlePressIn}
@@ -120,18 +128,22 @@ export function AllRecentRecipeTitle() {
         onPress={handleTitlePress}
         activeOpacity={0.8}
       >
-        <Animated.View style={[
-          styles.contentContainer,
-          {
-            transform: [{ scale: pulseValue }],
-          }
-        ]}>
+        <Animated.View
+          style={[
+            styles.contentContainer,
+            {
+              transform: [{ scale: pulseValue }],
+            },
+          ]}
+        >
           {/* 메인 타이틀 섹션 */}
           <View style={styles.mainTitleWrapper}>
             {/* 회전하는 시계 아이콘 */}
-            <Animated.View style={{
-              transform: [{ rotate: iconRotateInterpolate }]
-            }}>
+            <Animated.View
+              style={{
+                transform: [{ rotate: iconRotateInterpolate }],
+              }}
+            >
               <Ionicons name="time" size={22} color={COLORS.orange.main} />
             </Animated.View>
 
@@ -140,42 +152,51 @@ export function AllRecentRecipeTitle() {
 
             {/* 반짝이는 장식들 */}
             <View style={styles.decorationsContainer}>
-              <Animated.View style={[
-                styles.sparkleIcon,
-                { opacity: sparkleOpacity }
-              ]}>
-                <Ionicons name="sparkles" size={16} color={COLORS.orange.light} />
+              <Animated.View
+                style={[styles.sparkleIcon, { opacity: sparkleOpacity }]}
+              >
+                <Ionicons
+                  name="sparkles"
+                  size={16}
+                  color={COLORS.orange.light}
+                />
               </Animated.View>
             </View>
           </View>
 
           {/* 서브타이틀 섹션 */}
           <View style={styles.subtitleWrapper}>
-            <Animated.View style={[
-              styles.pulsingDot,
-              {
-                transform: [{ scale: pulseValue }]
-              }
-            ]} />
+            <Animated.View
+              style={[
+                styles.pulsingDot,
+                {
+                  transform: [{ scale: pulseValue }],
+                },
+              ]}
+            />
             <Text style={styles.subtitle}>최근 본 레시피들</Text>
 
             {/* 작은 장식 도트들 */}
             <View style={styles.smallDotsContainer}>
-              <Animated.View style={[
-                styles.smallDot,
-                { 
-                  opacity: decorativeOpacity,
-                  backgroundColor: COLORS.orange.main + '50'
-                }
-              ]} />
-              <Animated.View style={[
-                styles.smallDot,
-                { 
-                  opacity: sparkleOpacity,
-                  backgroundColor: COLORS.orange.main + '70',
-                  marginLeft: 3
-                }
-              ]} />
+              <Animated.View
+                style={[
+                  styles.smallDot,
+                  {
+                    opacity: decorativeOpacity,
+                    backgroundColor: COLORS.orange.main + "50",
+                  },
+                ]}
+              />
+              <Animated.View
+                style={[
+                  styles.smallDot,
+                  {
+                    opacity: sparkleOpacity,
+                    backgroundColor: COLORS.orange.main + "70",
+                    marginLeft: 3,
+                  },
+                ]}
+              />
             </View>
           </View>
         </Animated.View>
@@ -186,41 +207,41 @@ export function AllRecentRecipeTitle() {
 
 const styles = StyleSheet.create({
   titleContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     paddingVertical: 2,
   },
   touchableContainer: {
-    alignItems: 'center',
+    alignItems: "center",
   },
   contentContainer: {
-    alignItems: 'center',
+    alignItems: "center",
   },
   mainTitleWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    position: 'relative',
+    flexDirection: "row",
+    alignItems: "center",
+    position: "relative",
   },
   mainTitle: {
     fontSize: 20,
-    fontWeight: '700',
+    fontWeight: "700",
     color: COLORS.text.black,
     letterSpacing: -0.4,
     marginLeft: 8,
-    textShadowColor: COLORS.orange.main + '15',
+    textShadowColor: COLORS.orange.main + "15",
     textShadowOffset: { width: 0, height: 1 },
     textShadowRadius: 3,
   },
   decorationsContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginLeft: 8,
   },
   sparkleIcon: {
     // 반짝이는 별
   },
   subtitleWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginTop: 4,
   },
   pulsingDot: {
@@ -233,12 +254,12 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 12,
     color: COLORS.text.gray,
-    fontWeight: '500',
+    fontWeight: "500",
     letterSpacing: 0.4,
   },
   smallDotsContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginLeft: 10,
   },
   smallDot: {

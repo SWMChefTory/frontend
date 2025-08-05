@@ -1,10 +1,5 @@
 import React, { useCallback } from "react";
-import {
-  StyleSheet,
-  View,
-  FlatList,
-  RefreshControl,
-} from "react-native";
+import { StyleSheet, View, FlatList, RefreshControl } from "react-native";
 import { Tabs, useRouter } from "expo-router";
 import { useRecentSummaryViewModel } from "@/src/modules/recipe/summary/recent/viewmodels/useViewModels";
 import { RecentSummaryRecipe } from "@/src/modules/recipe/summary/recent/types/Recipe";
@@ -15,8 +10,7 @@ import { AllRecentRecipeTitle } from "@/src/modules/recipe/list/recent/component
 import { CheftoryHeader } from "@/src/modules/shared/components/header/CheftoryHeader";
 
 export default function RecentRecipeSummaryScreen() {
-
-  const { recentRecipes, loading, refetch } = useRecentSummaryViewModel();
+  const { recentRecipes, refetch } = useRecentSummaryViewModel();
   const router = useRouter();
 
   const handleRecipeView = useCallback((recipe: RecentSummaryRecipe) => {
@@ -26,18 +20,18 @@ export default function RecentRecipeSummaryScreen() {
     });
   }, []);
 
-  const renderItem = useCallback(({ item }: { item: RecentSummaryRecipe }) => (
-    <AllRecentRecipeCard
-      recipe={item}
-      onPress={handleRecipeView}
-    />
-  ), [handleRecipeView]);
+  const renderItem = useCallback(
+    ({ item }: { item: RecentSummaryRecipe }) => (
+      <AllRecentRecipeCard recipe={item} onPress={handleRecipeView} />
+    ),
+    [handleRecipeView],
+  );
 
   const renderEmptyState = useCallback(() => {
     return (
       <AllRecipeEmptyState
         title="아직 시청한 영상이 없어요"
-        subtitle={`요리 영상을 시청하고${'\n'}맛있는 레시피를 만들어보세요`}
+        subtitle={`요리 영상을 시청하고${"\n"}맛있는 레시피를 만들어보세요`}
         iconName="restaurant-outline"
         buttonText="다시 확인하기"
         onRefresh={refetch}
@@ -49,17 +43,17 @@ export default function RecentRecipeSummaryScreen() {
     <View style={styles.container}>
       {/* 영상 목록 */}
       <Tabs.Screen
-      name="recent"
-      options={{
-        header: () => (
-          <CheftoryHeader 
-            title={<AllRecentRecipeTitle />}
-            showBackButton={true}
-            onBackPress={() => router.back()}
-          />
-        ),
-      }}
-    />
+        name="recent"
+        options={{
+          header: () => (
+            <CheftoryHeader
+              title={<AllRecentRecipeTitle />}
+              showBackButton={true}
+              onBackPress={() => router.back()}
+            />
+          ),
+        }}
+      />
       <FlatList
         data={recentRecipes}
         keyExtractor={(item) => item.recipeId}
@@ -67,10 +61,10 @@ export default function RecentRecipeSummaryScreen() {
         contentContainerStyle={styles.listContainer}
         showsVerticalScrollIndicator={false}
         ItemSeparatorComponent={() => <View style={{ height: 16 }} />}
-        ListEmptyComponent={!loading ? renderEmptyState : null}
+        ListEmptyComponent={renderEmptyState}
         refreshControl={
           <RefreshControl
-            refreshing={loading}
+            refreshing={true}
             onRefresh={refetch}
             colors={[COLORS.orange.main]}
             tintColor={COLORS.orange.main}

@@ -1,7 +1,13 @@
-import React, { useCallback, useEffect, useRef } from 'react';
-import { View, Text, TouchableOpacity, Animated, StyleSheet } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { COLORS } from '@/src/modules/shared/constants/colors';
+import React, { useCallback, useEffect, useRef } from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Animated,
+  StyleSheet,
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { COLORS } from "@/src/modules/shared/constants/colors";
 
 interface EmptyStateProps {
   title: string;
@@ -56,7 +62,7 @@ export const AllRecipeEmptyState: React.FC<EmptyStateProps> = ({
           duration: 3000,
           useNativeDriver: true,
         }),
-      ])
+      ]),
     );
 
     // 아이콘 플로팅 애니메이션
@@ -72,7 +78,7 @@ export const AllRecipeEmptyState: React.FC<EmptyStateProps> = ({
           duration: 2000,
           useNativeDriver: true,
         }),
-      ])
+      ]),
     );
 
     // 장식 원들의 스케일 애니메이션 (서로 다른 타이밍)
@@ -88,7 +94,7 @@ export const AllRecipeEmptyState: React.FC<EmptyStateProps> = ({
           duration: 2500,
           useNativeDriver: true,
         }),
-      ])
+      ]),
     );
 
     const decorativeAnimation2 = Animated.loop(
@@ -103,7 +109,7 @@ export const AllRecipeEmptyState: React.FC<EmptyStateProps> = ({
           duration: 3500,
           useNativeDriver: true,
         }),
-      ])
+      ]),
     );
 
     const decorativeAnimation3 = Animated.loop(
@@ -118,7 +124,7 @@ export const AllRecipeEmptyState: React.FC<EmptyStateProps> = ({
           duration: 2800,
           useNativeDriver: true,
         }),
-      ])
+      ]),
     );
 
     // 애니메이션 시작 (각각 다른 지연 시간)
@@ -168,7 +174,7 @@ export const AllRecipeEmptyState: React.FC<EmptyStateProps> = ({
   // 애니메이션 계산
   const iconRotation = iconRotateAnim.interpolate({
     inputRange: [0, 1],
-    outputRange: ['0deg', '10deg'],
+    outputRange: ["0deg", "10deg"],
   });
 
   const iconFloat = floatAnim.interpolate({
@@ -192,52 +198,49 @@ export const AllRecipeEmptyState: React.FC<EmptyStateProps> = ({
   });
 
   return (
-    <Animated.View 
+    <Animated.View
       style={[
         styles.emptyContainer,
         {
           opacity: fadeAnim,
           transform: [{ scale: scaleAnim }],
-        }
+        },
       ]}
     >
       <View style={styles.emptyContent}>
         {/* 애니메이션되는 배경 장식 원들 */}
-        <Animated.View 
+        <Animated.View
           style={[
             styles.decorativeCircle1,
             {
               transform: [{ scale: decorativeScale1 }],
-            }
-          ]} 
+            },
+          ]}
         />
-        <Animated.View 
+        <Animated.View
           style={[
             styles.decorativeCircle2,
             {
               transform: [{ scale: decorativeScale2 }],
-            }
-          ]} 
+            },
+          ]}
         />
-        <Animated.View 
+        <Animated.View
           style={[
             styles.decorativeCircle3,
             {
               transform: [{ scale: decorativeScale3 }],
-            }
-          ]} 
+            },
+          ]}
         />
-        
+
         {/* 애니메이션되는 메인 아이콘 */}
-        <Animated.View 
+        <Animated.View
           style={[
             styles.iconContainer,
             {
-              transform: [
-                { translateY: iconFloat },
-                { rotate: iconRotation },
-              ],
-            }
+              transform: [{ translateY: iconFloat }, { rotate: iconRotation }],
+            },
           ]}
         >
           <View style={styles.iconBackground}>
@@ -252,13 +255,17 @@ export const AllRecipeEmptyState: React.FC<EmptyStateProps> = ({
         </View>
 
         {/* 인터렉티브 새로고침 버튼 */}
-        <TouchableOpacity 
-          style={styles.refreshButton} 
+        <TouchableOpacity
+          style={styles.refreshButton}
           onPress={handleRefresh}
           activeOpacity={0.7}
         >
           <View style={styles.buttonContent}>
-            <Ionicons name="refresh-outline" size={18} color={COLORS.orange.main} />
+            <Ionicons
+              name="refresh-outline"
+              size={18}
+              color={COLORS.orange.main}
+            />
             <Text style={styles.buttonText}>{buttonText}</Text>
           </View>
         </TouchableOpacity>
@@ -277,9 +284,9 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.background.white,
   },
   emptyContent: {
-    position: 'relative',
-    alignItems: 'center',
-    width: '100%',
+    position: "relative",
+    alignItems: "center",
+    width: "100%",
     maxWidth: 320,
     paddingVertical: 48,
     paddingHorizontal: 32,
@@ -296,31 +303,31 @@ const styles = StyleSheet.create({
   },
   // 배경 장식 원들
   decorativeCircle1: {
-    position: 'absolute',
+    position: "absolute",
     top: -20,
     right: -15,
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: 'rgba(255, 183, 77, 0.1)',
+    backgroundColor: "rgba(255, 183, 77, 0.1)",
   },
   decorativeCircle2: {
-    position: 'absolute',
+    position: "absolute",
     bottom: -10,
     left: -20,
     width: 60,
     height: 60,
     borderRadius: 30,
-    backgroundColor: 'rgba(255, 138, 101, 0.08)',
+    backgroundColor: "rgba(255, 138, 101, 0.08)",
   },
   decorativeCircle3: {
-    position: 'absolute',
+    position: "absolute",
     top: 20,
     left: -30,
     width: 24,
     height: 24,
     borderRadius: 12,
-    backgroundColor: 'rgba(251, 146, 60, 0.12)',
+    backgroundColor: "rgba(251, 146, 60, 0.12)",
   },
   iconContainer: {
     marginBottom: 28,
@@ -330,19 +337,19 @@ const styles = StyleSheet.create({
     height: 72,
     borderRadius: 24,
     backgroundColor: COLORS.background.white,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     borderWidth: 1,
-    borderColor: 'rgba(251, 146, 60, 0.15)',
+    borderColor: "rgba(251, 146, 60, 0.15)",
     // 부드러운 내부 그림자 효과
-    shadowColor: '#FF8A65',
+    shadowColor: "#FF8A65",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 8,
     elevation: 2,
   },
   textContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     marginBottom: 32,
   },
   emptyTitle: {
@@ -350,7 +357,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: COLORS.text.black,
     marginBottom: 12,
-    textAlign: 'center',
+    textAlign: "center",
     letterSpacing: -0.3,
   },
   emptySubtitle: {
@@ -373,8 +380,8 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   buttonContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     paddingHorizontal: 20,
     paddingVertical: 12,
   },

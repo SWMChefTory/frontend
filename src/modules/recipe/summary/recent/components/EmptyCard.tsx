@@ -20,9 +20,9 @@ export function EmptyStateCard({ isFirst }: Props) {
   return (
     <>
       {isFirst && <RecipeBottomSheet modalRef={modalRef} />}
-      
-      <Pressable 
-        onPress={openBottomSheet} 
+
+      <Pressable
+        onPress={openBottomSheet}
         style={[styles.emptyCard, !isFirst && styles.emptyCardInactive]}
       >
         <View style={styles.emptyImageWrapper}>
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.05,
     shadowRadius: 6,
     elevation: 4,
-    borderStyle: 'dashed',
+    borderStyle: "dashed",
   },
   emptyCardInactive: {
     opacity: 0.3,
@@ -69,9 +69,9 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
   },
-  emptyImagePlaceholder: { 
-    width: "100%", 
-    height: "100%", 
+  emptyImagePlaceholder: {
+    width: "100%",
+    height: "100%",
     backgroundColor: COLORS.background.lightGray,
     justifyContent: "center",
     alignItems: "center",
@@ -81,8 +81,8 @@ const styles = StyleSheet.create({
     color: COLORS.text.gray,
     fontWeight: "300",
   },
-  emptyBody: { 
-    padding: 12 
+  emptyBody: {
+    padding: 12,
   },
   emptyTitle: {
     fontSize: 13,

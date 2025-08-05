@@ -1,8 +1,6 @@
 import { recentRecipesApiMock } from "@/src/modules/recipe/summary/recent/api/__mocks__/api.mock";
 import { client } from "@/src/modules/shared/api/client";
 
-
-
 export interface RecentRecipeApiResponse {
   viewed_at: string;
   last_play_seconds: number;
@@ -11,6 +9,7 @@ export interface RecentRecipeApiResponse {
   video_thumbnail_url: string;
   video_id: string;
   video_seconds: number;
+  category: string | "양식";
 }
 
 export interface RecentRecipesApiResponse {
@@ -18,6 +17,7 @@ export interface RecentRecipesApiResponse {
 }
 
 export async function fetchRecentSummary(): Promise<RecentRecipesApiResponse> {
-  const response = await client.get<RecentRecipesApiResponse>(`/recipes/recent`);
+  const response =
+    await client.get<RecentRecipesApiResponse>(`/recipes/recent`);
   return response.data;
 }

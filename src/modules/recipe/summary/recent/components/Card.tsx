@@ -25,7 +25,7 @@ export function RecentRecipeSummaryCard({ recipe, onPress }: Props) {
               {
                 width: `${Math.min(
                   (recipe.lastPlaySeconds / recipe.videoDuration) * 100,
-                  100
+                  100,
                 )}%`,
               },
             ]}
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     shadowRadius: 6,
     elevation: 4,
     borderWidth: 1,
-    borderColor: '#F3F4F6',
+    borderColor: "#F3F4F6",
   },
   imageWrapper: {
     width: "100%",
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
   },
   body: {
     paddingHorizontal: 12, // ✅ 수평 padding만 적용
-    paddingTop: 12,        // ✅ 위쪽 여백
+    paddingTop: 12, // ✅ 위쪽 여백
   },
   title: {
     fontSize: 13,

@@ -9,14 +9,8 @@ type Props = {
 
 export function PopularRecipeSummaryCard({ recipe, onPress }: Props) {
   return (
-    <Pressable
-      onPress={() => onPress(recipe)}
-      style={styles.card}
-    >
-      <Image
-        source={{ uri: recipe.thumbnailUrl }}
-        style={styles.image}
-      />
+    <Pressable onPress={() => onPress(recipe)} style={styles.card}>
+      <Image source={{ uri: recipe.thumbnailUrl }} style={styles.image} />
       <Text numberOfLines={2} style={styles.cardText}>
         {recipe.title}
       </Text>
@@ -25,7 +19,7 @@ export function PopularRecipeSummaryCard({ recipe, onPress }: Props) {
 }
 
 const styles = StyleSheet.create({
-  card: { 
+  card: {
     width: "48%",
     height: 180,
     paddingTop: 16,

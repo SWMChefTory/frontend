@@ -9,7 +9,10 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-import { useDeleteUserViewModel, useLogoutViewModel } from "@/src/modules/user/form/viewmodel/authViewModel";
+import {
+  useDeleteUserViewModel,
+  useLogoutViewModel,
+} from "@/src/modules/user/form/viewmodel/authViewModel";
 
 export default function SettingsPage() {
   const router = useRouter();
@@ -24,7 +27,7 @@ export default function SettingsPage() {
         style: "destructive",
         onPress: async () => {
           try {
-          logout();
+            logout();
           } catch (error) {
             Alert.alert("오류", "로그아웃에 실패했습니다.");
           }

@@ -1,4 +1,10 @@
-import { FlatList, RefreshControl, StyleSheet, TouchableOpacity, View } from "react-native";
+import {
+  FlatList,
+  RefreshControl,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { AllPopularRecipeCard } from "@/src/modules/recipe/list/popular/component/AllRecipeCard";
 import { PopularSummaryRecipe } from "@/src/modules/recipe/summary/popular/types/Recipe";
 import { COLORS } from "@/src/modules/shared/constants/colors";
@@ -13,7 +19,6 @@ import { AllPopularRecipeTitle } from "@/src/modules/recipe/list/popular/compone
 import { HomeHeader } from "@/src/modules/shared/components/header/HomeHeader";
 
 export default function PopularRecipeSummaryScreen() {
-
   const { popularRecipes, loading, refetch } = usePopularSummaryViewModel();
   const router = useRouter();
 
@@ -24,22 +29,22 @@ export default function PopularRecipeSummaryScreen() {
     });
   }, []);
 
-  const renderItem = useCallback(({ item }: { item: PopularSummaryRecipe }) => {
-    return (
-      <View style={styles.itemContainer}>
-        <AllPopularRecipeCard 
-          recipe={item} 
-          onPress={handleRecipeView}
-        />
-      </View>
-    );
-  }, [handleRecipeView]);
+  const renderItem = useCallback(
+    ({ item }: { item: PopularSummaryRecipe }) => {
+      return (
+        <View style={styles.itemContainer}>
+          <AllPopularRecipeCard recipe={item} onPress={handleRecipeView} />
+        </View>
+      );
+    },
+    [handleRecipeView],
+  );
 
   const renderEmptyState = useCallback(() => {
     return (
       <AllRecipeEmptyState
         title="아직 준비된 레시피가 없어요"
-        subtitle={`맛있는 인기 레시피들을 준비하고 있어요${'\n'}조금만 기다려주세요!`}
+        subtitle={`맛있는 인기 레시피들을 준비하고 있어요${"\n"}조금만 기다려주세요!`}
         iconName="restaurant-outline"
         buttonText="다시 확인하기"
         onRefresh={refetch}
@@ -50,23 +55,25 @@ export default function PopularRecipeSummaryScreen() {
   return (
     <View style={styles.container}>
       <Tabs.Screen
-      name="popular"
-      options={{
-        header: () => (
-          <CheftoryHeader 
-            title={<AllPopularRecipeTitle />}
-            showBackButton={true}
-            onBackPress={() => router.back()}
-          />
-        ),
-      }}
-    />
+        name="popular"
+        options={{
+          header: () => (
+            <CheftoryHeader
+              title={<AllPopularRecipeTitle />}
+              showBackButton={true}
+              onBackPress={() => router.back()}
+            />
+          ),
+        }}
+      />
       <FlatList
         data={popularRecipes}
         numColumns={2}
         keyExtractor={(item) => item.recipeId}
         renderItem={renderItem}
-        columnWrapperStyle={popularRecipes.length > 1 ? styles.columnWrapper : undefined}
+        columnWrapperStyle={
+          popularRecipes.length > 1 ? styles.columnWrapper : undefined
+        }
         contentContainerStyle={styles.listContainer}
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={!loading ? renderEmptyState : null}
@@ -94,7 +101,7 @@ const styles = StyleSheet.create({
   },
   itemContainer: {
     flex: 1,
-    maxWidth: '48%',
+    maxWidth: "48%",
     margin: 8,
   },
   columnWrapper: {

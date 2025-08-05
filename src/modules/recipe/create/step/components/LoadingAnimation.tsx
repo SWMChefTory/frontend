@@ -30,8 +30,8 @@ export function LoadingAnimation({
               transform: [{ rotate: spin }],
               borderTopColor: colors[0],
               borderRightColor: colors[1],
-              borderBottomColor: '#E2E8F0',
-              borderLeftColor: '#E2E8F0',
+              borderBottomColor: "#E2E8F0",
+              borderLeftColor: "#E2E8F0",
             },
           ]}
         />
@@ -43,9 +43,9 @@ export function LoadingAnimation({
             {
               transform: [{ rotate: reverseSpin }],
               borderBottomColor: colors[0],
-              borderTopColor: '#E2E8F0',
-              borderLeftColor: '#E2E8F0',
-              borderRightColor: '#E2E8F0',
+              borderTopColor: "#E2E8F0",
+              borderLeftColor: "#E2E8F0",
+              borderRightColor: "#E2E8F0",
             },
           ]}
         />
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     height: 160,
     borderRadius: 80,
     borderWidth: 4,
-    borderColor: '#F5F5F5', // 연한 회색 베이스
+    borderColor: "#F5F5F5", // 연한 회색 베이스
   },
   outerRing: {
     position: "absolute",

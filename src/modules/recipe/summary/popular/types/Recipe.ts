@@ -7,6 +7,7 @@ export class PopularSummaryRecipe {
   count: number;
   thumbnailUrl: string;
   rank: number;
+  video_url: string;
 
   private constructor(
     recipeId: string,
@@ -15,6 +16,7 @@ export class PopularSummaryRecipe {
     count: number,
     thumbnailUrl: string,
     rank: number,
+    video_url: string,
   ) {
     this.recipeId = recipeId;
     this.title = title;
@@ -22,9 +24,13 @@ export class PopularSummaryRecipe {
     this.count = count;
     this.thumbnailUrl = thumbnailUrl;
     this.rank = rank;
+    this.video_url = video_url;
   }
 
-  static create(apiResponse: PopularRecipeOverview, rank: number): PopularSummaryRecipe {
+  static create(
+    apiResponse: PopularRecipeOverview,
+    rank: number,
+  ): PopularSummaryRecipe {
     return new PopularSummaryRecipe(
       apiResponse.recipe_id,
       apiResponse.recipe_title,
@@ -32,6 +38,7 @@ export class PopularSummaryRecipe {
       apiResponse.count,
       apiResponse.video_thumbnail_url,
       rank,
+      apiResponse.video_url,
     );
   }
 }

@@ -16,7 +16,7 @@ GoogleSignin.configure({
 });
 
 export default function GoogleLoginButton() {
-  const {login,isLoading} = useLoginViewModel();
+  const { login, isLoading } = useLoginViewModel();
 
   const handleSignIn = async () => {
     try {
@@ -42,9 +42,8 @@ export default function GoogleLoginButton() {
 
   return (
     <>
-      {isLoading&&<FullScreenLoader/>}
-      <GoogleSigninButton
-      onPress={handleSignIn}/>
+      {isLoading && <FullScreenLoader />}
+      <GoogleSigninButton onPress={handleSignIn} />
     </>
   );
 }
