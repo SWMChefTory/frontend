@@ -42,7 +42,7 @@ export class RecentSummaryRecipe {
       new Date(apiResponse.viewed_at),
       apiResponse.video_seconds,
       apiResponse.category,
-      apiResponse.category_id
+      apiResponse.category_id,
     );
   }
 

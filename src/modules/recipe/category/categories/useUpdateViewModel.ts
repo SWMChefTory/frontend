@@ -5,9 +5,9 @@ import { useState } from "react";
 
 export function useUpdateCategoryViewModel() {
   const queryClient = useQueryClient();
-  const [updatingRecipeId, setUpdatingRecipeId] = useState<string | null>(null);
+  const [updatingCategoryId, setUpdatingCategoryId] = useState<string | null>(null);
 
-  const { mutateAsync: updateCategoryMutation } = useMutation({
+  const { mutateAsync: updateCategory } = useMutation({
     mutationFn: ({
       recipeId,
       previousCategoryId,
@@ -17,6 +17,13 @@ export function useUpdateCategoryViewModel() {
       previousCategoryId: string | null;
       targetCategoryId: string;
     }) => withMinDelay(updateCategoryApi(recipeId, targetCategoryId), 500),
+
+    onMutate: ({ targetCategoryId }) => {
+      setUpdatingCategoryId(targetCategoryId);
+    },
+    onSettled: () => {
+      setUpdatingCategoryId(null);
+    },  
 
     onSuccess: (_, { previousCategoryId, targetCategoryId }) => {
       queryClient.invalidateQueries({
@@ -28,28 +35,5 @@ export function useUpdateCategoryViewModel() {
       queryClient.invalidateQueries({ queryKey: ["categories"] });
     },
   });
-
-  const updateCategory = async ({
-    recipeId,
-    previousCategoryId,
-    targetCategoryId,
-  }: {
-    recipeId: string;
-    previousCategoryId: string | null;
-    targetCategoryId: string;
-  }) => {
-    setUpdatingRecipeId(recipeId);
-    try {
-      const result = await updateCategoryMutation({
-        recipeId,
-        previousCategoryId,
-        targetCategoryId,
-      });
-      return result;
-    } finally {
-      setUpdatingRecipeId(null);
-    }
-  };
-
-  return { updateCategory, updatingRecipeId };
+  return { updateCategory, updatingCategoryId };
 }

@@ -60,7 +60,6 @@ export function AllRecentRecipeTitle() {
     };
   }, []);
 
-  // 클릭 애니메이션들 (HomeHeader 스타일)
   const handlePressIn = () => {
     Animated.spring(scaleValue, {
       toValue: 0.95,
@@ -136,9 +135,7 @@ export function AllRecentRecipeTitle() {
             },
           ]}
         >
-          {/* 메인 타이틀 섹션 */}
           <View style={styles.mainTitleWrapper}>
-            {/* 회전하는 시계 아이콘 */}
             <Animated.View
               style={{
                 transform: [{ rotate: iconRotateInterpolate }],
@@ -236,9 +233,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginLeft: 8,
   },
-  sparkleIcon: {
-    // 반짝이는 별
-  },
+  sparkleIcon: {},
   subtitleWrapper: {
     flexDirection: "row",
     alignItems: "center",

@@ -4,15 +4,22 @@ import { COLORS } from "@/src/modules/shared/constants/colors";
 import { ApiErrorBoundary } from "@/src/modules/shared/components/error/ApiErrorBoundary";
 import { CategorySummaryRecipeError } from "./Fallback";
 import { useCategoryRecipesViewModel } from "./useViewModel";
-import { Suspense } from "react";
+import { Suspense, useCallback, useRef, useState } from "react";
 import { DeferredComponent } from "@/src/modules/shared/utils/DeferredComponent";
 import { CategoryRecipesSkeleton } from "./Skeleton";
-
+import { useFocusEffect, useRouter } from "expo-router";
+import { CategorySummaryRecipe } from "@/src/modules/recipe/category/summary/Recipe";
+import { throttle } from "lodash";
+import { TrashCan } from "./TrashCan";
+import { Category } from "../Category";
 interface Props {
-  selectedCategoryId: string | null;
+  selectedCategory: Category | null;
+  onDragStart: () => void;
+  onDragEnd: () => void;
+  isDragging: boolean;
 }
 
-export function CategoryRecipeListSection({ selectedCategoryId }: Props) {
+export function CategoryRecipeListSection({ selectedCategory, onDragStart, onDragEnd, isDragging }: Props) {
   return (
     <View style={styles.recipeSummaryList}>
       <ApiErrorBoundary fallbackComponent={CategorySummaryRecipeError}>
@@ -24,7 +31,10 @@ export function CategoryRecipeListSection({ selectedCategoryId }: Props) {
           }
         >
           <CategoryRecipeListSectionContent
-            selectedCategoryId={selectedCategoryId}
+            selectedCategory={selectedCategory}
+            onDragStart={onDragStart}
+            onDragEnd={onDragEnd}
+            isDragging={isDragging}
           />
         </Suspense>
       </ApiErrorBoundary>
@@ -33,13 +43,49 @@ export function CategoryRecipeListSection({ selectedCategoryId }: Props) {
 }
 
 export function CategoryRecipeListSectionContent({
-  selectedCategoryId,
+  selectedCategory,
+  onDragStart,
+  onDragEnd,
+  isDragging, 
 }: Props) {
-  const { recipes, refetch } = useCategoryRecipesViewModel(selectedCategoryId);
+  const { recipes, refetchAll } = useCategoryRecipesViewModel(selectedCategory?.id ?? null);
+  const router = useRouter();
+
+  useFocusEffect(
+    useCallback(() => {
+      refetchAll();
+    }, [refetchAll]),
+  );
+
+  const handleRecipePress = useRef(throttle(
+    (recipe: CategorySummaryRecipe) => {
+    router.push({
+      pathname: "/recipe/detail",
+      params: {
+        recipeId: recipe.recipeId,
+        youtubeId: recipe.youtubeId,
+        title: recipe.title,
+      },
+    });
+  }, 2000, {
+      leading: true,
+      trailing: false,
+    }),
+  ).current;
 
   return (
     <>
-      <CategoryRecipeSummaryList recipes={recipes} />
+      <CategoryRecipeSummaryList
+        recipes={recipes}
+        onPress={handleRecipePress}
+        onDragStart={onDragStart}
+        onDragEnd={onDragEnd}
+        isDragging={isDragging}
+      />
+      <TrashCan
+        onDragEnd={onDragEnd}
+        isDragging={isDragging}
+      />
     </>
   );
 }

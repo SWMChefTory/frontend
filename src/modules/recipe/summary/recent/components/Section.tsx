@@ -4,29 +4,51 @@ import { RecipeSectionHeader } from "../../shared/components/SectionHeader";
 import { RecentRecipeError } from "../shared/Fallback";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 import { ApiErrorBoundary } from "@/src/modules/shared/components/error/ApiErrorBoundary";
-import { useEffect } from "react";
+import { useEffect, Suspense, useRef, useCallback } from "react";
 import { useRecentSummaryViewModel } from "../viewmodels/useViewModels";
 import { DeferredComponent } from "@/src/modules/shared/utils/DeferredComponent";
 import { RecentRecipesSkeleton } from "../shared/Skeleton";
-import { Suspense } from "react";
 import RecentRecipeSummaryList from "./List";
+import { useFocusEffect, useRouter } from "expo-router";
+import { throttle } from "lodash";
 
 interface Props {
-  onRecipePress: (recipe: RecentSummaryRecipe) => void;
-  onViewAllPress: () => void;
   onRefresh: number;
 }
 
-export function RecentRecipeSection({
-  onRecipePress,
-  onViewAllPress,
-  onRefresh,
-}: Props) {
+export function RecentRecipeSection({ onRefresh }: Props) {
+  const router = useRouter();
+  
+  const handleRecipePress = useRef(
+    throttle((recipe: RecentSummaryRecipe) => {
+      router.push({
+        pathname: "/recipe/detail",
+        params: {
+          recipeId: recipe.recipeId,
+          youtubeId: recipe.youtubeId,
+          title: recipe.title,
+        },
+      });
+    }, 2000, {
+      leading: true,
+      trailing: false,
+    })
+  ).current;
+
+  const handleViewAllPress = useRef(
+    throttle(() => {
+      router.push("/recipe/recent");
+    }, 2000, {
+      leading: true,
+      trailing: false,
+    })
+  ).current;
+
   return (
     <View style={styles.recipeSectionCard}>
       <RecipeSectionHeader
         title="최근 시청한 레시피"
-        onPress={onViewAllPress}
+        onPress={handleViewAllPress}
       />
       <ApiErrorBoundary fallbackComponent={RecentRecipeError}>
         <Suspense
@@ -37,7 +59,7 @@ export function RecentRecipeSection({
           }
         >
           <RecentRecipeSectionContent
-            onPress={onRecipePress}
+            onPress={handleRecipePress}
             onRefresh={onRefresh}
           />
         </Suspense>
@@ -59,7 +81,13 @@ function RecentRecipeSectionContent({
 
   useEffect(() => {
     refetch();
-  }, [onRefresh]);
+  }, [onRefresh, refetch]);
+
+  useFocusEffect(
+    useCallback(() => {
+      refetch();
+    }, [refetch]),
+  );
 
   return <RecentRecipeSummaryList recipes={recentRecipes} onPress={onPress} />;
 }

@@ -21,6 +21,7 @@ export enum WebViewMessageType {
   FINISH_COOKING = "FINISH_COOKING",
   BACK_PRESSED = "BACK_PRESSED",
   CLEAR_HISTORY = "CLEAR_HISTORY",
+  REFRESH_TOKEN = "REFRESH_TOKEN",
 }
 
 export interface RecipeDetailState {

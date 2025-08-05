@@ -4,26 +4,46 @@ import { PopularSummaryRecipe } from "../../../summary/popular/types/Recipe";
 import { PopularRecipeError } from "../shared/Fallback";
 import { ApiErrorBoundary } from "@/src/modules/shared/components/error/ApiErrorBoundary";
 import { COLORS } from "@/src/modules/shared/constants/colors";
-import { Suspense, useEffect } from "react";
+import { Suspense, useEffect, useRef } from "react";
 import { PopularRecipeSummaryList } from "../../../summary/popular/components/List";
 import { PopularRecipesSkeleton } from "../shared/Skeleton";
-import { usePopularSummaryViewModel } from "../viewmodels/useViewModels";
+import {
+  usePopularSummaryViewModel,
+  useRecipeCreateViewModel,
+} from "../viewmodels/useViewModels";
 import { DeferredComponent } from "@/src/modules/shared/utils/DeferredComponent";
+import { useRouter } from "expo-router";
+import { throttle } from "lodash";
 
 interface Props {
-  onRecipePress: (recipe: PopularSummaryRecipe) => void;
-  onViewAllPress: () => void;
   onRefresh: number;
 }
 
-export function PopularRecipeSection({
-  onRecipePress,
-  onViewAllPress,
-  onRefresh,
-}: Props) {
+export function PopularRecipeSection({ onRefresh }: Props) {
+  const router = useRouter();
+  const { create } = useRecipeCreateViewModel();
+
+  const handleRecipePress = useRef(throttle(async (recipe: PopularSummaryRecipe) => {
+    const recipeId = (await create(recipe.video_url))!.recipe_id;
+    router.push({
+      pathname: "/recipe/create",
+      params: { recipeId },
+    });
+  }, 2000, {
+    leading: true,
+    trailing: false,
+  })).current;
+
+  const handleViewAllPress = useRef(throttle(() => {
+    router.push("/recipe/popular");
+  }, 2000, {
+    leading: true,
+    trailing: false,
+  })).current;
+
   return (
     <View style={styles.recipeSectionCard}>
-      <RecipeSectionHeader title="추천 레시피" onPress={onViewAllPress} />
+      <RecipeSectionHeader title="추천 레시피" onPress={handleViewAllPress} />
       <ApiErrorBoundary fallbackComponent={PopularRecipeError}>
         <Suspense
           fallback={
@@ -33,7 +53,7 @@ export function PopularRecipeSection({
           }
         >
           <PopularRecipeSectionContent
-            onPress={onRecipePress}
+            onPress={handleRecipePress}
             onRefresh={onRefresh}
           />
         </Suspense>
@@ -55,7 +75,7 @@ function PopularRecipeSectionContent({
 
   useEffect(() => {
     refetch();
-  }, [onRefresh]);
+  }, [onRefresh, refetch]);
 
   return (
     <PopularRecipeSummaryList recipes={popularRecipes} onPress={onPress} />
