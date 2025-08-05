@@ -1,4 +1,3 @@
-import { AllPopularRecipeTitle } from "@/src/modules/recipe/list/popular/component/AllRecipeHeader";
 import { HeaderTemplate } from "./template/HeaderTemplate";
 import { useRouter } from "expo-router";
 import { TouchableOpacity, View } from "react-native";

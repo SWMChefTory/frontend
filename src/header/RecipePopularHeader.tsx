@@ -1,4 +1,4 @@
-import { AllPopularRecipeTitle } from "@/src/modules/recipe/list/popular/component/AllRecipeHeader";
+import { AllPopularRecipeTitle } from "@/src/modules/recipe/all/popular/component/Header";
 import { HeaderTemplate } from "./template/HeaderTemplate";
 import { router } from "expo-router";
 

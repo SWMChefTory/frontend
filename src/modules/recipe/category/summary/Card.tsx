@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { DraxView } from "react-native-drax";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 import { CategorySummaryRecipe } from "./Recipe";
@@ -7,10 +7,21 @@ import { CategorySummaryRecipe } from "./Recipe";
 interface Props {
   recipe: CategorySummaryRecipe;
   index: number;
+  onPress?: (recipe: CategorySummaryRecipe) => void;
 }
 
-export const RecipeCard = React.memo(({ recipe, index }: Props) => {
+export const RecipeCard = React.memo(function RecipeCard({
+  recipe,
+  index,
+  onPress,
+}: Props) {
   const [isDragging, setIsDragging] = useState(false);
+
+  const handlePress = () => {
+    if (onPress && !isDragging) {
+      onPress(recipe);
+    }
+  };
 
   return (
     <DraxView
@@ -20,36 +31,46 @@ export const RecipeCard = React.memo(({ recipe, index }: Props) => {
       dragPayload={[recipe.recipeId, recipe.categoryId]}
       longPressDelay={300}
       onDragStart={() => {
-        console.log("Drag started for recipe:", recipe.title);
         setIsDragging(true);
       }}
       onDragEnd={() => {
         setIsDragging(false);
       }}
     >
-      <View style={styles.imageWrapper}>
-        <Image source={{ uri: recipe.thumbnailUrl }} style={styles.image} />
-        <View style={[styles.overlay, isDragging && styles.draggingOverlay]} />
-      </View>
-      <View style={styles.body}>
-        <Text numberOfLines={1} style={[styles.title]}>
-          {recipe.title}
-        </Text>
-        <View style={styles.progressBg}>
+      <TouchableOpacity
+        onPress={handlePress}
+        activeOpacity={0.7}
+        style={styles.touchableContent}
+        disabled={isDragging}
+      >
+        <View style={styles.imageWrapper}>
+          <Image source={{ uri: recipe.thumbnailUrl }} style={styles.image} />
           <View
-            style={[
-              styles.progressFg,
-              {
-                width: `${Math.min(
-                  (recipe.lastPlaySeconds / recipe.videoDuration) * 100,
-                  100,
-                )}%`,
-              },
-            ]}
+            style={[styles.overlay, isDragging && styles.draggingOverlay]}
           />
         </View>
-        <Text style={[styles.progressText]}>{recipe.getTimeAgo()} 시청됨</Text>
-      </View>
+        <View style={styles.body}>
+          <Text numberOfLines={1} style={[styles.title]}>
+            {recipe.title}
+          </Text>
+          <View style={styles.progressBg}>
+            <View
+              style={[
+                styles.progressFg,
+                {
+                  width: `${Math.min(
+                    (recipe.lastPlaySeconds / recipe.videoDuration) * 100,
+                    100,
+                  )}%`,
+                },
+              ]}
+            />
+          </View>
+          <Text style={[styles.progressText]}>
+            {recipe.getTimeAgo()} 시청됨
+          </Text>
+        </View>
+      </TouchableOpacity>
     </DraxView>
   );
 });
@@ -70,6 +91,9 @@ const styles = StyleSheet.create({
   },
   draggingCard: {
     opacity: 0.5,
+  },
+  touchableContent: {
+    flex: 1,
   },
   imageWrapper: {
     width: "100%",

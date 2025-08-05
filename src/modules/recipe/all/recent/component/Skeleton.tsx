@@ -5,7 +5,7 @@ import { COLORS } from "@/src/modules/shared/constants/colors";
 
 type Props = { itemCount?: number };
 
-export function Skeleton({ itemCount = 5 }: Props) {
+export function AllRecentRecipesSkeleton({ itemCount = 5 }: Props) {
   const data = Array.from({ length: itemCount }, (_, i) => i);
 
   const renderItem = () => (

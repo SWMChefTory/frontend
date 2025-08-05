@@ -1,5 +1,4 @@
-import { View, Text, StyleSheet, Alert } from "react-native";
-import { useUserStore } from "@/src/modules/user/business/store/userStore";
+import { View, Text, StyleSheet } from "react-native";
 import UserFeatureItemTemplate from "./UserFeatureItemTemplate";
 import { useUserViewModel } from "@/src/modules/user/business/service/useUserSerivce";
 import { router } from "expo-router";

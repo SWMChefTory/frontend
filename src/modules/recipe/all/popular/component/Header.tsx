@@ -20,7 +20,6 @@ export function AllPopularRecipeTitle() {
   const decorativeOpacity = useRef(new Animated.Value(0.3)).current;
 
   useEffect(() => {
-    // HomeHeader처럼 자동으로 실행되는 애니메이션만 남기기
     const sparkleAnimation = Animated.loop(
       Animated.sequence([
         Animated.timing(sparkleOpacity, {

@@ -1,5 +1,4 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
 import { createCategory } from "../../api";
 import { withMinDelay } from "@/src/modules/shared/utils/delay";
 

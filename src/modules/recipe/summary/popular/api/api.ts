@@ -18,3 +18,24 @@ export async function fetchPopularSummary(): Promise<PopularRecipeApiResponse> {
     await client.get<PopularRecipeApiResponse>(`/recipes/recommend`);
   return response.data;
 }
+
+export interface CreateRecipeApiResponse {
+  recipe_id: string;
+}
+
+export interface CreateRecipeApiRequest {
+  video_url: string;
+}
+
+export async function createPopularRecipe(
+  youtubeUrl: string,
+): Promise<CreateRecipeApiResponse> {
+  const createRequest: CreateRecipeApiRequest = {
+    video_url: youtubeUrl,
+  };
+  const response = await client.post<CreateRecipeApiResponse>(
+    `/recipes`,
+    createRequest,
+  );
+  return response.data;
+}

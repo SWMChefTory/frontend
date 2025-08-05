@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import {
   View,
   Text,
@@ -18,7 +18,7 @@ interface Props {
   onChangeText: (text: string) => void;
   onCancel: () => void;
   onConfirm: () => void;
-  isCreating?: boolean; // ✅ 생성 중 상태
+  isCreating?: boolean;
 }
 
 export function AddCategoryModal({
