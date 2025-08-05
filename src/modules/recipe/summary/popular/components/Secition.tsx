@@ -25,7 +25,6 @@ export function PopularRecipeSection({ onRecipePress, onViewAllPress, onRefresh 
 
 const styles = StyleSheet.create({
   recipeSectionCard: {
-    fontFamily:"NotoSerifKR_400Regular",
     backgroundColor: COLORS.priamry.cook,
     borderRadius: 24,
     padding: 20,

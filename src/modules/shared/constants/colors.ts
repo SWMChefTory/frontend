@@ -12,6 +12,7 @@ export const COLORS = {
     main: "#FF4500",
     light: "#ff9800",
     dark: "#E63E00",
+    inactive: "#FFB366",
   },
   text: {
     black: "#111827",

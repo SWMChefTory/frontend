@@ -7,6 +7,8 @@ import {
   storeRefreshToken,
 } from "@/src/modules/shared/storage/SecureStorage";
 import { reissueRefreshToken } from "@/src/modules/shared/api/apiWithoutAuth";
+import { useUserStore } from "@/src/modules/user/business/store/userStore";
+import { useRouter } from "expo-router";
 
 declare module "axios" {
   export interface AxiosRequestConfig {
@@ -31,6 +33,8 @@ export async function refreshToken() {
     return response.access_token;
   } catch (error) {
     await removeAuthToken();
+    useUserStore.getState().setUser(null); 
+
     throw error;
   }
 }
