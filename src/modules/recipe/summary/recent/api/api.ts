@@ -9,7 +9,8 @@ export interface RecentRecipeApiResponse {
   video_thumbnail_url: string;
   video_id: string;
   video_seconds: number;
-  category: string | "양식";
+  category: string;
+  category_id: string;
 }
 
 export interface RecentRecipesApiResponse {

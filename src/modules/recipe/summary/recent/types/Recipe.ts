@@ -1,5 +1,4 @@
 import { RecentRecipeApiResponse } from "../api/api";
-import uuid from "react-native-uuid";
 
 export class RecentSummaryRecipe {
   recipeId: string;
@@ -43,7 +42,7 @@ export class RecentSummaryRecipe {
       new Date(apiResponse.viewed_at),
       apiResponse.video_seconds,
       apiResponse.category,
-      uuid.v4().toString(),
+      apiResponse.category_id
     );
   }
 

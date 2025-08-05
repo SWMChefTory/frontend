@@ -5,30 +5,22 @@ import { Stack } from "expo-router";
 import * as ExpoSplashScreen from "expo-splash-screen";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { GlobalErrorBoundary } from "../modules/shared/components/error/GlobalErrorBoundary";
-import { useAuthBootstrap } from "../modules/user/authBootstrap";
 import { SplashScreenController } from "../modules/shared/splash/SplashScreenController";
-// import {
-//   NotoSerifKR_400Regular,
-//   NotoSerifKR_700Bold,
-//   useFonts,
-// } from '@expo-google-fonts/noto-serif-kr';
+import { useFonts, DoHyeon_400Regular } from "@expo-google-fonts/do-hyeon";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
-import {
-  useFonts,
-  BagelFatOne_400Regular,
-} from "@expo-google-fonts/bagel-fat-one";
+import { useAuthBootstrap } from "../modules/user/authBootstrap";
 
 ExpoSplashScreen.preventAutoHideAsync();
 
 function RootNavigator() {
-  const { isLoggedIn } = useAuthBootstrap();
+  const { isLoggedIn, loading } = useAuthBootstrap();
   const [loaded, error] = useFonts({
-    BagelFatOne_400Regular,
+    DoHyeon_400Regular,
   });
 
   useEffect(() => {
-    if (loaded || error) {
+    if ((loading && loaded) || error) {
       SplashScreen.hideAsync();
     }
   }, [loaded, error]);
@@ -43,29 +35,12 @@ function RootNavigator() {
         headerLeft: () => <CustomBackButton />,
       }}
     >
-      {/* 인증된 사용자만 접근 가능한 라우트들 */}
       <Stack.Protected guard={isLoggedIn}>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen
-          name="settings/settings"
-          options={{
-            headerShown: false,
-          }}
-        />
+        <Stack.Screen name="(app)" options={{ headerShown: false }} />
       </Stack.Protected>
 
-      {/* 인증되지 않은 사용자만 접근 가능한 라우트들 */}
       <Stack.Protected guard={!isLoggedIn}>
-        <Stack.Screen name="auth/login" options={{ headerShown: false }} />
-        <Stack.Screen
-          name="auth/signup"
-          options={{
-            title: "회원가입",
-            headerShown: true,
-            headerBackVisible: true,
-            headerLeft: undefined,
-          }}
-        />
+        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
       </Stack.Protected>
     </Stack>
   );

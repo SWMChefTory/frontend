@@ -15,7 +15,7 @@ import { COLORS } from "@/src/modules/shared/constants/colors";
 import {
   useChangeNameViewModel,
   useUserViewModel,
-} from "@/src/modules/user/form/viewmodel/userViewModel";
+} from "@/src/modules/user/business/service/useUserSerivce";
 import { router } from "expo-router";
 
 function NameScreen() {

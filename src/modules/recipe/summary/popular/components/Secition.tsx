@@ -64,7 +64,7 @@ function PopularRecipeSectionContent({
 
 const styles = StyleSheet.create({
   recipeSectionCard: {
-    backgroundColor: COLORS.background.white,
+    backgroundColor: COLORS.priamry.cook,
     borderRadius: 24,
     padding: 20,
     marginBottom: 24,

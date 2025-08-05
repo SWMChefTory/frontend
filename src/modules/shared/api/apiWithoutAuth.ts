@@ -1,6 +1,7 @@
 import { clientWithoutAuth } from "@/src/modules/shared/api/clientWithoutAuth";
 import { LoginInfo, SignupData } from "@/src/modules/shared/types/auth";
 import { UTCDateAtMidnight } from "@/src/modules/shared/utils/UTCDateAtMidnight";
+import { Gender } from "@/src/modules/user/enums/Gender";
 
 export interface AuthorizationTokenResponse {
   access_token: string;
@@ -9,7 +10,7 @@ export interface AuthorizationTokenResponse {
 }
 
 export interface UserResponse {
-  email: string;
+  gender: Gender;
   nickname: string;
   date_of_birth: string;
 }
