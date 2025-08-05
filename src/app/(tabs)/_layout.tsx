@@ -3,7 +3,7 @@ import { HomeHeader } from "@/src/modules/shared/components/header/HomeHeader";
 import { FloatingButton } from "@/src/modules/shared/components/layout/FloatingButton";
 import { CheftoryHeader } from "@/src/modules/shared/components/header/CheftoryHeader";
 import { Ionicons } from "@expo/vector-icons";
-import { View, TouchableOpacity,Text,StyleSheet } from "react-native";
+import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useCallback, useRef } from "react";
@@ -46,38 +46,45 @@ export default function TabLayout() {
         }}
       >
         <Tabs.Screen
-            name="index"
-            options={{
-              header: () => (
-                <CheftoryHeader 
-                  title=""
-                  leftComponent={<HomeHeader />}
-                  rightComponent={
-                    <View style={{ flexDirection: 'row', gap: 12, marginRight: 16 }}>
-                      <TouchableOpacity>
-                        <Ionicons name="notifications-outline" size={24} color="#000" />
-                      </TouchableOpacity>
-                    </View>
-                  }
-                />
-              ),
-              tabBarLabel: "홈",
-              tabBarIcon: ({ color, size }) => (
-                <Ionicons name="home-outline" size={size} color={color} />
-              ),
-            }}
-          />
+          name="index"
+          options={{
+            header: () => (
+              <CheftoryHeader
+                title=""
+                leftComponent={<HomeHeader />}
+                rightComponent={
+                  <View
+                    style={{ flexDirection: "row", gap: 12, marginRight: 16 }}
+                  >
+                    <TouchableOpacity>
+                      <Ionicons
+                        name="notifications-outline"
+                        size={24}
+                        color="#000"
+                      />
+                    </TouchableOpacity>
+                  </View>
+                }
+              />
+            ),
+            tabBarLabel: "홈",
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="home-outline" size={size} color={color} />
+            ),
+          }}
+        />
         <Tabs.Screen
           name="dummy"
           options={{
             tabBarButton: () => (
               <View style={style.container}>
                 <RecipeBottomSheet modalRef={modalRef} />
-                <TouchableOpacity
-                  onPress={openBottomSheet}
-                  activeOpacity={0.8}
-                >
-                  <Ionicons name="add-circle-outline" size={48} color={"#543f30"} />
+                <TouchableOpacity onPress={openBottomSheet} activeOpacity={0.8}>
+                  <Ionicons
+                    name="add-circle-outline"
+                    size={48}
+                    color={"#543f30"}
+                  />
                 </TouchableOpacity>
               </View>
             ),
@@ -86,22 +93,32 @@ export default function TabLayout() {
         <Tabs.Screen
           name="profile"
           options={{
-            header: ( )=> (
-              <CheftoryHeader 
+            header: () => (
+              <CheftoryHeader
                 title=""
                 leftComponent={<></>}
                 rightComponent={
-                  <View style={{ flexDirection: 'row', gap: 12, marginRight: 16 }}>
+                  <View
+                    style={{ flexDirection: "row", gap: 12, marginRight: 16 }}
+                  >
                     <TouchableOpacity>
-                      <Ionicons name="notifications-outline" size={24} color="#000" />
+                      <Ionicons
+                        name="notifications-outline"
+                        size={24}
+                        color="#000"
+                      />
                     </TouchableOpacity>
                     <TouchableOpacity>
-                        <Ionicons name="settings-outline" size={24} color="#000" />
+                      <Ionicons
+                        name="settings-outline"
+                        size={24}
+                        color="#000"
+                      />
                     </TouchableOpacity>
                   </View>
                 }
               />
-              ),
+            ),
             tabBarLabel: "마이",
             tabBarIcon: ({ color, size }) => (
               <Ionicons name="person-outline" size={size} color={color} />
@@ -117,7 +134,7 @@ const style = StyleSheet.create({
   container: {
     flex: 1,
     // backgroundColor: COLORS.priamry.main,
-    alignItems: 'center',
-    justifyContent: 'center',
-  }
-})
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});

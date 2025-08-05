@@ -35,6 +35,14 @@
 				<string>com.googleusercontent.apps.248373759203-lvs4hmrf3na2kookbmm17p2bp8ccqqbk</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>apple-signin</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.cheftory</string>
+			</array>
+    	</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>

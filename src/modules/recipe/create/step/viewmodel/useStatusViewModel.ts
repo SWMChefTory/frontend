@@ -15,7 +15,7 @@ const STEP_PROGRESS_RANGES = {
 
 export function useRecipeCreateStatusViewModel(recipeId: string) {
   const [currentUIStatus, setCurrentUIStatus] = useState<RecipeCreateStatus>(
-    RecipeCreateStatus.VIDEO_ANALYSIS
+    RecipeCreateStatus.VIDEO_ANALYSIS,
   );
   const [progress, setProgress] = useState<number>(0);
   const [stageStartTime, setStageStartTime] = useState<number>(Date.now());
@@ -23,7 +23,8 @@ export function useRecipeCreateStatusViewModel(recipeId: string) {
   const { data } = useQuery({
     queryKey: ["recipeCreateStatus", recipeId],
     queryFn: () => fetchRecipeCreateStatus(recipeId),
-    refetchInterval: currentUIStatus === RecipeCreateStatus.COMPLETED ? false : 1000,
+    refetchInterval:
+      currentUIStatus === RecipeCreateStatus.COMPLETED ? false : 1000,
     enabled: !!recipeId,
   });
 
@@ -36,6 +37,10 @@ export function useRecipeCreateStatusViewModel(recipeId: string) {
 
   useEffect(() => {
     if (!data) return;
+
+    if (data.recipe_status.toLowerCase() === "failed") {
+      throw new Error("Recipe creation failed");
+    }
 
     const actualStatus = getActualStatus();
     const currentIndex = STEP_ORDER.indexOf(currentUIStatus);
@@ -71,51 +76,77 @@ export function useRecipeCreateStatusViewModel(recipeId: string) {
     } else if (isStepCompleted) {
       targetProgress = currentRange.end;
     } else {
-      targetProgress = currentRange.start + (currentRange.end - currentRange.start) * 0.7;
+      targetProgress =
+        currentRange.start + (currentRange.end - currentRange.start);
     }
 
     const animate = () => {
-      setProgress(current => {
+      setProgress((current) => {
         const diff = targetProgress - current;
         const distance = Math.abs(diff);
-        
-        if (isCompleted && distance < 1) return targetProgress;
-        if (!isCompleted && distance < 0.1) return targetProgress;
-        
+
+        // 목표에 거의 도달했을 때 정확한 값으로 설정
+        if (isCompleted && distance < 0.5) return targetProgress;
+        if (!isCompleted && distance < 0.05) return targetProgress;
+
         let speed;
+
         if (isCompleted) {
-          if (distance < 5) speed = 0.4;
-          else if (distance < 15) speed = 0.6;
-          else speed = 0.8;
-        } else if (isStepCompleted) {
+          // 완료 단계: 빠르게 100%로
           if (distance < 2) speed = 0.15;
           else if (distance < 5) speed = 0.25;
-          else speed = 0.35;
+          else if (distance < 10) speed = 0.35;
+          else speed = 0.45;
+        } else if (isStepCompleted) {
+          // 단계가 완료되어 end로 이동: 중간 속도
+          if (distance < 1)
+            speed = 0.03; // end 근처에서 매우 천천히
+          else if (distance < 3) speed = 0.06;
+          else if (distance < 8) speed = 0.12;
+          else speed = 0.18;
         } else {
-          if (distance < 2) speed = 0.008;
-          else if (distance < 5) speed = 0.015;
-          else if (distance < 10) speed = 0.025;
-          else speed = 0.04;
+          // 단계 진행 중: 매우 천천히
+          const rangeSize = currentRange.end - currentRange.start;
+          const progressInRange = current - currentRange.start;
+          const progressRatio = progressInRange / rangeSize;
+
+          // 각 단계의 end에 가까워질수록 더 천천히
+          let baseSpeed;
+          if (progressRatio > 0.9)
+            baseSpeed = 0.002; // 90% 이후 매우 느리게
+          else if (progressRatio > 0.8)
+            baseSpeed = 0.003; // 80% 이후 느리게
+          else if (progressRatio > 0.6)
+            baseSpeed = 0.005; // 60% 이후 조금 느리게
+          else baseSpeed = 0.008; // 처음엔 조금 빠르게
+
+          // 거리에 따른 속도 조절
+          if (distance < 1) speed = baseSpeed * 0.3;
+          else if (distance < 3) speed = baseSpeed * 0.6;
+          else if (distance < 8) speed = baseSpeed * 1.0;
+          else speed = baseSpeed * 1.5;
         }
-        
+
         return current + diff * speed;
       });
     };
 
-    const interval = setInterval(animate, 50);
+    const interval = setInterval(animate, 16); // 60fps로 부드럽게
     return () => clearInterval(interval);
   }, [currentUIStatus, data]);
 
   useEffect(() => {
     if (progress === 0) {
-      const initialRange = STEP_PROGRESS_RANGES[RecipeCreateStatus.VIDEO_ANALYSIS];
-      const initialTarget = initialRange.start + (initialRange.end - initialRange.start) * 0.2;
+      const initialRange =
+        STEP_PROGRESS_RANGES[RecipeCreateStatus.VIDEO_ANALYSIS];
+      const initialTarget =
+        initialRange.start + (initialRange.end - initialRange.start) * 0.1;
       setProgress(initialTarget);
     }
   }, [progress]);
 
   return {
     status: currentUIStatus,
-    progress: Math.round(progress * 10) / 10,
+    progress: Math.round(progress * 100) / 100,
   };
 }

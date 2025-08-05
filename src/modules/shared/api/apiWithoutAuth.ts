@@ -1,5 +1,5 @@
 import { clientWithoutAuth } from "@/src/modules/shared/api/clientWithoutAuth";
-import { LoginInfo, SignupData } from "@/src/modules/shared/types/auth"
+import { LoginInfo, SignupData } from "@/src/modules/shared/types/auth";
 import { UTCDateAtMidnight } from "@/src/modules/shared/utils/UTCDateAtMidnight";
 
 export interface AuthorizationTokenResponse {
@@ -48,7 +48,7 @@ export async function loginUser(
   };
   console.log("loginRequest", loginRequest);
   const response = await clientWithoutAuth.post(
-    "/account/login/oauth", 
+    "/account/login/oauth",
     loginRequest,
   );
   return response.data;
@@ -68,8 +68,8 @@ export async function signupUser(
   console.log("signupRequest", signupRequest);
   const response = await clientWithoutAuth.post(
     "/account/signup/oauth",
-     signupRequest,
-    );
+    signupRequest,
+  );
   return response.data;
 }
 

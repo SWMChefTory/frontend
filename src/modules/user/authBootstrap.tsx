@@ -1,12 +1,11 @@
-import { getUser } from '@/src/modules/user/api/api';
-import { useUserStore } from '@/src/modules/shared/store/userStore';
-import { useEffect,useState } from 'react';
+import { getUser } from "@/src/modules/user/api/api";
+import { useUserStore } from "@/src/modules/shared/store/userStore";
+import { useEffect, useState } from "react";
 
-
-export function useAuthBootstrap(){
+export function useAuthBootstrap() {
   const { setUser, isLoggedIn } = useUserStore();
   const [loading, setLoading] = useState(true);
-  
+
   useEffect(() => {
     const init = async () => {
       try {
@@ -20,6 +19,6 @@ export function useAuthBootstrap(){
     };
     init();
   }, []);
-  
+
   return { loading, isLoggedIn };
 }

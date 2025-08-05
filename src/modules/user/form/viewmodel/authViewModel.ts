@@ -23,25 +23,33 @@ export function useLoginViewModel() {
   const { setUser } = useUserStore();
   const router = useRouter();
 
-  const { mutate: login, isPending: isLoading, error } = useMutation({
+  const {
+    mutate: login,
+    isPending: isLoading,
+    error,
+  } = useMutation({
     mutationFn: async (loginInfo: LoginInfo) => {
-      return loginUser(loginInfo)},
+      return loginUser(loginInfo);
+    },
     onSuccess: (data) => {
       console.log(data);
       console.log(data.user_info.date_of_birth);
-      setUser(
-        {nickname: data.user_info.nickname
-        , dateOfBirth: fromString(data.user_info.date_of_birth)
-        , email: data.user_info.email}
-      );
+      setUser({
+        nickname: data.user_info.nickname,
+        dateOfBirth: fromString(data.user_info.date_of_birth),
+        email: data.user_info.email,
+      });
       storeAuthToken(data.access_token, data.refresh_token);
     },
-    onError: (error,variables) => {
-      if (error instanceof AxiosError){
+    onError: (error, variables) => {
+      if (error instanceof AxiosError) {
         console.log(error.response?.data);
       }
 
-      if (error instanceof AxiosError && error.response?.data?.errorCode === "USER_001") {
+      if (
+        error instanceof AxiosError &&
+        error.response?.data?.errorCode === "USER_001"
+      ) {
         router.push({
           pathname: "/auth/signup",
           params: {
@@ -61,15 +69,20 @@ export function useLoginViewModel() {
 
 export function useSignupViewModel() {
   const { setUser } = useUserStore();
-  const { mutate: signup, isPending: isLoading, error } = useMutation({
+  const {
+    mutate: signup,
+    isPending: isLoading,
+    error,
+  } = useMutation({
     mutationFn: (signupData: SignupData) => {
-      return signupUser(signupData)},
+      return signupUser(signupData);
+    },
     onSuccess: (data) => {
-      setUser(
-        {nickname: data.user_info.nickname
-        , dateOfBirth: fromString(data.user_info.date_of_birth)
-        , email: data.user_info.email}
-      );
+      setUser({
+        nickname: data.user_info.nickname,
+        dateOfBirth: fromString(data.user_info.date_of_birth),
+        email: data.user_info.email,
+      });
       storeAuthToken(data.access_token, data.refresh_token);
     },
     onError: (error) => {

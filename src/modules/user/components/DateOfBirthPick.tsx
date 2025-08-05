@@ -1,49 +1,83 @@
 import { View, Text, StyleSheet } from "react-native";
 import { Picker } from "@react-native-picker/picker";
-import { getDay, getMonth, getYear, makeUTCDateAtMidnight, UTCDateAtMidnight } from "@/src/modules/shared/utils/UTCDateAtMidnight";
+import {
+  getDay,
+  getMonth,
+  getYear,
+  makeUTCDateAtMidnight,
+  UTCDateAtMidnight,
+} from "@/src/modules/shared/utils/UTCDateAtMidnight";
 import { COLORS } from "../../shared/constants/colors";
 
-const years = Array.from({ length: 100 }, (_, i) => (2025 - i));
-const months = Array.from({ length: 12 }, (_, i) => i + 1 
-);
-const days = Array.from({ length: 31 }, (_, i) => i + 1
-);
+const years = Array.from({ length: 100 }, (_, i) => 2025 - i);
+const months = Array.from({ length: 12 }, (_, i) => i + 1);
+const days = Array.from({ length: 31 }, (_, i) => i + 1);
 
-export const DateOfBirthPick = ({dateOfBirth, setDateOfBirth}: {dateOfBirth: UTCDateAtMidnight, setDateOfBirth: (date: UTCDateAtMidnight) => void}) => {
-  return(
+export const DateOfBirthPick = ({
+  dateOfBirth,
+  setDateOfBirth,
+}: {
+  dateOfBirth: UTCDateAtMidnight;
+  setDateOfBirth: (date: UTCDateAtMidnight) => void;
+}) => {
+  return (
     <View style={styles.birthContainer}>
       <View style={styles.yearPickerWrapper}>
         <Picker
           selectedValue={getYear(dateOfBirth)}
           style={styles.picker}
           itemStyle={styles.pickerItem}
-          onValueChange={(itemValue) => setDateOfBirth(makeUTCDateAtMidnight(itemValue, getMonth(dateOfBirth), getDay(dateOfBirth)))}
+          onValueChange={(itemValue) =>
+            setDateOfBirth(
+              makeUTCDateAtMidnight(
+                itemValue,
+                getMonth(dateOfBirth),
+                getDay(dateOfBirth),
+              ),
+            )
+          }
         >
           {years.map((y) => (
             <Picker.Item key={y} label={`${y}년`} value={y} />
           ))}
         </Picker>
       </View>
-    
+
       <View style={styles.pickerWrapper}>
         <Picker
           selectedValue={getMonth(dateOfBirth)}
           style={styles.picker}
           itemStyle={styles.pickerItem}
-          onValueChange={(itemValue) => setDateOfBirth(makeUTCDateAtMidnight(getYear(dateOfBirth), itemValue ,getDay(dateOfBirth)))}
+          onValueChange={(itemValue) =>
+            setDateOfBirth(
+              makeUTCDateAtMidnight(
+                getYear(dateOfBirth),
+                itemValue,
+                getDay(dateOfBirth),
+              ),
+            )
+          }
         >
           {months.map((m) => (
             <Picker.Item key={m} label={`${m}월`} value={m} />
           ))}
         </Picker>
       </View>
-    
+
       <View style={styles.pickerWrapper}>
         <Picker
           selectedValue={getDay(dateOfBirth)}
           style={styles.picker}
           itemStyle={styles.pickerItem}
-          onValueChange={(itemValue) => setDateOfBirth(makeUTCDateAtMidnight(getYear(dateOfBirth), getMonth(dateOfBirth), itemValue))}
+          onValueChange={(itemValue) =>
+            setDateOfBirth(
+              makeUTCDateAtMidnight(
+                getYear(dateOfBirth),
+                getMonth(dateOfBirth),
+                itemValue,
+              ),
+            )
+          }
         >
           {days.map((d) => (
             <Picker.Item key={d} label={`${d}일`} value={d} />
@@ -51,7 +85,7 @@ export const DateOfBirthPick = ({dateOfBirth, setDateOfBirth}: {dateOfBirth: UTC
         </Picker>
       </View>
     </View>
-  )
+  );
 };
 
 const styles = StyleSheet.create({
@@ -59,24 +93,24 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   birthContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: 8,
     borderRadius: 12,
-    padding : 4  ,
+    padding: 4,
     height: 150,
   },
 
   yearPickerWrapper: {
     flex: 1.3,
     height: 160,
-    overflow: 'hidden',
+    overflow: "hidden",
     backgroundColor: COLORS.background.white,
     borderRadius: 8,
   },
   pickerWrapper: {
     flex: 1,
     height: 160,
-    overflow: 'hidden',
+    overflow: "hidden",
     backgroundColor: COLORS.background.white,
     borderRadius: 8,
   },
@@ -90,4 +124,4 @@ const styles = StyleSheet.create({
     height: 160,
     color: COLORS.text.black,
   },
-})
+});

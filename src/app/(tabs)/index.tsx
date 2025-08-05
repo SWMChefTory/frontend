@@ -1,4 +1,11 @@
-import { StyleSheet, View, ScrollView, Animated, RefreshControl, Pressable } from "react-native";
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  Animated,
+  RefreshControl,
+  Pressable,
+} from "react-native";
 import { useRouter } from "expo-router";
 import { useState, useRef, useCallback } from "react";
 import { HomeSectionHeader } from "@/src/modules/shared/components/layout/HomeSectionHeader";
@@ -36,7 +43,7 @@ export default function HomeScreen() {
 
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
-    setRefreshTrigger(prev => prev + 1);
+    setRefreshTrigger((prev) => prev + 1);
     setTimeout(() => {
       setRefreshing(false);
     }, 1500);
@@ -71,9 +78,9 @@ export default function HomeScreen() {
           subtitle="영상 링크로 간편하게 레시피를 만들어보세요"
         />
       </Animated.View> */}
-      
-      <Animated.ScrollView 
-        style={styles.scrollView} 
+
+      <Animated.ScrollView
+        style={styles.scrollView}
         showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl
@@ -87,7 +94,7 @@ export default function HomeScreen() {
         }
         onScroll={Animated.event(
           [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-          { useNativeDriver: false }
+          { useNativeDriver: false },
         )}
         scrollEventThrottle={16}
       >

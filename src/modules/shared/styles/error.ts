@@ -19,7 +19,7 @@ export const errorStyles = StyleSheet.create({
   message: {
     fontSize: 14,
     color: COLORS.text.gray,
-    marginBottom: 24,
+    marginBottom: 12,
     textAlign: "center",
     lineHeight: 20,
   },

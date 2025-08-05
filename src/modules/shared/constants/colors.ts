@@ -1,17 +1,18 @@
 export const COLORS = {
-  priamry:{
+  priamry: {
     main: "#FFF5F0",
     cook: "#FFFFFF",
   },
-  font:{
-    dark:  "#2F2F2F",
+  font: {
+    dark: "#2F2F2F",
     bright: "rgb(245, 245, 244)",
-    emphasis: "#FF4500"
+    emphasis: "#FF4500",
   },
   orange: {
     main: "#FF4500",
     light: "#ff9800",
     dark: "#E63E00",
+    black: "#000000",
   },
   text: {
     black: "#111827",
@@ -34,7 +35,7 @@ export const COLORS = {
     orange: "#FF6B35",
     lightGray: "#E5E7EB",
     white: "#ffffff",
-    orangeLight: "#F3F4F6"
+    orangeLight: "#F3F4F6",
   },
   skeleton: {
     bone: "#FAFAFA",

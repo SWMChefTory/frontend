@@ -1,4 +1,3 @@
-
 import { CustomBackButton } from "@/src/modules/shared/components/layout/CustomBackButton";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -13,17 +12,19 @@ import { SplashScreenController } from "../modules/shared/splash/SplashScreenCon
 //   NotoSerifKR_700Bold,
 //   useFonts,
 // } from '@expo-google-fonts/noto-serif-kr';
-import * as SplashScreen from 'expo-splash-screen';
-import {useEffect} from 'react';
-import { useFonts, BagelFatOne_400Regular } from '@expo-google-fonts/bagel-fat-one';
-
+import * as SplashScreen from "expo-splash-screen";
+import { useEffect } from "react";
+import {
+  useFonts,
+  BagelFatOne_400Regular,
+} from "@expo-google-fonts/bagel-fat-one";
 
 ExpoSplashScreen.preventAutoHideAsync();
 
 function RootNavigator() {
   const { isLoggedIn } = useAuthBootstrap();
   const [loaded, error] = useFonts({
-    BagelFatOne_400Regular
+    BagelFatOne_400Regular,
   });
 
   useEffect(() => {
@@ -86,11 +87,11 @@ export default function RootLayout() {
     <QueryClientProvider client={queryClient}>
       <GestureHandlerRootView style={{ flex: 1 }}>
         <BottomSheetModalProvider>
-            <GlobalErrorBoundary>
-              <SplashScreenController>
-                <RootNavigator />
-              </SplashScreenController>
-            </GlobalErrorBoundary>
+          <GlobalErrorBoundary>
+            <SplashScreenController>
+              <RootNavigator />
+            </SplashScreenController>
+          </GlobalErrorBoundary>
         </BottomSheetModalProvider>
       </GestureHandlerRootView>
     </QueryClientProvider>
