@@ -9,7 +9,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 
-export function AllRecentRecipeTitle() {
+export function AllPopularRecipeTitle() {
   // 클릭 기반 애니메이션값들
   const scaleValue = useRef(new Animated.Value(1)).current;
   const iconRotate = useRef(new Animated.Value(0)).current;
@@ -20,7 +20,6 @@ export function AllRecentRecipeTitle() {
   const decorativeOpacity = useRef(new Animated.Value(0.3)).current;
 
   useEffect(() => {
-    // HomeHeader처럼 자동으로 실행되는 애니메이션만 남기기
     const sparkleAnimation = Animated.loop(
       Animated.sequence([
         Animated.timing(sparkleOpacity, {
@@ -138,17 +137,21 @@ export function AllRecentRecipeTitle() {
         >
           {/* 메인 타이틀 섹션 */}
           <View style={styles.mainTitleWrapper}>
-            {/* 회전하는 시계 아이콘 */}
+            {/* 회전하는 트렌딩 아이콘 */}
             <Animated.View
               style={{
                 transform: [{ rotate: iconRotateInterpolate }],
               }}
             >
-              <Ionicons name="time" size={22} color={COLORS.orange.main} />
+              <Ionicons
+                name="trending-up"
+                size={22}
+                color={COLORS.orange.main}
+              />
             </Animated.View>
 
             {/* 타이틀 텍스트 */}
-            <Text style={styles.mainTitle}>최근 시청</Text>
+            <Text style={styles.mainTitle}>인기 레시피</Text>
 
             {/* 반짝이는 장식들 */}
             <View style={styles.decorationsContainer}>
@@ -174,7 +177,7 @@ export function AllRecentRecipeTitle() {
                 },
               ]}
             />
-            <Text style={styles.subtitle}>최근 본 레시피들</Text>
+            <Text style={styles.subtitle}>최고의 요리들</Text>
 
             {/* 작은 장식 도트들 */}
             <View style={styles.smallDotsContainer}>
@@ -208,10 +211,11 @@ export function AllRecentRecipeTitle() {
 const styles = StyleSheet.create({
   titleContainer: {
     alignItems: "center",
-    paddingVertical: 2,
+    paddingVertical: 6,
   },
   touchableContainer: {
     alignItems: "center",
+    paddingHorizontal: 12,
   },
   contentContainer: {
     alignItems: "center",
@@ -219,14 +223,14 @@ const styles = StyleSheet.create({
   mainTitleWrapper: {
     flexDirection: "row",
     alignItems: "center",
-    position: "relative",
+    columnGap: 8, // RN 0.71+ 지원
+    paddingBottom: 2,
   },
   mainTitle: {
     fontSize: 20,
     fontWeight: "700",
     color: COLORS.text.black,
     letterSpacing: -0.4,
-    marginLeft: 8,
     textShadowColor: COLORS.orange.main + "15",
     textShadowOffset: { width: 0, height: 1 },
     textShadowRadius: 3,
@@ -234,15 +238,15 @@ const styles = StyleSheet.create({
   decorationsContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginLeft: 8,
+    paddingLeft: 6,
   },
   sparkleIcon: {
-    // 반짝이는 별
+    paddingTop: 1,
   },
   subtitleWrapper: {
     flexDirection: "row",
     alignItems: "center",
-    marginTop: 4,
+    paddingTop: 4,
   },
   pulsingDot: {
     width: 5,
@@ -260,7 +264,7 @@ const styles = StyleSheet.create({
   smallDotsContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginLeft: 10,
+    paddingLeft: 8,
   },
   smallDot: {
     width: 3,

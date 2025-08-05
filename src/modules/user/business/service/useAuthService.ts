@@ -14,7 +14,7 @@ import {
 import { LoginInfo, SignupData } from "@/src/modules/shared/types/auth";
 import { AxiosError } from "axios";
 import { Alert } from "react-native";
-import { router, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { User } from "@/src/modules/user/business/viewmodel/user";
 import { DateOnly } from "@/src/modules/shared/utils/DateOnly";
 

@@ -6,12 +6,12 @@ import { useCategoriesViewModel } from "./useCategoriesViewModel";
 import { useDeleteCategoryViewModel } from "./useDeleteViewModel";
 import { useUpdateCategoryViewModel } from "./useUpdateViewModel";
 import { CategoryCreateModal } from "./modal/ModalSection";
-import { useState } from "react";
+import { useCallback, useState, Suspense } from "react";
 import { ApiErrorBoundary } from "@/src/modules/shared/components/error/ApiErrorBoundary";
 import { CategoriesError } from "./Fallback";
-import { Suspense } from "react";
 import { CategoryListSkeleton } from "./Skeleton";
 import { DeferredComponent } from "@/src/modules/shared/utils/DeferredComponent";
+import { useFocusEffect } from "expo-router";
 
 interface Props {
   selectedCategoryId: string | null;
@@ -50,10 +50,16 @@ export function CategoryListSectionContent({
   onCategorySelect,
   selectedCategoryId,
 }: Props) {
-  const { categories } = useCategoriesViewModel();
+  const { categories, refetch } = useCategoriesViewModel();
 
   const { deleteCategory, deletingCategoryId } = useDeleteCategoryViewModel();
   const { updateCategory, updatingRecipeId } = useUpdateCategoryViewModel();
+
+  useFocusEffect(
+    useCallback(() => {
+      refetch();
+    }, [refetch]),
+  );
 
   const [openModal, setOpenModal] = useState(false);
 

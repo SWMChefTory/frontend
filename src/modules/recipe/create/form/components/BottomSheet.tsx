@@ -38,7 +38,7 @@ export function RecipeBottomSheet({ modalRef }: Props) {
 
   const handleDismiss = useCallback(() => {
     modalRef.current?.dismiss();
-  }, []);
+  }, [modalRef]);
 
   return (
     <BottomSheetModal

@@ -1,18 +1,20 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import { errorStyles } from "@/src/modules/shared/styles/error";
 
-interface PopularRecipeErrorProps {
+interface AllRecentRecipeErrorProps {
   error: Error;
   resetErrorBoundary: () => void;
 }
 
-export function PopularRecipeError({
+export function AllRecentRecipeError({
   error,
   resetErrorBoundary,
-}: PopularRecipeErrorProps) {
+}: AllRecentRecipeErrorProps) {
   return (
     <View style={errorStyles.container}>
-      <Text style={errorStyles.title}>추천 레시피를 불러올 수 없습니다</Text>
+      <Text style={errorStyles.title}>
+        최근 레시피 목록을 불러올 수 없습니다
+      </Text>
       <Text style={errorStyles.message}>네트워크 연결을 확인해주세요</Text>
       <TouchableOpacity
         style={errorStyles.retryButton}
@@ -24,4 +26,4 @@ export function PopularRecipeError({
   );
 }
 
-export default PopularRecipeError;
+export default AllRecentRecipeError;

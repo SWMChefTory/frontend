@@ -1,6 +1,6 @@
 import { Tabs } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
+import { View, TouchableOpacity, StyleSheet } from "react-native";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useCallback, useRef } from "react";

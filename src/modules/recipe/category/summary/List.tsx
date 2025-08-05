@@ -1,16 +1,17 @@
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import { StyleSheet, View } from "react-native";
-import { DraxList, DraxScrollView } from "react-native-drax";
+import { DraxList } from "react-native-drax";
 import { CategorySummaryRecipe } from "./Recipe";
 import { RecipeCard } from "./Card";
 
 interface Props {
   recipes: CategorySummaryRecipe[];
+  onPress?: (recipe: CategorySummaryRecipe) => void;
 }
 
 type RecipeListItem = CategorySummaryRecipe | { isEmpty: true; id: string };
 
-export function CategoryRecipeSummaryList({ recipes }: Props) {
+export function CategoryRecipeSummaryList({ recipes, onPress }: Props) {
   const paddedRecipes = useMemo((): RecipeListItem[] => {
     const remainder = recipes.length % 3;
     if (remainder === 0) return recipes;
@@ -36,7 +37,12 @@ export function CategoryRecipeSummaryList({ recipes }: Props) {
     }
 
     return (
-      <RecipeCard key={`recipe-${item.recipeId}`} recipe={item} index={index} />
+      <RecipeCard
+        key={`recipe-${item.recipeId}`}
+        recipe={item}
+        index={index}
+        onPress={onPress}
+      />
     );
   };
 

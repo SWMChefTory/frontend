@@ -9,7 +9,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 
-export function AllPopularRecipeTitle() {
+export function AllRecentRecipeTitle() {
   // 클릭 기반 애니메이션값들
   const scaleValue = useRef(new Animated.Value(1)).current;
   const iconRotate = useRef(new Animated.Value(0)).current;
@@ -60,7 +60,6 @@ export function AllPopularRecipeTitle() {
     };
   }, []);
 
-  // 클릭 애니메이션들 (HomeHeader 스타일)
   const handlePressIn = () => {
     Animated.spring(scaleValue, {
       toValue: 0.95,
@@ -136,23 +135,17 @@ export function AllPopularRecipeTitle() {
             },
           ]}
         >
-          {/* 메인 타이틀 섹션 */}
           <View style={styles.mainTitleWrapper}>
-            {/* 회전하는 트렌딩 아이콘 */}
             <Animated.View
               style={{
                 transform: [{ rotate: iconRotateInterpolate }],
               }}
             >
-              <Ionicons
-                name="trending-up"
-                size={22}
-                color={COLORS.orange.main}
-              />
+              <Ionicons name="time" size={22} color={COLORS.orange.main} />
             </Animated.View>
 
             {/* 타이틀 텍스트 */}
-            <Text style={styles.mainTitle}>인기 레시피</Text>
+            <Text style={styles.mainTitle}>최근 시청</Text>
 
             {/* 반짝이는 장식들 */}
             <View style={styles.decorationsContainer}>
@@ -178,7 +171,7 @@ export function AllPopularRecipeTitle() {
                 },
               ]}
             />
-            <Text style={styles.subtitle}>최고의 요리들</Text>
+            <Text style={styles.subtitle}>최근 본 레시피들</Text>
 
             {/* 작은 장식 도트들 */}
             <View style={styles.smallDotsContainer}>
@@ -212,11 +205,10 @@ export function AllPopularRecipeTitle() {
 const styles = StyleSheet.create({
   titleContainer: {
     alignItems: "center",
-    paddingVertical: 6,
+    paddingVertical: 2,
   },
   touchableContainer: {
     alignItems: "center",
-    paddingHorizontal: 12,
   },
   contentContainer: {
     alignItems: "center",
@@ -224,14 +216,14 @@ const styles = StyleSheet.create({
   mainTitleWrapper: {
     flexDirection: "row",
     alignItems: "center",
-    columnGap: 8, // RN 0.71+ 지원
-    paddingBottom: 2,
+    position: "relative",
   },
   mainTitle: {
     fontSize: 20,
     fontWeight: "700",
     color: COLORS.text.black,
     letterSpacing: -0.4,
+    marginLeft: 8,
     textShadowColor: COLORS.orange.main + "15",
     textShadowOffset: { width: 0, height: 1 },
     textShadowRadius: 3,
@@ -239,15 +231,13 @@ const styles = StyleSheet.create({
   decorationsContainer: {
     flexDirection: "row",
     alignItems: "center",
-    paddingLeft: 6,
+    marginLeft: 8,
   },
-  sparkleIcon: {
-    paddingTop: 1,
-  },
+  sparkleIcon: {},
   subtitleWrapper: {
     flexDirection: "row",
     alignItems: "center",
-    paddingTop: 4,
+    marginTop: 4,
   },
   pulsingDot: {
     width: 5,
@@ -265,7 +255,7 @@ const styles = StyleSheet.create({
   smallDotsContainer: {
     flexDirection: "row",
     alignItems: "center",
-    paddingLeft: 8,
+    marginLeft: 10,
   },
   smallDot: {
     width: 3,

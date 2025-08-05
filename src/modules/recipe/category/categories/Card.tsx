@@ -1,10 +1,9 @@
-import React, { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import {
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
-  Alert,
   Animated,
   ActivityIndicator,
 } from "react-native";
@@ -288,7 +287,6 @@ export function CategoryCard({
     if (isDeleting || isUpdating) return;
 
     const payload = event.dragged.payload;
-    console.log("payload", payload);
 
     let recipeId: string;
     if (typeof payload === "string") {
@@ -296,7 +294,6 @@ export function CategoryCard({
     } else if (payload && typeof payload === "object" && payload[0]) {
       recipeId = payload[0];
     } else {
-      console.warn("Invalid drag payload:", payload);
       return;
     }
 

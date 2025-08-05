@@ -8,7 +8,6 @@ import {
 } from "@/src/modules/shared/storage/SecureStorage";
 import { reissueRefreshToken } from "@/src/modules/shared/api/apiWithoutAuth";
 import { useUserStore } from "@/src/modules/user/business/store/userStore";
-import { useRouter } from "expo-router";
 
 declare module "axios" {
   export interface AxiosRequestConfig {
@@ -63,7 +62,6 @@ client.interceptors.request.use(
     }
   },
   (error) => {
-    console.log("__3__");
     return Promise.reject(error);
   },
 );
