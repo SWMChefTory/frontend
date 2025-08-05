@@ -4,12 +4,12 @@ import { errorStyles } from "@/src/modules/shared/styles/error";
 
 interface RecipeCreateStepErrorProps {
   error: Error;
-  resetError: () => void;
+  resetErrorBoundary: () => void;
 }
 
 export function RecipeCreateStepError({
   error,
-  resetError,
+  resetErrorBoundary,
 }: RecipeCreateStepErrorProps) {
   const router = useRouter();
 
@@ -19,7 +19,10 @@ export function RecipeCreateStepError({
       <Text style={errorStyles.message}>다시 시도해주세요</Text>
 
       <View style={errorStyles.buttonContainer}>
-        <TouchableOpacity style={errorStyles.retryButton} onPress={resetError}>
+        <TouchableOpacity
+          style={errorStyles.retryButton}
+          onPress={resetErrorBoundary}
+        >
           <Text style={errorStyles.retryButtonText}>다시 시도</Text>
         </TouchableOpacity>
 

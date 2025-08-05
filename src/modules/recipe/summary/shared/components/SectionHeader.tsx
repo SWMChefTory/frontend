@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   },
   modernSectionTitle: {
     fontSize: 20,
-    fontFamily:"NotoSerifKR_400Regular",
+    fontFamily: "NotoSerifKR_400Regular",
     fontWeight: "700",
     color: COLORS.font.dark,
     letterSpacing: -0.5,

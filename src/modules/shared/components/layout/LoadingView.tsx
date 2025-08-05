@@ -2,15 +2,13 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 import Skeleton from "react-native-reanimated-skeleton";
 import { ICustomViewStyle } from "react-native-reanimated-skeleton/lib/typescript/constants";
-import { PopularRecipesSkeleton } from "@/src/modules/recipe/summary/popular/shared/Skeleton";
-import { RecentRecipesSkeleton } from "@/src/modules/recipe/summary/recent/shared/Skeleton";
 
-type SkeletonLayout = "popularRecipes" | "recentRecipes" | "default";
+type SkeletonLayout = "default";
 
 type Props = {
   loading: boolean;
   children: React.ReactNode;
-  skeletonLayout?: SkeletonLayout;
+  skeletonComponent?: React.ReactNode;
 };
 
 const getSkeletonLayout = (layout: SkeletonLayout): ICustomViewStyle[] => {
@@ -43,24 +41,16 @@ const getSkeletonLayout = (layout: SkeletonLayout): ICustomViewStyle[] => {
   }
 };
 
-export function LoadingView({
-  loading,
-  children,
-  skeletonLayout = "default",
-}: Props) {
+export function LoadingView({ loading, children, skeletonComponent }: Props) {
   if (loading) {
-    if (skeletonLayout === "popularRecipes") {
-      return <PopularRecipesSkeleton />;
+    if (skeletonComponent) {
+      return skeletonComponent;
     }
-    if (skeletonLayout === "recentRecipes") {
-      return <RecentRecipesSkeleton />;
-    }
-
     return (
       <View style={styles.container}>
         <Skeleton
           isLoading={true}
-          layout={getSkeletonLayout(skeletonLayout)}
+          layout={getSkeletonLayout("default")}
           boneColor="#FF4500"
           highlightColor="#F2F8FC"
           animationType="shiver"

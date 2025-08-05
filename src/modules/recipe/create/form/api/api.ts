@@ -5,15 +5,18 @@ export interface CreateRecipeApiResponse {
 }
 
 export interface CreateRecipeApiRequest {
-  video_url: string
+  video_url: string;
 }
 
 export async function createRecipe(
   youtubeUrl: string,
 ): Promise<CreateRecipeApiResponse> {
-  const createRequest: CreateRecipeApiRequest ={
-    video_url: youtubeUrl 
-  }
-  const response = await client.post<CreateRecipeApiResponse>(`/recipes`, createRequest );
+  const createRequest: CreateRecipeApiRequest = {
+    video_url: youtubeUrl,
+  };
+  const response = await client.post<CreateRecipeApiResponse>(
+    `/recipes`,
+    createRequest,
+  );
   return response.data;
 }

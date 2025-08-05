@@ -12,7 +12,7 @@ interface CheftoryHeaderProps {
   onBackPress?: () => void;
 }
 
-export function HeaderTemplate({ 
+export function HeaderTemplate({
   title, 
   showBackButton = false, 
   leftComponent,

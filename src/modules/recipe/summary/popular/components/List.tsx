@@ -8,7 +8,6 @@ type Props = {
 };
 
 export function PopularRecipeSummaryList({ recipes, onPress }: Props) {
-
   return (
     <View style={styles.container}>
       <FlatList
@@ -27,10 +26,10 @@ export function PopularRecipeSummaryList({ recipes, onPress }: Props) {
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'flex-start',
+    justifyContent: "flex-start",
     minHeight: 288,
   },
-  columnWrapper: { 
+  columnWrapper: {
     justifyContent: "space-between",
     paddingBottom: 8,
   },

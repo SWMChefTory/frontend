@@ -1,5 +1,5 @@
 import { QueryErrorResetBoundary } from "@tanstack/react-query";
-import ErrorBoundary from "react-native-error-boundary";
+import { ErrorBoundary } from "react-error-boundary";
 
 interface Props {
   children: React.ReactNode;
@@ -9,9 +9,11 @@ interface Props {
 export function ApiErrorBoundary({ children, fallbackComponent }: Props) {
   return (
     <QueryErrorResetBoundary>
-      <ErrorBoundary FallbackComponent={fallbackComponent}>
-        {children}
-      </ErrorBoundary>
+      {({ reset }) => (
+        <ErrorBoundary onReset={reset} FallbackComponent={fallbackComponent}>
+          {children}
+        </ErrorBoundary>
+      )}
     </QueryErrorResetBoundary>
   );
 }

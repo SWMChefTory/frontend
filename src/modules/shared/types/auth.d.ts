@@ -19,4 +19,3 @@ export interface AuthContextType {
   loading: boolean;
   setUser: (user: User | null) => void;
 }
-

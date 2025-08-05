@@ -67,7 +67,7 @@ export function useRecipeDetailViewModel(params: RecipeDetailParams) {
     (navState: WebViewNavigationState) => {
       setCanGoBack(navState.canGoBack);
     },
-    [setCanGoBack]
+    [setCanGoBack],
   );
 
   const handleError = useCallback(
@@ -86,10 +86,10 @@ export function useRecipeDetailViewModel(params: RecipeDetailParams) {
             text: WEBVIEW_CONFIG.ERROR_MESSAGES.RETRY_BUTTON_TEXT,
             onPress: () => setIsLoading(true),
           },
-        ]
+        ],
       );
     },
-    [setIsLoading]
+    [setIsLoading],
   );
 
   const handleHttpError = useCallback(
@@ -97,7 +97,7 @@ export function useRecipeDetailViewModel(params: RecipeDetailParams) {
       console.error("HTTP 오류:", error);
       setIsLoading(false);
     },
-    [setIsLoading]
+    [setIsLoading],
   );
 
   return {

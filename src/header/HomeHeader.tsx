@@ -5,7 +5,7 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
-  Image
+  Image,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { COLORS } from "@/src/modules/shared/constants/colors";
@@ -29,7 +29,7 @@ export function HomeHeader() {
           duration: 2000,
           useNativeDriver: true,
         }),
-      ])
+      ]),
     );
 
     const rotateAnimation = Animated.loop(
@@ -44,7 +44,7 @@ export function HomeHeader() {
           duration: 3000,
           useNativeDriver: true,
         }),
-      ])
+      ]),
     );
 
     pulseAnimation.start();
@@ -121,7 +121,7 @@ export function HomeHeader() {
             style={styles.logoBackground}
           >
             <Image
-              source={require('@/assets/images/logo.png')}
+              source={require("@/assets/images/logo.png")}
               style={{ width: 50, height: 50 }}
               resizeMode="contain"
             />
@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
     marginRight: 6,
   },
   tagline: {
-    fontFamily: 'NotoSerifKR_400Regular',
+    fontFamily: "NotoSerifKR_400Regular",
     fontSize: 11,
     color: "#666",
     fontWeight: "500",

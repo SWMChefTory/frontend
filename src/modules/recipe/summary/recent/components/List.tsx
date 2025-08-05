@@ -12,7 +12,7 @@ type Props = {
 export default function RecentRecipeSummaryList({ recipes, onPress }: Props) {
   const renderEmptyState = () => {
     const emptyCards = Array(3).fill(null);
-    
+
     return (
       <FlatList
         data={emptyCards}
@@ -21,11 +21,7 @@ export default function RecentRecipeSummaryList({ recipes, onPress }: Props) {
         keyExtractor={(_, index) => `empty-${index}`}
         ItemSeparatorComponent={() => <View style={styles.gap} />}
         style={styles.container}
-        renderItem={({ index }) => (
-          <EmptyStateCard 
-            isFirst={index === 0}
-          />
-        )}
+        renderItem={({ index }) => <EmptyStateCard isFirst={index === 0} />}
       />
     );
   };
@@ -53,7 +49,7 @@ export default function RecentRecipeSummaryList({ recipes, onPress }: Props) {
 
 const styles = StyleSheet.create({
   wrapper: {
-    justifyContent: 'center',
+    justifyContent: "center",
     minHeight: 156,
   },
   gap: { width: 12 },
@@ -61,5 +57,4 @@ const styles = StyleSheet.create({
     flexGrow: 0,
     flexShrink: 0,
   },
-
 });

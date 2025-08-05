@@ -6,7 +6,10 @@ import { Image } from "expo-image";
 export default function LoginPage() {
   return (
     <View style={styles.container}>
-      <Image source={require('@/assets/images/logo.png')} style={{width: 150, height: 150}}/>
+      <Image
+        source={require("@/assets/images/logo.png")}
+        style={{ width: 150, height: 150 }}
+      />
       <Text style={styles.title}>셰프토리</Text>
       <Text style={styles.subTitle}>셰프토리에 로그인 하세요.</Text>
       <View style={styles.buttonCotainer}>
@@ -39,5 +42,5 @@ const styles = StyleSheet.create({
   },
   buttonCotainer: {
     paddingBottom: 10,
-  }
+  },
 });

@@ -36,20 +36,12 @@ export function RecipeWebView({
     }
 
     if (webViewRef.current && accessToken) {
-      if (Platform.OS === "android") {
-        const script = `
-          window.postMessage(${JSON.stringify({
-            type: "ACCESS_TOKEN",
-            token: accessToken,
-          })}, '*');
-          true;
-        `;
-        webViewRef.current.injectJavaScript(script);
-      } else {
-        webViewRef.current.postMessage(
-          JSON.stringify({ type: "ACCESS_TOKEN", token: accessToken })
-        );
-      }
+      const payload = JSON.stringify({
+        type: "ACCESS_TOKEN",
+        token: accessToken,
+      });
+      const js = `window.postMessage(${payload}, '*'); true;`;
+      webViewRef.current.injectJavaScript(js);
 
       console.log(`[Native] 액세스 토큰을 웹뷰로 전송: ${accessToken}`);
     }
@@ -57,6 +49,16 @@ export function RecipeWebView({
 
   return (
     <WebView
+      injectedJavaScript={`
+      (function() {
+        const originalLog = console.log;
+        console.log = function(...args) {
+          window.ReactNativeWebView.postMessage(args.join(" "));
+          originalLog.apply(console, args);
+        };
+      })();
+      true;
+    `}
       key={webViewKey}
       ref={webViewRef}
       source={{ uri: url }}

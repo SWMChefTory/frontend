@@ -9,7 +9,7 @@ export const NicknameInput = ({nickname, setNickname, inputAccessoryViewID=""}: 
       placeholder="닉네임을 입력해주세요" 
       value={nickname} 
       onChangeText={setNickname}
-      placeholderTextColor={COLORS.text.gray} 
+      placeholderTextColor={COLORS.text.gray}
       // inputAccessoryViewID={inputAccessoryViewID}
     />
   </View>

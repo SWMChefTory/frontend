@@ -1,68 +1,101 @@
-import { View, StyleSheet } from "react-native";
+import React from "react";
+import { View, StyleSheet, FlatList } from "react-native";
 import Skeleton from "react-native-reanimated-skeleton";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 
-export function RecentRecipesSkeleton() {
-  return (
-    <View style={styles.container}>
-      {[...Array(2)].map((_, index) => (
-        <View key={index} style={styles.skeletonCard}>
-          <Skeleton
-            isLoading={true}
-            layout={[
+type Props = { itemCount?: number };
+
+export function RecentRecipesSkeleton({ itemCount = 3 }: Props) {
+  const data = Array.from({ length: itemCount }, (_, i) => i);
+
+  const renderItem = () => (
+    <View style={styles.card}>
+      <Skeleton
+        isLoading
+        layout={[
+          {
+            key: "image",
+            width: "100%",
+            height: 80,
+            borderTopLeftRadius: 16,
+            borderTopRightRadius: 16,
+            marginBottom: 0,
+          },
+          {
+            key: "body",
+            width: "100%",
+            paddingHorizontal: 12,
+            paddingTop: 12,
+            children: [
               {
-                key: `img${index}`,
-                width: "100%",
-                height: 80,
-                borderRadius: 16,
-              },
-              {
-                key: `title${index}`,
+                key: "title",
                 width: "90%",
                 height: 13,
                 borderRadius: 4,
-                marginTop: 12,
+                marginBottom: 6,
               },
               {
-                key: `progress${index}`,
+                key: "progress",
                 width: "100%",
                 height: 3,
                 borderRadius: 2,
-                marginTop: 6,
+                marginBottom: 4,
               },
               {
-                key: `progressText${index}`,
+                key: "progressText",
                 width: "60%",
                 height: 11,
                 borderRadius: 4,
-                marginTop: 4,
               },
-            ]}
-            boneColor={COLORS.skeleton.bone}
-            highlightColor={COLORS.skeleton.highlight}
-            animationType="pulse"
-          />
-        </View>
-      ))}
+            ],
+          },
+        ]}
+        boneColor={COLORS.skeleton.bone}
+        highlightColor={COLORS.skeleton.highlight}
+        animationType="pulse"
+        duration={1200}
+      />
+    </View>
+  );
+
+  return (
+    <View style={styles.wrapper}>
+      <FlatList
+        data={data}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        keyExtractor={(item) => item.toString()}
+        ItemSeparatorComponent={() => <View style={styles.separator} />}
+        contentContainerStyle={styles.contentContainer}
+        renderItem={renderItem}
+      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
+  wrapper: {
+    justifyContent: "center",
+    minHeight: 156,
+  },
+  contentContainer: {
+    paddingHorizontal: 16,
     paddingVertical: 8,
   },
-  skeletonCard: {
+  separator: {
+    width: 12,
+  },
+  card: {
     width: 140,
-    marginRight: 12,
-    backgroundColor: COLORS.background.white,
+    backgroundColor: COLORS.priamry.main,
     borderRadius: 16,
-    padding: 12,
-    shadowColor: COLORS.orange.main,
+    paddingBottom: 12,
+    shadowColor: COLORS.shadow.orange,
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.15,
-    shadowRadius: 8,
-    elevation: 3,
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    elevation: 4,
+    borderWidth: 1,
+    borderColor: "#F3F4F6",
   },
 });

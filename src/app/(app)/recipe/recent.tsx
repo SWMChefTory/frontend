@@ -14,8 +14,7 @@ import { AllRecentRecipeCard } from "@/src/modules/recipe/list/recent/component/
 import RecipeRecentHeader from "@/src/header/RecipeRecentHeader";
 
 export default function RecentRecipeSummaryScreen() {
-
-  const { recentRecipes, loading, refetch } = useRecentSummaryViewModel();
+  const { recentRecipes, refetch } = useRecentSummaryViewModel();
   const router = useRouter();
 
   const handleRecipeView = useCallback((recipe: RecentSummaryRecipe) => {
@@ -25,12 +24,12 @@ export default function RecentRecipeSummaryScreen() {
     });
   }, []);
 
-  const renderItem = useCallback(({ item }: { item: RecentSummaryRecipe }) => (
-    <AllRecentRecipeCard
-      recipe={item}
-      onPress={handleRecipeView}
-    />
-  ), [handleRecipeView]);
+  const renderItem = useCallback(
+    ({ item }: { item: RecentSummaryRecipe }) => (
+      <AllRecentRecipeCard recipe={item} onPress={handleRecipeView} />
+    ),
+    [handleRecipeView],
+  );
 
   const renderEmptyState = useCallback(() => {
     return (
@@ -68,10 +67,10 @@ export default function RecentRecipeSummaryScreen() {
         contentContainerStyle={styles.listContainer}
         showsVerticalScrollIndicator={false}
         ItemSeparatorComponent={() => <View style={{ height: 16 }} />}
-        ListEmptyComponent={!loading ? renderEmptyState : null}
+        ListEmptyComponent={renderEmptyState}
         refreshControl={
           <RefreshControl
-            refreshing={loading}
+            refreshing={true}
             onRefresh={refetch}
             colors={[COLORS.orange.main]}
             tintColor={COLORS.orange.main}

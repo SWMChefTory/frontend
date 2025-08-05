@@ -19,7 +19,6 @@ function RootNavigator() {
   const [loaded, error] = useFonts({
     DoHyeon_400Regular
   });
-  console.log("isLoggedIn", isLoggedIn);
 
   useEffect(() => {
     if ((loading && loaded) || error) {
@@ -27,9 +26,6 @@ function RootNavigator() {
     }
   }, [loaded, error]);
 
-  console.log("loaded", loaded);
-  console.log(!(loaded&&loading));
-  console.log("error", error);
   if (!loaded && !error) {
     return null;
   }

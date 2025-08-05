@@ -1,4 +1,5 @@
 import { RecentRecipeApiResponse } from "../api/api";
+import uuid from "react-native-uuid";
 
 export class RecentSummaryRecipe {
   recipeId: string;
@@ -8,7 +9,8 @@ export class RecentSummaryRecipe {
   lastPlaySeconds: number;
   viewedAt: Date;
   videoDuration: number;
-
+  category: string;
+  categoryId: string;
   private constructor(
     recipeId: string,
     title: string,
@@ -17,6 +19,8 @@ export class RecentSummaryRecipe {
     lastPlaySeconds: number,
     viewedAt: Date,
     videoDuration: number,
+    category: string,
+    categoryId: string,
   ) {
     this.recipeId = recipeId;
     this.title = title;
@@ -25,6 +29,8 @@ export class RecentSummaryRecipe {
     this.lastPlaySeconds = lastPlaySeconds;
     this.viewedAt = viewedAt;
     this.videoDuration = videoDuration;
+    this.category = category;
+    this.categoryId = categoryId;
   }
 
   static create(apiResponse: RecentRecipeApiResponse): RecentSummaryRecipe {
@@ -36,6 +42,8 @@ export class RecentSummaryRecipe {
       apiResponse.last_play_seconds,
       new Date(apiResponse.viewed_at),
       apiResponse.video_seconds,
+      apiResponse.category,
+      uuid.v4().toString(),
     );
   }
 

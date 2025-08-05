@@ -1,4 +1,10 @@
-import { FlatList, RefreshControl, StyleSheet, TouchableOpacity, View } from "react-native";
+import {
+  FlatList,
+  RefreshControl,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { AllPopularRecipeCard } from "@/src/modules/recipe/list/popular/component/AllRecipeCard";
 import { PopularSummaryRecipe } from "@/src/modules/recipe/summary/popular/types/Recipe";
 import { COLORS } from "@/src/modules/shared/constants/colors";
@@ -9,7 +15,6 @@ import { AllRecipeEmptyState } from "@/src/modules/recipe/list/EmptyState";
 import RecipePopularHeader from "@/src/header/RecipePopularHeader";
 
 export default function PopularRecipeSummaryScreen() {
-
   const { popularRecipes, loading, refetch } = usePopularSummaryViewModel();
   const router = useRouter();
 
