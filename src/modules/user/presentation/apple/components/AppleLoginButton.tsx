@@ -6,10 +6,10 @@ import { OauthProvider } from "@/src/modules/user/enums/OauthProvider";
 import { Alert } from "react-native";
 import { FullScreenLoader } from "@/src/modules/shared/splash/loading/lottieview/FullScreenLoader";
 
-export function AppleLoginButton() {
+export function AppleLoginButton({ isReal }: { isReal: boolean }) {
   const { login, isLoading } = useLoginViewModel();
 
-  async function handleSignInApple() {
+  async function handleSignInAppleReal() {
     const appleAuthRequestResponse = await appleAuth.performRequest({
       requestedOperation: appleAuth.Operation.LOGIN,
       requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
@@ -40,6 +40,12 @@ export function AppleLoginButton() {
 
     Alert.alert("오류", "Apple 로그인에 실패했습니다.");
   }
+  
+  async function handleSignInAppleFake() {
+    return;
+  }
+
+  const handleSignInApple = isReal ? handleSignInAppleReal : handleSignInAppleFake;
 
   return (
     <>

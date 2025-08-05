@@ -15,10 +15,10 @@ GoogleSignin.configure({
   iosClientId: process.env.EXPO_PUBLIC_IOS_ID,
 });
 
-export default function GoogleLoginButton() {
+export default function GoogleLoginButton({ isReal }: { isReal: boolean }) {
   const { login, isLoading } = useLoginViewModel();
 
-  const handleSignIn = async () => {
+  const handleSignInReal = async () => {
     try {
       await GoogleSignin.hasPlayServices();
       const response = await GoogleSignin.signIn();
@@ -39,6 +39,12 @@ export default function GoogleLoginButton() {
       Alert.alert("오류", "Google 로그인 중 오류가 발생했습니다.");
     }
   };
+
+  const handleSignInFake = async () => {
+    return;
+  };
+
+  const handleSignIn = isReal ? handleSignInReal : handleSignInFake;
 
   return (
     <>

@@ -5,10 +5,15 @@ import {
   useLogoutViewModel,
 } from "@/src/modules/user/business/service/useAuthService";
 import AuthActionTemplate from "./AuthActionTemplate";
+import { FullScreenLoader } from "../../shared/splash/loading/lottieview/FullScreenLoader";
 
 export default function AuthActions() {
-  const { logout, completeLogout } = useLogoutViewModel();
+  const { logout, isLoading } = useLogoutViewModel();
   const { deleteUser } = useDeleteUserViewModel();
+
+  if (isLoading) {
+    return <FullScreenLoader />;
+  }
 
   const handleLogoutPress = () => {
     Alert.alert("로그아웃", "정말 로그아웃 하시겠습니까?", [
@@ -17,18 +22,6 @@ export default function AuthActions() {
         text: "로그아웃",
         onPress: () => {
           logout();
-          Alert.alert(
-            "로그아웃이 완료되었습니다.",
-            "로그인 화면으로 이동합니다.",
-            [
-              {
-                text: "확인",
-                onPress: () => {
-                  completeLogout();
-                },
-              },
-            ],
-          );
         },
       },
     ]);

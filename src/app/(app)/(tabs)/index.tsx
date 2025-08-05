@@ -98,10 +98,10 @@ export default function HomeScreen() {
         )}
         scrollEventThrottle={16}
       >
-        <HomeSectionHeader
+        {/* <HomeSectionHeader
           title="맛있는 요리의 시작"
           subtitle="영상 링크로 간편하게 레시피를 만들어보세요"
-        />
+        /> */}
         <View style={styles.contentWrapper}>
           <RecentRecipeSection
             onRecipePress={handleRecipePress}

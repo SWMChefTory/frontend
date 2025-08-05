@@ -9,7 +9,7 @@ export default function ChangeDateOfBirthPage() {
     <View style={styles.container}>
       <Stack.Screen
         options={{
-          header: () => <OnlyBackTemplate content="생년월일 변경" />,
+          header : () => <OnlyBackTemplate  title="생년월일 변경" />,  
         }}
       />
       <ChangeDateOfBirth />

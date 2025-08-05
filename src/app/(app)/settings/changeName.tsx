@@ -9,7 +9,7 @@ export default function ChangeNamePage() {
     <View style={styles.container}>
       <Stack.Screen
         options={{
-          header: () => <OnlyBackTemplate content="이름 변경" />,
+          header : () => <OnlyBackTemplate  title="이름 변경" />,  
         }}
       />
       <ChangeName />

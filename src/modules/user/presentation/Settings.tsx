@@ -6,7 +6,7 @@ export default function Settings() {
   return (
     <View style={styles.container}>
       <UserFeatureItems />
-      <AuthActions />
+      <AuthActions/>
     </View>
   );
 }

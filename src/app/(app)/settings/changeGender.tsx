@@ -9,7 +9,7 @@ export default function ChangeGenderPage() {
     <View style={styles.container}>
       <Stack.Screen
         options={{
-          header: () => <OnlyBackTemplate content="성별 변경" />,
+          header : () => <OnlyBackTemplate  title="성별 변경" />,  
         }}
       />
       <ChangeGender />

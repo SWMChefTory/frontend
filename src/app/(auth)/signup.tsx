@@ -15,7 +15,7 @@ import { NextButton } from "@/src/modules/user/presentation/components/NextButto
 import { FullScreenLoader } from "@/src/modules/shared/splash/loading/lottieview/FullScreenLoader";
 import { DateOnly } from "@/src/modules/shared/utils/DateOnly";
 
-export default function SignupPage() {
+export default function SignupScreen() {
   const [nickname, setNickname] = useState<string>("");
   const [gender, setGender] = useState<Gender>(Gender.FEMALE);
   const [dateOfBirth, setDateOfBirth] = useState<DateOnly>(
