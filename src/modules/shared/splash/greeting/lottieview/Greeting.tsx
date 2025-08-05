@@ -1,11 +1,5 @@
 import LottieView from "lottie-react-native";
-import {
-  View,
-  StyleSheet,
-  Dimensions,
-  StyleProp,
-  ViewStyle,
-} from "react-native";
+import { View } from "react-native";
 
 export const Greeting = () => {
   return (

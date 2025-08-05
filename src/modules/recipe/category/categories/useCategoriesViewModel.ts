@@ -3,7 +3,7 @@ import { fetchCategories } from "../api";
 import { Category } from "../Category";
 
 export function useCategoriesViewModel() {
-  const { data } = useSuspenseQuery({
+  const { data, refetch } = useSuspenseQuery({
     queryKey: ["categories"],
     queryFn: fetchCategories,
     staleTime: 5 * 60 * 1000,
@@ -14,5 +14,6 @@ export function useCategoriesViewModel() {
 
   return {
     categories,
+    refetch,
   };
 }

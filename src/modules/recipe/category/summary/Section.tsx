@@ -4,10 +4,11 @@ import { COLORS } from "@/src/modules/shared/constants/colors";
 import { ApiErrorBoundary } from "@/src/modules/shared/components/error/ApiErrorBoundary";
 import { CategorySummaryRecipeError } from "./Fallback";
 import { useCategoryRecipesViewModel } from "./useViewModel";
-import { Suspense } from "react";
+import { Suspense, useCallback } from "react";
 import { DeferredComponent } from "@/src/modules/shared/utils/DeferredComponent";
 import { CategoryRecipesSkeleton } from "./Skeleton";
-
+import { useFocusEffect, useRouter } from "expo-router";
+import { CategorySummaryRecipe } from "@/src/modules/recipe/category/summary/Recipe";
 interface Props {
   selectedCategoryId: string | null;
 }
@@ -36,10 +37,31 @@ export function CategoryRecipeListSectionContent({
   selectedCategoryId,
 }: Props) {
   const { recipes, refetch } = useCategoryRecipesViewModel(selectedCategoryId);
+  const router = useRouter();
+
+  useFocusEffect(
+    useCallback(() => {
+      refetch();
+    }, [refetch]),
+  );
+
+  const handleRecipePress = (recipe: CategorySummaryRecipe) => {
+    router.push({
+      pathname: "/recipe/detail",
+      params: {
+        recipeId: recipe.recipeId,
+        youtubeId: recipe.youtubeId,
+        title: recipe.title,
+      },
+    });
+  };
 
   return (
     <>
-      <CategoryRecipeSummaryList recipes={recipes} />
+      <CategoryRecipeSummaryList
+        recipes={recipes}
+        onPress={handleRecipePress}
+      />
     </>
   );
 }

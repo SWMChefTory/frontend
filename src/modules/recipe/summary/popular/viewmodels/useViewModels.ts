@@ -1,9 +1,10 @@
 import { PopularSummaryRecipe } from "@/src/modules/recipe/summary/popular/types/Recipe";
 import {
+  createPopularRecipe,
   fetchPopularSummary,
   PopularRecipeOverview,
 } from "@/src/modules/recipe/summary/popular/api/api";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 
 export function usePopularSummaryViewModel(): {
   popularRecipes: PopularSummaryRecipe[];
@@ -23,5 +24,15 @@ export function usePopularSummaryViewModel(): {
   return {
     popularRecipes,
     refetch,
+  };
+}
+
+export function useRecipeCreateViewModel() {
+  const { mutate: create, data } = useMutation({
+    mutationFn: (youtubeUrl: string) => createPopularRecipe(youtubeUrl),
+  });
+  return {
+    recipeId: data?.recipe_id,
+    create,
   };
 }

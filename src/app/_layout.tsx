@@ -7,7 +7,6 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { GlobalErrorBoundary } from "../modules/shared/components/error/GlobalErrorBoundary";
 import { SplashScreenController } from "../modules/shared/splash/SplashScreenController";
 import { useFonts, DoHyeon_400Regular } from "@expo-google-fonts/do-hyeon";
-import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import { useAuthBootstrap } from "../modules/user/authBootstrap";
 
@@ -21,7 +20,7 @@ function RootNavigator() {
 
   useEffect(() => {
     if ((loading && loaded) || error) {
-      SplashScreen.hideAsync();
+      ExpoSplashScreen.hideAsync();
     }
   }, [loaded, error]);
 
