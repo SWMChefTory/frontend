@@ -28,8 +28,8 @@ export function useCategoryRecipesViewModel(categoryId: string | null) {
   );
 
   const refetchAll = () => {
-    queryClient.invalidateQueries({ 
-      queryKey: ["categoryRecipes"] 
+    queryClient.invalidateQueries({
+      queryKey: ["categoryRecipes"]
     });
   };
 

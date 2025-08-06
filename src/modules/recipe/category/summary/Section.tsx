@@ -46,7 +46,7 @@ export function CategoryRecipeListSectionContent({
   selectedCategory,
   onDragStart,
   onDragEnd,
-  isDragging, 
+  isDragging,
 }: Props) {
   const { recipes, refetchAll } = useCategoryRecipesViewModel(selectedCategory?.id ?? null);
   const router = useRouter();

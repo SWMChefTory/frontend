@@ -32,8 +32,8 @@ export function useRecipeCreateViewModel() {
   const { mutateAsync: create, data } = useMutation({
     mutationFn: (youtubeUrl: string) => createPopularRecipe(youtubeUrl),
     onSuccess: () => {
-      queryClient.invalidateQueries({ 
-        queryKey: ["recentRecipes"] 
+      queryClient.invalidateQueries({
+        queryKey: ["recentRecipes"]
       });
     },
   });

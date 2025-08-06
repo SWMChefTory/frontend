@@ -239,6 +239,8 @@ export function DroppableCategoryCard({ category, onDrop }: DropProps) {
 
   const handleDrop = (event: any) => {
     const payload = event.dragged.payload;
+    console.log("payload", payload);
+
     let recipeId: string;
     let recipeCategoryId: string | null = null;
 
@@ -263,8 +265,8 @@ export function DroppableCategoryCard({ category, onDrop }: DropProps) {
       borderColor: isReceiving ? COLORS.orange.main : "rgba(255, 107, 53, 0.8)",
       borderWidth: 2,
       borderStyle: isReceiving ? "solid" : "dashed",
-      backgroundColor: isReceiving 
-        ? "rgba(255, 165, 0, 0.15)" 
+      backgroundColor: isReceiving
+        ? "rgba(255, 165, 0, 0.15)"
         : "rgba(255, 107, 53, 0.05)",
       shadowColor: isReceiving ? COLORS.orange.main : "rgba(255, 107, 53, 0.3)",
       shadowOpacity: isReceiving ? 0.4 : 0.2,
@@ -308,7 +310,7 @@ export function DroppableCategoryCard({ category, onDrop }: DropProps) {
           <Text
             style={[
               baseStyles.name,
-              isReceiving 
+              isReceiving
                 ? { color: COLORS.orange.main, fontWeight: "700" }
                 : { color: COLORS.orange.main, fontWeight: "600" },
             ]}
@@ -581,7 +583,7 @@ export function CategoryCard({
 
   if (categoryState === CategoryState.SUCCESS) {
       return <SuccessCategoryCard category={category}/>;
-  } 
+  }
 
   if (categoryState === CategoryState.DRAGGING && categorySelectedState === CategorySelectedState.UNSELECTED) {
     return (

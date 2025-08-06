@@ -81,7 +81,7 @@ export function CategoryListSectionContent({
   const handleAddCategory = () => {
     setOpenModal(true);
   };
-  
+
   const handleCategoryPress = (category: Category) => {
     if (category.isEquals(selectedCategory)) {
       onCategoryDeselect(category);
@@ -93,7 +93,7 @@ export function CategoryListSectionContent({
   const handleUpdateRecipe = (
     recipeId: string,
     previousCategoryId: string | null,
-    targetCategoryId: string, 
+    targetCategoryId: string,
   ) => {
       updateCategory({ recipeId, previousCategoryId, targetCategoryId });
       onDragEnd();

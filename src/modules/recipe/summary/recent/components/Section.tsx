@@ -18,7 +18,7 @@ interface Props {
 
 export function RecentRecipeSection({ onRefresh }: Props) {
   const router = useRouter();
-  
+
   const handleRecipePress = useRef(
     throttle((recipe: RecentSummaryRecipe) => {
       router.push({
