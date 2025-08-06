@@ -5,7 +5,7 @@ import {
 } from "@/src/modules/user/business/service/useUserSerivce";
 import { useState } from "react";
 import { DateOfBirthPick } from "@/src/modules/user/presentation/components/DateOfBirthPick";
-import { COLORS } from "../../shared/constants/colors";
+import { COLORS } from "@/src/modules/shared/constants/colors";
 import { DateOnly } from "@/src/modules/shared/utils/DateOnly";
 
 export default function ChangeDateOfBirth() {

@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from "react-native";
-import UserFeatureItemTemplate from "./UserFeatureItemTemplate";
+import UserFeatureItemTemplate from "@/src/modules/user/presentation/settings/UserFeatureItemTemplate";
 import { useUserViewModel } from "@/src/modules/user/business/service/useUserSerivce";
 import { router } from "expo-router";
 

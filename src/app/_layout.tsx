@@ -24,9 +24,7 @@ function RootNavigator() {
     }
   }, [loaded, error]);
 
-  if (!loaded && !error) {
-    return null;
-  }
+  
   return (
     <Stack
       screenOptions={{

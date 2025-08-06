@@ -2,10 +2,11 @@ import {
   GoogleSignin,
   GoogleSigninButton,
 } from "@react-native-google-signin/google-signin";
-import { Alert } from "react-native";
+import { Alert, Text, TouchableOpacity } from "react-native";
 import { useLoginViewModel } from "@/src/modules/user/business/service/useAuthService";
 import { OauthProvider } from "@/src/modules/user/enums/OauthProvider";
 import { FullScreenLoader } from "@/src/modules/shared/splash/loading/lottieview/FullScreenLoader";
+import LoginButtonTemplate from "../../login/LoginButtonTemplate";
 
 GoogleSignin.configure({
   webClientId: process.env.EXPO_PUBLIC_WEB_ID,
@@ -49,7 +50,12 @@ export default function GoogleLoginButton({ isReal }: { isReal: boolean }) {
   return (
     <>
       {isLoading && <FullScreenLoader />}
-      <GoogleSigninButton onPress={handleSignIn} />
+      <LoginButtonTemplate
+        logoPath={require("@/assets/images/googleLogo.png")}
+        logoSize={{width:22, height:24}}
+        description="Google로 시작하기"
+        handleSignIn={handleSignIn}
+      />
     </>
   );
 }

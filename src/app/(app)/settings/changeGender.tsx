@@ -1,7 +1,7 @@
 import { Stack } from "expo-router";
 import { View, StyleSheet } from "react-native";
 import { COLORS } from "@/src/modules/shared/constants/colors";
-import ChangeGender from "@/src/modules/user/presentation/ChangeGender";
+import ChangeGender from "@/src/modules/user/presentation/settings/ChangeGender";
 import OnlyBackTemplate from "@/src/header/template/OnlyBackTemplate";
 
 export default function ChangeGenderPage() {

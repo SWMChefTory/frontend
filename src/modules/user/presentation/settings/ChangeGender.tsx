@@ -2,11 +2,11 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import {
   useUserViewModel,
   useChangeGenderViewModel,
-} from "../business/service/useUserSerivce";
-import { GenderOptions } from "./components/GenderOption";
+  } from "@/src/modules/user/business/service/useUserSerivce";
+import { GenderOptions } from "@/src/modules/user/presentation/components/GenderOption";
 import { useState } from "react";
-import { Gender } from "../enums/Gender";
-import { COLORS } from "../../shared/constants/colors";
+import { Gender } from "@/src/modules/user/enums/Gender";
+import { COLORS } from "@/src/modules/shared/constants/colors";
 
 export default function ChangeGenderPage() {
   const user = useUserViewModel();

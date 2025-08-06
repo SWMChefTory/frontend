@@ -1,4 +1,4 @@
-import Settings from "@/src/modules/user/presentation/Settings";
+import Settings from "@/src/modules/user/presentation/settings/Settings";
 import { Stack } from "expo-router";
 import { View, StyleSheet } from "react-native";
 import { COLORS } from "@/src/modules/shared/constants/colors";

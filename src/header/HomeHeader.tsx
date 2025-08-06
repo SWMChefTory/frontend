@@ -108,7 +108,7 @@ export function HomeHeader() {
         onPress={handleLogoPress}
         activeOpacity={0.8}
       >
-        <Animated.View
+        {/* <Animated.View
           style={[
             styles.logoBackground,
             { transform: [{ scale: pulseValue }] },
@@ -126,7 +126,7 @@ export function HomeHeader() {
               resizeMode="contain"
             />
           </LinearGradient>
-        </Animated.View>
+        </Animated.View> */}
 
         <View style={styles.titleContainer}>
           {/* <Text style={styles.titleGradient}>쉐프토리</Text>
@@ -197,6 +197,7 @@ const styles = StyleSheet.create({
     // elevation: 4,
   },
   titleContainer: {
+    paddingLeft: 10,
     justifyContent: "center",
   },
   titleGradient: {
