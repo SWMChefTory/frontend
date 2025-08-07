@@ -108,7 +108,7 @@ export function HomeHeader() {
         onPress={handleLogoPress}
         activeOpacity={0.8}
       >
-        <Animated.View
+        {/* <Animated.View
           style={[
             styles.logoBackground,
             { transform: [{ scale: pulseValue }] },
@@ -122,25 +122,30 @@ export function HomeHeader() {
           >
             <Image
               source={require("@/assets/images/logo.png")}
-              style={{ width: 50, height: 50 }}
+              style={{ width: 40, height: 40 }}
               resizeMode="contain"
             />
           </LinearGradient>
-        </Animated.View>
+        </Animated.View> */}
 
         <View style={styles.titleContainer}>
-          <Text style={styles.titleGradient}>쉐프토리</Text>
-          <View style={styles.taglineContainer}>
+          {/* <Text style={styles.titleGradient}>쉐프토리</Text>
+          <View style={styles.taglineContainer}> */}
             {/* <Animated.View
               style={[styles.dot, { transform: [{ scale: pulseValue }] }]}
             /> */}
-            <Text style={styles.tagline}>요리의 시작</Text>
-          </View>
+            {/* <Text style={styles.tagline}>요리의 시작</Text>
+          </View> */}
+          <Image
+              source={require("@/assets/images/cheftory.png")}
+              style={{ width: 80, height: 50 }}
+              resizeMode="contain"
+            />
         </View>
       </TouchableOpacity>
 
       {/* 장식 요소 */}
-      <View style={styles.decorativeElements}>
+      {/* <View style={styles.decorativeElements}>
         <Animated.View
           style={[
             styles.decorativeDot,
@@ -162,7 +167,7 @@ export function HomeHeader() {
             },
           ]}
         />
-      </View>
+      </View> */}
     </Animated.View>
   );
 }
@@ -192,6 +197,7 @@ const styles = StyleSheet.create({
     // elevation: 4,
   },
   titleContainer: {
+    paddingLeft: 10,
     justifyContent: "center",
   },
   titleGradient: {

@@ -44,7 +44,6 @@ export function useLoginViewModel() {
       if (error instanceof AxiosError) {
         console.log(error.response?.data);
       }
-
       if (
         error instanceof AxiosError &&
         error.response?.data?.errorCode === "USER_001"
@@ -76,7 +75,8 @@ export function useSignupViewModel() {
     mutationFn: (signupData: SignupData) => {
       return signupUser(signupData);
     },
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
+      await storeAuthToken(data.access_token, data.refresh_token);
       setUser(
         User.create({
           gender: data.user_info.gender,
@@ -84,7 +84,6 @@ export function useSignupViewModel() {
           dateOfBirth: DateOnly.create(data.user_info.date_of_birth),
         }),
       );
-      storeAuthToken(data.access_token, data.refresh_token);
     },
     onError: (error) => {
       console.log("signup error", error);
@@ -106,14 +105,11 @@ export function useLogoutViewModel() {
     },
     onSuccess: () => {
       removeAuthToken();
+      removeUser();
     },
   });
 
-  const completeLogout = () => {
-    removeUser();
-  };
-
-  return { logout, completeLogout, isLoading };
+  return { logout, isLoading };
 }
 
 export function useDeleteUserViewModel() {

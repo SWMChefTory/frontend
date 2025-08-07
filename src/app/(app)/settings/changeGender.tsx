@@ -1,7 +1,7 @@
 import { Stack } from "expo-router";
 import { View, StyleSheet } from "react-native";
 import { COLORS } from "@/src/modules/shared/constants/colors";
-import ChangeGender from "@/src/modules/user/presentation/ChangeGender";
+import ChangeGender from "@/src/modules/user/presentation/settings/ChangeGender";
 import OnlyBackTemplate from "@/src/header/template/OnlyBackTemplate";
 
 export default function ChangeGenderPage() {
@@ -9,7 +9,7 @@ export default function ChangeGenderPage() {
     <View style={styles.container}>
       <Stack.Screen
         options={{
-          header: () => <OnlyBackTemplate content="성별 변경" />,
+          header : () => <OnlyBackTemplate  title="성별 변경" />,  
         }}
       />
       <ChangeGender />

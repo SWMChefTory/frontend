@@ -5,14 +5,14 @@ import {
   InputAccessoryView,
   TouchableOpacity,
 } from "react-native";
-import { NicknameInput } from "./components/NicknameInput";
+import { NicknameInput } from "@/src/modules/user/presentation/components/NicknameInput";
 import { useState } from "react";
 import {
   useUserViewModel,
   useChangeNameViewModel,
-} from "../business/service/useUserSerivce";
+} from "@/src/modules/user/business/service/useUserSerivce";
 import { COLORS } from "@/src/modules/shared/constants/colors";
-import { validateNickname } from "../business/validation/userInputValidation";
+import { validateNickname } from "@/src/modules/user/business/validation/userInputValidation";
 
 export default function ChangeName() {
   const user = useUserViewModel();

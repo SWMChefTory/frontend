@@ -3,13 +3,15 @@ import appleAuth, {
 } from "@invertase/react-native-apple-authentication";
 import { useLoginViewModel } from "@/src/modules/user/business/service/useAuthService";
 import { OauthProvider } from "@/src/modules/user/enums/OauthProvider";
-import { Alert } from "react-native";
+import { Alert, Image, Text, TouchableOpacity } from "react-native";
 import { FullScreenLoader } from "@/src/modules/shared/splash/loading/lottieview/FullScreenLoader";
+import LoginButtonTemplate from "../../login/LoginButtonTemplate";
 
-export function AppleLoginButton() {
+export function AppleLoginButton({ isReal }: { isReal: boolean }) {
   const { login, isLoading } = useLoginViewModel();
+  const description = "Apple로 시작하기";
 
-  async function handleSignInApple() {
+  async function handleSignInAppleReal() {
     const appleAuthRequestResponse = await appleAuth.performRequest({
       requestedOperation: appleAuth.Operation.LOGIN,
       requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
@@ -40,27 +42,21 @@ export function AppleLoginButton() {
 
     Alert.alert("오류", "Apple 로그인에 실패했습니다.");
   }
+  
+  async function handleSignInAppleFake() {
+    return;
+  }
+
+  const handleSignInApple = isReal ? handleSignInAppleReal : handleSignInAppleFake;
 
   return (
     <>
       {isLoading && <FullScreenLoader />}
-      <AppleButton
-        buttonStyle={AppleButton.Style.WHITE}
-        buttonType={AppleButton.Type.SIGN_IN}
-        style={{
-          width: "62%", // You must specify a width
-          height: 40, // You must specify a height
-          shadowColor: "#000",
-          shadowOffset: {
-            width: 0,
-            height: 1,
-          },
-          shadowOpacity: 0.1,
-          shadowRadius: 4,
-          elevation: 2,
-        }}
-        onPress={handleSignInApple}
-      />
+      <LoginButtonTemplate 
+      logoPath={require("@/assets/images/appleLogo.png")} 
+      logoSize={{width:20, height:24}}
+      description={description} 
+      handleSignIn={handleSignInApple} />
     </>
   );
 }

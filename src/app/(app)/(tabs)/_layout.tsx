@@ -43,16 +43,19 @@ export default function TabLayout() {
           },
           tabBarActiveTintColor: COLORS.font.dark,
           tabBarInactiveTintColor: "#9CA3AF",
+          animation: "fade",
         }}
       >
         <Tabs.Screen
           name="index"
           options={{
             header: () => <IndexHeader />,
+            animation: "fade",
             tabBarLabel: "홈",
             tabBarIcon: ({ color, size }) => (
               <Ionicons name="home-outline" size={size} color={color} />
             ),
+            title: "홈",
           }}
         />
         <Tabs.Screen
@@ -84,6 +87,7 @@ export default function TabLayout() {
                 color={color}
               />
             ),
+            title: "컬렉션",
           }}
         />
       </Tabs>

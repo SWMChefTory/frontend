@@ -1,7 +1,7 @@
 import { Stack } from "expo-router";
 import { View, StyleSheet } from "react-native";
 import { COLORS } from "@/src/modules/shared/constants/colors";
-import ChangeName from "@/src/modules/user/presentation/ChangeName";
+import ChangeName from "@/src/modules/user/presentation/settings/ChangeName";
 import OnlyBackTemplate from "@/src/header/template/OnlyBackTemplate";
 
 export default function ChangeNamePage() {
@@ -9,7 +9,7 @@ export default function ChangeNamePage() {
     <View style={styles.container}>
       <Stack.Screen
         options={{
-          header: () => <OnlyBackTemplate content="이름 변경" />,
+          header : () => <OnlyBackTemplate  title="이름 변경" />,  
         }}
       />
       <ChangeName />

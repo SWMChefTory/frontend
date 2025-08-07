@@ -24,9 +24,7 @@ function RootNavigator() {
     }
   }, [loaded, error]);
 
-  if (!loaded && !error) {
-    return null;
-  }
+  
   return (
     <Stack
       screenOptions={{
@@ -35,11 +33,11 @@ function RootNavigator() {
       }}
     >
       <Stack.Protected guard={isLoggedIn}>
-        <Stack.Screen name="(app)" options={{ headerShown: false }} />
+        <Stack.Screen name="(app)" options={{ headerShown: false,animation: 'none' }} />
       </Stack.Protected>
 
       <Stack.Protected guard={!isLoggedIn}>
-        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+        <Stack.Screen name="(auth)" options={{ headerShown: false,animation: 'none', }} />
       </Stack.Protected>
     </Stack>
   );
