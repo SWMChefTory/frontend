@@ -8,29 +8,29 @@ export function SplashScreen({ logo, onFinish }: { logo: React.ReactNode, onFini
   const [showFar, setShowFar] = useState(true);
   const [showCheftory, setShowCheftory] = useState(true);
 
-  useEffect(() => {
-    // 각 요소들이 나타났다가 사라지는 타이밍 설정
-    const timers = [
-      // nearVoice: 1.2초 후 사라지기
-      setTimeout(() => setShowNear(false), 2000),
+  // useEffect(() => {
+  //   // 각 요소들이 나타났다가 사라지는 타이밍 설정
+  //   const timers = [
+  //     // nearVoice: 1.2초 후 사라지기
+  //     setTimeout(() => setShowNear(false), 2000),
       
-      // farVoice: 1.5초 후 사라지기  
-      setTimeout(() => setShowFar(false), 2000),
+  //     // farVoice: 1.5초 후 사라지기  
+  //     setTimeout(() => setShowFar(false), 2000),
       
-      // cheftory: 1.8초 후 사라지기
-      setTimeout(() => setShowCheftory(false), 2000),
+  //     // cheftory: 1.8초 후 사라지기
+  //     setTimeout(() => setShowCheftory(false), 2000),
       
-      // 전체 완료: 2초 후
-      setTimeout(() => onFinish(), 2000),
-    ];
+  //     // 전체 완료: 2초 후
+  //     setTimeout(() => onFinish(), 2000),
+  //   ];
 
-    return () => timers.forEach(clearTimeout);
-  }, []); 
+  //   return () => timers.forEach(clearTimeout);
+  // }, []); 
 
   useEffect(() => {
     setTimeout(() => {
       onFinish();
-    }, 4000);
+    }, 2000);
   }, []);
 
   return (
@@ -42,7 +42,7 @@ export function SplashScreen({ logo, onFinish }: { logo: React.ReactNode, onFini
         {/* <View style={styles.logoContainer}>
           {logo}
         </View> */}
-        {showNear && (
+        {/* {showNear && (
             <Animated.View 
               style={styles.nearContainer}
               entering={FadeIn.duration(500)}
@@ -50,10 +50,10 @@ export function SplashScreen({ logo, onFinish }: { logo: React.ReactNode, onFini
             >
               <Image source={require("@/assets/images/voiceNear.png")} />
             </Animated.View>
-          )}
+          )} */}
           
           {/* farVoice - 나타났다가 사라짐 */}
-          {showFar && (
+          {/* {showFar && (
             <Animated.View 
               style={styles.farContainer}
               entering={FadeIn.delay(500).duration(500)}
@@ -61,11 +61,11 @@ export function SplashScreen({ logo, onFinish }: { logo: React.ReactNode, onFini
             >
               <Image source={require("@/assets/images/voiceFar.png")} />
             </Animated.View>
-          )}
+          )} */}
         </View>
         
         {/* cheftory - 나타났다가 사라짐 */}
-        {showCheftory && (
+        {/* {showCheftory && (
           <Animated.View 
             style={styles.cheftoryAnimation}
             entering={FadeIn.delay(1000).duration(500)}
@@ -73,7 +73,7 @@ export function SplashScreen({ logo, onFinish }: { logo: React.ReactNode, onFini
           >
             <Image source={require("@/assets/images/cheftory.png")} style={styles.cheftory} />
           </Animated.View>
-        )}
+        )} */}
       </View>
     </View>
   );
