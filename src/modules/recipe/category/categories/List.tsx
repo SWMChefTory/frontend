@@ -1,23 +1,26 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useCallback } from "react";
 import { View, StyleSheet } from "react-native";
 import { DraxList } from "react-native-drax";
 import { CategoryCard } from "./Card";
-import { AddCategoryCard } from "./modal/AddCategory";
+import { AddCategoryCard } from "./AddCard";
 import { Category } from "../Category";
+import { CategoryState, CategorySelectedState, CategoryType } from "./State";
 
 interface Props {
   categories: Category[];
   onAddCategory: () => void;
-  onDeleteCategory: (categoryId: string) => void;
+  onDeleteCategory: (category: Category) => void;
   onDropRecipe: (
     recipeId: string,
     recipeCategoryId: string | null,
     targetCategoryId: string,
   ) => void;
   onCategoryPress: (category: Category) => void;
-  selectedCategoryId?: string | null;
-  deletingCategoryId?: string | null;
-  updatingRecipeId?: string | null;
+  selectedCategory: Category | null;
+  deletingCategoryId: string | null; 
+  updatingCategoryId: string | null;
+  successCategoryId: string | null;
+  isDragging: boolean;
 }
 
 export function CategoryList({
@@ -26,29 +29,45 @@ export function CategoryList({
   onDeleteCategory,
   onDropRecipe,
   onCategoryPress,
-  selectedCategoryId,
+  selectedCategory,
   deletingCategoryId,
-  updatingRecipeId,
+  updatingCategoryId,
+  successCategoryId,  
+  isDragging,
 }: Props) {
   const categoryListData = useMemo(() => {
-    const data: { type: "category" | "add"; value?: Category }[] = [];
-    categories.forEach((cat) => data.push({ type: "category", value: cat }));
-    data.push({ type: "add" });
+    const data: { type: CategoryType; value?: Category }[] = categories.map(cat => ({
+      type: CategoryType.CATEGORY,
+      value: cat
+    }));
+    data.push({ type: CategoryType.ADD });
     return data;
   }, [categories]);
 
-  const renderCategoryItem = ({
+  // 카테고리 상태 계산
+  const getCategoryState = (category: Category): CategoryState => {
+    if (isDragging) return CategoryState.DRAGGING;
+    if (deletingCategoryId === category.id) return CategoryState.DELETING;
+    if (updatingCategoryId === category.id) return CategoryState.UPDATING;
+    if (successCategoryId === category.id) return CategoryState.SUCCESS;
+    return CategoryState.NORMAL;
+  };
+
+  const renderCategoryItem = useCallback(({
     item,
     index,
   }: {
-    item: { type: "category" | "add"; value?: Category };
+    item: { type: CategoryType; value?: Category };
     index: number;
   }) => {
-    if (item.type === "category") {
+    if (item.type === CategoryType.CATEGORY) {
       const category = item.value!;
-      const isSelected = selectedCategoryId === category.id;
-      const isDeleting = deletingCategoryId === category.id;
-      const isUpdating = updatingRecipeId === category.id;
+      const isSelected = selectedCategory?.isEquals(category);
+      const categorySelectedState = isSelected 
+        ? CategorySelectedState.SELECTED 
+        : CategorySelectedState.UNSELECTED;
+      const state = getCategoryState(category);
+
       return (
         <CategoryCard
           key={`category-${category.id}-${index}`}
@@ -56,19 +75,32 @@ export function CategoryList({
           onDrop={onDropRecipe}
           onDelete={onDeleteCategory}
           onPress={onCategoryPress}
-          isSelected={isSelected}
-          isDeleting={isDeleting}
-          isUpdating={isUpdating}
+          categoryState={state}
+          categorySelectedState={categorySelectedState}
         />
       );
     }
 
-    if (item.type === "add") {
+    if (item.type === CategoryType.ADD) {
       return <AddCategoryCard key={`add-${index}`} onPress={onAddCategory} />;
     }
 
     return null;
-  };
+  }, [
+    selectedCategory,
+    deletingCategoryId,
+    updatingCategoryId,
+    isDragging,
+    successCategoryId,
+    onDropRecipe,
+    onDeleteCategory,
+    onCategoryPress,
+    onAddCategory
+  ]);
+
+  const ItemSeparator = useCallback(() => (
+    <View style={styles.categorySeparator} />
+  ), []);
 
   return (
     <View style={styles.categorySection}>
@@ -78,7 +110,7 @@ export function CategoryList({
         showsHorizontalScrollIndicator={false}
         keyExtractor={(_, index) => `category-item-${index}`}
         renderItem={renderCategoryItem}
-        ItemSeparatorComponent={() => <View style={styles.categorySeparator} />}
+        ItemSeparatorComponent={ItemSeparator}
         contentContainerStyle={styles.contentContainer}
       />
     </View>

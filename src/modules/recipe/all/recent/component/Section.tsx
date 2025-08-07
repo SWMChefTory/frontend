@@ -1,4 +1,4 @@
-import { Suspense, useCallback } from "react";
+import { Suspense, useCallback, useRef } from "react";
 import { FlatList, RefreshControl, StyleSheet, View } from "react-native";
 import { AllRecentRecipeCard } from "@/src/modules/recipe/all/recent/component/Card";
 import { RecentSummaryRecipe } from "@/src/modules/recipe/summary/recent/types/Recipe";
@@ -10,6 +10,7 @@ import { ApiErrorBoundary } from "@/src/modules/shared/components/error/ApiError
 import { DeferredComponent } from "@/src/modules/shared/utils/DeferredComponent";
 import { AllRecentRecipesSkeleton } from "@/src/modules/recipe/all/recent/component/Skeleton";
 import { AllRecentRecipeError } from "@/src/modules/recipe/all/recent/component/Fallback";
+import { throttle } from "lodash";
 
 export function AllRecentRecipeSection() {
   return (
@@ -33,15 +34,17 @@ export function AllRecentRecipeSectionContent() {
   const { recentRecipes, refetch } = useRecentSummaryViewModel();
   const router = useRouter();
 
-  const handleRecipeView = useCallback(
+  const handleRecipeView = useRef(throttle(
     (recipe: RecentSummaryRecipe) => {
       router.push({
         pathname: "/recipe/detail",
         params: { recipeId: recipe.recipeId },
       });
-    },
-    [router],
-  );
+    }, 2000, {
+      leading: true,
+      trailing: false,
+    })
+  ).current;
 
   const renderItem = useCallback(
     ({ item }: { item: RecentSummaryRecipe }) => (

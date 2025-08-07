@@ -4,12 +4,13 @@ import { RecipeSectionHeader } from "../../shared/components/SectionHeader";
 import { RecentRecipeError } from "../shared/Fallback";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 import { ApiErrorBoundary } from "@/src/modules/shared/components/error/ApiErrorBoundary";
-import { useEffect, Suspense } from "react";
+import { useEffect, Suspense, useRef, useCallback } from "react";
 import { useRecentSummaryViewModel } from "../viewmodels/useViewModels";
 import { DeferredComponent } from "@/src/modules/shared/utils/DeferredComponent";
 import { RecentRecipesSkeleton } from "../shared/Skeleton";
 import RecentRecipeSummaryList from "./List";
-import { useRouter } from "expo-router";
+import { useFocusEffect, useRouter } from "expo-router";
+import { throttle } from "lodash";
 
 interface Props {
   onRefresh: number;
@@ -17,15 +18,32 @@ interface Props {
 
 export function RecentRecipeSection({ onRefresh }: Props) {
   const router = useRouter();
-  const handleRecipePress = (recipe: RecentSummaryRecipe) => {
-    router.push({
-      pathname: "/recipe/create",
-      params: { recipeId: recipe.recipeId },
-    });
-  };
-  const handleViewAllPress = () => {
-    router.push("/recipe/recent");
-  };
+
+  const handleRecipePress = useRef(
+    throttle((recipe: RecentSummaryRecipe) => {
+      router.push({
+        pathname: "/recipe/detail",
+        params: {
+          recipeId: recipe.recipeId,
+          youtubeId: recipe.youtubeId,
+          title: recipe.title,
+        },
+      });
+    }, 2000, {
+      leading: true,
+      trailing: false,
+    })
+  ).current;
+
+  const handleViewAllPress = useRef(
+    throttle(() => {
+      router.push("/recipe/recent");
+    }, 2000, {
+      leading: true,
+      trailing: false,
+    })
+  ).current;
+
   return (
     <View style={styles.recipeSectionCard}>
       <RecipeSectionHeader
@@ -64,6 +82,12 @@ function RecentRecipeSectionContent({
   useEffect(() => {
     refetch();
   }, [onRefresh, refetch]);
+
+  useFocusEffect(
+    useCallback(() => {
+      refetch();
+    }, [refetch]),
+  );
 
   return <RecentRecipeSummaryList recipes={recentRecipes} onPress={onPress} />;
 }

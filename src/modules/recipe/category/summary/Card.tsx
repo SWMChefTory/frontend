@@ -7,15 +7,20 @@ import { CategorySummaryRecipe } from "./Recipe";
 interface Props {
   recipe: CategorySummaryRecipe;
   index: number;
-  onPress?: (recipe: CategorySummaryRecipe) => void;
+  onPress: (recipe: CategorySummaryRecipe) => void;
+  onDragStart: () => void;
+  onDragEnd: () => void;
+  isDragging?: boolean;
 }
 
 export const RecipeCard = React.memo(function RecipeCard({
   recipe,
   index,
   onPress,
+  onDragStart,
+  onDragEnd,
+  isDragging,
 }: Props) {
-  const [isDragging, setIsDragging] = useState(false);
 
   const handlePress = () => {
     if (onPress && !isDragging) {
@@ -31,10 +36,10 @@ export const RecipeCard = React.memo(function RecipeCard({
       dragPayload={[recipe.recipeId, recipe.categoryId]}
       longPressDelay={300}
       onDragStart={() => {
-        setIsDragging(true);
+        onDragStart();
       }}
       onDragEnd={() => {
-        setIsDragging(false);
+        onDragEnd();
       }}
     >
       <TouchableOpacity

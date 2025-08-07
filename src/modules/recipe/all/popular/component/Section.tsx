@@ -1,15 +1,16 @@
-import React, { Suspense, useCallback } from "react";
+import React, { Suspense, useCallback, useRef } from "react";
 import { FlatList, RefreshControl, StyleSheet, View } from "react-native";
 import { AllPopularRecipeCard } from "@/src/modules/recipe/all/popular/component/Card";
 import { PopularSummaryRecipe } from "@/src/modules/recipe/summary/popular/types/Recipe";
 import { COLORS } from "@/src/modules/shared/constants/colors";
-import { usePopularSummaryViewModel } from "@/src/modules/recipe/summary/popular/viewmodels/useViewModels";
+import { usePopularSummaryViewModel, useRecipeCreateViewModel } from "@/src/modules/recipe/summary/popular/viewmodels/useViewModels";
 import { useRouter } from "expo-router";
 import { AllRecipeEmptyState } from "@/src/modules/recipe/all/EmptyState";
 import { ApiErrorBoundary } from "@/src/modules/shared/components/error/ApiErrorBoundary";
 import { DeferredComponent } from "@/src/modules/shared/utils/DeferredComponent";
 import { AllPopularRecipeError } from "./Fallback";
 import { AllPopularRecipesSkeleton } from "./Skeleton";
+import { throttle } from "lodash";
 
 export function AllPopularRecipeSection() {
   return (
@@ -31,17 +32,21 @@ export function AllPopularRecipeSection() {
 
 export function AllPopularRecipeSectionContent() {
   const { popularRecipes, refetch } = usePopularSummaryViewModel();
+  const { create } = useRecipeCreateViewModel();
   const router = useRouter();
 
-  const handleRecipeView = useCallback(
-    (recipe: PopularSummaryRecipe) => {
+  const handleRecipeView = useRef(throttle(
+    async (recipe: PopularSummaryRecipe) => {
+      const recipeId = (await create(recipe.video_url))!.recipe_id;
       router.push({
-        pathname: "/recipe/detail",
-        params: { recipeId: recipe.recipeId },
+        pathname: "/recipe/create",
+        params: { recipeId },
       });
-    },
-    [router],
-  );
+    }, 2000, {
+      leading: true,
+      trailing: false,
+    })
+  ).current;
 
   const renderItem = useCallback(
     ({ item }: { item: PopularSummaryRecipe }) => {

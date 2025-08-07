@@ -14,15 +14,21 @@ import { DeferredComponent } from "@/src/modules/shared/utils/DeferredComponent"
 import { useFocusEffect } from "expo-router";
 
 interface Props {
-  selectedCategoryId: string | null;
-  onCategoryDeselect: (categoryId: string) => void;
-  onCategorySelect: (categoryId: string) => void;
+  selectedCategory: Category | null;
+  onCategoryDeselect: (category: Category) => void;
+  onCategorySelect: (category: Category) => void;
+  onDragStart: () => void;
+  onDragEnd: () => void;
+  isDragging: boolean;
 }
 
 export function CategoryListSection({
-  selectedCategoryId,
+  selectedCategory,
   onCategoryDeselect,
   onCategorySelect,
+  onDragStart,
+  onDragEnd,
+  isDragging,
 }: Props) {
   return (
     <View style={styles.categoryList}>
@@ -37,7 +43,10 @@ export function CategoryListSection({
           <CategoryListSectionContent
             onCategoryDeselect={onCategoryDeselect}
             onCategorySelect={onCategorySelect}
-            selectedCategoryId={selectedCategoryId}
+            selectedCategory={selectedCategory}
+            onDragStart={onDragStart}
+            onDragEnd={onDragEnd}
+            isDragging={isDragging}
           />
         </Suspense>
       </ApiErrorBoundary>
@@ -48,14 +57,15 @@ export function CategoryListSection({
 export function CategoryListSectionContent({
   onCategoryDeselect,
   onCategorySelect,
-  selectedCategoryId,
+  selectedCategory,
+  onDragEnd,
+  isDragging,
 }: Props) {
   const { categories, refetch } = useCategoriesViewModel();
-
   const { deleteCategory, deletingCategoryId } = useDeleteCategoryViewModel();
-  const { updateCategory, updatingRecipeId } = useUpdateCategoryViewModel();
-
-  useFocusEffect(
+  const { updateCategory, updatingCategoryId } = useUpdateCategoryViewModel();
+  const [successCategoryId, setSuccessCategoryId] = useState<string | null>(null);
+    useFocusEffect(
     useCallback(() => {
       refetch();
     }, [refetch]),
@@ -63,9 +73,9 @@ export function CategoryListSectionContent({
 
   const [openModal, setOpenModal] = useState(false);
 
-  const handleDeleteCategory = (categoryId: string) => {
-    deleteCategory(categoryId);
-    onCategoryDeselect(categoryId);
+  const handleDeleteCategory = (category: Category) => {
+    deleteCategory(category.id);
+    onCategoryDeselect(category);
   };
 
   const handleAddCategory = () => {
@@ -73,21 +83,24 @@ export function CategoryListSectionContent({
   };
 
   const handleCategoryPress = (category: Category) => {
-    if (selectedCategoryId === category.id) {
-      onCategoryDeselect(category.id);
+    if (category.isEquals(selectedCategory)) {
+      onCategoryDeselect(category);
     } else {
-      onCategorySelect(category.id);
+      onCategorySelect(category);
     }
   };
 
-  const handleDropRecipe = (
+  const handleUpdateRecipe = (
     recipeId: string,
     previousCategoryId: string | null,
     targetCategoryId: string,
   ) => {
-    if (previousCategoryId !== targetCategoryId) {
       updateCategory({ recipeId, previousCategoryId, targetCategoryId });
-    }
+      onDragEnd();
+      setSuccessCategoryId(targetCategoryId);
+      setTimeout(() => {
+        setSuccessCategoryId(null);
+      }, 1000);
   };
 
   return (
@@ -96,11 +109,13 @@ export function CategoryListSectionContent({
         categories={categories}
         onAddCategory={handleAddCategory}
         onDeleteCategory={handleDeleteCategory}
-        onDropRecipe={handleDropRecipe}
+        onDropRecipe={handleUpdateRecipe}
         onCategoryPress={handleCategoryPress}
-        selectedCategoryId={selectedCategoryId}
+        selectedCategory={selectedCategory}
         deletingCategoryId={deletingCategoryId}
-        updatingRecipeId={updatingRecipeId}
+        updatingCategoryId={updatingCategoryId}
+        successCategoryId={successCategoryId}
+        isDragging={isDragging}
       />
       <CategoryCreateModal
         openModal={openModal}
@@ -114,7 +129,7 @@ const styles = StyleSheet.create({
   categoryList: {
     height: 120,
     borderRadius: 24,
-    marginBottom: 12,
+    margin: 12,
     shadowColor: COLORS.shadow.orange,
     shadowOffset: { width: 0, height: 6 },
     shadowOpacity: 0.12,

@@ -1,29 +1,70 @@
 import { useState } from "react";
+import { View, StyleSheet, Alert } from "react-native";
 import { CategoryListSection } from "./categories/Section";
 import { CategoryRecipeListSection } from "./summary/Section";
 import { DraxProvider } from "react-native-drax";
+import { Category } from "./Category";
 
 export function RecipeCategorySection() {
-  const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
-    null,
-  );
+  const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
 
-  const deselectCategory = () => {
-    setSelectedCategoryId(null);
+  const handleDragStart = () => {
+    setIsDragging(true);
   };
 
-  const selectCategory = (categoryId: string) => {
-    setSelectedCategoryId(categoryId);
+  const handleDragEnd = () => {
+    setIsDragging(false);
+  };
+
+  const deselectCategory = () => {
+    setSelectedCategory(null);
+  };  
+
+  const selectCategory = (category: Category) => {
+    setSelectedCategory(category);
   };
 
   return (
     <DraxProvider>
-      <CategoryListSection
-        onCategoryDeselect={deselectCategory}
-        onCategorySelect={selectCategory}
-        selectedCategoryId={selectedCategoryId}
-      />
-      <CategoryRecipeListSection selectedCategoryId={selectedCategoryId} />
+      <View style={styles.container}>
+        {/* 메인 컨텐츠 영역 */}
+        <View style={styles.contentContainer}>
+          <CategoryListSection
+            onCategoryDeselect={deselectCategory}
+            onCategorySelect={selectCategory}
+            selectedCategory={selectedCategory}
+            onDragStart={handleDragStart}
+            onDragEnd={handleDragEnd}
+            isDragging={isDragging}
+          />
+          
+          {/* 레시피 목록 - 드래그 중일 때 여백 추가 */}
+          <View style={styles.recipeListContainer}>
+            <CategoryRecipeListSection
+              selectedCategory={selectedCategory}
+              onDragStart={handleDragStart}
+              onDragEnd={handleDragEnd}
+              isDragging={isDragging}
+            />
+          </View>
+        </View>
+      </View>
     </DraxProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    position: 'relative',
+  },
+  contentContainer: {
+    flex: 1,
+  },
+  recipeListContainer: {
+    flex: 1,
+  },
+  recipeListContainerWithTrash: {
+  },
+});
