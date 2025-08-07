@@ -4,7 +4,7 @@ import { PopularSummaryRecipe } from "../../../summary/popular/types/Recipe";
 import { PopularRecipeError } from "../shared/Fallback";
 import { ApiErrorBoundary } from "@/src/modules/shared/components/error/ApiErrorBoundary";
 import { COLORS } from "@/src/modules/shared/constants/colors";
-import { Suspense, useEffect } from "react";
+import { Suspense, useEffect, useRef } from "react";
 import { PopularRecipeSummaryList } from "../../../summary/popular/components/List";
 import { PopularRecipesSkeleton } from "../shared/Skeleton";
 import {
@@ -13,6 +13,7 @@ import {
 } from "../viewmodels/useViewModels";
 import { DeferredComponent } from "@/src/modules/shared/utils/DeferredComponent";
 import { useRouter } from "expo-router";
+import { throttle } from "lodash";
 
 interface Props {
   onRefresh: number;
@@ -20,30 +21,25 @@ interface Props {
 
 export function PopularRecipeSection({ onRefresh }: Props) {
   const router = useRouter();
-  const { recipeId, create } = useRecipeCreateViewModel();
+  const { create } = useRecipeCreateViewModel();
 
-  const handleRecipePress = (recipe: PopularSummaryRecipe) => {
-    create(recipe.video_url);
-    if (recipeId) {
-      router.push({
-        pathname: "/recipe/create",
-        params: { recipeId },
-      });
-      return;
-    }
+  const handleRecipePress = useRef(throttle(async (recipe: PopularSummaryRecipe) => {
+    const recipeId = (await create(recipe.video_url))!.recipe_id;
     router.push({
-      pathname: "/recipe/detail",
-      params: {
-        recipeId: recipe.recipeId,
-        youtubeId: recipe.youtubeId,
-        title: recipe.title,
-      },
+      pathname: "/recipe/create",
+      params: { recipeId },
     });
-  };
+  }, 2000, {
+    leading: true,
+    trailing: false,
+  })).current;
 
-  const handleViewAllPress = () => {
+  const handleViewAllPress = useRef(throttle(() => {
     router.push("/recipe/popular");
-  };
+  }, 2000, {
+    leading: true,
+    trailing: false,
+  })).current;
 
   return (
     <View style={styles.recipeSectionCard}>

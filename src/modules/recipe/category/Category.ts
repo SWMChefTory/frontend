@@ -18,4 +18,8 @@ export class Category {
       apiResponse.count,
     );
   }
+
+  isEquals(category: Category | null): boolean {
+    return category !== null && this.id === category.id;
+  }
 }

@@ -7,11 +7,14 @@ import { RecipeCard } from "./Card";
 interface Props {
   recipes: CategorySummaryRecipe[];
   onPress?: (recipe: CategorySummaryRecipe) => void;
+  onDragStart: () => void;
+  onDragEnd: () => void;
+  isDragging: boolean;
 }
 
 type RecipeListItem = CategorySummaryRecipe | { isEmpty: true; id: string };
 
-export function CategoryRecipeSummaryList({ recipes, onPress }: Props) {
+export function CategoryRecipeSummaryList({ recipes, onPress, onDragStart, onDragEnd, isDragging }: Props) {
   const paddedRecipes = useMemo((): RecipeListItem[] => {
     const remainder = recipes.length % 3;
     if (remainder === 0) return recipes;
@@ -41,7 +44,10 @@ export function CategoryRecipeSummaryList({ recipes, onPress }: Props) {
         key={`recipe-${item.recipeId}`}
         recipe={item}
         index={index}
-        onPress={onPress}
+        onPress={onPress!}
+        onDragStart={onDragStart}
+        onDragEnd={onDragEnd}
+        isDragging={isDragging}
       />
     );
   };

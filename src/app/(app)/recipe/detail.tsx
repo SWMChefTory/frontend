@@ -20,7 +20,7 @@ export default function RecipeDetailScreen() {
     handleLoadStart,
     handleLoadEnd,
     handleNavigationStateChange,
-    accessToken, // Destructure accessToken from viewModel
+    accessToken,
   } = useRecipeDetailViewModel({
     recipeId: params.recipeId,
     youtubeId: params.youtubeId,

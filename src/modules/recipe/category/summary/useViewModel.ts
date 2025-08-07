@@ -1,4 +1,4 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import {
   fetchCategorizedSummary,
   fetchUnCategorizedSummary,
@@ -12,7 +12,8 @@ type CategoryRecipesApiResponse =
   | UnCategorizedRecipesApiResponse;
 
 export function useCategoryRecipesViewModel(categoryId: string | null) {
-  const { data, refetch, error } = useSuspenseQuery<CategoryRecipesApiResponse>(
+  const queryClient = useQueryClient();
+  const { data } = useSuspenseQuery<CategoryRecipesApiResponse>(
     {
       queryKey: ["categoryRecipes", categoryId],
       queryFn: async () => {
@@ -25,6 +26,12 @@ export function useCategoryRecipesViewModel(categoryId: string | null) {
       staleTime: 5 * 60 * 1000,
     },
   );
+
+  const refetchAll = () => {
+    queryClient.invalidateQueries({
+      queryKey: ["categoryRecipes"]
+    });
+  };
 
   const recipes: CategorySummaryRecipe[] = (() => {
     if (!data) return [];
@@ -44,8 +51,6 @@ export function useCategoryRecipesViewModel(categoryId: string | null) {
 
   return {
     recipes,
-    error,
-    refetch,
-    isEmpty: recipes.length === 0,
-  } as const;
+    refetchAll,
+  };
 }

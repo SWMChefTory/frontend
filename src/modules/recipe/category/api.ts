@@ -73,7 +73,7 @@ export async function fetchCategories(): Promise<CategoriesApiResponse> {
 }
 
 export async function deleteCategory(categoryId: string): Promise<void> {
-  return client.delete(`/recipes/categories/${categoryId}`);
+  return await client.delete(`/recipes/categories/${categoryId}`);
 }
 
 export async function updateCategory(
@@ -83,5 +83,5 @@ export async function updateCategory(
   const request: UpdateCategoryRequest = {
     category_id: targetCategoryId,
   };
-  return client.put(`/recipes/${recipeId}/categories`, request);
+  return await client.put(`/recipes/${recipeId}/categories`, request);
 }
