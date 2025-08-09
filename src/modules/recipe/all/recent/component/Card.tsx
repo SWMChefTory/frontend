@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: COLORS.background.white,
     borderRadius: 16,
-    shadowColor: COLORS.shadow.orange,
+    shadowColor: COLORS.shadow.black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 6,

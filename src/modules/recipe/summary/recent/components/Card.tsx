@@ -40,16 +40,16 @@ export function RecentRecipeSummaryCard({ recipe, onPress }: Props) {
 const styles = StyleSheet.create({
   card: {
     width: 140,
-    backgroundColor: COLORS.priamry.main,
+    backgroundColor: COLORS.background.white,
     borderRadius: 16,
-    paddingBottom: 12, // ✅ 내부 아래 여백 추가
-    shadowColor: COLORS.shadow.orange,
+    paddingBottom: 12,
+    shadowColor: COLORS.shadow.black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 6,
     elevation: 4,
     borderWidth: 1,
-    borderColor: "#F3F4F6",
+    borderColor: COLORS.border.orangeLight,
   },
   imageWrapper: {
     width: "100%",

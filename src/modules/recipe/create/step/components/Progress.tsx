@@ -39,7 +39,7 @@ export function ProgressSection({ progress, colors, scaleValue }: Props) {
 const styles = StyleSheet.create({
   progressSection: {
     width: "100%",
-    marginBottom: 32,
+    margin: 32,
   },
   progressHeader: {
     flexDirection: "row",

@@ -23,23 +23,35 @@ export function PopularRecipeSection({ onRefresh }: Props) {
   const router = useRouter();
   const { create } = useRecipeCreateViewModel();
 
-  const handleRecipePress = useRef(throttle(async (recipe: PopularSummaryRecipe) => {
-    const recipeId = (await create(recipe.video_url))!.recipe_id;
-    router.push({
-      pathname: "/recipe/create",
-      params: { recipeId },
-    });
-  }, 2000, {
-    leading: true,
-    trailing: false,
-  })).current;
+  const handleRecipePress = useRef(
+    throttle(
+      async (recipe: PopularSummaryRecipe) => {
+        const recipeId = (await create(recipe.video_url))!.recipe_id;
+        router.push({
+          pathname: "/recipe/create",
+          params: { recipeId },
+        });
+      },
+      2000,
+      {
+        leading: true,
+        trailing: false,
+      },
+    ),
+  ).current;
 
-  const handleViewAllPress = useRef(throttle(() => {
-    router.push("/recipe/popular");
-  }, 2000, {
-    leading: true,
-    trailing: false,
-  })).current;
+  const handleViewAllPress = useRef(
+    throttle(
+      () => {
+        router.push("/recipe/popular");
+      },
+      2000,
+      {
+        leading: true,
+        trailing: false,
+      },
+    ),
+  ).current;
 
   return (
     <View style={styles.recipeSectionCard}>

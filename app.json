@@ -1,20 +1,37 @@
 {
   "expo": {
     "name": "cheiftory",
+    "owner": "cheftory",
     "slug": "cheiftory",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
-    "icon": "./assets/images/splash2.png",
+    "icon": "./assets/images/logo.png",
     "scheme": "cheiftory",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.anonymous.cheiftory",
+      "usesAppleSignIn": true,
       "infoPlist": {
+        "NSFaceIDUsageDescription": "안전한 로그인과 인증을 위해 Face ID를 사용합니다.",
         "NSAppTransportSecurity": {
           "NSAllowsArbitraryLoads": true
-        }
+        },
+          "CFBundleURLTypes": [
+            {
+              "CFBundleURLName": "google-oauth",
+              "CFBundleURLSchemes": [
+                "com.googleusercontent.apps.248373759203-lvs4hmrf3na2kookbmm17p2bp8ccqqbk"
+              ]
+            },
+            {
+              "CFBundleURLName": "apple-signin",
+              "CFBundleURLSchemes": [
+                "com.anonymous.cheiftory"
+              ]
+            }
+        ]
       }
     },
     "android": {
@@ -24,8 +41,8 @@
         "android.permission.AUDIO_CAPTURE"
       ],
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/splash2.png",
-        "backgroundColor": "#fb923c"
+        "foregroundImage": "./assets/images/logo.png",
+        "backgroundColor": "#FFF5F0"
       },
       "edgeToEdgeEnabled": true,
       "package": "com.anonymous.cheiftory"
@@ -33,21 +50,23 @@
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/logo.png"
     },
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash2.png",
-          "imageWidth": 200,
+          "image": "./assets/images/logo.png",
+          "imageWidth": 205,
           "resizeMode": "contain",
-          "backgroundColor": "#fb923c"
+          "backgroundColor": "#FFF5F0"
         }
       ],
       "expo-secure-store",
-      "expo-font"
+      "expo-font",
+      "expo-web-browser",
+      "expo-apple-authentication"
     ],
     "experiments": {
       "typedRoutes": true,
@@ -56,7 +75,7 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "a9ab1ebc-c5d1-4424-8687-e71fbc8712cb"
+        "projectId": "bfa31b78-8718-4e7f-9733-56529cecf388"
       }
     }
   }

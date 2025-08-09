@@ -32,7 +32,7 @@ export function RecipeStepContent({ recipeId, onCompleted }: Props) {
     <LinearGradient colors={currentStepData.bgColors} style={styles.container}>
       <View style={styles.content}>
         <LoadingAnimation
-          icon={currentStepData.icon}
+          image={currentStepData.image}
           colors={currentStepData.colors}
           spin={spin}
           reverseSpin={reverseSpin}

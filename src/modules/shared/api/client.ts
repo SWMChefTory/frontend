@@ -79,6 +79,10 @@ client.interceptors.response.use(
     console.log("requestBody", originalRequest.data);
     console.log("errorResponse", error.response?.data);
 
+    if (originalRequest.skipAuth) {
+      return Promise.reject(error);
+    }
+
     if (
       isAxiosError(error) &&
       //todo : accesstoken가 만료되었을 때만? 혹은 유효하지 않은 것까지?

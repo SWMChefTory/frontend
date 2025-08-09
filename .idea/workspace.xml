@@ -5,64 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f27af066-df74-4e5a-8f9f-73387afc8958" name="Changes" comment="refactor(project): 파일 디렉토리 변경 및 그에 따른 네이밍 수정&#10;- 기존 파일 디렉토리를 표준 리액트 디렉토리 구조로 변경&#10;- 그에 따른 각 feature 도메인 이름 리펙토링 및 구조화&#10;&#10;chore(project): react-native-linear-gradient 스크립트 Mac 용 추가&#10;- 기존 Window 에서만 작동하던 스크립트를 Mac 에서도 작동하게 수정&#10;&#10;chore(ios): iOS 프로젝트 파일 추가 및 설정 변경&#10;- expo prebuild 진행&#10;- ios/ 폴더 내 프로젝트 파일 추가&#10;- 빌드 설정 수정&#10;&#10;chore(android): Android 프로젝트 파일 추가 및 설정 변경&#10;- expo prebuild 진행&#10;- android/ 폴더 내 프로젝트 파일 추가&#10;- 빌드 설정 수정">
-      <change afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/shared/components/error/GlobalErrorBoundary.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/shared/context/auth/storage/SecureStorage.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/shared/splash/SplashScreenController.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/shared/types/auth.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/shared/types/axiosError.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/shared/utils/axiosUtils.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coverage/clover.xml" beforeDir="false" afterPath="$PROJECT_DIR$/coverage/clover.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coverage/coverage-final.json" beforeDir="false" afterPath="$PROJECT_DIR$/coverage/coverage-final.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coverage/lcov-report/cheiftory_frontend/eslint.config.js.html" beforeDir="false" afterPath="$PROJECT_DIR$/coverage/lcov-report/cheiftory_frontend/eslint.config.js.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coverage/lcov-report/cheiftory_frontend/expo-router.config.js.html" beforeDir="false" afterPath="$PROJECT_DIR$/coverage/lcov-report/cheiftory_frontend/expo-router.config.js.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coverage/lcov-report/cheiftory_frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/coverage/lcov-report/cheiftory_frontend/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coverage/lcov-report/cheiftory_frontend/scripts/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/coverage/lcov-report/cheiftory_frontend/scripts/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coverage/lcov-report/cheiftory_frontend/scripts/replaceLinearGradient.js.html" beforeDir="false" afterPath="$PROJECT_DIR$/coverage/lcov-report/cheiftory_frontend/scripts/replaceLinearGradient.js.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coverage/lcov-report/cheiftory_frontend/src/app/(tabs)/_layout.tsx.html" beforeDir="false" afterPath="$PROJECT_DIR$/coverage/lcov-report/cheiftory_frontend/src/app/(tabs)/_layout.tsx.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coverage/lcov-report/cheiftory_frontend/src/app/(tabs)/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/coverage/lcov-report/cheiftory_frontend/src/app/(tabs)/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coverage/lcov-report/cheiftory_frontend/src/app/(tabs)/index.tsx.html" beforeDir="false" afterPath="$PROJECT_DIR$/coverage/lcov-report/cheiftory_frontend/src/app/(tabs)/index.tsx.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coverage/lcov-report/cheiftory_frontend/src/app/+not-found.tsx.html" beforeDir="false" afterPath="$PROJECT_DIR$/coverage/lcov-report/cheiftory_frontend/src/app/+not-found.tsx.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coverage/lcov-report/cheiftory_frontend/src/app/_layout.tsx.html" beforeDir="false" afterPath="$PROJECT_DIR$/coverage/lcov-report/cheiftory_frontend/src/app/_layout.tsx.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coverage/lcov-report/cheiftory_frontend/src/app/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/coverage/lcov-report/cheiftory_frontend/src/app/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coverage/lcov-report/cheiftory_frontend/src/app/recipe/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/coverage/lcov-report/cheiftory_frontend/src/app/recipe/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coverage/lcov-report/cheiftory_frontend/src/modules/recipe/summary/api/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/coverage/lcov-report/cheiftory_frontend/src/modules/recipe/summary/api/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coverage/lcov-report/cheiftory_frontend/src/modules/recipe/summary/popular/components/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/coverage/lcov-report/cheiftory_frontend/src/modules/recipe/summary/popular/components/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coverage/lcov-report/cheiftory_frontend/src/modules/recipe/summary/popular/types/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/coverage/lcov-report/cheiftory_frontend/src/modules/recipe/summary/popular/types/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coverage/lcov-report/cheiftory_frontend/src/modules/recipe/summary/recent/components/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/coverage/lcov-report/cheiftory_frontend/src/modules/recipe/summary/recent/components/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coverage/lcov-report/cheiftory_frontend/src/modules/recipe/summary/recent/types/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/coverage/lcov-report/cheiftory_frontend/src/modules/recipe/summary/recent/types/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coverage/lcov-report/cheiftory_frontend/src/modules/recipe/summary/shared/components/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/coverage/lcov-report/cheiftory_frontend/src/modules/recipe/summary/shared/components/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coverage/lcov-report/cheiftory_frontend/src/modules/recipe/summary/viewmodels/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/coverage/lcov-report/cheiftory_frontend/src/modules/recipe/summary/viewmodels/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coverage/lcov-report/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/coverage/lcov-report/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coverage/lcov.info" beforeDir="false" afterPath="$PROJECT_DIR$/coverage/lcov.info" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eas.json" beforeDir="false" afterPath="$PROJECT_DIR$/eas.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Podfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Podfile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/cheiftory.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/ios/cheiftory.xcodeproj/project.pbxproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/cheiftory/Images.xcassets/AppIcon.appiconset/Contents.json" beforeDir="false" afterPath="$PROJECT_DIR$/ios/cheiftory/Images.xcassets/AppIcon.appiconset/Contents.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/cheiftory/Images.xcassets/SplashScreenBackground.colorset/Contents.json" beforeDir="false" afterPath="$PROJECT_DIR$/ios/cheiftory/Images.xcassets/SplashScreenBackground.colorset/Contents.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/cheiftory/Images.xcassets/SplashScreenLogo.imageset/Contents.json" beforeDir="false" afterPath="$PROJECT_DIR$/ios/cheiftory/Images.xcassets/SplashScreenLogo.imageset/Contents.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/cheiftory/Info.plist" beforeDir="false" afterPath="$PROJECT_DIR$/ios/cheiftory/Info.plist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(tabs)/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(tabs)/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(tabs)/profile.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(tabs)/profile.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/_layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/auth/login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/auth/login.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/auth/signup.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/auth/signup.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/client/proxyserverClient.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/client/proxyserverClient.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/settings/settings.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/settings/settings.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/context/auth/AuthContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/shared/context/auth/AuthContext.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/context/auth/storage/SecureStorage.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/login/enums/Gender.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/login/enums/Gender.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/login/google/components/GenderOption.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/login/google/components/GenderOption.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/login/google/components/GoogleLoginButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/login/google/components/GoogleLoginButton.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/recipe/summary/recent/api/api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/recipe/summary/recent/api/api.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/shared/splash/SplashScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/shared/splash/SplashScreen.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/types/auth.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/types/axiosError.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/types/user.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/shared/types/user.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/axiosUtils.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vscode/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/.vscode/settings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/recipe/list/popular/component/AllRecipeCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/recipe/list/popular/component/AllRecipeCard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/shared/api/api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/shared/api/api.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,7 +26,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="dev" />
+        <entry key="$PROJECT_DIR$" value="TORY-22-fe-react-query-error-boundary-구현" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -120,7 +66,7 @@
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHELLCHECK.PATH": "/Users/kimbanseok/Library/Application Support/JetBrains/WebStorm2025.1/plugins/Shell Script/shellcheck",
-    "git-widget-placeholder": "CHEF-93-fe-로그인-회원-가입-구현",
+    "git-widget-placeholder": "TORY-31-fe-레시피-전체-보기-구현",
     "last_opened_file_path": "/Users/kimbanseok/git/cheiftory_frontend/src/modules/cook/components",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -159,7 +105,7 @@
       <recent name="$PROJECT_DIR$/packages/rnnoise" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.ios">
+  <component name="RunManager" selected="npm.android">
     <configuration name="localhost:8081" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:8081">
       <method v="2" />
     </configuration>
@@ -205,11 +151,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="npm.android" />
+        <item itemvalue="npm.lint" />
         <item itemvalue="npm.ios" />
         <item itemvalue="npm.format" />
-        <item itemvalue="npm.lint" />
         <item itemvalue="JavaScript 디버그.localhost:8081" />
-        <item itemvalue="npm.android" />
       </list>
     </recent_temporary>
   </component>

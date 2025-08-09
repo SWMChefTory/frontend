@@ -3,6 +3,9 @@ import { RecipeWebView } from "@/src/modules/recipe/detail/components/RecipeWebV
 import { useRecipeDetailViewModel } from "@/src/modules/recipe/detail/viewmodels/useRecipeDetailViewModel";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { SafeAreaView, StatusBar, StyleSheet } from "react-native";
+import { useEffect, useRef } from "react";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { RecipeCategoryBottomSheet } from "@/src/modules/recipe/create/step/components/BottomSheet";
 
 export default function RecipeDetailScreen() {
   const params = useLocalSearchParams<{
@@ -10,6 +13,8 @@ export default function RecipeDetailScreen() {
     youtubeId?: string;
     title?: string;
   }>();
+
+  const modalRef = useRef<BottomSheetModal>(null);
 
   const {
     isLoading,
@@ -26,6 +31,10 @@ export default function RecipeDetailScreen() {
     youtubeId: params.youtubeId,
     title: params.title,
   });
+
+  useEffect(() => {
+    modalRef.current?.present();
+  }, []);
 
   return (
     <>
@@ -58,6 +67,10 @@ export default function RecipeDetailScreen() {
             const { nativeEvent } = syntheticEvent;
             console.error("WebView onHttpError:", nativeEvent);
           }}
+        />
+        <RecipeCategoryBottomSheet
+          modalRef={modalRef}
+          recipeId={params.recipeId}
         />
       </SafeAreaView>
     </>

@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { createRecipe } from "../api/api";
 
 const isValidYouTubeUrl = (url: string): boolean => {
@@ -13,18 +13,12 @@ const isValidYouTubeUrl = (url: string): boolean => {
 };
 
 export function useRecipeCreateViewModel() {
-  const queryClient = useQueryClient();
   const {
     mutate: create,
     data,
     isPending: isLoading,
   } = useMutation({
     mutationFn: (youtubeUrl: string) => createRecipe(youtubeUrl),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ 
-        queryKey: ["recentRecipes"] 
-      });
-    },
   });
 
   const validateUrl = (url: string) => {

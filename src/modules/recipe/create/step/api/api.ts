@@ -32,7 +32,7 @@ export interface RecipeCreateStatusApiResponse {
   recipe_steps: RecipeStepInfo[];
 }
 
-export async function fetchRecipeCreateStatus(
+export async function fetchRecipe(
   recipeId: string,
 ): Promise<RecipeCreateStatusApiResponse> {
   const response = await client.get<RecipeCreateStatusApiResponse>(
