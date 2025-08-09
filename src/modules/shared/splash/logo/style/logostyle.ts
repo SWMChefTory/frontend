@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 
 
-const heigthDiff = -60;
+export const heigthDiff = -60;
 
 const logoMainTop = 325;
 const logoMainLeft = 100;

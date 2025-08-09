@@ -25,7 +25,7 @@ export function HomeSectionHeader({
     //   </View>
     // </LinearGradient>
     <View style={styles.headerSection}> 
-      <Image source={require("@/assets/images/logo.png")} style={styles.logo} />
+      <Image source={require("@/assets/images/mainCharacter.png")} style={styles.logo} />
       <View style={styles.textContainer}>
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.subtitle}>{subtitle}</Text>

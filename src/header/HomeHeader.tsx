@@ -137,7 +137,7 @@ export function HomeHeader() {
             {/* <Text style={styles.tagline}>요리의 시작</Text>
           </View> */}
           <Image
-              source={require("@/assets/images/cheftory.png")}
+              source={require("@/assets/images/mainText.png")}
               style={{ width: 80, height: 50 }}
               resizeMode="contain"
             />

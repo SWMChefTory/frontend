@@ -9,6 +9,7 @@ import { SplashScreenController } from "../modules/shared/splash/SplashScreenCon
 import { useFonts, DoHyeon_400Regular } from "@expo-google-fonts/do-hyeon";
 import { useEffect } from "react";
 import { useAuthBootstrap } from "../modules/user/authBootstrap";
+import useSharedData  from "../modules/Test";
 
 ExpoSplashScreen.preventAutoHideAsync();
 
@@ -23,8 +24,16 @@ function RootNavigator() {
       ExpoSplashScreen.hideAsync();
     }
   }, [loaded, error]);
+  const { sharedUrl, clearSharedText } = useSharedData();
+  useEffect(() => {
+    if (sharedUrl) {
+      console.log('공유된 URL:', sharedUrl);
+      // 필요한 처리 후 클리어
+      clearSharedText();
+    }
+  }, [sharedUrl, clearSharedText]);
 
-  
+
   return (
     <Stack
       screenOptions={{

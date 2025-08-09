@@ -1,14 +1,14 @@
 import { Asset } from "expo-asset";
 import { View } from "react-native";
-import logoStyle from "../../../shared/splash/logo/logostyle";
+import logoStyle from "../../../shared/splash/logo/style/logostyle";
 import { Image } from "expo-image";
 
 export function LoginLogo() {
 
-  const logoAsset = Asset.fromModule(require('@/assets/images/logo.png'));
+  const logoAsset = Asset.fromModule(require('@/assets/images/mainCharacter.png'));
   const voiceNearAsset = Asset.fromModule(require('@/assets/images/voiceNear.png'));
   const voiceFarAsset = Asset.fromModule(require('@/assets/images/voiceFar.png'));
-  const cheftoryAsset = Asset.fromModule(require('@/assets/images/cheftory.png'));
+  const cheftoryAsset = Asset.fromModule(require('@/assets/images/mainText.png'));
   
   const animatedLogoMain = (
     <Image 
