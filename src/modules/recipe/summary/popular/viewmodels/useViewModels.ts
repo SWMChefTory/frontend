@@ -4,7 +4,11 @@ import {
   fetchPopularSummary,
   PopularRecipeOverview,
 } from "@/src/modules/recipe/summary/popular/api/api";
-import { useMutation, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
+import {
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+} from "@tanstack/react-query";
 
 export function usePopularSummaryViewModel(): {
   popularRecipes: PopularSummaryRecipe[];
@@ -33,7 +37,7 @@ export function useRecipeCreateViewModel() {
     mutationFn: (youtubeUrl: string) => createPopularRecipe(youtubeUrl),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["recentRecipes"]
+        queryKey: ["recentRecipes"],
       });
     },
   });

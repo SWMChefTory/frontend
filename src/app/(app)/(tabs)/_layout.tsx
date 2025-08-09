@@ -9,7 +9,6 @@ import IndexHeader from "@/src/header/IndexHeader";
 import CollectionHeader from "@/src/header/CollectionHeader";
 
 export default function TabLayout() {
-  console.log("TabLayout");
   const modalRef = useRef<BottomSheetModal>(null);
 
   const openBottomSheet = useCallback(() => {

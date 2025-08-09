@@ -9,8 +9,50 @@ import { SplashScreenController } from "../modules/shared/splash/SplashScreenCon
 import { useFonts, DoHyeon_400Regular } from "@expo-google-fonts/do-hyeon";
 import { useEffect } from "react";
 import { useAuthBootstrap } from "../modules/user/authBootstrap";
+import { onlineManager } from "@tanstack/react-query";
+import * as Network from 'expo-network'
+import { AppState, AppStateStatus, Platform } from "react-native";
+import { focusManager } from "@tanstack/react-query";
 
 ExpoSplashScreen.preventAutoHideAsync();
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      throwOnError: true,
+    },
+  },
+});
+
+function onAppStateChange(status: AppStateStatus) {
+  if (Platform.OS !== 'web') {
+    focusManager.setFocused(status === 'active')
+  }
+}
+
+
+function useAppState(onChange: (status: AppStateStatus) => void) {
+  useEffect(() => {
+    const subscription = AppState.addEventListener('change', onChange)
+    return () => {
+      subscription.remove()
+    }
+  }, [onChange])
+}
+
+function useOnlineManager() {
+  useEffect(() => {
+    if (Platform.OS !== 'web') {
+      return onlineManager.setEventListener((setOnline) => {
+        const eventSubscription = Network.addNetworkStateListener((state) => {
+          setOnline(!!state.isConnected)
+        })
+        return eventSubscription.remove
+      })
+    }
+  }, [])
+}
+
 
 function RootNavigator() {
   const { isLoggedIn, loading } = useAuthBootstrap();
@@ -24,7 +66,9 @@ function RootNavigator() {
     }
   }, [loaded, error]);
 
-  
+  if (!loaded && !error) {
+    return null;
+  }
   return (
     <Stack
       screenOptions={{
@@ -33,27 +77,22 @@ function RootNavigator() {
       }}
     >
       <Stack.Protected guard={isLoggedIn}>
-        <Stack.Screen name="(app)" options={{ headerShown: false,animation: 'none' }} />
+        <Stack.Screen name="(app)" options={{ headerShown: false }} />
       </Stack.Protected>
 
       <Stack.Protected guard={!isLoggedIn}>
-        <Stack.Screen name="(auth)" options={{ headerShown: false,animation: 'none', }} />
+        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
       </Stack.Protected>
     </Stack>
   );
 }
 
 export default function RootLayout() {
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        throwOnError: true,
-      },
-      mutations: {
-        throwOnError: true,
-      },
-    },
-  });
+
+  useOnlineManager()
+
+  useAppState(onAppStateChange)
+
 
   return (
     <QueryClientProvider client={queryClient}>

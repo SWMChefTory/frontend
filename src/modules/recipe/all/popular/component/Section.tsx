@@ -3,7 +3,10 @@ import { FlatList, RefreshControl, StyleSheet, View } from "react-native";
 import { AllPopularRecipeCard } from "@/src/modules/recipe/all/popular/component/Card";
 import { PopularSummaryRecipe } from "@/src/modules/recipe/summary/popular/types/Recipe";
 import { COLORS } from "@/src/modules/shared/constants/colors";
-import { usePopularSummaryViewModel, useRecipeCreateViewModel } from "@/src/modules/recipe/summary/popular/viewmodels/useViewModels";
+import {
+  usePopularSummaryViewModel,
+  useRecipeCreateViewModel,
+} from "@/src/modules/recipe/summary/popular/viewmodels/useViewModels";
 import { useRouter } from "expo-router";
 import { AllRecipeEmptyState } from "@/src/modules/recipe/all/EmptyState";
 import { ApiErrorBoundary } from "@/src/modules/shared/components/error/ApiErrorBoundary";
@@ -35,17 +38,21 @@ export function AllPopularRecipeSectionContent() {
   const { create } = useRecipeCreateViewModel();
   const router = useRouter();
 
-  const handleRecipeView = useRef(throttle(
-    async (recipe: PopularSummaryRecipe) => {
-      const recipeId = (await create(recipe.video_url))!.recipe_id;
-      router.push({
-        pathname: "/recipe/create",
-        params: { recipeId },
-      });
-    }, 2000, {
-      leading: true,
-      trailing: false,
-    })
+  const handleRecipeView = useRef(
+    throttle(
+      async (recipe: PopularSummaryRecipe) => {
+        const recipeId = (await create(recipe.video_url))!.recipe_id;
+        router.push({
+          pathname: "/recipe/create",
+          params: { recipeId },
+        });
+      },
+      2000,
+      {
+        leading: true,
+        trailing: false,
+      },
+    ),
   ).current;
 
   const renderItem = useCallback(

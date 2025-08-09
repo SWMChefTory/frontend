@@ -17,13 +17,13 @@ export function AllPopularRecipeCard({ recipe, onPress }: Props) {
   const getTopBadgeColors = (rank: number): [string, string] => {
     switch (rank) {
       case 1:
-        return ["#FFD700", "#FFA500"]; // 골드
+        return ["#FFD700", "#FFA500"];
       case 2:
-        return ["#C0C0C0", "#808080"]; // 실버
+        return ["#C0C0C0", "#808080"];
       case 3:
-        return ["#CD7F32", "#A0522D"]; // 브론즈
+        return ["#CD7F32", "#A0522D"];
       default:
-        return [COLORS.orange.main, "#EA580C"]; // 기본 오렌지
+        return [COLORS.orange.main, "#EA580C"];
     }
   };
 
@@ -171,6 +171,7 @@ const styles = StyleSheet.create({
     color: "#1F2937",
     lineHeight: 20,
     paddingBottom: 4,
+    height: 50,
   },
   metaContainer: {
     flexDirection: "row",

@@ -34,16 +34,20 @@ export function AllRecentRecipeSectionContent() {
   const { recentRecipes, refetch } = useRecentSummaryViewModel();
   const router = useRouter();
 
-  const handleRecipeView = useRef(throttle(
-    (recipe: RecentSummaryRecipe) => {
-      router.push({
-        pathname: "/recipe/detail",
-        params: { recipeId: recipe.recipeId },
-      });
-    }, 2000, {
-      leading: true,
-      trailing: false,
-    })
+  const handleRecipeView = useRef(
+    throttle(
+      (recipe: RecentSummaryRecipe) => {
+        router.push({
+          pathname: "/recipe/detail",
+          params: { recipeId: recipe.recipeId },
+        });
+      },
+      2000,
+      {
+        leading: true,
+        trailing: false,
+      },
+    ),
   ).current;
 
   const renderItem = useCallback(

@@ -20,28 +20,36 @@ export function RecentRecipeSection({ onRefresh }: Props) {
   const router = useRouter();
 
   const handleRecipePress = useRef(
-    throttle((recipe: RecentSummaryRecipe) => {
-      router.push({
-        pathname: "/recipe/detail",
-        params: {
-          recipeId: recipe.recipeId,
-          youtubeId: recipe.youtubeId,
-          title: recipe.title,
-        },
-      });
-    }, 2000, {
-      leading: true,
-      trailing: false,
-    })
+    throttle(
+      (recipe: RecentSummaryRecipe) => {
+        router.push({
+          pathname: "/recipe/detail",
+          params: {
+            recipeId: recipe.recipeId,
+            youtubeId: recipe.youtubeId,
+            title: recipe.title,
+          },
+        });
+      },
+      2000,
+      {
+        leading: true,
+        trailing: false,
+      },
+    ),
   ).current;
 
   const handleViewAllPress = useRef(
-    throttle(() => {
-      router.push("/recipe/recent");
-    }, 2000, {
-      leading: true,
-      trailing: false,
-    })
+    throttle(
+      () => {
+        router.push("/recipe/recent");
+      },
+      2000,
+      {
+        leading: true,
+        trailing: false,
+      },
+    ),
   ).current;
 
   return (

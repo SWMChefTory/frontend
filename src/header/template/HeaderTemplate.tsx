@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     paddingLeft: 8,
     flexDirection: "row",
     alignItems: "center",
-    width: 150, // 고정 너비
+    width: 120, // 고정 너비
     justifyContent: "flex-start",
   },
   titleSection: {
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-end",
-    width: 150, // leftSection과 동일한 너비
+    width: 120, // leftSection과 동일한 너비
   },
   title: {
     fontSize: 18,

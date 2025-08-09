@@ -1,8 +1,9 @@
 import { View, StyleSheet, Animated } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import { Image, ImageSourcePropType } from "react-native";
 
 interface Props {
-  icon: string;
+  image: string;
   colors: readonly [string, string];
   spin: Animated.AnimatedAddition<string>;
   reverseSpin: Animated.AnimatedAddition<string>;
@@ -11,7 +12,7 @@ interface Props {
 }
 
 export function LoadingAnimation({
-  icon,
+  image,
   colors,
   spin,
   reverseSpin,
@@ -22,7 +23,7 @@ export function LoadingAnimation({
     <View style={styles.loadingContainer}>
       <View style={styles.loadingWrapper}>
         {/* 외부 회전 링 */}
-        <View style={styles.outerRingBase} />
+        {/* <View style={styles.outerRingBase} />
         <Animated.View
           style={[
             styles.outerRing,
@@ -34,7 +35,7 @@ export function LoadingAnimation({
               borderLeftColor: "#E2E8F0",
             },
           ]}
-        />
+        /> */}
 
         {/* 내부 회전 링 */}
         <Animated.View
@@ -51,19 +52,19 @@ export function LoadingAnimation({
         />
 
         {/* 중앙 아이콘 */}
-        <LinearGradient colors={colors} style={styles.iconContainer}>
-          <Animated.Text
-            style={[
-              styles.iconText,
-              {
-                transform: [{ translateY: bounce }, { scale: scaleValue }],
-              },
-            ]}
-          >
-            {icon}
-          </Animated.Text>
-        </LinearGradient>
-
+        <View style={styles.iconContainer}>
+        <Animated.View
+          style={{
+            transform: [{ translateY: bounce }, { scale: scaleValue }],
+          }}
+        >
+          <Image
+            source={image as ImageSourcePropType}
+            style={styles.iconImage}
+            resizeMode="contain"
+          />
+        </Animated.View>
+      </View>
         {/* 플로팅 파티클들 */}
         <Animated.View
           style={[styles.particle1, { transform: [{ scale: scaleValue }] }]}
@@ -87,44 +88,44 @@ const styles = StyleSheet.create({
     paddingBottom: 32,
   },
   loadingWrapper: {
-    width: 160,
-    height: 160,
+    width: 168,
+    height: 168,
     position: "relative",
     justifyContent: "center",
     alignItems: "center",
   },
   outerRingBase: {
     position: "absolute",
-    width: 160,
-    height: 160,
-    borderRadius: 80,
+    width: 280,
+    height: 280,
+    borderRadius: 140,
     borderWidth: 4,
     borderColor: "#F5F5F5", // 연한 회색 베이스
   },
   outerRing: {
     position: "absolute",
-    width: 160,
-    height: 160,
-    borderRadius: 80,
+    width: 240,
+    height: 240,
+    borderRadius: 120,
     borderWidth: 4,
   },
   innerRing: {
     position: "absolute",
-    width: 136,
-    height: 136,
-    borderRadius: 68,
-    borderWidth: 2,
+    width: 220,
+    height: 220,
+    borderRadius: 110,
+    borderWidth: 5,
   },
   iconContainer: {
-    width: 96,
-    height: 96,
-    borderRadius: 48,
+    width: 180,
+    height: 180,
+    borderRadius: 90,
     justifyContent: "center",
     alignItems: "center",
   },
-  iconText: {
-    fontSize: 48,
-    textAlign: "center",
+  iconImage: {
+    width: 170,
+    height: 170,
   },
   particle1: {
     position: "absolute",
