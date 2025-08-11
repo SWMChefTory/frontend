@@ -1,3 +1,4 @@
+import { refreshToken } from "@/src/modules/shared/api/client";
 import { router } from "expo-router";
 import { useCallback } from "react";
 import { WebView } from "react-native-webview";
@@ -47,7 +48,7 @@ export function useWebViewMessage({
         switch (parsedMessage.type) {
           case WebViewMessageType.FINISH_COOKING:
             console.log("조리 종료. 첫 화면으로 이동합니다.");
-            router.replace("/(tabs)");
+            router.replace("/(app)/(tabs)");
             break;
 
           case WebViewMessageType.BACK_PRESSED:
@@ -59,6 +60,20 @@ export function useWebViewMessage({
             clearWebViewHistoryByReload();
             break;
 
+          case WebViewMessageType.REFRESH_TOKEN:
+            (async () => {
+              const newToken = await refreshToken();
+              if (webviewRef.current && newToken) {
+                const payload = JSON.stringify({
+                  type: "ACCESS_TOKEN",
+                  token: newToken,
+                });
+                const js = `window.postMessage(${payload}, "*"); true;`;
+                webviewRef.current.injectJavaScript(js);
+              }
+            })();
+            break;
+
           default:
             console.log("처리되지 않은 메시지 타입:", parsedMessage.type);
         }
@@ -66,7 +81,7 @@ export function useWebViewMessage({
         console.error("메시지 처리 중 오류:", error);
       }
     },
-    [clearWebViewHistoryByReload],
+    [clearWebViewHistoryByReload]
   );
 
   return {
