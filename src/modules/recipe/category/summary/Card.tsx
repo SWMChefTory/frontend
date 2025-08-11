@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { DraxView } from "react-native-drax";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 import { CategorySummaryRecipe } from "./Recipe";
+import { SHADOW } from "@/src/modules/shared/constants/shadow";
 
 interface Props {
   recipe: CategorySummaryRecipe;
@@ -86,13 +87,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.background.white,
     borderRadius: 12,
     paddingBottom: 12,
-    shadowColor: COLORS.shadow.orange,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 6,
-    elevation: 4,
-    borderWidth: 1,
-    borderColor: "#F3F4F6",
+    ...SHADOW,
   },
   draggingCard: {
     opacity: 0.5,

@@ -4,14 +4,16 @@ import { COLORS } from "@/src/modules/shared/constants/colors";
 import { ApiErrorBoundary } from "@/src/modules/shared/components/error/ApiErrorBoundary";
 import { CategorySummaryRecipeError } from "./Fallback";
 import { useCategoryRecipesViewModel } from "./useViewModel";
-import { Suspense, useCallback, useRef, useState } from "react";
+import { Suspense, useCallback, useEffect, useRef, useState } from "react";
 import { DeferredComponent } from "@/src/modules/shared/utils/DeferredComponent";
 import { CategoryRecipesSkeleton } from "./Skeleton";
-import { useFocusEffect, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { CategorySummaryRecipe } from "@/src/modules/recipe/category/summary/Recipe";
-import { throttle } from "lodash";
+import { debounce } from "lodash";
 import { TrashCan } from "./TrashCan";
 import { Category } from "../Category";
+import { SHADOW } from "@/src/modules/shared/constants/shadow";
+import { useRefreshOnFocus } from "@/src/modules/shared/utils/useRefreshOnFocus";
 interface Props {
   selectedCategory: Category | null;
   onDragStart: () => void;
@@ -50,14 +52,10 @@ export function CategoryRecipeListSectionContent({
 }: Props) {
   const { recipes, refetchAll } = useCategoryRecipesViewModel(selectedCategory?.id ?? null);
   const router = useRouter();
+  
+  useRefreshOnFocus(refetchAll);
 
-  useFocusEffect(
-    useCallback(() => {
-      refetchAll();
-    }, [refetchAll]),
-  );
-
-  const handleRecipePress = useRef(throttle(
+  const handleRecipePress = useRef(debounce(
     (recipe: CategorySummaryRecipe) => {
     router.push({
       pathname: "/recipe/detail",
@@ -67,7 +65,7 @@ export function CategoryRecipeListSectionContent({
         title: recipe.title,
       },
     });
-  }, 2000, {
+  }, 1000, {
       leading: true,
       trailing: false,
     }),
@@ -97,10 +95,6 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     padding: 12,
     marginBottom: 24,
-    shadowColor: COLORS.shadow.orange,
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.12,
-    shadowRadius: 20,
-    elevation: 8,
+    ...SHADOW,
   },
 });

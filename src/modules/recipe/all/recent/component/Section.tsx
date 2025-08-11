@@ -10,7 +10,7 @@ import { ApiErrorBoundary } from "@/src/modules/shared/components/error/ApiError
 import { DeferredComponent } from "@/src/modules/shared/utils/DeferredComponent";
 import { AllRecentRecipesSkeleton } from "@/src/modules/recipe/all/recent/component/Skeleton";
 import { AllRecentRecipeError } from "@/src/modules/recipe/all/recent/component/Fallback";
-import { throttle } from "lodash";
+import { debounce } from "lodash";
 
 export function AllRecentRecipeSection() {
   return (
@@ -35,14 +35,14 @@ export function AllRecentRecipeSectionContent() {
   const router = useRouter();
 
   const handleRecipeView = useRef(
-    throttle(
+    debounce(
       (recipe: RecentSummaryRecipe) => {
         router.push({
           pathname: "/recipe/detail",
           params: { recipeId: recipe.recipeId },
         });
       },
-      2000,
+      1000,
       {
         leading: true,
         trailing: false,

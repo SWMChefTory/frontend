@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, Image, Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { RecentSummaryRecipe } from "@/src/modules/recipe/summary/recent/types/Recipe";
 import { COLORS } from "@/src/modules/shared/constants/colors";
+import { SHADOW } from "@/src/modules/shared/constants/shadow";
 
 type Props = {
   recipe: RecentSummaryRecipe;
@@ -72,13 +73,7 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: COLORS.background.white,
     borderRadius: 16,
-    shadowColor: COLORS.shadow.black,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 6,
-    elevation: 4,
-    borderWidth: 1,
-    borderColor: COLORS.border.orangeLight,
+    ...SHADOW,
   },
   cardContent: {
     flexDirection: "row",
