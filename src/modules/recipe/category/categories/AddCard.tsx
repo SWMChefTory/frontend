@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { COLORS } from "@/src/modules/shared/constants/colors";
+import { SHADOW } from "@/src/modules/shared/constants/shadow";
 
 interface Props {
   onPress: () => void;
@@ -23,14 +24,7 @@ const styles = StyleSheet.create({
     height: 120,
     backgroundColor: COLORS.orange.main,
     borderRadius: 12,
-    shadowColor: COLORS.shadow.black,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    ...SHADOW,
     marginBottom: 8,
     justifyContent: "center",
     alignItems: "center",

@@ -14,7 +14,7 @@ export default function RecipeCreateScreen() {
     const timer = setTimeout(() => {
       router.replace({
         pathname: "/recipe/detail",
-        params: { recipeId: recipeId },
+        params: { recipeId: recipeId, isCreated: "true" },
       });
 
       return () => clearTimeout(timer);

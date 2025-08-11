@@ -50,7 +50,6 @@ export default function RecentRecipeSummaryList({ recipes, onPress }: Props) {
 const styles = StyleSheet.create({
   wrapper: {
     justifyContent: "center",
-    minHeight: 156,
   },
   gap: { width: 12 },
   container: {

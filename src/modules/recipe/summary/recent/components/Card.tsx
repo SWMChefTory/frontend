@@ -1,7 +1,8 @@
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 import { RecentSummaryRecipe } from "../types/Recipe";
-
+import { SHADOW } from "@/src/modules/shared/constants/shadow";
+import { CARD_STYLES } from "@/src/modules/shared/constants/card";
 type Props = {
   recipe: RecentSummaryRecipe;
   onPress: (recipe: RecentSummaryRecipe) => void;
@@ -12,7 +13,6 @@ export function RecentRecipeSummaryCard({ recipe, onPress }: Props) {
     <Pressable style={styles.card} onPress={() => onPress(recipe)}>
       <View style={styles.imageWrapper}>
         <Image source={{ uri: recipe.thumbnailUrl }} style={styles.image} />
-        <View style={styles.overlay} />
       </View>
       <View style={styles.body}>
         <Text numberOfLines={1} style={styles.title}>
@@ -39,37 +39,22 @@ export function RecentRecipeSummaryCard({ recipe, onPress }: Props) {
 
 const styles = StyleSheet.create({
   card: {
-    width: 140,
-    backgroundColor: COLORS.background.white,
-    borderRadius: 16,
-    paddingBottom: 12,
-    shadowColor: COLORS.shadow.black,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 6,
-    elevation: 4,
-    borderWidth: 1,
-    borderColor: COLORS.border.orangeLight,
+    ...CARD_STYLES.medium_horizontal,
   },
   imageWrapper: {
     width: "100%",
-    height: 80,
+    height: "60%",
     overflow: "hidden",
-    borderTopLeftRadius: 16,
-    borderTopRightRadius: 16,
+    borderRadius: CARD_STYLES.medium_horizontal.borderRadius,
   },
   image: {
     width: "100%",
     height: "100%",
     resizeMode: "cover",
   },
-  overlay: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(0,0,0,0.2)",
-  },
   body: {
-    paddingHorizontal: 12, // ✅ 수평 padding만 적용
-    paddingTop: 12, // ✅ 위쪽 여백
+    paddingHorizontal: 12,
+    paddingTop: 12,
   },
   title: {
     fontSize: 13,

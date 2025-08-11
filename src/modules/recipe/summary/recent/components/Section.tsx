@@ -2,15 +2,17 @@ import { View, StyleSheet } from "react-native";
 import { RecentSummaryRecipe } from "../types/Recipe";
 import { RecipeSectionHeader } from "../../shared/components/SectionHeader";
 import { RecentRecipeError } from "../shared/Fallback";
-import { COLORS } from "@/src/modules/shared/constants/colors";
 import { ApiErrorBoundary } from "@/src/modules/shared/components/error/ApiErrorBoundary";
-import { useEffect, Suspense, useRef, useCallback } from "react";
+import { useEffect, Suspense, useRef } from "react";
 import { useRecentSummaryViewModel } from "../viewmodels/useViewModels";
 import { DeferredComponent } from "@/src/modules/shared/utils/DeferredComponent";
 import { RecentRecipesSkeleton } from "../shared/Skeleton";
 import RecentRecipeSummaryList from "./List";
-import { useFocusEffect, useRouter } from "expo-router";
-import { throttle } from "lodash";
+import { useRouter } from "expo-router";
+import { debounce } from "lodash";
+import { SHADOW } from "@/src/modules/shared/constants/shadow";
+import { CARD_STYLES } from "@/src/modules/shared/constants/card";
+import { useRefreshOnFocus } from "@/src/modules/shared/utils/useRefreshOnFocus";
 
 interface Props {
   onRefresh: number;
@@ -20,7 +22,7 @@ export function RecentRecipeSection({ onRefresh }: Props) {
   const router = useRouter();
 
   const handleRecipePress = useRef(
-    throttle(
+    debounce(
       (recipe: RecentSummaryRecipe) => {
         router.push({
           pathname: "/recipe/detail",
@@ -31,7 +33,7 @@ export function RecentRecipeSection({ onRefresh }: Props) {
           },
         });
       },
-      2000,
+      1000,
       {
         leading: true,
         trailing: false,
@@ -40,11 +42,11 @@ export function RecentRecipeSection({ onRefresh }: Props) {
   ).current;
 
   const handleViewAllPress = useRef(
-    throttle(
+    debounce(
       () => {
         router.push("/recipe/recent");
       },
-      2000,
+      1000,
       {
         leading: true,
         trailing: false,
@@ -87,29 +89,20 @@ function RecentRecipeSectionContent({
 }: RecentRecipeSectionContentProps) {
   const { recentRecipes, refetch } = useRecentSummaryViewModel();
 
+  useRefreshOnFocus(refetch);
+
   useEffect(() => {
     refetch();
-  }, [onRefresh, refetch]);
-
-  useFocusEffect(
-    useCallback(() => {
-      refetch();
-    }, [refetch]),
-  );
+  }, [onRefresh]);
 
   return <RecentRecipeSummaryList recipes={recentRecipes} onPress={onPress} />;
 }
 
 const styles = StyleSheet.create({
   recipeSectionCard: {
-    height: 250,
-    backgroundColor: COLORS.priamry.cook,
-    borderRadius: 24,
+    ...CARD_STYLES.large,
     paddingVertical: 24,
-    paddingHorizontal: 20,
     marginBottom: 24,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
+    ...SHADOW,
   },
 });

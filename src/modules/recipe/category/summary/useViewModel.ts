@@ -6,12 +6,15 @@ import {
   type UnCategorizedRecipesApiResponse,
 } from "../api";
 import { CategorySummaryRecipe } from "./Recipe";
+import { useCallback } from "react";
+import { useIsFocused } from "@react-navigation/native";
 
 type CategoryRecipesApiResponse =
   | CategorizedRecipesApiResponse
   | UnCategorizedRecipesApiResponse;
 
 export function useCategoryRecipesViewModel(categoryId: string | null) {
+  const isFocused = useIsFocused();
   const queryClient = useQueryClient();
   const { data } = useSuspenseQuery<CategoryRecipesApiResponse>(
     {
@@ -24,14 +27,15 @@ export function useCategoryRecipesViewModel(categoryId: string | null) {
         }
       },
       staleTime: 5 * 60 * 1000,
+      subscribed: isFocused,
     },
   );
 
-  const refetchAll = () => {
+  const refetchAll = useCallback(() => {
     queryClient.invalidateQueries({
       queryKey: ["categoryRecipes"]
     });
-  };
+  }, [queryClient]);
 
   const recipes: CategorySummaryRecipe[] = (() => {
     if (!data) return [];

@@ -189,12 +189,6 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     justifyContent: "center",
     alignItems: "center",
-    // marginRight: 12,
-    // shadowColor: COLORS.orange.main,
-    // shadowOffset: { width: 0, height: 2 },
-    // shadowOpacity: 0.25,
-    // shadowRadius: 4,
-    // elevation: 4,
   },
   titleContainer: {
     paddingLeft: 10,

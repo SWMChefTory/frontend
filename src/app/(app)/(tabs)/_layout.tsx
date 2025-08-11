@@ -19,7 +19,7 @@ export default function TabLayout() {
     <>
       <Tabs
         screenOptions={{
-          sceneStyle: { backgroundColor: "#F8FAFC" },
+          sceneStyle: { backgroundColor: "#F8FAFC",flex:1 },
           tabBarStyle: {
             height: 80,
             paddingHorizontal: 30,
@@ -27,13 +27,6 @@ export default function TabLayout() {
             paddingTop: 8,
             backgroundColor: "#ffffff",
             borderTopWidth: 0,
-            shadowColor: "#000",
-            shadowOffset: { width: 0, height: -2 },
-            shadowOpacity: 0.06,
-            shadowRadius: 8,
-            elevation: 10,
-            borderTopLeftRadius: 20,
-            borderTopRightRadius: 20,
           },
           tabBarLabelStyle: {
             fontSize: 12,

@@ -18,28 +18,8 @@ export default function HomeScreen() {
     }, 1500);
   }, []);
 
-  // const headerAnimatedStyle = {
-  //   shadowOpacity: scrollY.interpolate({
-  //     inputRange: [0, 50],
-  //     outputRange: [0.08, 0.25],
-  //     extrapolate: 'clamp',
-  //   }),
-  //   shadowRadius: scrollY.interpolate({
-  //     inputRange: [0, 50],
-  //     outputRange: [12, 20],
-  //     extrapolate: 'clamp',
-  //   }),
-  // };
-
   return (
     <View style={styles.container}>
-      {/* <Animated.View style={[styles.headerContainer, headerAnimatedStyle]}>
-        <HomeSectionHeader
-          title="맛있는 요리의 시작"
-          subtitle="영상 링크로 간편하게 레시피를 만들어보세요"
-        />
-      </Animated.View> */}
-
       <Animated.ScrollView
         style={styles.scrollView}
         showsVerticalScrollIndicator={false}
@@ -64,8 +44,8 @@ export default function HomeScreen() {
           subtitle="영상 링크로 간편하게 레시피를 만들어보세요"
         />
         <View style={styles.contentWrapper}>
-          <RecentRecipeSection onRefresh={refreshTrigger} />
           <PopularRecipeSection onRefresh={refreshTrigger} />
+          <RecentRecipeSection onRefresh={refreshTrigger} />
           <View style={styles.bottomSpacer} />
         </View>
       </Animated.ScrollView>
@@ -85,7 +65,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   contentWrapper: {
-    padding: 20,
+    paddingVertical: 20,
   },
   bottomSpacer: {
     height: 100,
