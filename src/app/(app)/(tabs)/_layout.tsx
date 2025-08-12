@@ -15,13 +15,8 @@ export default function TabLayout() {
   console.log('TabLayout');
   const { deepLinkAction } = deepLinkActionStore();
   const [modalData, setModalData] = useState<string | null>(null);
-  const pathname = usePathname(); // 현재 경로
-  const segments = useSegments(); // 경로 세그먼트
-  console.log('pathname', pathname);
-  console.log('segments', segments);
 
   useEffect(() => {
-    console.log('deepLinkAction', deepLinkAction);
       if(deepLinkAction?.actionType==='create'){
         openBottomSheet({youtubeUrl:deepLinkAction.params.youtubeUrl});
 
@@ -30,13 +25,13 @@ export default function TabLayout() {
   }, [deepLinkAction]);
 
   const openBottomSheet = useCallback(({youtubeUrl=""}:{youtubeUrl:string}) => {
-    console.log('openBottomSheet');
     setModalData(youtubeUrl);
-    // router.replace('/(app)/(tabs)');
+    router.replace('/(app)/(tabs)/dummy');
+    router.replace('/(app)/(tabs)');
+    console.log('openBottomSheet');
 
     modalRef.current?.present();
   }, []);
-  console.log('beforeIndex');
 
   return (
     <>
