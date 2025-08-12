@@ -101,23 +101,23 @@ final class ShareViewController: UIViewController, UIGestureRecognizerDelegate {
       },
       deepLink: { [weak self] in
         guard let self = self else {
-          print("❌ self가 nil")
+          print("self가 nil")
           return
         }
         
         let videoId = extractYouTubeVideoId(from: url)
 
         guard let validVideoId = videoId else {
-            print("❌ YouTube Video ID 추출 실패: \(url)")
+            print("YouTube Video ID 추출 실패: \(url)")
             return
         }
 
         guard let deepLinkUrl = URL(string: "com.cheftory://?video-id=\(validVideoId)&external=true") else {
-            print("❌ 딥링크 URL 생성 실패")
+            print("딥링크 URL 생성 실패")
             return
         }
 
-        print("🚀 딥링크 시도: \(deepLinkUrl)")
+        print("딥링크 시도: \(deepLinkUrl)")
         
         print(deepLinkUrl)
         

@@ -9,7 +9,6 @@ export function useDeepLinkHandler() {
     const appState = useRef(AppState.currentState);
     const isAppLaunch = useRef(true);
     const { setDeepLinkAction } = deepLinkActionStore();
-    console.log('useDeepLinkHandler');
     
     useEffect(() => {
         let linkingSubscription: any;
@@ -18,7 +17,6 @@ export function useDeepLinkHandler() {
         const handleInitialURL = async () => {
         const initialUrl = await Linking.getInitialURL();
         if (initialUrl) {
-            console.log('initialUrl', initialUrl);
             handleExternalDeepLink(initialUrl);
         }
 
@@ -37,10 +35,8 @@ export function useDeepLinkHandler() {
         parsedUrl.queryParams?.external === 'true';
         console.log('isFromExternal', isFromExternal);
         if (isFromExternal) {
-            console.log('handleExternalDeepLink');
             handleExternalDeepLink(url);
         } else {
-            console.log('handleInternalNavigation');
             handleInternalNavigation(url);
         }
         });
@@ -56,9 +52,7 @@ export function useDeepLinkHandler() {
     
     const handleExternalDeepLink = (url: string) => {
         const parsedUrl = Linking.parse(url);
-        console.log(parsedUrl);
         const queryParams = parsedUrl.queryParams;
-        console.log(queryParams);
 
 
         console.log('External deep link:', {
