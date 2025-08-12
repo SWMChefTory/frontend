@@ -1,6 +1,4 @@
-import appleAuth, {
-  AppleButton,
-} from "@invertase/react-native-apple-authentication";
+import * as AppleAuthentication from 'expo-apple-authentication';
 import { useLoginViewModel } from "@/src/modules/user/business/service/useAuthService";
 import { OauthProvider } from "@/src/modules/user/enums/OauthProvider";
 import { Alert, Image, Text, TouchableOpacity } from "react-native";
@@ -12,25 +10,32 @@ export function AppleLoginButton({ isReal }: { isReal: boolean }) {
   const description = "Apple로 시작하기";
 
   async function handleSignInAppleReal() {
-    const appleAuthRequestResponse = await appleAuth.performRequest({
-      requestedOperation: appleAuth.Operation.LOGIN,
-      requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
-    });
-    // get current authentication state for user
-    // /!\ This method must be tested on a real device. On the iOS simulator it always throws an error.
-    const credentialState = await appleAuth.getCredentialStateForUser(
-      appleAuthRequestResponse.user,
-    );
+    const available = await AppleAuthentication.isAvailableAsync();
+      if (!available) {
+        Alert.alert("오류", "이 기기에서는 Apple 로그인을 사용할 수 없습니다.");
+        return;
+      }
 
-    if (!appleAuthRequestResponse.identityToken) {
-      Alert.alert("오류", "Apple 로그인에 실패했습니다.");
-      return;
-    }
+      const appleAuthRequestResponse = await AppleAuthentication.signInAsync({
+        requestedScopes: [
+          AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+          AppleAuthentication.AppleAuthenticationScope.EMAIL,
+        ],
+        // nonce/state 필요하면 여기서 넣고 서버에서 검증
+      });
+
+      if (!appleAuthRequestResponse.identityToken) {
+        Alert.alert("오류", "Apple 로그인에 실패했습니다.");
+        return;
+      }
+
+      const credentialState = await AppleAuthentication.getCredentialStateAsync(appleAuthRequestResponse.user);
+
 
     // use credentialState response to ensure the user is authenticated
     if (
-      credentialState === appleAuth.State.AUTHORIZED ||
-      credentialState === appleAuth.State.TRANSFERRED
+      credentialState === AppleAuthentication.AppleAuthenticationCredentialState.AUTHORIZED ||
+      credentialState === AppleAuthentication.AppleAuthenticationCredentialState.TRANSFERRED
     ) {
       console.log("AppleLoginButton 로그인 성공");
       login({

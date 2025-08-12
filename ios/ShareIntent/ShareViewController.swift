@@ -2,8 +2,9 @@ import UIKit
 import SwiftUI
 import UniformTypeIdentifiers
 
-final class ShareViewController: UIViewController {
+final class ShareViewController: UIViewController, UIGestureRecognizerDelegate {
   private var tasksAfterPresented: [() -> Void] = []
+  private weak var contentView: UIView? // 추가된 프로퍼티
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
@@ -23,6 +24,8 @@ final class ShareViewController: UIViewController {
       return
     }
     
+    print(itemProvider)
+    
     if itemProvider.canLoadObject(ofClass: URL.self) {
       itemProvider.loadObject(ofClass: URL.self) { [weak self] url, error in
         if let error {
@@ -34,16 +37,40 @@ final class ShareViewController: UIViewController {
         
         guard let text = url?.absoluteString else {
           self?.tasksAfterPresented.append {
-            self?.hostErrorView(message: "URL 형식 아님", error: nil)
+            self?.hostErrorView(message: "변환 실패", error: nil)
           }
           return
         }
         
         self?.tasksAfterPresented.append { [weak self] in
-          self?.hostView(url:text)
+          self?.hostView(url: text)
+        }
+        return;
+      }
+    }
+    
+    else if itemProvider.hasItemConformingToTypeIdentifier("public.plain-text"){
+      itemProvider.loadItem(forTypeIdentifier: "public.plain-text", options: nil) { [weak self] (url, error) in
+        if let error {
+          self?.tasksAfterPresented.append {
+            self?.hostErrorView(message: "URL 로드 실패", error: error)
+          }
+          return
+        }
+        
+        guard let text =  url as? String else {
+          self?.tasksAfterPresented.append {
+            self?.hostErrorView(message: "변환 실패", error: nil)
+          }
+          return
+        }
+        self?.tasksAfterPresented.append { [weak self] in
+          let encoded = text.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+          self?.hostView(url: encoded)
         }
       }
-    } else {
+    }
+    else {
       self.tasksAfterPresented.append { [weak self] in
         self?.hostErrorView(
           message: "지원하지 않는 콘텐츠 형식입니다.",
@@ -67,33 +94,76 @@ final class ShareViewController: UIViewController {
     tasksAfterPresented.removeAll()
   }
   
-  
-  private func hostView(url:String){
-    let contentVC = UIHostingController(rootView: ShareExtensionView(){[weak self] in
-      self?.close(isSuccess: true)
-    }
-    )
-    contentVC.preferredContentSize = CGSize(width: UIScreen.main.bounds.width, height: 100)
+  private func hostView(url: String) {
+    let contentVC = UIHostingController(rootView: ShareExtensionView(
+      close: { [weak self] in
+        self?.close()
+      },
+      deepLink: { [weak self] in
+        guard let self = self else {
+          print("❌ self가 nil")
+          return
+        }
+        
+        let videoId = extractYouTubeVideoId(from: url)
+
+        guard let validVideoId = videoId else {
+            print("❌ YouTube Video ID 추출 실패: \(url)")
+            return
+        }
+
+        guard let deepLinkUrl = URL(string: "com.cheftory://?video-id=\(validVideoId)&external=true") else {
+            print("❌ 딥링크 URL 생성 실패")
+            return
+        }
+
+        print("🚀 딥링크 시도: \(deepLinkUrl)")
+        
+        print(deepLinkUrl)
+        
+        EnvironmentValues().openURL(deepLinkUrl, completion: { success in
+          print("앱 열기 성공 여부: \(success)")
+        })      }
+    ))
+    
     addChild(contentVC)
     view.addSubview(contentVC.view)
     contentVC.view.translatesAutoresizingMaskIntoConstraints = false
-    let ratio: CGFloat = 0.3
-
+    
     NSLayoutConstraint.activate([
-        contentVC.view.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: ratio),
-        contentVC.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-        contentVC.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-        contentVC.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+      contentVC.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      contentVC.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+      contentVC.view.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+      contentVC.view.heightAnchor.constraint(equalTo: view.heightAnchor)
     ])
     
-    contentVC.view.layer.cornerRadius = 16
-    contentVC.view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-    contentVC.view.clipsToBounds = true
-    contentVC.didMove(toParent: self)
+    contentVC.view.backgroundColor = .clear
     
+    
+    contentVC.view.layer.cornerRadius = 16
+    contentVC.view.layer.masksToBounds = true  // 자식 뷰들도 잘리게 함
+    contentVC.view.clipsToBounds = true
+    
+    contentVC.didMove(toParent: self)
   }
   
   
+  func extractYouTubeVideoId(from urlString: String) -> String? {
+      guard let url = URL(string: urlString) else { return nil }
+      
+      // youtu.be 형식
+      if url.host?.contains("youtu.be") == true {
+          return String(url.path.dropFirst()) // '/' 제거
+      }
+      
+      // youtube.com 형식
+      if url.host?.contains("youtube.com") == true {
+          let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+          return components?.queryItems?.first(where: { $0.name == "v" })?.value
+      }
+      
+      return nil
+  }
   
   private func hostErrorView(message: String, error: Error?) {
     let vc = UIHostingController(
@@ -111,27 +181,23 @@ final class ShareViewController: UIViewController {
       vc.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
     ])
     vc.didMove(toParent: self)
-    
-    //    setSheetHeight(ratio: 0.3)
   }
   
   private func setSheetHeight(ratio: CGFloat) {
     let screenH = UIScreen.main.bounds.height
-    let targetH = max(200, screenH * ratio) // 원하는 작은 값
+    let targetH = max(200, screenH * ratio)
     
-    // 힌트
     self.preferredContentSize = CGSize(width: 0, height: targetH)
     guard let sheet = self.sheetPresentationController else { return }
     
     if #available(iOS 16.0, *) {
-      // iOS16+: 커스텀 detent "하나만"
       let id = UISheetPresentationController.Detent.Identifier("compact")
       let compact = UISheetPresentationController.Detent.custom(identifier: id) { _ in targetH }
       sheet.detents = [compact]
       sheet.selectedDetentIdentifier = id
       sheet.prefersGrabberVisible = false
       sheet.prefersScrollingExpandsWhenScrolledToEdge = false
-      sheet.largestUndimmedDetentIdentifier = nil   // 딤 유지
+      sheet.largestUndimmedDetentIdentifier = nil
     }
   }
   
@@ -143,4 +209,3 @@ final class ShareViewController: UIViewController {
     }
   }
 }
-

@@ -1,20 +1,42 @@
-import { Tabs } from "expo-router";
+import { router, Tabs, useLocalSearchParams } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { View, TouchableOpacity, StyleSheet } from "react-native";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import { useCallback, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { RecipeBottomSheet } from "@/src/modules/recipe/create/form/components/BottomSheet";
 import IndexHeader from "@/src/header/IndexHeader";
 import CollectionHeader from "@/src/header/CollectionHeader";
+import { deepLinkActionStore } from "@/src/deepLinkActionStore";
+import { usePathname, useSegments } from 'expo-router';
 
 export default function TabLayout() {
-  console.log("TabLayout");
   const modalRef = useRef<BottomSheetModal>(null);
+  console.log('TabLayout');
+  const { deepLinkAction } = deepLinkActionStore();
+  const [modalData, setModalData] = useState<string | null>(null);
+  const pathname = usePathname(); // 현재 경로
+  const segments = useSegments(); // 경로 세그먼트
+  console.log('pathname', pathname);
+  console.log('segments', segments);
 
-  const openBottomSheet = useCallback(() => {
+  useEffect(() => {
+    console.log('deepLinkAction', deepLinkAction);
+      if(deepLinkAction?.actionType==='create'){
+        openBottomSheet({youtubeUrl:deepLinkAction.params.youtubeUrl});
+
+        return;
+      }
+  }, [deepLinkAction]);
+
+  const openBottomSheet = useCallback(({youtubeUrl=""}:{youtubeUrl:string}) => {
+    console.log('openBottomSheet');
+    setModalData(youtubeUrl);
+    // router.replace('/(app)/(tabs)');
+
     modalRef.current?.present();
   }, []);
+  console.log('beforeIndex');
 
   return (
     <>
@@ -63,8 +85,8 @@ export default function TabLayout() {
           options={{
             tabBarButton: () => (
               <View style={style.container}>
-                <RecipeBottomSheet modalRef={modalRef} />
-                <TouchableOpacity onPress={openBottomSheet} activeOpacity={0.8}>
+                <RecipeBottomSheet modalRef={modalRef} youtubeUrl={modalData||""} />
+                <TouchableOpacity onPress={()=>openBottomSheet({youtubeUrl:""})} activeOpacity={0.8}>
                   <Ionicons
                     name="add-circle-outline"
                     size={48}

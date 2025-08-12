@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { fetchRecipeCreateStatus } from "../api/api";
+import { fetchRecipe } from "../api/api";
 import { RecipeCreateStatus } from "../types/Status";
 import { useQuery } from "@tanstack/react-query";
 import { STEP_ORDER } from "../constants/Steps";
@@ -21,8 +21,8 @@ export function useRecipeCreateStatusViewModel(recipeId: string) {
   const [stageStartTime, setStageStartTime] = useState<number>(Date.now());
 
   const { data } = useQuery({
-    queryKey: ["recipeCreateStatus", recipeId],
-    queryFn: () => fetchRecipeCreateStatus(recipeId),
+    queryKey: ["recipe", recipeId],
+    queryFn: () => fetchRecipe(recipeId),
     refetchInterval:
       currentUIStatus === RecipeCreateStatus.COMPLETED ? false : 1000,
     enabled: !!recipeId,

@@ -1,14 +1,17 @@
 import { StyleSheet, View, Animated, RefreshControl } from "react-native";
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { HomeSectionHeader } from "@/src/modules/shared/components/layout/HomeSectionHeader";
 import { RecentRecipeSection } from "@/src/modules/recipe/summary/recent/components/Section";
 import { PopularRecipeSection } from "@/src/modules/recipe/summary/popular/components/Secition";
 import { COLORS } from "@/src/modules/shared/constants/colors";
+import { useLocalSearchParams } from "expo-router";
 
 export default function HomeScreen() {
   const scrollY = useRef(new Animated.Value(0)).current;
   const [refreshing, setRefreshing] = useState(false);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
+
+  console.log('HomeScreen');
 
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
@@ -18,27 +21,8 @@ export default function HomeScreen() {
     }, 1500);
   }, []);
 
-  // const headerAnimatedStyle = {
-  //   shadowOpacity: scrollY.interpolate({
-  //     inputRange: [0, 50],
-  //     outputRange: [0.08, 0.25],
-  //     extrapolate: 'clamp',
-  //   }),
-  //   shadowRadius: scrollY.interpolate({
-  //     inputRange: [0, 50],
-  //     outputRange: [12, 20],
-  //     extrapolate: 'clamp',
-  //   }),
-  // };
-
   return (
     <View style={styles.container}>
-      {/* <Animated.View style={[styles.headerContainer, headerAnimatedStyle]}>
-        <HomeSectionHeader
-          title="맛있는 요리의 시작"
-          subtitle="영상 링크로 간편하게 레시피를 만들어보세요"
-        />
-      </Animated.View> */}
 
       <Animated.ScrollView
         style={styles.scrollView}
