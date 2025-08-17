@@ -10,11 +10,13 @@ import { COLORS } from "@/src/modules/shared/constants/colors";
 interface Props {
   onRecipeCreated?: (recipeId: string) => void;
   onDismiss: () => void;
+  youtubeUrl: string;
 }
 
 export function RecipeBottomSheetContent({
   onRecipeCreated,
   onDismiss,
+  youtubeUrl,
 }: Props) {
   const [videoUrl, setVideoUrl] = useState("");
   const [urlError, setUrlError] = useState("");
@@ -27,6 +29,12 @@ export function RecipeBottomSheetContent({
       onRecipeCreated?.(recipeId);
     }
   }, [recipeId, isLoading]);
+
+  useEffect(() => {
+    if (youtubeUrl) {
+      setVideoUrl(youtubeUrl);
+    }
+  }, [youtubeUrl]);
 
   const handleUrlChange = (text: string) => {
     setVideoUrl(text);

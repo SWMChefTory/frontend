@@ -1,20 +1,22 @@
-import { View, Text, StyleSheet, Animated } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import GoogleLoginButton from "@/src/modules/user/presentation/google/components/GoogleLoginButton";
 import { AppleLoginButton } from "@/src/modules/user/presentation/apple/components/AppleLoginButton";
 import { Image } from "expo-image";
 import { COLORS } from "../../../shared/constants/colors";
-import { useLogoStore } from "../../../shared/splash/logo/LogoStore";
-import React from "react";
-import logoStyle from "../../../shared/splash/logo/logostyle";
+import logoStyle from "../../../shared/splash/logo/style/logostyle";
 import { Asset } from "expo-asset";
+ 
+
+Image.prefetch('@/assets/images/mainCharacter.png', 'disk');
+Image.prefetch('@/assets/images/voiceNear.png', 'disk');
+Image.prefetch('@/assets/images/voiceFar.png', 'disk');
+Image.prefetch('@/assets/images/mainText', 'disk');
 
 export default function LoginPage({ isReal }: { isReal: boolean }) {
-  // const { logo } = useLogoStore();
-  // console.log('LoginPage logo:', logo); 
-  const logoAsset = Asset.fromModule(require('@/assets/images/logo.png'));
+  const logoAsset = Asset.fromModule(require('@/assets/images/mainCharacter.png'));
   const voiceNearAsset = Asset.fromModule(require('@/assets/images/voiceNear.png'));
   const voiceFarAsset = Asset.fromModule(require('@/assets/images/voiceFar.png'));
-  const cheftoryAsset = Asset.fromModule(require('@/assets/images/cheftory.png'));
+  const cheftoryAsset = Asset.fromModule(require('@/assets/images/mainText.png'));
 
   const animatedLogoMain = (
     <Image 
@@ -38,17 +40,14 @@ export default function LoginPage({ isReal }: { isReal: boolean }) {
   const cheftory = (
     <Image
       source={{ uri: cheftoryAsset.uri }} 
-      style={logoStyle.cheftoryLogin} // 애니메이션 스타일 직접 적용
+      style={logoStyle.cheftoryLogin}
     />
   );
 
   const banner = (
     <View style={{
-      transform: [{ scale: 0.8 }], // 고정값 OK
-      // transform: [{ rotate: '45deg' }], // 이것도 OK
-      // transform: [{ translateX: 50 }], // 이것도 OK
+      transform: [{ scale: 0.8 }], 
       zIndex: 1,
-      // position: 'absolute',
     }}>
       {animatedLogoMain}
       {animatedVoiceNear}
@@ -62,7 +61,6 @@ export default function LoginPage({ isReal }: { isReal: boolean }) {
       {banner}
       <View style={styles.container}>
       <View style={styles.titleContainer}>
-        {/* <Image source={require("@/assets/images/cheftory.png")} style={styles.title} /> */}
         <Text style={styles.subTitle}>지금 셰프토리와 요리를 시작해보세요</Text>
       </View>
       <View style={styles.buttonCotainer}>
@@ -105,7 +103,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   subTitle: {
-    // fontFamily: "NotoSerifKR_400Regular",
     color: COLORS.font.dark,
     fontSize: 16,
     marginBottom: 32,

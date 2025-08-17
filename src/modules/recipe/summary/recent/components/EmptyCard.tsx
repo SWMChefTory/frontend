@@ -19,7 +19,7 @@ export function EmptyStateCard({ isFirst }: Props) {
 
   return (
     <>
-      {isFirst && <RecipeBottomSheet modalRef={modalRef} />}
+      {isFirst && <RecipeBottomSheet modalRef={modalRef} youtubeUrl={""} />}
 
       <Pressable
         onPress={openBottomSheet}

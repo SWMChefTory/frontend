@@ -1,5 +1,5 @@
 import { StyleSheet, View, Animated, RefreshControl } from "react-native";
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { HomeSectionHeader } from "@/src/modules/shared/components/layout/HomeSectionHeader";
 import { RecentRecipeSection } from "@/src/modules/recipe/summary/recent/components/Section";
 import { PopularRecipeSection } from "@/src/modules/recipe/summary/popular/components/Secition";
@@ -20,6 +20,7 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.container}>
+
       <Animated.ScrollView
         style={styles.scrollView}
         showsVerticalScrollIndicator={false}

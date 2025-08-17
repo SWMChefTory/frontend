@@ -8,9 +8,10 @@ import { useRouter } from "expo-router";
 
 interface Props {
   modalRef: React.RefObject<BottomSheetModal | null>;
+  youtubeUrl: string;
 }
 
-export function RecipeBottomSheet({ modalRef }: Props) {
+export function RecipeBottomSheet({ modalRef, youtubeUrl }: Props) {
   const router = useRouter();
 
   const handleRecipeCreated = useCallback(
@@ -57,12 +58,13 @@ export function RecipeBottomSheet({ modalRef }: Props) {
       }}
       backdropComponent={renderBackdrop}
     >
-        <ApiErrorBoundary fallbackComponent={RecipeCreateFormError}>
-          <RecipeBottomSheetContent
-            onRecipeCreated={handleRecipeCreated}
-            onDismiss={handleDismiss}
-          />
-        </ApiErrorBoundary>
+      <ApiErrorBoundary fallbackComponent={RecipeCreateFormError}>
+        <RecipeBottomSheetContent
+          onRecipeCreated={handleRecipeCreated}
+          onDismiss={handleDismiss}
+          youtubeUrl={youtubeUrl}
+        />
+      </ApiErrorBoundary>
     </BottomSheetModal>
   );
 }

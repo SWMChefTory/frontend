@@ -9,10 +9,12 @@ import { SplashScreenController } from "../modules/shared/splash/SplashScreenCon
 import { useFonts, DoHyeon_400Regular } from "@expo-google-fonts/do-hyeon";
 import { useEffect } from "react";
 import { useAuthBootstrap } from "../modules/user/authBootstrap";
+
 import { onlineManager } from "@tanstack/react-query";
 import * as Network from 'expo-network'
 import { AppState, AppStateStatus, Platform } from "react-native";
 import { focusManager } from "@tanstack/react-query";
+import { useDeepLinkHandler } from "@/src/useDeepLink";
 
 ExpoSplashScreen.preventAutoHideAsync();
 
@@ -69,6 +71,10 @@ function RootNavigator() {
   if (!loaded && !error) {
     return null;
   }
+
+  if (!loaded && !error) {
+    return null;
+  }
   return (
     <Stack
       screenOptions={{
@@ -88,6 +94,13 @@ function RootNavigator() {
 }
 
 export default function RootLayout() {
+
+  useOnlineManager()
+
+  useAppState(onAppStateChange)
+  useDeepLinkHandler()
+
+  console.log('RootLayout');
 
   useOnlineManager()
 
