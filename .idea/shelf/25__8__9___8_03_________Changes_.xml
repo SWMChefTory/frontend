@@ -1,0 +1,144 @@
+<changelist name="25__8__9__오후_8_03,_업데이트_전에_커밋되지_않은_변경_내용_[Changes]" date="1754737429127" recycled="false" toDelete="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/25__8__9__오후_8_03,_업데이트_전에_커밋되지_않은_변경_내용_[Changes]/shelved.patch" />
+  <option name="DESCRIPTION" value="25. 8. 9. 오후 8:03, 업데이트 전에 커밋되지 않은 변경 내용 [Changes]" />
+  <binary>
+    <option name="BEFORE_PATH" value="assets/images/splash.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="ios/cheiftory/Images.xcassets/SplashScreenLogo.imageset/image@2x.png" />
+    <option name="AFTER_PATH" value="ios/cheiftory/Images.xcassets/SplashScreenLogo.imageset/image@2x.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/25__8__9__오후_8_03,_업데이트_전에_커밋되지_않은_변경_내용_[Changes]/image@2x.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="assets/images/splash2.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="android/app/src/main/res/mipmap-xhdpi/ic_launcher_round.webp" />
+    <option name="AFTER_PATH" value="android/app/src/main/res/mipmap-xhdpi/ic_launcher_round.webp" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/25__8__9__오후_8_03,_업데이트_전에_커밋되지_않은_변경_내용_[Changes]/ic_launcher_round.webp" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="android/app/src/main/res/mipmap-hdpi/ic_launcher.webp" />
+    <option name="AFTER_PATH" value="android/app/src/main/res/mipmap-hdpi/ic_launcher.webp" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/25__8__9__오후_8_03,_업데이트_전에_커밋되지_않은_변경_내용_[Changes]/ic_launcher.webp" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="android/app/src/main/res/drawable-xhdpi/splashscreen_logo.png" />
+    <option name="AFTER_PATH" value="android/app/src/main/res/drawable-xhdpi/splashscreen_logo.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/25__8__9__오후_8_03,_업데이트_전에_커밋되지_않은_변경_내용_[Changes]/splashscreen_logo.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="assets/images/splash1.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="ios/cheiftory/Images.xcassets/SplashScreenLogo.imageset/image@3x.png" />
+    <option name="AFTER_PATH" value="ios/cheiftory/Images.xcassets/SplashScreenLogo.imageset/image@3x.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/25__8__9__오후_8_03,_업데이트_전에_커밋되지_않은_변경_내용_[Changes]/image@3x.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="android/app/src/main/res/mipmap-xxhdpi/ic_launcher.webp" />
+    <option name="AFTER_PATH" value="android/app/src/main/res/mipmap-xxhdpi/ic_launcher.webp" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/25__8__9__오후_8_03,_업데이트_전에_커밋되지_않은_변경_내용_[Changes]/ic_launcher1.webp" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_foreground.webp" />
+    <option name="AFTER_PATH" value="android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_foreground.webp" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/25__8__9__오후_8_03,_업데이트_전에_커밋되지_않은_변경_내용_[Changes]/ic_launcher_foreground.webp" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="android/app/src/main/res/drawable-mdpi/splashscreen_logo.png" />
+    <option name="AFTER_PATH" value="android/app/src/main/res/drawable-mdpi/splashscreen_logo.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/25__8__9__오후_8_03,_업데이트_전에_커밋되지_않은_변경_내용_[Changes]/splashscreen_logo1.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="android/app/src/main/res/drawable-xxxhdpi/splashscreen_logo.png" />
+    <option name="AFTER_PATH" value="android/app/src/main/res/drawable-xxxhdpi/splashscreen_logo.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/25__8__9__오후_8_03,_업데이트_전에_커밋되지_않은_변경_내용_[Changes]/splashscreen_logo2.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="ios/cheiftory-Bridging-Header.h" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="android/app/src/main/res/mipmap-xhdpi/ic_launcher.webp" />
+    <option name="AFTER_PATH" value="android/app/src/main/res/mipmap-xhdpi/ic_launcher.webp" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/25__8__9__오후_8_03,_업데이트_전에_커밋되지_않은_변경_내용_[Changes]/ic_launcher2.webp" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="android/app/src/main/res/mipmap-mdpi/ic_launcher_foreground.webp" />
+    <option name="AFTER_PATH" value="android/app/src/main/res/mipmap-mdpi/ic_launcher_foreground.webp" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/25__8__9__오후_8_03,_업데이트_전에_커밋되지_않은_변경_내용_[Changes]/ic_launcher_foreground1.webp" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="ios/cheiftory/Images.xcassets/SplashScreenLogo.imageset/image.png" />
+    <option name="AFTER_PATH" value="ios/cheiftory/Images.xcassets/SplashScreenLogo.imageset/image.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/25__8__9__오후_8_03,_업데이트_전에_커밋되지_않은_변경_내용_[Changes]/image.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="android/app/src/main/res/mipmap-mdpi/ic_launcher_round.webp" />
+    <option name="AFTER_PATH" value="android/app/src/main/res/mipmap-mdpi/ic_launcher_round.webp" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/25__8__9__오후_8_03,_업데이트_전에_커밋되지_않은_변경_내용_[Changes]/ic_launcher_round1.webp" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="android/app/src/main/res/mipmap-xhdpi/ic_launcher_foreground.webp" />
+    <option name="AFTER_PATH" value="android/app/src/main/res/mipmap-xhdpi/ic_launcher_foreground.webp" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/25__8__9__오후_8_03,_업데이트_전에_커밋되지_않은_변경_내용_[Changes]/ic_launcher_foreground2.webp" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="android/app/src/main/res/mipmap-hdpi/ic_launcher_foreground.webp" />
+    <option name="AFTER_PATH" value="android/app/src/main/res/mipmap-hdpi/ic_launcher_foreground.webp" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/25__8__9__오후_8_03,_업데이트_전에_커밋되지_않은_변경_내용_[Changes]/ic_launcher_foreground3.webp" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="assets/images/logo.png" />
+    <option name="AFTER_PATH" value="assets/images/logo.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/25__8__9__오후_8_03,_업데이트_전에_커밋되지_않은_변경_내용_[Changes]/logo.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="android/app/src/main/res/drawable-xxhdpi/splashscreen_logo.png" />
+    <option name="AFTER_PATH" value="android/app/src/main/res/drawable-xxhdpi/splashscreen_logo.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/25__8__9__오후_8_03,_업데이트_전에_커밋되지_않은_변경_내용_[Changes]/splashscreen_logo3.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="ios/cheiftory/Images.xcassets/AppIcon.appiconset/App-Icon-1024x1024@1x.png" />
+    <option name="AFTER_PATH" value="ios/cheiftory/Images.xcassets/AppIcon.appiconset/App-Icon-1024x1024@1x.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/25__8__9__오후_8_03,_업데이트_전에_커밋되지_않은_변경_내용_[Changes]/App-Icon-1024x1024@1x.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="android/app/src/main/res/mipmap-hdpi/ic_launcher_round.webp" />
+    <option name="AFTER_PATH" value="android/app/src/main/res/mipmap-hdpi/ic_launcher_round.webp" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/25__8__9__오후_8_03,_업데이트_전에_커밋되지_않은_변경_내용_[Changes]/ic_launcher_round2.webp" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="android/app/src/main/res/drawable-hdpi/splashscreen_logo.png" />
+    <option name="AFTER_PATH" value="android/app/src/main/res/drawable-hdpi/splashscreen_logo.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/25__8__9__오후_8_03,_업데이트_전에_커밋되지_않은_변경_내용_[Changes]/splashscreen_logo4.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.webp" />
+    <option name="AFTER_PATH" value="android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.webp" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/25__8__9__오후_8_03,_업데이트_전에_커밋되지_않은_변경_내용_[Changes]/ic_launcher_round3.webp" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.webp" />
+    <option name="AFTER_PATH" value="android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.webp" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/25__8__9__오후_8_03,_업데이트_전에_커밋되지_않은_변경_내용_[Changes]/ic_launcher3.webp" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="android/app/src/main/res/mipmap-xxhdpi/ic_launcher_foreground.webp" />
+    <option name="AFTER_PATH" value="android/app/src/main/res/mipmap-xxhdpi/ic_launcher_foreground.webp" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/25__8__9__오후_8_03,_업데이트_전에_커밋되지_않은_변경_내용_[Changes]/ic_launcher_foreground4.webp" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="android/app/src/main/res/mipmap-mdpi/ic_launcher.webp" />
+    <option name="AFTER_PATH" value="android/app/src/main/res/mipmap-mdpi/ic_launcher.webp" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/25__8__9__오후_8_03,_업데이트_전에_커밋되지_않은_변경_내용_[Changes]/ic_launcher4.webp" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="android/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.webp" />
+    <option name="AFTER_PATH" value="android/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.webp" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/25__8__9__오후_8_03,_업데이트_전에_커밋되지_않은_변경_내용_[Changes]/ic_launcher_round4.webp" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="ios/cheiftory/cheiftoryRelease.entitlements" />
+  </binary>
+</changelist>

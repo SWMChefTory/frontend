@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet, TextInput } from "react-native";
 import { COLORS } from "@/src/modules/shared/constants/colors";
+import { BottomSheetTextInput } from "@gorhom/bottom-sheet";
 
 interface RecipeFormInputProps {
   videoUrl: string;
@@ -27,7 +28,7 @@ export function RecipeFormInput({
           urlError ? styles.inputContainerError : null,
         ]}
       >
-        <TextInput
+        <BottomSheetTextInput
           style={styles.textInput}
           placeholder={placeholder}
           placeholderTextColor={COLORS.text.gray}

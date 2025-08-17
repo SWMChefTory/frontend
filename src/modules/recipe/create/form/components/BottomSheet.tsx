@@ -43,9 +43,13 @@ export function RecipeBottomSheet({ modalRef }: Props) {
   return (
     <BottomSheetModal
       ref={modalRef}
-      index={1}
-      snapPoints={["30%", "50%"]}
+      index={0}
+      snapPoints={["50%"]}
       enablePanDownToClose={true}
+      enableOverDrag={false}  
+      keyboardBehavior="interactive"
+      keyboardBlurBehavior="restore"
+      android_keyboardInputMode="adjustResize"
       backgroundStyle={{
         backgroundColor: COLORS.background.white,
         borderTopLeftRadius: 20,
@@ -53,12 +57,12 @@ export function RecipeBottomSheet({ modalRef }: Props) {
       }}
       backdropComponent={renderBackdrop}
     >
-      <ApiErrorBoundary fallbackComponent={RecipeCreateFormError}>
-        <RecipeBottomSheetContent
-          onRecipeCreated={handleRecipeCreated}
-          onDismiss={handleDismiss}
-        />
-      </ApiErrorBoundary>
+        <ApiErrorBoundary fallbackComponent={RecipeCreateFormError}>
+          <RecipeBottomSheetContent
+            onRecipeCreated={handleRecipeCreated}
+            onDismiss={handleDismiss}
+          />
+        </ApiErrorBoundary>
     </BottomSheetModal>
   );
 }
