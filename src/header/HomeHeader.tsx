@@ -108,34 +108,8 @@ export function HomeHeader() {
         onPress={handleLogoPress}
         activeOpacity={0.8}
       >
-        {/* <Animated.View
-          style={[
-            styles.logoBackground,
-            { transform: [{ scale: pulseValue }] },
-          ]}
-        >
-          <LinearGradient
-            colors={[COLORS.priamry.cook, COLORS.priamry.cook]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            style={styles.logoBackground}
-          >
-            <Image
-              source={require("@/assets/images/logo.png")}
-              style={{ width: 40, height: 40 }}
-              resizeMode="contain"
-            />
-          </LinearGradient>
-        </Animated.View> */}
 
         <View style={styles.titleContainer}>
-          {/* <Text style={styles.titleGradient}>쉐프토리</Text>
-          <View style={styles.taglineContainer}> */}
-            {/* <Animated.View
-              style={[styles.dot, { transform: [{ scale: pulseValue }] }]}
-            /> */}
-            {/* <Text style={styles.tagline}>요리의 시작</Text>
-          </View> */}
           <Image
               source={require("@/assets/images/mainText.png")}
               style={{ width: 80, height: 50 }}
@@ -143,31 +117,6 @@ export function HomeHeader() {
             />
         </View>
       </TouchableOpacity>
-
-      {/* 장식 요소 */}
-      {/* <View style={styles.decorativeElements}>
-        <Animated.View
-          style={[
-            styles.decorativeDot,
-            {
-              backgroundColor: COLORS.orange.main + "30",
-              opacity: decorativeOpacity,
-              transform: [{ scale: pulseValue }],
-            },
-          ]}
-        />
-        <Animated.View
-          style={[
-            styles.decorativeDot,
-            {
-              backgroundColor: COLORS.orange.main + "50",
-              opacity: decorativeOpacity,
-              marginLeft: 4,
-              transform: [{ scale: pulseValue }],
-            },
-          ]}
-        />
-      </View> */}
     </Animated.View>
   );
 }

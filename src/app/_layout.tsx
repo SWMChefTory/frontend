@@ -15,10 +15,6 @@ import * as Network from 'expo-network'
 import { AppState, AppStateStatus, Platform } from "react-native";
 import { focusManager } from "@tanstack/react-query";
 import { useDeepLinkHandler } from "@/src/useDeepLink";
-import { onlineManager } from "@tanstack/react-query";
-import * as Network from 'expo-network'
-import { AppState, AppStateStatus, Platform } from "react-native";
-import { focusManager } from "@tanstack/react-query";
 
 ExpoSplashScreen.preventAutoHideAsync();
 

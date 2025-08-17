@@ -19,9 +19,6 @@ export default function RecipeDetailScreen() {
 
   const isCreated = params.isCreated === "true";
 
-  const modalRef = useRef<BottomSheetModal>(null);
-
-  const isCreated = params.isCreated === "true";
   const {
     isLoading,
     webViewKey,
