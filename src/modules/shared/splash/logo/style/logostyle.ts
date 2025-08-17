@@ -1,10 +1,11 @@
 import { Dimensions, Image, StyleSheet } from "react-native";
 
-const src = Image.resolveAssetSource(require("@/assets/images/logo.png"));
+const src = Image.resolveAssetSource(require("@/assets/images/mainCharacter.png"));
 const { height, width } = Dimensions.get("window");
 
 const LOGO_W = 180; // 스플래시와 동일
 const LOGO_H = LOGO_W * (src.height / src.width);
+
 
 
 // 로그인 단계에서 위로 올릴 거리
@@ -14,11 +15,7 @@ const HEIGHT_DIFF = -60;
 const logoMainTop = (height- LOGO_H) / 2;
 const logoMainLeft = (width - LOGO_W) / 2;
 
-// ✅ 기존 하드코딩 좌표에서 뽑은 상대 오프셋 (변경 X)
-//   - 기존 값: logo(325,100)
-//   - voiceNear(345,254) → dx=154, dy=20
-//   - voiceFar (363,266) → dx=166, dy=38
-//   - cheftory(510, 60)  → dx=-40, dy=185
+
 const OFFSETS = {
   voiceNear: { dx: 140, dy: 20 },
   voiceFar:  { dx: 150, dy: 38 },

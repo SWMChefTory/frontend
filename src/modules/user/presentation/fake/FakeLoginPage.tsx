@@ -11,7 +11,7 @@ export default function LoginPage() {
   return (
     <View style={styles.container}>
       <Image
-        source={require("@/assets/images/logo.png")}
+        source={require("@/assets/images/mainCharacter.png")}
         style={{ width: 150, height: 150 }}
       />
       <Text style={styles.title}>셰프토리</Text>

@@ -1,6 +1,9 @@
 {
   "expo": {
     "name": "cheiftory",
+    "linking": {
+      "enabled": false
+    },
     "owner": "cheftory",
     "slug": "cheiftory",
     "version": "1.0.1",
@@ -73,7 +76,10 @@
       "reactCanary": true
     },
     "extra": {
-      "router": {},
+      "router": {
+        "origin": false,
+        "autoLinking": false
+      },
       "eas": {
         "projectId": "bfa31b78-8718-4e7f-9733-56529cecf388"
       }

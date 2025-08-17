@@ -1,3 +1,4 @@
+import { refreshToken } from "@/src/modules/shared/api/client";
 import { router } from "expo-router";
 import { useCallback } from "react";
 import { WebView } from "react-native-webview";
@@ -63,7 +64,7 @@ export function useWebViewMessage({ webviewRef }: UseWebViewMessageProps) {
         console.error("메시지 처리 중 오류:", error);
       }
     },
-    [clearWebViewHistoryByReload],
+    [clearWebViewHistoryByReload]
   );
 
   return {

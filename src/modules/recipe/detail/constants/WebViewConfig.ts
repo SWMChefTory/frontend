@@ -21,7 +21,6 @@ export const WEBVIEW_CONFIG = {
     BACK_BUTTON_TEXT: "뒤로가기",
     RETRY_BUTTON_TEXT: "다시 시도",
   },
-
 } as const;
 
 export const getUserAgent = (): string => {

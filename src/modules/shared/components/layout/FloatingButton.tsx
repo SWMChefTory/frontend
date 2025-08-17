@@ -12,7 +12,7 @@ export function FloatingButton() {
 
   return (
     <>
-      <RecipeBottomSheet modalRef={modalRef} />
+      <RecipeBottomSheet modalRef={modalRef} youtubeUrl={""} />
 
       <View pointerEvents="box-none" style={styles.fabContainer}>
         <TouchableOpacity

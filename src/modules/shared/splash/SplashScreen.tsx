@@ -71,7 +71,7 @@ export function SplashScreen({ logo, onFinish }: { logo: React.ReactNode, onFini
             entering={FadeIn.delay(1000).duration(500)}
             exiting={FadeOut.duration(300)}
           >
-            <Image source={require("@/assets/images/cheftory.png")} style={styles.cheftory} />
+            <Image source={require("@/assets/images/mainText.png")} style={styles.cheftory} />
           </Animated.View>
         )} */}
       </View>
