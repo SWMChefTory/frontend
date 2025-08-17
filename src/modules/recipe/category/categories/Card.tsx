@@ -12,6 +12,7 @@ import { DraxView } from "react-native-drax";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 import { Category } from "../Category";
 import { CategoryState, CategorySelectedState } from "./State";
+import { SHADOW } from "@/src/modules/shared/constants/shadow";
 
 interface BaseProps {
   category: Category;
@@ -36,14 +37,7 @@ const baseStyles = StyleSheet.create({
     height: 120,
     backgroundColor: COLORS.background.white,
     borderRadius: 12,
-    shadowColor: COLORS.shadow.black,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-    borderWidth: 1,
-    borderColor: "#F0F0F0",
-    position: "relative",
+    ...SHADOW
   },
   content: {
     flex: 1,

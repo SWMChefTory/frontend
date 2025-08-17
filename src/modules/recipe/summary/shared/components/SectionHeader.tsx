@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 20,
+    paddingHorizontal: 16,
   },
   titleWithAccent: {
     flexDirection: "row",
@@ -42,11 +43,6 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.orange.main,
     borderRadius: 3,
     marginRight: 14,
-    // color: COLORS.orange.main,
-    // shadowColor: "#2F2F2F",
-    // shadowOffset: { width: 0, height: 3 },
-    // shadowOpacity: 0.4,
-    // shadowRadius: 6,
   },
   modernSectionTitle: {
     fontSize: 20,

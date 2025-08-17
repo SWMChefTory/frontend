@@ -4,14 +4,11 @@ import { HomeSectionHeader } from "@/src/modules/shared/components/layout/HomeSe
 import { RecentRecipeSection } from "@/src/modules/recipe/summary/recent/components/Section";
 import { PopularRecipeSection } from "@/src/modules/recipe/summary/popular/components/Secition";
 import { COLORS } from "@/src/modules/shared/constants/colors";
-import { useLocalSearchParams } from "expo-router";
 
 export default function HomeScreen() {
   const scrollY = useRef(new Animated.Value(0)).current;
   const [refreshing, setRefreshing] = useState(false);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
-
-  console.log('HomeScreen');
 
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
@@ -48,8 +45,8 @@ export default function HomeScreen() {
           subtitle="영상 링크로 간편하게 레시피를 만들어보세요"
         />
         <View style={styles.contentWrapper}>
-          <RecentRecipeSection onRefresh={refreshTrigger} />
           <PopularRecipeSection onRefresh={refreshTrigger} />
+          <RecentRecipeSection onRefresh={refreshTrigger} />
           <View style={styles.bottomSpacer} />
         </View>
       </Animated.ScrollView>
@@ -69,7 +66,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   contentWrapper: {
-    padding: 20,
+    paddingVertical: 20,
   },
   bottomSpacer: {
     height: 100,

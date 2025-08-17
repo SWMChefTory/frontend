@@ -15,6 +15,10 @@ import * as Network from 'expo-network'
 import { AppState, AppStateStatus, Platform } from "react-native";
 import { focusManager } from "@tanstack/react-query";
 import { useDeepLinkHandler } from "@/src/useDeepLink";
+import { onlineManager } from "@tanstack/react-query";
+import * as Network from 'expo-network'
+import { AppState, AppStateStatus, Platform } from "react-native";
+import { focusManager } from "@tanstack/react-query";
 
 ExpoSplashScreen.preventAutoHideAsync();
 
@@ -61,7 +65,6 @@ function RootNavigator() {
   const [loaded, error] = useFonts({
     DoHyeon_400Regular,
   });
-  console.log('RootNavigator');
 
   useEffect(() => {
     if ((loading && loaded) || error) {
@@ -73,6 +76,9 @@ function RootNavigator() {
     return null;
   }
 
+  if (!loaded && !error) {
+    return null;
+  }
   return (
     <Stack
       screenOptions={{
@@ -99,6 +105,12 @@ export default function RootLayout() {
   useDeepLinkHandler()
 
   console.log('RootLayout');
+
+  useOnlineManager()
+
+  useAppState(onAppStateChange)
+
+
   return (
     <QueryClientProvider client={queryClient}>
       <GestureHandlerRootView style={{ flex: 1 }}>

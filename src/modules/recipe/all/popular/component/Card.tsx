@@ -4,6 +4,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { PopularSummaryRecipe } from "@/src/modules/recipe/summary/popular/types/Recipe";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 import { useState } from "react";
+import { SHADOW } from "@/src/modules/shared/constants/shadow";
 
 type Props = {
   recipe: PopularSummaryRecipe;
@@ -102,13 +103,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: COLORS.background.white,
     borderRadius: 16,
-    shadowColor: COLORS.shadow.orange,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 4,
-    borderWidth: 1,
-    borderColor: "#F3F4F6",
+    ...SHADOW,
   },
   cardContent: {
     padding: 16,
@@ -136,12 +131,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 8,
     left: 8,
-    borderRadius: 12,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.3,
-    shadowRadius: 2,
-    elevation: 3,
+    ...SHADOW
   },
   topBadgeGradient: {
     flexDirection: "row",

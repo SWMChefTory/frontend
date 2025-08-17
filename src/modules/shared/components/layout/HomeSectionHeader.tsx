@@ -1,6 +1,7 @@
 import { COLORS } from "../../constants/colors";
 import { LinearGradient } from "expo-linear-gradient";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { SHADOW } from "../../constants/shadow";
 
 export function HomeSectionHeader({
   title,
@@ -40,16 +41,7 @@ const styles = StyleSheet.create({
     paddingTop: 14,
     paddingBottom: 14,
     paddingHorizontal: 12,
-    // borderBottomLeftRadius: 28,
-    // borderBottomRightRadius: 28,
-    marginTop: 20,
-    marginHorizontal: 20,
-    borderRadius: 14,
-    shadowColor: COLORS.font.dark,
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5, 
+    ...SHADOW,
     flexDirection: "row",
   },
   logo: {

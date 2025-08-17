@@ -3,9 +3,7 @@ import { RecipeSectionHeader } from "../../../summary/shared/components/SectionH
 import { PopularSummaryRecipe } from "../../../summary/popular/types/Recipe";
 import { PopularRecipeError } from "../shared/Fallback";
 import { ApiErrorBoundary } from "@/src/modules/shared/components/error/ApiErrorBoundary";
-import { COLORS } from "@/src/modules/shared/constants/colors";
-import { Suspense, useEffect, useRef } from "react";
-import { PopularRecipeSummaryList } from "../../../summary/popular/components/List";
+import { Suspense, useCallback, useEffect, useRef } from "react";
 import { PopularRecipesSkeleton } from "../shared/Skeleton";
 import {
   usePopularSummaryViewModel,
@@ -13,7 +11,12 @@ import {
 } from "../viewmodels/useViewModels";
 import { DeferredComponent } from "@/src/modules/shared/utils/DeferredComponent";
 import { useRouter } from "expo-router";
-import { throttle } from "lodash";
+import { debounce, throttle } from "lodash";
+import { CARD_STYLES } from "@/src/modules/shared/constants/card";
+import PopularRecipeSummaryList from "./List";
+import { SHADOW } from "@/src/modules/shared/constants/shadow";
+import { useRefreshOnFocus } from "@/src/modules/shared/utils/useRefreshOnFocus";
+import { useFocusEffect } from "@react-navigation/native";
 
 interface Props {
   onRefresh: number;
@@ -24,7 +27,7 @@ export function PopularRecipeSection({ onRefresh }: Props) {
   const { create } = useRecipeCreateViewModel();
 
   const handleRecipePress = useRef(
-    throttle(
+    debounce(
       async (recipe: PopularSummaryRecipe) => {
         const recipeId = (await create(recipe.video_url))!.recipe_id;
         router.push({
@@ -32,7 +35,7 @@ export function PopularRecipeSection({ onRefresh }: Props) {
           params: { recipeId },
         });
       },
-      2000,
+      1000,
       {
         leading: true,
         trailing: false,
@@ -41,11 +44,11 @@ export function PopularRecipeSection({ onRefresh }: Props) {
   ).current;
 
   const handleViewAllPress = useRef(
-    throttle(
+    debounce(
       () => {
         router.push("/recipe/popular");
       },
-      2000,
+      1000,
       {
         leading: true,
         trailing: false,
@@ -85,9 +88,11 @@ function PopularRecipeSectionContent({
 }: PopularRecipeSectionContentProps) {
   const { popularRecipes, refetch } = usePopularSummaryViewModel();
 
+  useRefreshOnFocus(refetch);
+
   useEffect(() => {
     refetch();
-  }, [onRefresh, refetch]);
+  }, [onRefresh]);
 
   return (
     <PopularRecipeSummaryList recipes={popularRecipes} onPress={onPress} />
@@ -96,16 +101,9 @@ function PopularRecipeSectionContent({
 
 const styles = StyleSheet.create({
   recipeSectionCard: {
-    backgroundColor: COLORS.priamry.cook,
-    borderRadius: 24,
-    padding: 20,
+    ...CARD_STYLES.large,
+    paddingVertical: 24,
     marginBottom: 24,
-    shadowColor: COLORS.orange.main,
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.12,
-    shadowRadius: 20,
-    elevation: 8,
-    borderWidth: 1,
-    borderColor: "rgba(255, 69, 0, 0.08)",
+    ...SHADOW,
   },
 });

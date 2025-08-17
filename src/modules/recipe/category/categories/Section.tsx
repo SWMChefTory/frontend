@@ -1,17 +1,16 @@
 import { StyleSheet, View } from "react-native";
 import { CategoryList } from "./List";
 import { Category } from "../Category";
-import { COLORS } from "@/src/modules/shared/constants/colors";
 import { useCategoriesViewModel } from "./useCategoriesViewModel";
 import { useDeleteCategoryViewModel } from "./useDeleteViewModel";
 import { useUpdateCategoryViewModel } from "./useUpdateViewModel";
 import { CategoryCreateModal } from "./modal/ModalSection";
-import { useCallback, useState, Suspense } from "react";
+import { useState, Suspense } from "react";
 import { ApiErrorBoundary } from "@/src/modules/shared/components/error/ApiErrorBoundary";
 import { CategoriesError } from "./Fallback";
 import { CategoryListSkeleton } from "./Skeleton";
 import { DeferredComponent } from "@/src/modules/shared/utils/DeferredComponent";
-import { useFocusEffect } from "expo-router";
+import { useRefreshOnFocus } from "@/src/modules/shared/utils/useRefreshOnFocus";
 
 interface Props {
   selectedCategory: Category | null;
@@ -65,11 +64,8 @@ export function CategoryListSectionContent({
   const { deleteCategory, deletingCategoryId } = useDeleteCategoryViewModel();
   const { updateCategory, updatingCategoryId } = useUpdateCategoryViewModel();
   const [successCategoryId, setSuccessCategoryId] = useState<string | null>(null);
-    useFocusEffect(
-    useCallback(() => {
-      refetch();
-    }, [refetch]),
-  );
+  
+  useRefreshOnFocus(refetch);
 
   const [openModal, setOpenModal] = useState(false);
 
@@ -129,11 +125,6 @@ const styles = StyleSheet.create({
   categoryList: {
     height: 120,
     borderRadius: 24,
-    margin: 12,
-    shadowColor: COLORS.shadow.orange,
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.12,
-    shadowRadius: 20,
-    elevation: 8,
+    marginVertical: 12,
   },
 });

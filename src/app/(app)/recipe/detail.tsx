@@ -12,10 +12,16 @@ export default function RecipeDetailScreen() {
     recipeId: string;
     youtubeId?: string;
     title?: string;
+    isCreated: string;
   }>();
 
   const modalRef = useRef<BottomSheetModal>(null);
 
+  const isCreated = params.isCreated === "true";
+
+  const modalRef = useRef<BottomSheetModal>(null);
+
+  const isCreated = params.isCreated === "true";
   const {
     isLoading,
     webViewKey,
@@ -33,8 +39,10 @@ export default function RecipeDetailScreen() {
   });
 
   useEffect(() => {
-    modalRef.current?.present();
-  }, []);
+    if (isCreated) {
+      modalRef.current?.present();
+    }
+  }, [isCreated]);
 
   return (
     <>

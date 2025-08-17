@@ -20,13 +20,6 @@ export function RecipeCreateStepError({
 
       <View style={errorStyles.buttonContainer}>
         <TouchableOpacity
-          style={errorStyles.retryButton}
-          onPress={resetErrorBoundary}
-        >
-          <Text style={errorStyles.retryButtonText}>다시 시도</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
           style={errorStyles.backButton}
           onPress={() => router.back()}
         >

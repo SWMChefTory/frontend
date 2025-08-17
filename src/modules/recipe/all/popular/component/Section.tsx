@@ -13,7 +13,7 @@ import { ApiErrorBoundary } from "@/src/modules/shared/components/error/ApiError
 import { DeferredComponent } from "@/src/modules/shared/utils/DeferredComponent";
 import { AllPopularRecipeError } from "./Fallback";
 import { AllPopularRecipesSkeleton } from "./Skeleton";
-import { throttle } from "lodash";
+import { debounce } from "lodash";
 
 export function AllPopularRecipeSection() {
   return (
@@ -39,7 +39,7 @@ export function AllPopularRecipeSectionContent() {
   const router = useRouter();
 
   const handleRecipeView = useRef(
-    throttle(
+    debounce(
       async (recipe: PopularSummaryRecipe) => {
         const recipeId = (await create(recipe.video_url))!.recipe_id;
         router.push({
@@ -47,7 +47,7 @@ export function AllPopularRecipeSectionContent() {
           params: { recipeId },
         });
       },
-      2000,
+      1000,
       {
         leading: true,
         trailing: false,
