@@ -1,5 +1,6 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { COLORS } from "@/src/modules/shared/constants/colors";
+import { SHADOW } from "@/src/modules/shared/constants/shadow";
 
 interface RecipeFormButtonProps {
   isLoading: boolean;
@@ -45,13 +46,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 28,
     alignItems: "center",
     justifyContent: "center",
-    shadowColor: COLORS.shadow.orange,
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.35,
-    shadowRadius: 16,
-    elevation: 12,
-    borderWidth: 2,
-    borderColor: COLORS.border.orange,
+    ...SHADOW
   },
   createButtonDisabled: {
     backgroundColor: COLORS.background.lightGray,

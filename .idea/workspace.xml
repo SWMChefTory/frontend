@@ -6,9 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="f27af066-df74-4e5a-8f9f-73387afc8958" name="Changes" comment="refactor(project): 파일 디렉토리 변경 및 그에 따른 네이밍 수정&#10;- 기존 파일 디렉토리를 표준 리액트 디렉토리 구조로 변경&#10;- 그에 따른 각 feature 도메인 이름 리펙토링 및 구조화&#10;&#10;chore(project): react-native-linear-gradient 스크립트 Mac 용 추가&#10;- 기존 Window 에서만 작동하던 스크립트를 Mac 에서도 작동하게 수정&#10;&#10;chore(ios): iOS 프로젝트 파일 추가 및 설정 변경&#10;- expo prebuild 진행&#10;- ios/ 폴더 내 프로젝트 파일 추가&#10;- 빌드 설정 수정&#10;&#10;chore(android): Android 프로젝트 파일 추가 및 설정 변경&#10;- expo prebuild 진행&#10;- android/ 폴더 내 프로젝트 파일 추가&#10;- 빌드 설정 수정">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vscode/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/.vscode/settings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/recipe/list/popular/component/AllRecipeCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/recipe/list/popular/component/AllRecipeCard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/shared/api/api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/shared/api/api.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/recipe/create/form/components/BottomSheet.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/recipe/create/form/components/BottomSheet.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,38 +55,38 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "JavaScript 디버그.localhost:8081.executor": "Debug",
-    "Jest.모든 테스트.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHELLCHECK.PATH": "/Users/kimbanseok/Library/Application Support/JetBrains/WebStorm2025.1/plugins/Shell Script/shellcheck",
-    "git-widget-placeholder": "TORY-31-fe-레시피-전체-보기-구현",
-    "last_opened_file_path": "/Users/kimbanseok/git/cheiftory_frontend/src/modules/cook/components",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs.jest.jest_package": "/Users/kimbanseok/git/cheiftory_frontend/node_modules/jest",
-    "nodejs_interpreter_path": "/Users/kimbanseok/Library/Application Support/JetBrains/WebStorm2025.1/node/versions/22.16.0/bin/node",
-    "nodejs_package_manager_path": "npm",
-    "npm.android.executor": "Run",
-    "npm.format.executor": "Run",
-    "npm.ios.executor": "Run",
-    "npm.lint.executor": "Run",
-    "npm.postinstall.executor": "Run",
-    "npm.start.executor": "Run",
-    "npm.test.executor": "Run",
-    "prettierjs.PrettierConfiguration.Package": "/Users/kimbanseok/git/cheiftory_frontend/node_modules/prettier",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "ts.external.directory.path": "/Users/kimbanseok/git/cheiftory_frontend/node_modules/typescript/lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;JavaScript 디버그.localhost:8081.executor&quot;: &quot;Debug&quot;,
+    &quot;Jest.모든 테스트.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHELLCHECK.PATH&quot;: &quot;/Users/kimbanseok/Library/Application Support/JetBrains/WebStorm2025.1/plugins/Shell Script/shellcheck&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feature/TORY-89-fe-레시피-생성중-다시-시도-버그&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/kimbanseok/git/cheiftory_frontend/src/modules/cook/components&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs.jest.jest_package&quot;: &quot;/Users/kimbanseok/git/cheiftory_frontend/node_modules/jest&quot;,
+    &quot;nodejs_interpreter_path&quot;: &quot;/Users/kimbanseok/Library/Application Support/JetBrains/WebStorm2025.1/node/versions/22.16.0/bin/node&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;npm.android.executor&quot;: &quot;Run&quot;,
+    &quot;npm.format.executor&quot;: &quot;Run&quot;,
+    &quot;npm.ios.executor&quot;: &quot;Run&quot;,
+    &quot;npm.lint.executor&quot;: &quot;Run&quot;,
+    &quot;npm.postinstall.executor&quot;: &quot;Run&quot;,
+    &quot;npm.start.executor&quot;: &quot;Run&quot;,
+    &quot;npm.test.executor&quot;: &quot;Run&quot;,
+    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;/Users/kimbanseok/git/cheiftory_frontend/node_modules/prettier&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/kimbanseok/git/cheiftory_frontend/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/modules/cook/components" />
@@ -98,14 +96,14 @@
       <recent name="$PROJECT_DIR$/src/modules/cook/components/audio" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/assets/images" />
       <recent name="$PROJECT_DIR$/src/modules/shared" />
       <recent name="$PROJECT_DIR$/src/utils" />
       <recent name="$PROJECT_DIR$/src/modules/shared/api" />
       <recent name="$PROJECT_DIR$/src/modules/shared/components/video" />
-      <recent name="$PROJECT_DIR$/packages/rnnoise" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.android">
+  <component name="RunManager" selected="npm.ios">
     <configuration name="localhost:8081" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:8081">
       <method v="2" />
     </configuration>
@@ -151,9 +149,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="npm.ios" />
         <item itemvalue="npm.android" />
         <item itemvalue="npm.lint" />
-        <item itemvalue="npm.ios" />
         <item itemvalue="npm.format" />
         <item itemvalue="JavaScript 디버그.localhost:8081" />
       </list>
@@ -188,6 +186,7 @@
       <workItem from="1751986736715" duration="1000" />
       <workItem from="1752651694310" duration="27000" />
       <workItem from="1752651740890" duration="11238000" />
+      <workItem from="1755393946536" duration="1899000" />
     </task>
     <task id="LOCAL-00001" summary="refactor(project): 파일 디렉토리 변경 및 그에 따른 네이밍 수정&#10;- 기존 파일 디렉토리를 표준 리액트 디렉토리 구조로 변경&#10;- 그에 따른 각 feature 도메인 이름 리펙토링 및 구조화&#10;&#10;chore(project): react-native-linear-gradient 스크립트 Mac 용 추가&#10;- 기존 Window 에서만 작동하던 스크립트를 Mac 에서도 작동하게 수정&#10;&#10;chore(ios): iOS 프로젝트 파일 추가 및 설정 변경&#10;- expo prebuild 진행&#10;- ios/ 폴더 내 프로젝트 파일 추가&#10;- 빌드 설정 수정&#10;&#10;chore(android): Android 프로젝트 파일 추가 및 설정 변경&#10;- expo prebuild 진행&#10;- android/ 폴더 내 프로젝트 파일 추가&#10;- 빌드 설정 수정">
       <option name="closed" value="true" />
