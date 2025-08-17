@@ -1,51 +1,66 @@
-import React from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { Platform, StyleSheet } from "react-native";
 import { WebView } from "react-native-webview";
-import { getUserAgent } from "../constants/WebViewConfig";
-import { WebViewNavigationState } from "../types/RecipeDetail";
+import { getUserAgent, getWebViewUrl } from "../constants/WebViewConfig";
+import { useWebViewMessage } from "../hooks/useWebViewMessage";
+import { findAccessToken } from "@/src/modules/shared/storage/SecureStorage";
+import { ApiErrorBoundary } from "@/src/modules/shared/components/error/ApiErrorBoundary";
+import { RecipeWebViewFallback } from "./Fallback";
 
 interface RecipeWebViewProps {
-  webViewRef: React.RefObject<WebView | null>;
-  url: string;
-  webViewKey: number;
-  onMessage: (event: any) => void;
-  onLoadStart: () => void;
-  onLoadEnd: () => void; // 이 prop은 이제 웹뷰로 토큰을 보내는 로직을 포함하게 됩니다.
-  onNavigationStateChange: (navState: WebViewNavigationState) => void;
-  onError: (error: any) => void;
-  onHttpError: (error: any) => void;
-  accessToken: string | null;
+  recipeId: string;
 }
 
-export function RecipeWebView({
-  webViewRef,
-  url,
-  webViewKey,
-  onMessage,
-  onLoadStart,
-  onLoadEnd, // 이 prop을 직접 WebView에 전달
-  onNavigationStateChange,
-  onError,
-  onHttpError,
-  accessToken,
+export function RecipeWebView ({
+  recipeId,
 }: RecipeWebViewProps) {
-  // 기존 onLoadEnd 콜백을 감싸고, 여기에 웹뷰로 토큰을 보내는 로직을 추가
-  const handleWebViewLoadEnd = (syntheticEvent: any) => {
-    if (onLoadEnd) {
-      onLoadEnd();
-    }
+  return  (
+    <ApiErrorBoundary fallbackComponent={RecipeWebViewFallback}>
+      <RecipeWebViewContent recipeId={recipeId} />
+    </ApiErrorBoundary>
+  );
+}
 
-    if (webViewRef.current && accessToken) {
+export function RecipeWebViewContent({
+  recipeId,
+}: RecipeWebViewProps) {
+
+  const webviewRef = useRef<WebView>(null);
+  const [error, setError] = useState<Error | null>(null);
+
+  const accessToken = findAccessToken();  
+  const url = getWebViewUrl(recipeId);
+
+  const { handleMessage } = useWebViewMessage({
+    webviewRef,
+  });
+
+  const handleError = useCallback((error: any) => {
+    setError(new Error(`WebView 에러: ${error.nativeEvent?.description || 'Unknown error'}`));
+  }, []);
+
+  const handleHttpError = useCallback((error: any) => {
+    setError(new Error(`HTTP 오류: ${error.nativeEvent?.statusCode} - ${error.nativeEvent?.description}`));
+  }, []);
+  
+
+  const handleWebViewLoadEnd = (syntheticEvent: any) => {
+
+    if (webviewRef.current && accessToken) {
       const payload = JSON.stringify({
         type: "ACCESS_TOKEN",
         token: accessToken,
       });
       const js = `window.postMessage(${payload}, '*'); true;`;
-      webViewRef.current.injectJavaScript(js);
+      webviewRef.current.injectJavaScript(js);
 
       console.log(`[Native] 액세스 토큰을 웹뷰로 전송: ${accessToken}`);
     }
   };
+
+  if (error) {
+    throw error;
+  }
 
   return (
     <WebView
@@ -59,17 +74,14 @@ export function RecipeWebView({
       })();
       true;
     `}
-      key={webViewKey}
-      ref={webViewRef}
+      ref={webviewRef}
       source={{ uri: url }}
       style={styles.webview}
       userAgent={getUserAgent()}
-      onMessage={onMessage}
-      onLoadStart={onLoadStart}
+      onMessage={handleMessage}
       onLoadEnd={handleWebViewLoadEnd}
-      onNavigationStateChange={onNavigationStateChange}
-      onError={onError}
-      onHttpError={onHttpError}
+      onError={handleError}
+      onHttpError={handleHttpError}
       mediaPlaybackRequiresUserAction={false}
       allowsInlineMediaPlayback={true}
       mediaCapturePermissionGrantType="grant"

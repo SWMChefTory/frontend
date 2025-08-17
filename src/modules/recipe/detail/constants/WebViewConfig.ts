@@ -22,64 +22,6 @@ export const WEBVIEW_CONFIG = {
     RETRY_BUTTON_TEXT: "다시 시도",
   },
 
-  // 유튜브 최적화를 위한 JavaScript 주입
-  /*
-  OPTIMIZATION_SCRIPT: `
-    // 유튜브 플레이어 최적화
-    (function() {
-      // 하드웨어 가속 강제 활성화
-      const style = document.createElement('style');
-      style.innerHTML = \`
-        video {
-          transform: translateZ(0);
-          -webkit-transform: translateZ(0);
-          will-change: transform;
-          -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
-        }
-        
-        iframe[src*="youtube"] {
-          transform: translateZ(0);
-          -webkit-transform: translateZ(0);
-          will-change: transform;
-        }
-      \`;
-      document.head.appendChild(style);
-
-      // 유튜브 플레이어 품질 최적화
-      window.addEventListener('message', function(event) {
-        if (event.data && typeof event.data === 'string') {
-          try {
-            const data = JSON.parse(event.data);
-            if (data.event === 'video-ready') {
-              // 자동 품질 조절 활성화
-              const iframe = document.querySelector('iframe[src*="youtube"]');
-              if (iframe) {
-                iframe.style.willChange = 'transform';
-              }
-            }
-          } catch (e) {
-            // JSON 파싱 오류 무시
-          }
-        }
-      });
-
-
-      // 페이지 로드 최적화
-      document.addEventListener('DOMContentLoaded', function() {
-        // 불필요한 애니메이션 제거
-        const metaViewport = document.querySelector('meta[name="viewport"]');
-        if (metaViewport) {
-          metaViewport.setAttribute('content', 
-            'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover'
-          );
-        }
-      });
-    })();
-    
-    true; // 필수 반환값
-  `,
-  */
 } as const;
 
 export const getUserAgent = (): string => {
