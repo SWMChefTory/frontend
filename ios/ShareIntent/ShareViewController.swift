@@ -24,7 +24,6 @@ final class ShareViewController: UIViewController, UIGestureRecognizerDelegate {
       return
     }
     
-    print(itemProvider)
     
     if itemProvider.canLoadObject(ofClass: URL.self) {
       itemProvider.loadObject(ofClass: URL.self) { [weak self] url, error in
@@ -43,7 +42,12 @@ final class ShareViewController: UIViewController, UIGestureRecognizerDelegate {
         }
         
         self?.tasksAfterPresented.append { [weak self] in
-          self?.hostView(url: text)
+          let encoded = text.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+          guard let videoId = self?.extractYouTubeVideoId(from: encoded) as? String else{
+            self?.hostErrorView(message: "Youtube URL만 지원합니다!", error:nil)
+            return;
+          }
+          self?.hostView(videoId:videoId)
         }
         return;
       }
@@ -66,7 +70,11 @@ final class ShareViewController: UIViewController, UIGestureRecognizerDelegate {
         }
         self?.tasksAfterPresented.append { [weak self] in
           let encoded = text.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
-          self?.hostView(url: encoded)
+          guard let videoId = self?.extractYouTubeVideoId(from: encoded) as? String else{
+            self?.hostErrorView(message: "Youtube URL만 지원합니다!", error:nil)
+            return;
+          }
+          self?.hostView(videoId:videoId)
         }
       }
     }
@@ -94,7 +102,7 @@ final class ShareViewController: UIViewController, UIGestureRecognizerDelegate {
     tasksAfterPresented.removeAll()
   }
   
-  private func hostView(url: String) {
+  private func hostView(videoId: String) {
     let contentVC = UIHostingController(rootView: ShareExtensionView(
       close: { [weak self] in
         self?.close()
@@ -104,15 +112,8 @@ final class ShareViewController: UIViewController, UIGestureRecognizerDelegate {
           print("self가 nil")
           return
         }
-        
-        let videoId = extractYouTubeVideoId(from: url)
 
-        guard let validVideoId = videoId else {
-            print("YouTube Video ID 추출 실패: \(url)")
-            return
-        }
-
-        guard let deepLinkUrl = URL(string: "com.cheftory://?video-id=\(validVideoId)&external=true") else {
+        guard let deepLinkUrl = URL(string: "com.cheftory://?video-id=\(videoId)&external=true") else {
             print("딥링크 URL 생성 실패")
             return
         }
@@ -175,11 +176,17 @@ final class ShareViewController: UIViewController, UIGestureRecognizerDelegate {
     view.addSubview(vc.view)
     vc.view.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      vc.view.topAnchor.constraint(equalTo: view.topAnchor),
-      vc.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
       vc.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
       vc.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+      vc.view.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+      vc.view.heightAnchor.constraint(equalTo: view.heightAnchor)
     ])
+    vc.view.backgroundColor = .clear
+    
+    vc.view.layer.cornerRadius = 16
+    vc.view.layer.masksToBounds = true  // 자식 뷰들도 잘리게 함
+    vc.view.clipsToBounds = true
+    
     vc.didMove(toParent: self)
   }
   

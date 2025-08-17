@@ -1,4 +1,4 @@
-import { router, Tabs, useLocalSearchParams } from "expo-router";
+import { router, Tabs, useLocalSearchParams, Redirect } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { View, TouchableOpacity, StyleSheet } from "react-native";
 import { COLORS } from "@/src/modules/shared/constants/colors";
@@ -26,11 +26,10 @@ export default function TabLayout() {
 
   const openBottomSheet = useCallback(({youtubeUrl=""}:{youtubeUrl:string}) => {
     setModalData(youtubeUrl);
-    router.replace('/(app)/(tabs)/dummy');
-    router.replace('/(app)/(tabs)');
-    console.log('openBottomSheet');
+    // router.replace('/(app)/(tabs)');
 
     modalRef.current?.present();
+    return <Redirect href="/(app)/(tabs)" />
   }, []);
 
   return (

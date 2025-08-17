@@ -10,14 +10,13 @@ struct ShareExtensionView: View {
     
     GeometryReader { geometry in
       ZStack {
-        Color.clear
-          .contentShape(Rectangle())
-          .onTapGesture {
-            print("background tapped!")
-            close()
-          }
-          .frame(width: totalWidth, height: totalHeight)
-        
+        Color.black.opacity(0.001)
+                  .contentShape(Rectangle())
+                  .onTapGesture {
+                    print("background tapped!")
+                    close()
+                  }
+                  .frame(width: totalWidth, height: totalHeight)
         VStack {
           Spacer()
           
