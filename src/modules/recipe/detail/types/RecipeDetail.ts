@@ -27,5 +27,4 @@ export enum WebViewMessageType {
 export interface RecipeDetailState {
   isLoading: boolean;
   canGoBack: boolean;
-  webViewKey: number;
 }

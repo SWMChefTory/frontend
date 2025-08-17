@@ -6,6 +6,7 @@ import { SafeAreaView, StatusBar, StyleSheet } from "react-native";
 import { useEffect, useRef } from "react";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { RecipeCategoryBottomSheet } from "@/src/modules/recipe/create/step/components/BottomSheet";
+import { findAccessToken } from "@/src/modules/shared/storage/SecureStorage";
 
 export default function RecipeDetailScreen() {
   const params = useLocalSearchParams<{
@@ -18,22 +19,6 @@ export default function RecipeDetailScreen() {
   const modalRef = useRef<BottomSheetModal>(null);
 
   const isCreated = params.isCreated === "true";
-
-  const {
-    isLoading,
-    webViewKey,
-    webviewUrl,
-    webviewRef,
-    handleMessage,
-    handleLoadStart,
-    handleLoadEnd,
-    handleNavigationStateChange,
-    accessToken,
-  } = useRecipeDetailViewModel({
-    recipeId: params.recipeId,
-    youtubeId: params.youtubeId,
-    title: params.title,
-  });
 
   useEffect(() => {
     if (isCreated) {
@@ -51,27 +36,8 @@ export default function RecipeDetailScreen() {
       <SafeAreaView style={styles.container}>
         <Stack.Screen options={{ headerShown: false }} />
 
-        <LoadingOverlay isVisible={isLoading} />
-
         <RecipeWebView
-          webViewRef={webviewRef}
-          url={webviewUrl}
-          webViewKey={webViewKey}
-          onMessage={handleMessage}
-          onLoadStart={handleLoadStart}
-          onLoadEnd={handleLoadEnd}
-          onNavigationStateChange={handleNavigationStateChange}
-          //onError={handleError}
-          //onHttpError={handleHttpError}
-          accessToken={accessToken}
-          onError={(syntheticEvent) => {
-            const { nativeEvent } = syntheticEvent;
-            console.error("WebView onError:", nativeEvent);
-          }}
-          onHttpError={(syntheticEvent) => {
-            const { nativeEvent } = syntheticEvent;
-            console.error("WebView onHttpError:", nativeEvent);
-          }}
+          recipeId={params.recipeId}
         />
         <RecipeCategoryBottomSheet
           modalRef={modalRef}
