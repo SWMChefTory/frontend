@@ -58,7 +58,7 @@ export function PopularRecipeSection({ onRefresh }: Props) {
 
   return (
     <View style={styles.recipeSectionCard}>
-      <RecipeSectionHeader title="추천 레시피" onPress={handleViewAllPress} />
+      <RecipeSectionHeader title="인기 레시피" onPress={handleViewAllPress} />
       <ApiErrorBoundary fallbackComponent={PopularRecipeError}>
         <Suspense
           fallback={

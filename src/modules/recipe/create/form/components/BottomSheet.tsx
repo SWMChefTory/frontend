@@ -51,6 +51,7 @@ export function RecipeBottomSheet({ modalRef, youtubeUrl }: Props) {
       keyboardBehavior="interactive"
       keyboardBlurBehavior="restore"
       android_keyboardInputMode="adjustResize"
+      enableDynamicSizing={false}
       backgroundStyle={{
         backgroundColor: COLORS.background.white,
         borderTopLeftRadius: 20,
@@ -58,13 +59,13 @@ export function RecipeBottomSheet({ modalRef, youtubeUrl }: Props) {
       }}
       backdropComponent={renderBackdrop}
     >
-      <ApiErrorBoundary fallbackComponent={RecipeCreateFormError}>
-        <RecipeBottomSheetContent
+        <ApiErrorBoundary fallbackComponent={RecipeCreateFormError}>
+          <RecipeBottomSheetContent
           onRecipeCreated={handleRecipeCreated}
           onDismiss={handleDismiss}
           youtubeUrl={youtubeUrl}
         />
-      </ApiErrorBoundary>
+        </ApiErrorBoundary>
     </BottomSheetModal>
   );
 }

@@ -1,11 +1,15 @@
-import { BottomSheetModal, BottomSheetBackdrop } from "@gorhom/bottom-sheet";
-import { Suspense, useCallback } from "react";
+import { BottomSheetModal, BottomSheetBackdrop, BottomSheetTextInput, BottomSheetView, BottomSheetFooter } from "@gorhom/bottom-sheet";
+import { Suspense, useCallback, useEffect, useState } from "react";
 import { ApiErrorBoundary } from "@/src/modules/shared/components/error/ApiErrorBoundary";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 import { RecipeCreateFormError } from "@/src/modules/recipe/create/form/shared/Fallback";
 import { RecipeCategoryBottomSheetContent } from "./BottomSheetContent";
 import { CategoryListSkeleton } from "@/src/modules/recipe/category/categories/Skeleton";
 import { DeferredComponent } from "@/src/modules/shared/utils/DeferredComponent";
+import { StyleSheet } from "react-native";
+import { BottomSheetDefaultFooterProps } from "@gorhom/bottom-sheet/lib/typescript/components/bottomSheetFooter/types";
+import { JSX } from "react/jsx-runtime";
+import { BottomSheetCreateContent } from "./BottomSheetCreateContent";
 
 interface Props {
   modalRef: React.RefObject<BottomSheetModal | null>;
@@ -29,19 +33,40 @@ export function RecipeCategoryBottomSheet({
     [modalRef],
   );
 
+  const [mode, setMode] = useState<"create" | "normal">("normal");
+  const [selectedId, setSelectedId] = useState<string | null>(null);  
   const handleDismiss = useCallback(() => {
     modalRef.current?.dismiss();
   }, [modalRef]);
+
+  const renderFooter = useCallback((props: JSX.IntrinsicAttributes & BottomSheetDefaultFooterProps) => (
+    <BottomSheetFooter {...props} bottomInset={0} style={{ backgroundColor: COLORS.background.orange }}>
+      <BottomSheetCreateContent onDismiss={handleDismiss} recipeId={recipeId} mode={mode} changeMode={changeMode} selectedId={selectedId} />
+    </BottomSheetFooter>
+    ),
+    [mode, selectedId]
+  );
+
+  const changeMode = useCallback((mode: "create" | "normal") => {
+    setMode(mode);
+  }, []);
+
+  const changeSelectedId = useCallback((id: string | null) => {
+    setSelectedId(id);
+  }, []);
 
   return (
     <BottomSheetModal
       ref={modalRef}
       index={0}
-      snapPoints={["70%"]}
-      enablePanDownToClose
-      enableDynamicSizing={false}
+      snapPoints={["55%"]}
+      enablePanDownToClose={true}
+      enableOverDrag={false}  
       keyboardBehavior="interactive"
       keyboardBlurBehavior="restore"
+      android_keyboardInputMode="adjustResize"
+      enableDynamicSizing={false}
+      footerComponent={renderFooter}
       backgroundStyle={{
         backgroundColor: COLORS.background.white,
         borderTopLeftRadius: 20,
@@ -51,10 +76,7 @@ export function RecipeCategoryBottomSheet({
     >
       <Suspense fallback={<DeferredComponent><CategoryListSkeleton /></DeferredComponent>}> 
       <ApiErrorBoundary fallbackComponent={RecipeCreateFormError}>
-        <RecipeCategoryBottomSheetContent
-          recipeId={recipeId}   
-          onDismiss={handleDismiss}
-        />
+          <RecipeCategoryBottomSheetContent mode={mode} changeMode={changeMode} selectedId={selectedId} changeSelectedId={changeSelectedId} />
       </ApiErrorBoundary>
       </Suspense>
     </BottomSheetModal>

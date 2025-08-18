@@ -17,8 +17,8 @@ const logoMainLeft = (width - LOGO_W) / 2;
 
 
 const OFFSETS = {
-  voiceNear: { dx: 140, dy: 20 },
-  voiceFar:  { dx: 150, dy: 38 },
+  voiceNear: { dx: 160, dy: 30 },
+  voiceFar:  { dx: 170, dy: 50 },
   cheftory:  { dx: 0, dy: 160 },
 };
 

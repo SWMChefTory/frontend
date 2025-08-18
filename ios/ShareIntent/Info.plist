@@ -8,14 +8,17 @@
 		<dict>
 			<key>NSExtensionPresentationHeight</key>
 			<integer>300</integer>
-			<key>NSExtensionActivationDomainWhitelist</key>
-			<array>
-				<string>m.youtube.com</string>
-				<string>youtu.be</string>
-				<string>youtube.com</string>
-			</array>
 			<key>NSExtensionActivationRule</key>
-			<string>TRUEPREDICATE</string>
+			<dict>
+				<key>NSExtensionActivationSupportsWebURLWithMaxCount</key>
+				<integer>1</integer>
+				<key>NSExtensionActivationSupportsTextWithMaxCount</key>
+				<integer>1</integer>
+				<key>NSExtensionActivationSupportsText</key>
+				<true/>
+				<key>NSExtensionActivationSupportsWebURL</key>
+				<true/>
+			</dict>
 		</dict>
 		<key>NSExtensionPrincipalClass</key>
 		<string>ShareIntent.ShareViewController</string>

@@ -113,7 +113,7 @@ final class ShareViewController: UIViewController, UIGestureRecognizerDelegate {
           return
         }
 
-        guard let deepLinkUrl = URL(string: "com.cheftory://?video-id=\(videoId)&external=true") else {
+        guard let deepLinkUrl = URL(string: "com.anonymous.cheiftory://?video-id=\(videoId)&external=true") else {
             print("딥링크 URL 생성 실패")
             return
         }
