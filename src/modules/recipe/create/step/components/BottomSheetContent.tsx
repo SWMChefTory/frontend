@@ -1,9 +1,7 @@
 import { useMemo, useRef, useState } from "react";
-import { View, StyleSheet, TextInput, FlatList, Text, ActivityIndicator, Pressable } from "react-native";
-import { BottomSheetView } from "@gorhom/bottom-sheet";
+import { View, StyleSheet, FlatList, Text, ActivityIndicator, Pressable } from "react-native";
+import { BottomSheetFlatList, BottomSheetView } from "@gorhom/bottom-sheet";
 import { COLORS } from "@/src/modules/shared/constants/colors";
-import { useCreateCategoryViewModel } from "@/src/modules/recipe/category/categories/modal/useCreateViewModel";
-import { useUpdateCategoryViewModel } from "@/src/modules/recipe/category/categories/useUpdateViewModel";
 import { useCategoriesViewModel } from "@/src/modules/recipe/category/categories/useCategoriesViewModel";
 import BottomSheetCategoryCard from "./BottomSheetCategoryCard";
 import { Category as CategoryModel } from "@/src/modules/recipe/category/Category";
@@ -18,99 +16,32 @@ type GridItem =
 | { type: "category"; data: Category };
 
 interface Props {
-  recipeId: string;
-  onDismiss: () => void;
+  mode: "create" | "normal";
+  selectedId: string | null;
+  changeMode: (mode: "create" | "normal") => void;
+  changeSelectedId: (id: string | null) => void;
 }
 
 export function RecipeCategoryBottomSheetContent({
-  recipeId,
-  onDismiss,
+  mode,
+  changeMode,
+  selectedId,
+  changeSelectedId,
 }: Props) {
-  const { create, isCreating } = useCreateCategoryViewModel();
-  const { updateCategory, updatingRecipeId } = useUpdateCategoryViewModel();
   const { categories } = useCategoriesViewModel();
-  const [currentCategoryId, setCurrentCategoryId] = useState<string | null>(null);
-
-  const [selectedId, setSelectedId] = useState<string | null>(currentCategoryId);
-  const [isCreatingNew, setIsCreatingNew] = useState(false);
-  const [newCategoryName, setNewCategoryName] = useState("");
-  const [error, setError] = useState("");
-  const inputRef = useRef<TextInput>(null);
-
-  const isBusy = isCreating || !!updatingRecipeId;
-
-  const disabled = useMemo(() => {
-    if (isBusy) return true;
-    
-    // 새 카테고리 생성 모드인 경우
-    if (isCreatingNew) {
-      return newCategoryName.trim().length === 0;
-    }
-    
-    // 기존 카테고리 선택 모드인 경우 - 변경된 부분: 선택이 없어도 가능
-    return selectedId === currentCategoryId;
-  }, [newCategoryName, selectedId, currentCategoryId, isBusy, isCreatingNew]);
 
   const handleCreateNew = () => {
-    setIsCreatingNew(true);
-    setSelectedId(null);
-    setNewCategoryName("");
-    setTimeout(() => inputRef.current?.focus(), 100);
+    changeMode("create");
+    changeSelectedId(null);
   };
 
-  const handleCancelCreate = () => {
-    setIsCreatingNew(false);
-    setNewCategoryName("");
-    setSelectedId(currentCategoryId ?? (categories.length > 0 ? categories[0].id : null));
-  };
-
-  const handleSave = async () => {
-    try {
-      setError("");
-      let targetCategoryId = selectedId;
-
-      if (isCreatingNew) {
-        const name = newCategoryName.trim();
-        if (!name) {
-          setError("카테고리 이름을 입력하세요.");
-          return;
-        }
-        
-        create(name);
-        setIsCreatingNew(false);
-        setSelectedId(null);
-        setNewCategoryName("");
-        setTimeout(() => inputRef.current?.focus(), 100);
-        return;
-      }
-
-      if (!targetCategoryId) {
-        setError("카테고리를 선택하세요.");
-        return;
-      }
-
-      // 레시피 카테고리 업데이트
-      await updateCategory({
-        recipeId,
-        previousCategoryId: currentCategoryId,
-        targetCategoryId,
-      });
-
-      onDismiss();
-    } catch (e: any) {
-      setError(e?.message ?? "카테고리 저장 중 오류가 발생했습니다.");
-    }
-  };
-
-  // 변경된 부분: 토글 기능 추가
   const handleCategorySelect = (id: string) => {
-    setIsCreatingNew(false);
+    changeMode("normal");
     if (selectedId === id) {
-      setSelectedId(null);
+      changeSelectedId(null);
     } else {
-      setSelectedId(id);
+      changeSelectedId(id);
     }
-    setError("");
   };
 
   function createGridData(categories: Category[], columns = 3): GridItem[] {
@@ -150,8 +81,8 @@ export function RecipeCategoryBottomSheetContent({
           id={category.id}
           name={category.name}
           count={category.count}
-          selected={!isCreatingNew && selectedId === category.id}
-          isCurrent={currentCategoryId === category.id}
+          selected={mode === "normal" && selectedId === category.id}
+          isCurrent={false}
           onPress={handleCategorySelect}
         />
       </View>
@@ -169,7 +100,7 @@ export function RecipeCategoryBottomSheetContent({
 
         {/* 카테고리 그리드 (Add 카드 포함) */}
         <View style={styles.categoriesSection}>
-          <FlatList
+          <BottomSheetFlatList  
             data={gridData}
             keyExtractor={(item: GridItem) => {
               if (item.type === "add") return "__add__";
@@ -198,51 +129,6 @@ export function RecipeCategoryBottomSheetContent({
             }
           />
         </View>
-
-        <View style={styles.newCategorySection}>
-          {isCreatingNew ? (
-            <View style={styles.createForm}>
-              <Text style={styles.label}>새 카테고리 이름</Text>
-              <TextInput
-                value={newCategoryName}
-                onChangeText={setNewCategoryName}
-                placeholder="예) 면 요리, 자주 먹는 것"
-                style={[styles.input, styles.inputFocused]}
-                ref={inputRef}
-                autoCapitalize="none"
-                autoCorrect={false}
-                placeholderTextColor="#9AA0A6"
-              />
-              <Pressable style={styles.cancelCreate} onPress={handleCancelCreate}>
-                <Text style={styles.cancelCreateText}>취소</Text>
-              </Pressable>
-            </View>
-          ) : (
-            <View style={styles.placeholderSpace} />
-          )}
-        </View>
-
-        {!!error && <Text style={styles.error}>{error}</Text>}
-
-        {/* 버튼 영역 */}
-        <View style={styles.btnRow}>
-          <Pressable style={[styles.btn, styles.btnSecondary]} onPress={onDismiss} disabled={isBusy}>
-            <Text style={styles.btnSecondaryText}>닫기</Text>
-          </Pressable>
-          <Pressable
-            style={[styles.btn, disabled ? styles.btnDisabled : styles.btnPrimary]}
-            onPress={handleSave}
-            disabled={disabled}
-          >
-            {isBusy ? (
-              <ActivityIndicator color="#FFF" />
-            ) : (
-              <Text style={styles.btnPrimaryText}>
-                {isCreatingNew ? "생성" : "저장"}
-              </Text>
-            )}
-          </Pressable>
-        </View>
       </View>
     </BottomSheetView>
   );
@@ -250,9 +136,7 @@ export function RecipeCategoryBottomSheetContent({
 
 const styles = StyleSheet.create({
   sheetContainer: { 
-    flex: 1, 
-    backgroundColor: COLORS.background.white, 
-    paddingBottom: 0 
+    flexGrow: 1, 
   },
   statusDot: {
     position: "absolute", 
@@ -274,13 +158,7 @@ const styles = StyleSheet.create({
   contentCard: {
     flex: 1, 
     backgroundColor: COLORS.background.white, 
-    borderRadius: 24, 
     padding: 24,
-    shadowColor: COLORS.shadow.black, 
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05, 
-    shadowRadius: 8, 
-    elevation: 2,
   },
   title: { 
     fontSize: 18, 
@@ -297,11 +175,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   categoriesList: {
-    maxHeight: 375,
-    minHeight: 375,
+    maxHeight: 500, // 350 → 500으로 증가
+    minHeight: 200, // 최소 높이는 줄이기
   },
   gridContainer: {
     paddingVertical: 8,
+    paddingBottom: 200,
   },
   gridRow: {
     justifyContent: 'flex-start',
@@ -326,99 +205,5 @@ const styles = StyleSheet.create({
   // 변경된 부분: 빈 상태에서도 그리드 유지
   emptyGridContainer: {
     width: '100%',
-  },
-  newCategorySection: {
-    marginTop: 12,
-    paddingTop: 12,
-    borderTopWidth: 1,
-    borderTopColor: '#F3F4F6',
-  },
-  
-  // 빈 공간 스타일 추가
-  placeholderSpace: {
-    height: 64, 
-  },
-  createButton: {
-    height: 44,
-    borderWidth: 1,
-    borderColor: COLORS.background.orange,
-    borderRadius: 12,
-    backgroundColor: COLORS.background.orange + '10',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  createButtonText: {
-    color: COLORS.background.orange,
-    fontWeight: '600',
-    fontSize: 14,
-  },
-  createForm: {
-    position: 'relative',
-  },
-  label: { 
-    fontSize: 12, 
-    color: "#6B7280", 
-    marginBottom: 6 
-  },
-  input: {
-    height: 44, 
-    borderWidth: 1, 
-    borderColor: "#E5E7EB", 
-    borderRadius: 12,
-    paddingHorizontal: 12, 
-    backgroundColor: "#FFF", 
-    fontSize: 14, 
-    color: "#111827",
-  },
-  inputFocused: {
-    borderColor: COLORS.background.orange,
-    borderWidth: 2,
-  },
-  cancelCreate: {
-    position: 'absolute',
-    right: 8,
-    top: 28,
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-  },
-  cancelCreateText: {
-    fontSize: 12,
-    color: '#6B7280',
-  },
-  error: { 
-    marginTop: 8, 
-    color: "#EF4444", 
-    fontSize: 12 
-  },
-  btnRow: { 
-    flexDirection: "row", 
-    gap: 10, 
-    marginTop: 20 
-  },
-  btn: { 
-    flex: 1, 
-    height: 48, 
-    borderRadius: 12, 
-    alignItems: "center", 
-    justifyContent: "center" 
-  },
-  btnSecondary: { 
-    borderWidth: 1, 
-    borderColor: "#E5E7EB", 
-    backgroundColor: "#FFF" 
-  },
-  btnPrimary: { 
-    backgroundColor: COLORS.background.orange 
-  },
-  btnDisabled: { 
-    backgroundColor: "#F3F4F6" 
-  },
-  btnPrimaryText: { 
-    color: "#FFF", 
-    fontWeight: "700" 
-  },
-  btnSecondaryText: { 
-    color: "#374151", 
-    fontWeight: "600" 
   },
 });

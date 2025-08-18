@@ -1,12 +1,9 @@
-import { LoadingOverlay } from "@/src/modules/recipe/detail/components/LoadingOverlay";
 import { RecipeWebView } from "@/src/modules/recipe/detail/components/RecipeWebView";
-import { useRecipeDetailViewModel } from "@/src/modules/recipe/detail/viewmodels/useRecipeDetailViewModel";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { SafeAreaView, StatusBar, StyleSheet } from "react-native";
 import { useEffect, useRef } from "react";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { RecipeCategoryBottomSheet } from "@/src/modules/recipe/create/step/components/BottomSheet";
-import { findAccessToken } from "@/src/modules/shared/storage/SecureStorage";
 
 export default function RecipeDetailScreen() {
   const params = useLocalSearchParams<{

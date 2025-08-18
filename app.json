@@ -6,9 +6,9 @@
     },
     "owner": "cheftory",
     "slug": "cheiftory",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "orientation": "portrait",
-    "icon": "./assets/images/logo.png",
+    "icon": "./assets/images/mainCharacter.png",
     "scheme": "cheiftory",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -44,7 +44,7 @@
         "android.permission.AUDIO_CAPTURE"
       ],
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/logo.png",
+        "foregroundImage": "./assets/images/mainCharacter.png",
         "backgroundColor": "#FFF5F0"
       },
       "edgeToEdgeEnabled": true,
@@ -53,14 +53,14 @@
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/logo.png"
+      "favicon": "./assets/images/mainCharacter.png"
     },
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/logo.png",
+          "image": "./assets/images/mainCharacter.png",
           "imageWidth": 205,
           "resizeMode": "contain",
           "backgroundColor": "#FFF5F0"

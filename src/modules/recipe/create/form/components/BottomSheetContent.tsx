@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useRecipeCreateViewModel } from "@/src/modules/recipe/create/form/viewmodels/useViewModel";
 import { View, StyleSheet } from "react-native";
-import { BottomSheetScrollView, BottomSheetView } from "@gorhom/bottom-sheet";
+  import { BottomSheetView } from "@gorhom/bottom-sheet";
 import { RecipeFormHeader } from "./Header";
 import { RecipeFormInput } from "./Input";
 import { RecipeFormButton } from "./Button";
@@ -53,11 +53,8 @@ export function RecipeBottomSheetContent({
   };
 
   return (
-    <BottomSheetScrollView 
-    keyboardShouldPersistTaps="handled"
-    contentContainerStyle={styles.sheetContainer}
-    scrollEnabled={false}
-    showsVerticalScrollIndicator={false}
+    <BottomSheetView 
+    style={styles.sheetContainer}
   >
         <View style={styles.statusDot} />
         <View style={styles.contentCard}>
@@ -81,7 +78,7 @@ export function RecipeBottomSheetContent({
             progressButtonLabel="생성중..."
           />
         </View>
-    </BottomSheetScrollView>
+    </BottomSheetView>
   );
 }
 

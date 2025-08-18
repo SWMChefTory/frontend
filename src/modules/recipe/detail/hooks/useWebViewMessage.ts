@@ -3,7 +3,6 @@ import { router } from "expo-router";
 import { useCallback } from "react";
 import { WebView } from "react-native-webview";
 import { WebViewMessage, WebViewMessageType } from "../types/RecipeDetail";
-import { refreshToken } from "@/src/modules/shared/api/client";
 
 interface UseWebViewMessageProps {
   webviewRef: React.RefObject<WebView | null>;
