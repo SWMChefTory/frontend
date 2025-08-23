@@ -39,8 +39,6 @@ export async function scheduleTimerAlarm(
 
   await cancelTimerAlarm();
 
-  console.log("타이머 알림 예약:", { title, secondsFromNow, deepLink });
-
   return await Notifications.scheduleNotificationAsync({
     identifier: TIMER_NOTIFICATION_ID,
     content: {
@@ -78,7 +76,7 @@ export async function scheduleTimerNotification(
   await cancelTimerAlarm();
   await scheduleTimerAlarm({
     title: "타이머 완료!",
-    body: `${recipeTitle || "활동"} 타이머가 끝났어요.`,
+    body: `${recipeTitle} 타이머가 끝났어요.`,
     secondsFromNow: Math.max(1, remainingSeconds),
     deepLink: `cheiftory://recipe/detail?recipeId=${recipeId}&isTimer=true&title=${recipeTitle}`,
   });
