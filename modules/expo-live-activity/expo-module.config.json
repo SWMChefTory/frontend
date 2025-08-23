@@ -1,0 +1,9 @@
+{
+  "name": "expo-live-activity",
+  "platforms": ["apple"],
+  "apple": {
+    "modules": ["LiveActivityModule"],
+    "podspecPath": "LiveActivity.podspec",
+    "deploymentTarget": "17.0"
+  }
+}
