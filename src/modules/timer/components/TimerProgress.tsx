@@ -9,39 +9,38 @@ import {
   cancelAnimation,
   runOnUI,
 } from "react-native-reanimated";
+import { TimerState } from "@/src/modules/timer/hooks/useTimerStore";
+import { useCountdownTimerState } from "@/src/modules/timer/hooks/useCountdownTimer";
 
-type Props = {
-  total: number;
-  remaining: number;
-  size?: number;
-  stroke?: number;
-  isRunning?: boolean;
-};
-
-export function TimerProgress({
-  total,
-  remaining,
-  size = 300,
-  stroke = 10,
-  isRunning = false,
-}: Props) {
+export function TimerProgress() {
+  const size = 300;
+  const stroke = 10;
   const r = (size - stroke) / 2;
-  const c = 2 * Math.PI * r;
-
-  const progress = useSharedValue(0);
-
+  const {
+    duration: total,
+    remainingTime: remaining,
+    state: timerState,
+  } = useCountdownTimerState();
+  const progress = useSharedValue(1); // 1에서 시작 (풀서클)
   const wasRunningRef = useRef<boolean>(false);
   const lastRemainingRef = useRef<number>(remaining);
-
+  const isRunning = timerState === TimerState.ACTIVE;
   const expected = useMemo(() => {
-    if (!total || total <= 0) return 0;
-    return Math.min(1, Math.max(0, (total - remaining) / total));
+    if (!total || total <= 0) return 1;
+    return Math.min(1, Math.max(0, remaining / total));
   }, [total, remaining]);
 
   useEffect(() => {
-    if (!total || total <= 0) {
+    if (timerState === TimerState.FINISHED) {
       cancelAnimation(progress);
       progress.value = 0;
+      return;
+    }
+
+    // 아이들 상태면 풀서클로 리셋
+    if (timerState === TimerState.IDLE) {
+      cancelAnimation(progress);
+      progress.value = 1;
       return;
     }
 
@@ -55,7 +54,8 @@ export function TimerProgress({
       }
 
       const durationMs = Math.max(0, Math.round(remaining * 1000));
-      progress.value = withTiming(1, {
+      progress.value = withTiming(0, {
+        // 0으로 줄어들도록
         duration: durationMs,
         easing: Easing.linear,
       });
@@ -72,7 +72,8 @@ export function TimerProgress({
           cancelAnimation(progress);
           progress.value = expected;
           const durationMs = Math.max(0, Math.round(remaining * 1000));
-          progress.value = withTiming(1, {
+          progress.value = withTiming(0, {
+            // 0으로 줄어들도록
             duration: durationMs,
             easing: Easing.linear,
           });
@@ -82,7 +83,7 @@ export function TimerProgress({
 
     wasRunningRef.current = isRunning;
     lastRemainingRef.current = remaining;
-  }, [isRunning, expected, remaining, total]);
+  }, [isRunning, expected, remaining, total, timerState]);
 
   const arc = useDerivedValue(() => {
     const sweep = 2 * Math.PI * progress.value;
@@ -94,7 +95,7 @@ export function TimerProgress({
         width: size - stroke,
         height: size - stroke,
       },
-      -90,
+      -90, // 12시 방향에서 시작
       (sweep * 180) / Math.PI,
     );
     return path;
@@ -129,10 +130,10 @@ export function TimerProgress({
       <View style={StyleSheet.absoluteFillObject}>
         <Text
           style={{
-            fontSize: 24,
+            fontSize: 40,
             fontWeight: "bold",
             textAlign: "center",
-            marginTop: size / 2 - 12,
+            marginTop: size / 2 - 20,
           }}
         >
           {formatTime(remaining)}

@@ -25,59 +25,37 @@ export async function ensureNotificationReady() {
   }
 }
 
-export type TimerAlarmParams = {
-  title: string;
-  body: string;
-  deepLink: string;
-  secondsFromNow: number;
-};
-
-export async function scheduleTimerAlarm(
-  params: TimerAlarmParams,
-): Promise<string> {
-  const { title, body, deepLink, secondsFromNow } = params;
-
-  await cancelTimerAlarm();
-
-  return await Notifications.scheduleNotificationAsync({
-    identifier: TIMER_NOTIFICATION_ID,
-    content: {
-      title,
-      body,
-      sound: true,
-      data: {
-        type: "timer",
-        url: deepLink,
-        scheduledAt: Date.now(),
-        duration: secondsFromNow,
-      },
-    },
-    trigger: {
-      type: SchedulableTriggerInputTypes.TIME_INTERVAL,
-      seconds: Math.max(1, Math.floor(secondsFromNow)),
-      channelId: Platform.OS === "android" ? ANDROID_CHANNEL_ID : undefined,
-    },
-  });
-}
-
 export async function cancelTimerAlarm(): Promise<void> {
   try {
+    console.log("예약된 타이머 알림 취소 시도");
     await Notifications.cancelScheduledNotificationAsync(TIMER_NOTIFICATION_ID);
   } catch (error) {
     console.warn("예약된 타이머 알림 취소 실패:", error);
   }
 }
 
-export async function scheduleTimerNotification(
+export async function scheduleTimerAlarm(
   recipeTitle: string,
   recipeId: string,
   remainingSeconds: number,
 ) {
-  await cancelTimerAlarm();
-  await scheduleTimerAlarm({
-    title: "타이머 완료!",
-    body: `${recipeTitle} 타이머가 끝났어요.`,
-    secondsFromNow: Math.max(1, remainingSeconds),
-    deepLink: `cheiftory://recipe/detail?recipeId=${recipeId}&isTimer=true&title=${recipeTitle}`,
+  return await Notifications.scheduleNotificationAsync({
+    identifier: TIMER_NOTIFICATION_ID,
+    content: {
+      title: "타이머 완료!",
+      body: `${recipeTitle} 타이머가 끝났어요.`,
+      sound: true,
+      data: {
+        type: "timer",
+        url: `cheiftory://recipe/detail?recipeId=${recipeId}&isTimer=true&title=${recipeTitle}`,
+        scheduledAt: Date.now(),
+        duration: Math.max(1, remainingSeconds),
+      },
+    },
+    trigger: {
+      type: SchedulableTriggerInputTypes.TIME_INTERVAL,
+      seconds: Math.max(1, Math.floor(Math.max(1, remainingSeconds))),
+      channelId: Platform.OS === "android" ? ANDROID_CHANNEL_ID : undefined,
+    },
   });
 }

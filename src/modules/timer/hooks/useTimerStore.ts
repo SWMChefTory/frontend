@@ -9,9 +9,16 @@ export enum TimerState {
   FINISHED = "finished",
 }
 
+export enum TimerStatus {
+  NONE = "NONE",
+  SAME_RECIPE = "SAME_RECIPE",
+  DIFFERENT_RECIPE = "DIFFERENT_RECIPE",
+}
+
 export interface TimerStoreState {
   state: TimerState;
-  name: string;
+  recipeId: string | null;
+  name: string | null;
   duration: number;
   remainingTime: number;
   startedAt: number | null;
@@ -19,10 +26,12 @@ export interface TimerStoreState {
   deadlineAt: number | null;
 
   setName: (v: string) => void;
+  setRecipeId: (id: string | null) => void;
   setDuration: (sec: number) => void;
   setRemaining: (sec: number) => void;
+  getTimerStatus: (recipeId?: string) => TimerStatus;
 
-  start: () => void;
+  start: (params: { name: string; recipeId: string; duration: number }) => void;
   pause: () => void;
   resume: () => void;
   reset: () => void;
@@ -37,14 +46,16 @@ export const useTimerStore = create<TimerStoreState>()(
   persist(
     (set, get) => ({
       state: TimerState.IDLE,
-      name: "",
+      name: null,
       duration: 0,
       remainingTime: 0,
       startedAt: null,
       pausedAt: null,
       deadlineAt: null,
+      recipeId: null,
 
       setName: (v) => set({ name: v }),
+      setRecipeId: (id) => set({ recipeId: id }),
 
       setDuration: (sec) => {
         const next = Math.max(0, sec || 0);
@@ -60,16 +71,40 @@ export const useTimerStore = create<TimerStoreState>()(
         set({ remainingTime: Math.max(0, sec || 0) });
       },
 
-      start: () => {
-        const now = Date.now();
+      getTimerStatus: (recipeId?) => {
         const s = get();
-        const dur = Math.max(0, s.duration);
-        const baseRemain = Math.max(
-          0,
-          s.remainingTime > 0 ? s.remainingTime : dur,
-        );
 
-        if (baseRemain <= 0) {
+        // 활성 타이머가 없는 경우 (IDLE 상태)
+        if (s.state === TimerState.IDLE || !s.recipeId) {
+          return TimerStatus.NONE;
+        }
+
+        // recipeId가 제공되지 않은 경우, 활성 타이머가 있으므로 DIFFERENT_RECIPE 반환
+        if (!recipeId) {
+          return TimerStatus.DIFFERENT_RECIPE;
+        }
+
+        // 같은 레시피의 타이머가 활성 중인 경우
+        if (s.recipeId === recipeId) {
+          return TimerStatus.SAME_RECIPE;
+        }
+
+        // 다른 레시피의 타이머가 활성 중인 경우
+        return TimerStatus.DIFFERENT_RECIPE;
+      },
+
+      start: (params) => {
+        const now = Date.now();
+        const nextDuration = Math.max(0, params.duration);
+
+        set({
+          name: params.name,
+          recipeId: params.recipeId,
+          duration: nextDuration,
+          remainingTime: nextDuration,
+        });
+
+        if (nextDuration <= 0) {
           set({
             state: TimerState.FINISHED,
             startedAt: null,
@@ -84,8 +119,8 @@ export const useTimerStore = create<TimerStoreState>()(
           state: TimerState.ACTIVE,
           startedAt: now,
           pausedAt: null,
-          deadlineAt: now + baseRemain * 1000,
-          remainingTime: baseRemain,
+          deadlineAt: now + nextDuration * 1000,
+          remainingTime: nextDuration,
         });
       },
 
@@ -144,6 +179,8 @@ export const useTimerStore = create<TimerStoreState>()(
           pausedAt: null,
           deadlineAt: null,
           remainingTime: dur,
+          recipeId: null,
+          name: null,
         });
       },
 
@@ -193,6 +230,7 @@ export const useTimerStore = create<TimerStoreState>()(
         startedAt: state.startedAt,
         pausedAt: state.pausedAt,
         deadlineAt: state.deadlineAt,
+        recipeId: state.recipeId,
       }),
 
       onRehydrateStorage: () => (state) => {

@@ -1,22 +1,23 @@
-import { useCallback, useEffect, useRef } from "react";
-import { TimerState, useTimerStore } from "./useTimerStore";
+import {
+  TimerState,
+  TimerStatus,
+  useTimerStore,
+} from "@/src/modules/timer/hooks/useTimerStore";
 import { useAppState } from "@/src/modules/timer/hooks/useAppState";
-
-export interface UseCountdownTimerOptions {
-  onComplete?: () => void;
-  name?: string;
-}
+import { useCallback, useEffect, useRef } from "react";
 
 export interface UseCountdownTimerReturn {
-  remainingTime: number;
   state: TimerState;
-  start: () => void;
+  start: (params: { name: string; recipeId: string; duration: number }) => void;
+  getRemainingTime: () => number;
   pause: () => void;
   resume: () => void;
   reset: () => void;
-  duration: number;
   isRunning: () => boolean;
+  name: string | null;
+  recipeId: string | null;
   setDuration: (newDuration: number) => void;
+  getTimerStatus: (recipeId?: string) => TimerStatus;
   getLivePayload: () => {
     startedAt: number | null;
     pausedAt: number | null;
@@ -26,30 +27,20 @@ export interface UseCountdownTimerReturn {
   };
 }
 
-export function useCountdownTimer({
-  onComplete,
-  name,
-}: UseCountdownTimerOptions): UseCountdownTimerReturn {
-  const {
-    state,
-    duration,
-    setName,
-    remainingTime,
-    setDuration,
-    start: storeStart,
-    pause: storePause,
-    resume: storeResume,
-    reset: storeReset,
-    finish: storeFinish,
-    isRunning,
-  } = useTimerStore();
+export function useCountdownTimer(): UseCountdownTimerReturn {
+  const state = useTimerStore((store) => store.state);
+  const name = useTimerStore((store) => store.name);
+  const recipeId = useTimerStore((store) => store.recipeId);
+  const getTimerStatus = useTimerStore((store) => store.getTimerStatus);
+  const setDuration = useTimerStore((store) => store.setDuration);
+  const storeStart = useTimerStore((store) => store.start);
+  const storePause = useTimerStore((store) => store.pause);
+  const storeResume = useTimerStore((store) => store.resume);
+  const storeReset = useTimerStore((store) => store.reset);
+  const isRunning = useTimerStore((store) => store.isRunning);
 
   const { currentAppState, previousAppState } = useAppState();
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
-
-  useEffect(() => {
-    if (name) setName(name);
-  }, [name, setName]);
 
   const clearTicker = () => {
     if (timerRef.current) {
@@ -62,19 +53,16 @@ export function useCountdownTimer({
     const s = useTimerStore.getState();
     if (s.state !== TimerState.ACTIVE || !s.deadlineAt) return;
 
-    const remainingMs = Math.max(0, s.deadlineAt - Date.now());
-    const next = Math.round(remainingMs / 100) / 10;
+    const remainingMs = s.deadlineAt - Date.now();
+    const next = remainingMs <= 0 ? 0 : Math.round(remainingMs / 100) / 10;
 
-    if (Math.abs(next - s.remainingTime) >= 0.1) {
-      s.setRemaining(next);
-    }
+    s.setRemaining(next);
 
     if (next <= 0) {
       clearTicker();
-      storeFinish();
-      onComplete?.();
+      s.finish();
     }
-  }, [onComplete, storeFinish]);
+  }, []);
 
   useEffect(() => {
     if (state === TimerState.ACTIVE && !timerRef.current) {
@@ -83,50 +71,71 @@ export function useCountdownTimer({
       clearTicker();
     }
     return clearTicker;
-  }, [state, tick]);
+  }, [state]);
 
   useEffect(() => {
     if (currentAppState !== previousAppState) {
       tick();
     }
-  }, [currentAppState, previousAppState, tick]);
+  }, [currentAppState, previousAppState]);
 
-  const start = useCallback(() => {
+  const start = useCallback(
+    ({
+      name,
+      recipeId,
+      duration: newDuration,
+    }: {
+      name: string;
+      recipeId: string;
+      duration: number;
+    }) => {
+      storeStart({
+        name,
+        recipeId,
+        duration: newDuration,
+      });
+    },
+    [storeStart],
+  );
+
+  const getLivePayload = useCallback(() => {
     const s = useTimerStore.getState();
-    if (s.state === TimerState.IDLE && s.remainingTime <= 0) {
-      s.setRemaining(Math.max(0, Math.floor(s.duration)));
-    }
-    storeStart();
-  }, [storeStart]);
-
-  const getLivePayload = () => {
-    const s = useTimerStore.getState();
-    let remainingTime = Math.max(0, s.remainingTime);
-
-    if (s.state === TimerState.ACTIVE && s.deadlineAt) {
-      const remainingMs = s.deadlineAt - Date.now();
-      remainingTime = Math.max(0, Math.round(remainingMs / 100) / 10);
-    }
-
+    const name = s.name || "";
     return {
       startedAt: s.startedAt,
       pausedAt: s.pausedAt,
-      duration: Math.max(0, s.duration),
-      remainingTime,
-      name: s.name,
+      duration: s.duration,
+      remainingTime: s.remainingTime,
+      name: name,
     };
-  };
+  }, []);
+
+  const getRemainingTime = useCallback(() => {
+    const s = useTimerStore.getState();
+    return s.remainingTime;
+  }, []);
 
   return {
-    remainingTime,
     state,
     start,
+    getTimerStatus,
+    getRemainingTime,
+    name,
+    recipeId,
     pause: storePause,
     resume: storeResume,
     reset: storeReset,
-    duration,
     isRunning,
     setDuration,
     getLivePayload,
   };
+}
+
+export function useCountdownTimerState(): {
+  state: TimerState;
+  remainingTime: number;
+  duration: number;
+} {
+  const { state, remainingTime, duration } = useTimerStore();
+  return { state, remainingTime, duration };
 }

@@ -1,33 +1,35 @@
-import { COLORS } from "@/src/modules/shared/constants/colors";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { COLORS } from "@/src/modules/shared/constants/colors";
+import { useCountdownTimerState } from "@/src/modules/timer/hooks/useCountdownTimer";
 
-type TimerPausedViewProps = {
-  onResume: () => void;
+type TimerRunningProps = {
+  onPause: () => void;
   onEnd: () => void;
 };
 
-export function TimerPausedView({ onResume, onEnd }: TimerPausedViewProps) {
+export const TimerRunning = ({ onPause, onEnd }: TimerRunningProps) => {
+  const { remainingTime } = useCountdownTimerState();
+  const isNeared = remainingTime < 1;
   return (
     <View style={styles.container}>
       <View style={styles.contentContainer}>
-        <Text style={styles.statusText}>일시정지</Text>
+        <Text style={styles.statusText}>진행 중</Text>
       </View>
 
       <View style={styles.bottomButtonContainer}>
-        <TouchableOpacity
-          style={[styles.btn, styles.btnPrimary]}
-          onPress={onResume}
-        >
-          <Text style={styles.btnPrimaryText}>재개</Text>
-        </TouchableOpacity>
-
         <TouchableOpacity style={[styles.btn, styles.btnGhost]} onPress={onEnd}>
           <Text style={styles.btnGhostText}>중단</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.btn, styles.btnPrimary]}
+          onPress={isNeared ? undefined : onPause}
+        >
+          <Text style={styles.btnPrimaryText}>일시정지</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -47,7 +49,6 @@ const styles = StyleSheet.create({
   },
   bottomButtonContainer: {
     flexDirection: "row",
-    paddingHorizontal: 20,
     paddingBottom: 24,
     paddingTop: 16,
     gap: 12,
@@ -63,7 +64,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.orange.main,
   },
   btnPrimaryText: {
-    color: "#000",
+    color: "#FFFFFF",
     fontWeight: "800",
     letterSpacing: -0.1,
   },

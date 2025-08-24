@@ -1,11 +1,11 @@
 import { COLORS } from "@/src/modules/shared/constants/colors";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-type TimerFinishedViewProps = {
+type TimerFinishedProps = {
   onEnd: () => void;
 };
 
-export function TimerFinishedView({ onEnd }: TimerFinishedViewProps) {
+export function TimerFinish({ onEnd }: TimerFinishedProps) {
   return (
     <View style={styles.container}>
       <View style={styles.contentContainer}>
@@ -41,7 +41,6 @@ const styles = StyleSheet.create({
   },
   bottomButtonContainer: {
     flexDirection: "row",
-    paddingHorizontal: 20,
     paddingBottom: 24,
     paddingTop: 16,
     gap: 12,
@@ -57,7 +56,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.orange.main,
   },
   btnPrimaryText: {
-    color: "#000",
+    color: "#FFFFFF",
     fontWeight: "800",
     letterSpacing: -0.1,
   },

@@ -1,93 +1,98 @@
-import { useMemo, useState } from "react";
+import { memo, useMemo, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 import DurationSelector from "@/src/modules/timer/components/DurationSelector";
 
 const DEFAULT_TIMER_PRESETS = [
+  { label: "30초", seconds: 30, color: COLORS.orange.main },
+  { label: "1분", seconds: 60, color: COLORS.orange.main },
   { label: "5분", seconds: 300, color: COLORS.orange.main },
   { label: "15분", seconds: 900, color: COLORS.orange.main },
-  { label: "25분", seconds: 1500, color: COLORS.orange.main },
   { label: "30분", seconds: 1800, color: COLORS.orange.main },
-  { label: "45분", seconds: 2700, color: COLORS.orange.main },
 ];
 
 type Preset = { label: string; seconds: number; color?: string };
 
-type TimerIdleViewProps = {
+type TimerIdleProps = {
   onTimeChange: (totalSeconds: number) => void;
   onStart: () => void;
-  onCancel: () => void;
+  onClose: () => void;
   isStartDisabled?: boolean;
   initialSeconds?: number;
 };
 
-export function TimerIdleView({
-  onTimeChange,
-  onStart,
-  onCancel,
-  isStartDisabled = false,
-  initialSeconds = 0,
-}: TimerIdleViewProps) {
-  const presets = DEFAULT_TIMER_PRESETS;
+export const TimerIdle = memo(
+  ({
+    onTimeChange,
+    onStart,
+    onClose,
+    isStartDisabled = false,
+    initialSeconds = 0,
+  }: TimerIdleProps) => {
+    const presets = DEFAULT_TIMER_PRESETS;
 
-  const secondsToHMS = (totalSeconds: number) => {
-    const hours = Math.floor(totalSeconds / 3600);
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
-    const seconds = totalSeconds % 60;
-    return { hours, minutes, seconds };
-  };
+    const secondsToHMS = (totalSeconds: number) => {
+      const hours = Math.floor(totalSeconds / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+      return { hours, minutes, seconds };
+    };
 
-  const initialHMS = secondsToHMS(initialSeconds);
-  const [hours, setHours] = useState(initialHMS.hours);
-  const [minutes, setMinutes] = useState(initialHMS.minutes);
-  const [seconds, setSeconds] = useState(initialHMS.seconds);
+    const initialHMS = secondsToHMS(initialSeconds);
+    const [hours, setHours] = useState(initialHMS.hours);
+    const [minutes, setMinutes] = useState(initialHMS.minutes);
+    const [seconds, setSeconds] = useState(initialHMS.seconds);
 
-  const [selectedPreset, setSelectedPreset] = useState<Preset | null>(() => {
-    const matchingPreset = presets.find((p) => p.seconds === initialSeconds);
-    return matchingPreset || (initialSeconds === 0 ? presets[0] : null);
-  });
+    const [selectedPreset, setSelectedPreset] = useState<Preset | null>(() => {
+      const matchingPreset = presets.find((p) => p.seconds === initialSeconds);
+      return matchingPreset || (initialSeconds === 0 ? presets[0] : null);
+    });
 
-  const totalSeconds = hours * 3600 + minutes * 60 + seconds;
+    const totalSeconds = hours * 3600 + minutes * 60 + seconds;
 
-  const isCustom = useMemo(() => {
-    if (!selectedPreset) return true;
-    return totalSeconds !== selectedPreset.seconds;
-  }, [totalSeconds, selectedPreset]);
+    const isCustom = useMemo(() => {
+      if (!selectedPreset) return true;
+      return totalSeconds !== selectedPreset.seconds;
+    }, [totalSeconds, selectedPreset]);
 
-  const formatDuration = (h: number, m: number, s: number) => {
-    const parts = [];
-    if (h > 0) parts.push(`${h}시`);
-    if (m > 0) parts.push(`${m}분`);
-    if (s > 0) parts.push(`${s}초`);
-    return parts.join(" ") || "0초";
-  };
+    const formatDuration = (h: number, m: number, s: number) => {
+      const parts = [];
+      if (h > 0) parts.push(`${h}시`);
+      if (m > 0) parts.push(`${m}분`);
+      if (s > 0) parts.push(`${s}초`);
+      return parts.join(" ") || "0초";
+    };
 
-  const formattedDuration = formatDuration(hours, minutes, seconds);
+    const formattedDuration = formatDuration(hours, minutes, seconds);
 
-  const handlePresetSelect = (preset: Preset) => {
-    const hms = secondsToHMS(preset.seconds);
-    setHours(hms.hours);
-    setMinutes(hms.minutes);
-    setSeconds(hms.seconds);
-    setSelectedPreset(preset);
-    onTimeChange(preset.seconds);
-  };
+    const handlePresetSelect = (preset: Preset) => {
+      const hms = secondsToHMS(preset.seconds);
+      setHours(hms.hours);
+      setMinutes(hms.minutes);
+      setSeconds(hms.seconds);
+      setSelectedPreset(preset);
+      onTimeChange(preset.seconds);
+    };
 
-  const handleTimeChange = (h: number, m: number, s: number) => {
-    setHours(h);
-    setMinutes(m);
-    setSeconds(s);
-    setSelectedPreset(null);
-    const newTotalSeconds = h * 3600 + m * 60 + s;
-    onTimeChange(newTotalSeconds);
-  };
+    const handleTimeChange = (h: number, m: number, s: number) => {
+      setHours(h);
+      setMinutes(m);
+      setSeconds(s);
 
-  const canStart = totalSeconds > 0 && !isStartDisabled;
+      const newTotalSeconds = h * 3600 + m * 60 + s;
 
-  return (
-    <View style={styles.container}>
-      <View style={styles.contentContainer}>
-        <View style={styles.section}>
+      // DurationSelector로 변경한 시간이 preset과 일치하면 해당 preset을 선택
+      const matchingPreset = presets.find((p) => p.seconds === newTotalSeconds);
+      setSelectedPreset(matchingPreset || null);
+
+      onTimeChange(newTotalSeconds);
+    };
+
+    const canStart = totalSeconds > 0 && !isStartDisabled;
+
+    return (
+      <View style={styles.container}>
+        <View style={styles.contentContainer}>
           <Text style={styles.label}>시간 설정</Text>
           <DurationSelector
             hours={hours}
@@ -102,10 +107,7 @@ export function TimerIdleView({
           ) : selectedPreset ? (
             <Text style={styles.normalBadge}>{selectedPreset.label}</Text>
           ) : null}
-        </View>
-
-        <View className="section" style={styles.section}>
-          <Text style={styles.label}>미리 설정</Text>
+          <Text style={styles.label}>빠른 설정</Text>
           <View style={styles.presetRow}>
             {presets.map((p) => {
               const selected =
@@ -132,45 +134,44 @@ export function TimerIdleView({
             })}
           </View>
         </View>
-      </View>
 
-      <View style={styles.bottomButtonContainer}>
-        <TouchableOpacity
-          style={[
-            styles.btn,
-            styles.btnPrimary,
-            !canStart && styles.btnDisabled,
-          ]}
-          onPress={onStart}
-          disabled={!canStart}
-        >
-          <Text
-            style={[styles.btnPrimaryText, !canStart && styles.btnDisabledText]}
+        <View style={styles.bottomButtonContainer}>
+          <TouchableOpacity
+            style={[styles.btn, styles.btnGhost]}
+            onPress={onClose}
           >
-            시작
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[styles.btn, styles.btnGhost]}
-          onPress={onCancel}
-        >
-          <Text style={styles.btnGhostText}>종료</Text>
-        </TouchableOpacity>
+            <Text style={styles.btnGhostText}>종료</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[
+              styles.btn,
+              styles.btnPrimary,
+              !canStart && styles.btnDisabled,
+            ]}
+            onPress={onStart}
+            disabled={!canStart}
+          >
+            <Text
+              style={[
+                styles.btnPrimaryText,
+                !canStart && styles.btnDisabledText,
+              ]}
+            >
+              시작
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
-  );
-}
+    );
+  },
+);
 
 const styles = StyleSheet.create({
   label: {
     color: COLORS.text.black,
     opacity: 0.7,
     fontSize: 12,
-    marginBottom: 6,
-  },
-  section: {
-    marginTop: 16,
+    marginTop: 10,
   },
   presetRow: {
     flexDirection: "row",
@@ -179,12 +180,14 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   preset: {
-    paddingHorizontal: 14,
+    flex: 1,
+    paddingHorizontal: 8,
     paddingVertical: 10,
     borderRadius: 999,
     borderWidth: 1,
     borderColor: COLORS.border.lightGray,
     backgroundColor: "transparent",
+    alignItems: "center",
   },
   presetSelected: {
     backgroundColor: COLORS.orange.light,
@@ -200,8 +203,9 @@ const styles = StyleSheet.create({
     fontWeight: "800",
   },
   customBadge: {
-    marginTop: 8,
     alignSelf: "flex-start",
+    marginTop: 8,
+    marginBottom: 10,
     paddingHorizontal: 10,
     paddingVertical: 6,
     borderRadius: 999,
@@ -211,8 +215,9 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   normalBadge: {
-    marginTop: 8,
     alignSelf: "flex-start",
+    marginTop: 8,
+    marginBottom: 10,
     paddingHorizontal: 10,
     paddingVertical: 6,
     borderRadius: 999,
@@ -233,8 +238,8 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-    marginTop: 12,
-    alignItems: "center",
+    marginTop: 10,
+    alignItems: "flex-start",
     justifyContent: "center",
   },
   statusText: {
@@ -245,7 +250,6 @@ const styles = StyleSheet.create({
   },
   bottomButtonContainer: {
     flexDirection: "row",
-    paddingHorizontal: 20,
     paddingBottom: 24,
     paddingTop: 16,
     gap: 12,
@@ -261,7 +265,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.orange.main,
   },
   btnPrimaryText: {
-    color: "#000",
+    color: "#FFFFFF",
     fontWeight: "800",
     letterSpacing: -0.1,
   },

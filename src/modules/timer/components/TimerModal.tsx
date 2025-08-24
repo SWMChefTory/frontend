@@ -1,69 +1,48 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import {
-  Animated,
-  Easing,
-  Modal,
-  Platform,
-  Pressable,
-  StyleSheet,
-  View,
-} from "react-native";
+import { Platform, StyleSheet, View } from "react-native";
+import BottomSheet, { BottomSheetBackdrop } from "@gorhom/bottom-sheet";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 import { useCountdownTimer } from "@/src/modules/timer/hooks/useCountdownTimer";
 import { useLiveActivity } from "@/src/modules/timer/hooks/useLiveActivity";
 import {
   cancelTimerAlarm,
   ensureNotificationReady,
-  scheduleTimerNotification,
+  scheduleTimerAlarm,
 } from "@/src/modules/notifications/timerNotifications";
 import { WebViewMessageType } from "@/src/modules/recipe/detail/types/RecipeDetail";
 
-import { AutoStartView } from "@/src/modules/timer/components/AutoStartView";
+import { TimerAutoStart } from "@/src/modules/timer/components/TimerAutoStart";
 import { TimerHeader } from "@/src/modules/timer/components/TimerHeader";
 import { TimerProgress } from "@/src/modules/timer/components/TimerProgress";
-import { TimerIdleView } from "@/src/modules/timer/components/TimerIdle";
-import { TimerRunningView } from "@/src/modules/timer/components/TimerRunningView";
-import { TimerPausedView } from "@/src/modules/timer/components/TimerPausedView";
-import { TimerFinishedView } from "@/src/modules/timer/components/TimerFinishedView";
-import { TimerState } from "@/src/modules/timer/hooks/useTimerStore";
+import { TimerIdle } from "@/src/modules/timer/components/TimerIdle";
+import { TimerRunning } from "@/src/modules/timer/components/TimerRunning";
+import { TimerPause } from "@/src/modules/timer/components/TimerPause";
+import { TimerFinish } from "@/src/modules/timer/components/TimerFinish";
+import {
+  TimerState,
+  TimerStatus,
+} from "@/src/modules/timer/hooks/useTimerStore";
+import { TimerDifferent } from "@/src/modules/timer/components/TimerDifference";
 
 export type TimerModalProps = {
-  visible: boolean;
   onRequestClose: () => void;
   recipeId: string;
   recipeTitle: string;
   timerIntentType?: WebViewMessageType;
   timerAutoTime?: number;
+  onNavigateToRecipe: (recipeId: string) => void;
 };
 
-export default function TimerModal({
-  visible,
+const TimerModal = ({
   onRequestClose,
   recipeId,
   recipeTitle,
   timerIntentType,
   timerAutoTime,
-}: TimerModalProps) {
+  onNavigateToRecipe,
+}: TimerModalProps) => {
   const [durationSeconds, setDurationSeconds] = useState<number>(0);
-
-  const [autoStartCountdown, setAutoStartCountdown] = useState<number>(0);
-  const autoStartIntervalRef = useRef<ReturnType<typeof setInterval> | null>(
-    null,
-  );
-
-  const lastIntentRef = useRef<{
-    type?: WebViewMessageType;
-    time?: number;
-    timestamp: number;
-  }>({ timestamp: 0 });
-
-  const clearAutoStart = useCallback(() => {
-    if (autoStartIntervalRef.current) {
-      clearInterval(autoStartIntervalRef.current);
-      autoStartIntervalRef.current = null;
-    }
-    setAutoStartCountdown(0);
-  }, []);
+  const [isAutoStartActive, setIsAutoStartActive] = useState<boolean>(false);
 
   useEffect(() => {
     ensureNotificationReady().catch((e: any) => {
@@ -71,298 +50,225 @@ export default function TimerModal({
     });
   }, []);
 
-  const sheetY = useRef(new Animated.Value(40)).current;
-  const sheetOpacity = useRef(new Animated.Value(0)).current;
-
-  useEffect(() => {
-    if (visible) {
-      Animated.parallel([
-        Animated.timing(sheetY, {
-          toValue: 0,
-          duration: 220,
-          useNativeDriver: true,
-          easing: Easing.out(Easing.cubic),
-        }),
-        Animated.timing(sheetOpacity, {
-          toValue: 1,
-          duration: 220,
-          useNativeDriver: true,
-        }),
-      ]).start();
-    } else {
-      sheetY.setValue(40);
-      sheetOpacity.setValue(0);
-    }
-  }, [visible, sheetY, sheetOpacity]);
-
   const liveActivity = useLiveActivity();
 
-  const timer = useCountdownTimer({
-    name: recipeTitle,
-    onComplete: async () => {
-      clearAutoStart();
-      if (Platform.OS === "ios" && liveActivity.liveActivityId) {
-        await liveActivity.endActivity();
-      }
-      cancelTimerAlarm().catch((e: any) => {
-        console.warn("알림 취소 실패:", e);
-      });
-    },
-  });
-
-  const isStartingRef = useRef(false);
-
+  const {
+    getTimerStatus,
+    getRemainingTime,
+    name,
+    getLivePayload,
+    state,
+    reset,
+    pause,
+    resume,
+    start,
+    setDuration,
+    recipeId: existId,
+  } = useCountdownTimer();
   const handleStart = async () => {
-    if (isStartingRef.current) return;
-    if (timer.duration <= 0) {
-      return;
+    start({
+      name: recipeTitle,
+      recipeId: recipeId,
+      duration: durationSeconds,
+    });
+    if (Platform.OS === "ios" && liveActivity.isLiveActivityAvailable) {
+      await liveActivity.startActivity({
+        deepLink: `cheiftory://recipe/detail?recipeId=${recipeId}&isTimer=true&title=${recipeTitle}`,
+        activityName: recipeTitle,
+        duration: durationSeconds,
+      });
     }
 
-    isStartingRef.current = true;
-    try {
-      timer.start();
-
-      if (Platform.OS === "ios" && liveActivity.isLiveActivityAvailable) {
-        await liveActivity.startActivity({
-          deepLink: `cheiftory://recipe/detail?recipeId=${recipeId}&isTimer=true&title=${recipeTitle}`,
-          activityName: recipeTitle,
-          duration: timer.duration,
-        });
-      }
-
-      await scheduleTimerNotification(recipeTitle, recipeId, timer.duration);
-    } finally {
-      isStartingRef.current = false;
-    }
+    await scheduleTimerAlarm(recipeTitle, recipeId, durationSeconds);
+    setIsAutoStartActive(false);
   };
-
-  const handlePause = async () => {
-    timer.pause();
+  async function handlePause() {
+    pause();
     if (Platform.OS === "ios" && liveActivity.liveActivityId) {
-      const payload = timer.getLivePayload();
+      const payload = getLivePayload();
       await liveActivity.pauseActivity(payload);
     }
     await cancelTimerAlarm();
-  };
+  }
 
-  const handleIdle = async () => {
+  async function handleIdle() {
     if (Platform.OS === "ios" && liveActivity.liveActivityId) {
       await liveActivity.endActivity();
     }
     await cancelTimerAlarm();
-    timer.reset();
-  };
+    reset();
+  }
 
-  const handleResume = async () => {
-    if (Math.floor(timer.remainingTime) <= 0) {
+  async function handleResume() {
+    if (Math.floor(getRemainingTime()) <= 0) {
       return;
     }
-
-    timer.resume();
+    resume();
     if (Platform.OS === "ios" && liveActivity.liveActivityId) {
-      const payload = timer.getLivePayload();
+      const payload = getLivePayload();
       await liveActivity.resumeActivity(payload);
     }
-    await scheduleTimerNotification(
-      recipeTitle,
-      recipeId,
-      Math.floor(timer.remainingTime),
+    await scheduleTimerAlarm(
+      name || recipeTitle,
+      existId || recipeId,
+      Math.floor(getRemainingTime()),
     );
-  };
+  }
 
-  const handleEnd = async () => {
+  async function handleEnd() {
     if (Platform.OS === "ios" && liveActivity.liveActivityId) {
       await liveActivity.endActivity();
     }
     await cancelTimerAlarm();
-    onRequestClose?.();
-    timer.reset();
-  };
+    setIsAutoStartActive(false);
+    onRequestClose();
+    reset();
+  }
+  async function handleClose() {
+    onRequestClose();
+  }
 
-  const startAutoStartCountdown = useCallback(() => {
-    setAutoStartCountdown(10);
+  function handleTimeChange(totalSeconds: number) {
+    setDurationSeconds(totalSeconds);
+  }
 
-    autoStartIntervalRef.current = setInterval(() => {
-      setAutoStartCountdown((prev) => {
-        const next = prev - 1;
-        if (next <= 0) {
-          if (autoStartIntervalRef.current) {
-            clearInterval(autoStartIntervalRef.current); // 1. 먼저 정리
-            autoStartIntervalRef.current = null;
-          }
-
-          setTimeout(() => {
-            handleStart(); // 2. 안전한 환경에서 실행
-          }, 0);
-        }
-        return next;
-      });
-    }, 1000);
-  }, []);
-
-  const handleTimeChange = useCallback(
-    (totalSeconds: number) => {
-      setDurationSeconds(totalSeconds);
-      timer.setDuration(totalSeconds);
-    },
-    [timer],
-  );
+  function handleCancelAutoStart() {
+    setIsAutoStartActive(false);
+  }
 
   useEffect(() => {
-    if (!visible || !timerIntentType) return;
-
-    const now = Date.now();
-    const lastIntent = lastIntentRef.current;
-
-    if (
-      lastIntent.type === timerIntentType &&
-      lastIntent.time === timerAutoTime &&
-      now - lastIntent.timestamp < 500
-    ) {
-      return;
-    }
-
-    lastIntentRef.current = {
-      type: timerIntentType,
-      time: timerAutoTime,
-      timestamp: now,
-    };
-
+    if (!timerIntentType) return;
     switch (timerIntentType) {
       case WebViewMessageType.TIMER_SET: {
-        if (!timerAutoTime) break;
-        setDurationSeconds(timerAutoTime);
-        timer.setDuration(timerAutoTime);
-
-        if (timerAutoTime > 0) {
-          setTimeout(() => {
-            if (!isStartingRef.current && timer.state === TimerState.IDLE) {
-              startAutoStartCountdown();
-            }
-          }, 100);
+        if (timerAutoTime && timerAutoTime > 0 && state === TimerState.IDLE) {
+          setDurationSeconds(timerAutoTime);
+          setDuration(timerAutoTime);
+          setIsAutoStartActive(true);
         }
         break;
       }
 
       case WebViewMessageType.TIMER_STOP:
-        clearAutoStart();
-        if (timer.state === TimerState.ACTIVE) {
+        setIsAutoStartActive(false);
+        if (state === TimerState.ACTIVE) {
           handlePause();
         }
+        setTimeout(() => {
+          onRequestClose();
+        }, 1000);
         break;
 
       default:
-        clearAutoStart();
+        setIsAutoStartActive(false);
         break;
     }
-  }, [visible]);
+  }, []);
 
-  useEffect(() => {
-    return clearAutoStart;
-  }, [clearAutoStart, timerIntentType]);
-
-  const isAutoStartActive = autoStartCountdown > 0;
+  const handleNavigate = () => {
+    if (existId) {
+      onNavigateToRecipe(existId);
+    }
+  };
+  const renderBackdrop = useCallback(
+    (props: any) => (
+      <BottomSheetBackdrop
+        {...props}
+        disappearsOnIndex={-1}
+        appearsOnIndex={0}
+        opacity={0.45}
+      />
+    ),
+    [],
+  );
 
   return (
-    <Modal
-      visible={visible}
-      animationType="fade"
-      transparent
-      onRequestClose={onRequestClose}
-      statusBarTranslucent
+    <BottomSheet
+      index={0}
+      snapPoints={["70%"]}
+      onChange={(index) => index === -1 && onRequestClose()}
+      enablePanDownToClose={true}
+      enableOverDrag={false}
+      backdropComponent={renderBackdrop}
+      backgroundStyle={styles.sheetBackground}
+      handleIndicatorStyle={styles.handleIndicator}
+      animateOnMount={true}
+      enableDynamicSizing={false}
+      activeOffsetY={[-1, 1]}
+      failOffsetX={[-5, 5]}
+      enableHandlePanningGesture={true}
+      enableContentPanningGesture={false}
     >
-      <View style={styles.backdrop}>
-        <Pressable style={StyleSheet.absoluteFill} onPress={onRequestClose} />
-        <Animated.View
-          style={[
-            styles.sheet,
-            { opacity: sheetOpacity, transform: [{ translateY: sheetY }] },
-          ]}
-        >
-          <TimerHeader recipeTitle={recipeTitle} />
+      <View style={styles.contentContainer}>
+        <TimerHeader recipeTitle={name || recipeTitle} />
 
-          {(timer.state !== TimerState.IDLE || isAutoStartActive) && (
-            <View style={styles.progressContainer}>
-              <TimerProgress
-                key="main-timer-progress"
-                total={timer.duration}
-                remaining={timer.remainingTime}
-                isRunning={timer.state === TimerState.ACTIVE}
-              />
-            </View>
-          )}
+        {(state !== TimerState.IDLE || isAutoStartActive) && (
+          <View style={styles.progressContainer}>
+            <TimerProgress />
+          </View>
+        )}
 
-          {timer.state === TimerState.IDLE && isAutoStartActive && (
-            <AutoStartView
-              secondsLeft={autoStartCountdown}
-              onStartNow={() => {
-                clearAutoStart();
-                handleStart();
-              }}
-              onCancel={clearAutoStart}
-            />
-          )}
+        {state === TimerState.IDLE && isAutoStartActive && (
+          <TimerAutoStart
+            onStartNow={handleStart}
+            onCancel={handleCancelAutoStart}
+          />
+        )}
 
-          {timer.state === TimerState.IDLE && !isAutoStartActive && (
-            <TimerIdleView
+        {state === TimerState.IDLE &&
+          !isAutoStartActive &&
+          getTimerStatus(recipeId) === TimerStatus.NONE && (
+            <TimerIdle
               initialSeconds={durationSeconds}
               onTimeChange={handleTimeChange}
-              onStart={() => {
-                handleStart();
-              }}
-              onCancel={handleEnd}
-              isStartDisabled={isStartingRef.current}
+              onStart={handleStart}
+              onClose={handleClose}
+              isStartDisabled={durationSeconds <= 0}
             />
           )}
 
-          {timer.state === TimerState.ACTIVE && (
-            <TimerRunningView
-              remainingTime={timer.remainingTime}
-              onPause={handlePause}
-              onEnd={handleIdle}
-            />
+        {state === TimerState.ACTIVE &&
+          getTimerStatus(recipeId) === TimerStatus.SAME_RECIPE && (
+            <TimerRunning onPause={handlePause} onEnd={handleIdle} />
           )}
 
-          {timer.state === TimerState.PAUSED && (
-            <TimerPausedView
-              onResume={handleResume}
-              onEnd={handleIdle}
-            />
+        {state === TimerState.PAUSED &&
+          getTimerStatus(recipeId) === TimerStatus.SAME_RECIPE && (
+            <TimerPause onResume={handleResume} onEnd={handleIdle} />
           )}
 
-          {timer.state === TimerState.FINISHED && (
-            <TimerFinishedView onEnd={handleEnd} />
+        {state === TimerState.FINISHED &&
+          getTimerStatus(recipeId) === TimerStatus.SAME_RECIPE && (
+            <TimerFinish onEnd={handleEnd} />
           )}
-        </Animated.View>
+        {state !== TimerState.IDLE &&
+          getTimerStatus(recipeId) === TimerStatus.DIFFERENT_RECIPE && (
+            <TimerDifferent
+              onGoToRecipe={handleNavigate}
+              onClose={handleClose}
+            />
+          )}
       </View>
-    </Modal>
+    </BottomSheet>
   );
-}
+};
+
+export default TimerModal;
 
 const styles = StyleSheet.create({
-  backdrop: {
-    flex: 1,
-    backgroundColor: "rgba(0,0,0,0.45)",
-    justifyContent: "flex-end",
-  },
-  sheet: {
+  sheetBackground: {
     backgroundColor: COLORS.priamry.cook,
-    padding: 18,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    height: "70%",
-    borderTopWidth: StyleSheet.hairlineWidth,
-    borderColor: COLORS.border.lightGray,
-    shadowColor: COLORS.shadow.black,
-    shadowOpacity: 0.1,
-    shadowRadius: 18,
-    shadowOffset: { width: 0, height: -4 },
-    elevation: 10,
+  },
+  handleIndicator: {
+    backgroundColor: COLORS.border.lightGray,
+  },
+  contentContainer: {
+    flex: 1,
+    paddingHorizontal: 18,
+    paddingBottom: 24,
   },
   progressContainer: {
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 20,
-    marginBottom: 10,
+    paddingTop: 40,
   },
 });

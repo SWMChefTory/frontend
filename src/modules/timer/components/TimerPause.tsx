@@ -1,39 +1,32 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { COLORS } from "@/src/modules/shared/constants/colors";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { memo } from "react";
 
-type TimerRunningViewProps = {
-  remainingTime: number;
-  onPause: () => void;
+type TimerPauseProps = {
+  onResume: () => void;
   onEnd: () => void;
 };
 
-export function TimerRunningView({
-  remainingTime,
-  onPause,
-  onEnd,
-}: TimerRunningViewProps) {
-  const isNeared = remainingTime < 1;
+export const TimerPause = memo(({ onResume, onEnd }: TimerPauseProps) => {
   return (
     <View style={styles.container}>
       <View style={styles.contentContainer}>
-        <Text style={styles.statusText}>진행 중</Text>
+        <Text style={styles.statusText}>일시정지</Text>
       </View>
-
       <View style={styles.bottomButtonContainer}>
-        <TouchableOpacity
-          style={[styles.btn, styles.btnSecondary]}
-          onPress={isNeared ? undefined : onPause}
-        >
-          <Text style={styles.btnSecondaryText}>일시정지</Text>
-        </TouchableOpacity>
-
         <TouchableOpacity style={[styles.btn, styles.btnGhost]} onPress={onEnd}>
           <Text style={styles.btnGhostText}>중단</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.btn, styles.btnPrimary]}
+          onPress={onResume}
+        >
+          <Text style={styles.btnPrimaryText}>재개</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
-}
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -53,7 +46,6 @@ const styles = StyleSheet.create({
   },
   bottomButtonContainer: {
     flexDirection: "row",
-    paddingHorizontal: 20,
     paddingBottom: 24,
     paddingTop: 16,
     gap: 12,
@@ -69,7 +61,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.orange.main,
   },
   btnPrimaryText: {
-    color: "#000",
+    color: "#FFFFFF",
     fontWeight: "800",
     letterSpacing: -0.1,
   },

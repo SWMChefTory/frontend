@@ -5,57 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c2978cfc-da03-4072-a21d-998ef4af220e" name="변경" comment="">
-      <change afterPath="$PROJECT_DIR$/modules/expo-live-activity/LiveActivity.podspec" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/modules/expo-live-activity/expo-module.config.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/modules/expo-live-activity/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/modules/expo-live-activity/ios/LiveActivityModule.swift" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/modules/expo-live-activity/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/modules/expo-live-activity/src/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/notifications/timerNotifications.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/notifications/useNotificationObserver.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/timer/components/AutoStartView.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/timer/components/DurationSelector.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/timer/components/TimerFinishedView.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/timer/components/TimerHeader.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/timer/components/TimerIdle.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/timer/components/TimerModal.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/timer/components/TimerPausedView.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/timer/components/TimerProgress.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/timer/components/TimerRunningView.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/timer/hooks/useAppState.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/timer/hooks/useCountdownTimer.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/timer/hooks/useLiveActivity.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/timer/hooks/useLiveActivityStore.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/timer/hooks/useTimerStore.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/timer/store/secureZustand.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/timer/types/type.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/targets/widget/Assets.xcassets/Contents.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/targets/widget/Assets.xcassets/Fox.imageset/Contents.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/targets/widget/Assets.xcassets/Fox.imageset/Icon-Small-40@2x.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/targets/widget/Assets.xcassets/Fox.imageset/Icon-Small.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/targets/widget/Assets.xcassets/Fox.imageset/Icon-Small@2x.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/targets/widget/Info.plist" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/targets/widget/WidgetLiveActivity.swift" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/targets/widget/_shared/LiveActivityAttributes.swift" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/targets/widget/expo-target.config.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/targets/widget/generated.entitlements" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/targets/widget/widgets.swift" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/timer/components/TimerDifference.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.json" beforeDir="false" afterPath="$PROJECT_DIR$/app.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Podfile" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Podfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Podfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Podfile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Podfile.properties.json" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Podfile.properties.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/cheiftory.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/ios/cheiftory.xcodeproj/project.pbxproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/cheiftory/Info.plist" beforeDir="false" afterPath="$PROJECT_DIR$/ios/cheiftory/Info.plist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/cheiftory/PrivacyInfo.xcprivacy" beforeDir="false" afterPath="$PROJECT_DIR$/ios/cheiftory/PrivacyInfo.xcprivacy" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/(app)/recipe/detail.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(app)/recipe/detail.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/_layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/recipe/detail/components/RecipeWebView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/recipe/detail/components/RecipeWebView.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/recipe/detail/hooks/useBackHandler.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/recipe/detail/hooks/useWebViewMessage.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/recipe/detail/hooks/useWebViewMessage.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/recipe/detail/types/RecipeDetail.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/recipe/detail/types/RecipeDetail.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/notifications/timerNotifications.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/notifications/timerNotifications.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/timer/components/AutoStartView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/timer/components/TimerAutoStart.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/timer/components/DurationSelector.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/timer/components/DurationSelector.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/timer/components/TimerFinishedView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/timer/components/TimerFinish.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/timer/components/TimerHeader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/timer/components/TimerHeader.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/timer/components/TimerIdle.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/timer/components/TimerIdle.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/timer/components/TimerModal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/timer/components/TimerModal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/timer/components/TimerPausedView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/timer/components/TimerPause.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/timer/components/TimerProgress.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/timer/components/TimerProgress.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/timer/components/TimerRunningView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/timer/components/TimerRunning.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/timer/hooks/useCountdownTimer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/timer/hooks/useCountdownTimer.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/timer/hooks/useTimerStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/timer/hooks/useTimerStore.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -138,5 +102,17 @@
   </component>
   <component name="TaskManager">
     <servers />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/modules/timer/hooks/useTimerStore.ts</url>
+          <line>226</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="30" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

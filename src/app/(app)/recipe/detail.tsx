@@ -1,5 +1,5 @@
 import { RecipeWebView } from "@/src/modules/recipe/detail/components/RecipeWebView";
-import { Stack, useLocalSearchParams } from "expo-router";
+import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import {
   Alert,
   Button,
@@ -16,6 +16,7 @@ import { TimerMessage } from "@/src/modules/recipe/detail/types/RecipeDetail";
 export default function RecipeDetailScreen() {
   const [open, setOpen] = useState(false);
   const [timerMessage, setTimerMessage] = useState<TimerMessage | null>(null);
+  const router = useRouter();
 
   const params = useLocalSearchParams<{
     recipeId: string;
@@ -36,17 +37,25 @@ export default function RecipeDetailScreen() {
     if (isCreated) {
       modalRef.current?.present();
     }
-  }, [isCreated]);
+  }, []);
 
   useEffect(() => {
     if (isTimer) {
       setOpen(true);
     }
-  }, [isTimer]);
+  }, []);
 
   const openTimerModal = useCallback((msg: TimerMessage) => {
     setTimerMessage(msg);
     setOpen(true);
+  }, []);
+
+  const navigateToRecipe = useCallback((targetId: string) => {
+    console.log("navigateToRecipe", targetId);
+    router.replace({
+      pathname: "/recipe/detail",
+      params: { recipeId: targetId, isTimer: "true" },
+    } as any);
   }, []);
 
   return (
@@ -62,14 +71,16 @@ export default function RecipeDetailScreen() {
           recipeId={params.recipeId}
           onOpenTimer={openTimerModal}
         />
-        <TimerModal
-          visible={open}
-          onRequestClose={() => setOpen(false)}
-          recipeTitle={params.title || timerMessage?.recipe_title || ""}
-          recipeId={params.recipeId || timerMessage?.recipe_id || ""}
-          timerAutoTime={timerMessage?.timer_time}
-          timerIntentType={timerMessage?.type}
-        />
+        {open && (
+          <TimerModal
+            onRequestClose={() => setOpen(false)}
+            recipeTitle={params.title || timerMessage?.recipe_title || ""}
+            recipeId={params.recipeId || timerMessage?.recipe_id || ""}
+            timerAutoTime={timerMessage?.timer_time}
+            timerIntentType={timerMessage?.type}
+            onNavigateToRecipe={navigateToRecipe}
+          />
+        )}
         <RecipeCategoryBottomSheet
           modalRef={modalRef}
           recipeId={params.recipeId}

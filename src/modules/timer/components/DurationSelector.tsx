@@ -1,4 +1,10 @@
-import { useMemo, useRef, useCallback, useEffect, useState } from "react";
+import React, {
+  useMemo,
+  useRef,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import {
   View,
   Text,
@@ -20,6 +26,8 @@ type Props = {
 };
 
 const ITEM_H = 42;
+
+const headerFooterStyle = { height: ITEM_H * 2 };
 
 export default function DurationSelector({
   hours = 0,
@@ -46,74 +54,78 @@ export default function DurationSelector({
   const minRef = useRef<FlatList<number> | null>(null);
   const secRef = useRef<FlatList<number> | null>(null);
 
-  useEffect(() => {
-    if (isScrolling) return;
-
-    const scrollToPosition = (
+  // 스크롤 포지션 함수 최적화
+  const scrollToPosition = useCallback(
+    (
       ref: React.RefObject<FlatList<number> | null>,
       value: number,
       maxLength: number,
     ) => {
-      if (ref.current) {
+      if (ref.current && !isScrolling) {
         const safeIndex = Math.max(0, Math.min(maxLength - 1, value));
-        setTimeout(() => {
-          ref.current?.scrollToIndex({
-            index: safeIndex,
-            animated: true,
-          });
-        }, 100);
+        // setTimeout 제거
+        ref.current?.scrollToIndex({
+          index: safeIndex,
+          animated: true,
+        });
       }
-    };
+    },
+    [isScrolling],
+  );
 
+  // useEffect를 각각 분리하여 불필요한 리렌더링 방지
+  useEffect(() => {
     if (showHours) {
       scrollToPosition(hourRef, hours, hourData.length);
     }
+  }, [hours, showHours, hourData.length, scrollToPosition]);
+
+  useEffect(() => {
     scrollToPosition(minRef, minutes, minData.length);
+  }, [minutes, minData.length, scrollToPosition]);
+
+  useEffect(() => {
     scrollToPosition(secRef, seconds, secData.length);
-  }, [
-    hours,
-    minutes,
-    seconds,
-    showHours,
-    hourData.length,
-    minData.length,
-    secData.length,
-    isScrolling,
-  ]);
+  }, [seconds, secData.length, scrollToPosition]);
 
   const handleScrollBegin = useCallback(() => {
     setIsScrolling(true);
   }, []);
 
-  const handleScrollEnd = useCallback(
-    (type: "hour" | "minute" | "second") =>
-      (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-        const { contentOffset } = event.nativeEvent;
-        const index = Math.round(contentOffset.y / ITEM_H);
+  const currentValuesRef = useRef({ hours, minutes, seconds });
+  currentValuesRef.current = { hours, minutes, seconds };
+  const handleHourScrollEnd = useCallback(
+    (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+      const index = Math.round(event.nativeEvent.contentOffset.y / ITEM_H);
+      const clampedIndex = Math.max(0, Math.min(hourData.length - 1, index));
+      const { minutes: currentMinutes, seconds: currentSeconds } =
+        currentValuesRef.current;
+      onChange(clampedIndex, currentMinutes, currentSeconds);
+      setIsScrolling(false);
+    },
+    [hourData.length, onChange], // 의존성 대폭 감소
+  );
 
-        let clampedIndex: number;
-        if (type === "hour") {
-          clampedIndex = Math.max(0, Math.min(hourData.length - 1, index));
-          onChange(clampedIndex, minutes, seconds);
-        } else if (type === "minute") {
-          clampedIndex = Math.max(0, Math.min(minData.length - 1, index));
-          onChange(hours, clampedIndex, seconds);
-        } else {
-          clampedIndex = Math.max(0, Math.min(secData.length - 1, index));
-          onChange(hours, minutes, clampedIndex);
-        }
+  const handleMinuteScrollEnd = useCallback(
+    (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+      const { contentOffset } = event.nativeEvent;
+      const index = Math.round(contentOffset.y / ITEM_H);
+      const clampedIndex = Math.max(0, Math.min(minData.length - 1, index));
+      onChange(hours, clampedIndex, seconds);
+      setIsScrolling(false);
+    },
+    [minData.length, hours, seconds, onChange],
+  );
 
-        setIsScrolling(false);
-      },
-    [
-      hourData.length,
-      minData.length,
-      secData.length,
-      hours,
-      minutes,
-      seconds,
-      onChange,
-    ],
+  const handleSecondScrollEnd = useCallback(
+    (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+      const { contentOffset } = event.nativeEvent;
+      const index = Math.round(contentOffset.y / ITEM_H);
+      const clampedIndex = Math.max(0, Math.min(secData.length - 1, index));
+      onChange(hours, minutes, clampedIndex);
+      setIsScrolling(false);
+    },
+    [secData.length, hours, minutes, onChange],
   );
 
   return (
@@ -127,7 +139,7 @@ export default function DurationSelector({
                 value={hours}
                 refList={hourRef}
                 onScrollBegin={handleScrollBegin}
-                onMomentumScrollEnd={handleScrollEnd("hour")}
+                onMomentumScrollEnd={handleHourScrollEnd}
               />
               <View style={styles.centerLine} />
             </View>
@@ -144,7 +156,7 @@ export default function DurationSelector({
             value={minutes}
             refList={minRef}
             onScrollBegin={handleScrollBegin}
-            onMomentumScrollEnd={handleScrollEnd("minute")}
+            onMomentumScrollEnd={handleMinuteScrollEnd}
           />
           <View style={styles.centerLine} />
         </View>
@@ -160,7 +172,7 @@ export default function DurationSelector({
             value={seconds}
             refList={secRef}
             onScrollBegin={handleScrollBegin}
-            onMomentumScrollEnd={handleScrollEnd("second")}
+            onMomentumScrollEnd={handleSecondScrollEnd}
           />
           <View style={styles.centerLine} />
         </View>
@@ -170,54 +182,78 @@ export default function DurationSelector({
   );
 }
 
-function Wheel({
-  data,
-  value,
-  refList,
-  onScrollBegin,
-  onMomentumScrollEnd,
-}: {
-  data: number[];
-  value: number;
-  refList: React.RefObject<FlatList<number> | null>;
-  onScrollBegin: () => void;
-  onMomentumScrollEnd: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
-}) {
-  const safeInitialIndex = useMemo(() => {
-    return Math.max(0, Math.min(data.length - 1, value));
-  }, [data.length, value]);
+// Wheel 컴포넌트 메모이제이션
+const Wheel = React.memo(
+  ({
+    data,
+    value,
+    refList,
+    onScrollBegin,
+    onMomentumScrollEnd,
+  }: {
+    data: number[];
+    value: number;
+    refList: React.RefObject<FlatList<number> | null>;
+    onScrollBegin: () => void;
+    onMomentumScrollEnd: (
+      event: NativeSyntheticEvent<NativeScrollEvent>,
+    ) => void;
+  }) => {
+    const safeInitialIndex = useMemo(() => {
+      return Math.max(0, Math.min(data.length - 1, value));
+    }, [data.length, value]);
 
-  return (
-    <FlatList
-      ref={refList}
-      data={data}
-      keyExtractor={(n) => String(n)}
-      style={styles.list}
-      showsVerticalScrollIndicator={false}
-      removeClippedSubviews={false}
-      getItemLayout={(_, index) => ({
-        length: ITEM_H,
-        offset: ITEM_H * index,
-        index,
-      })}
-      initialScrollIndex={safeInitialIndex}
-      snapToInterval={ITEM_H}
-      snapToAlignment="start"
-      decelerationRate="fast"
-      onScrollBeginDrag={onScrollBegin}
-      onMomentumScrollEnd={onMomentumScrollEnd}
-      renderItem={({ item }) => (
+    // renderItem 메모이제이션
+    const renderItem = useCallback(
+      ({ item }: { item: number }) => (
         <View style={styles.item}>
           <Text style={styles.itemText}>
             {item.toString().padStart(2, "0")}
           </Text>
         </View>
-      )}
-      ListHeaderComponent={<View style={{ height: ITEM_H * 2 }} />}
-      ListFooterComponent={<View style={{ height: ITEM_H * 2 }} />}
-    />
-  );
-}
+      ),
+      [],
+    );
+
+    // getItemLayout 메모이제이션
+    const getItemLayout = useCallback(
+      (_: any, index: number) => ({
+        length: ITEM_H,
+        offset: ITEM_H * index,
+        index,
+      }),
+      [],
+    );
+
+    return (
+      <FlatList
+        ref={refList}
+        data={data}
+        keyExtractor={(n) => String(n)}
+        style={styles.list}
+        showsVerticalScrollIndicator={false}
+        removeClippedSubviews={true} // true로 변경
+        getItemLayout={getItemLayout}
+        initialScrollIndex={safeInitialIndex}
+        snapToInterval={ITEM_H}
+        snapToAlignment="start"
+        decelerationRate="fast"
+        onScrollBeginDrag={onScrollBegin}
+        onMomentumScrollEnd={onMomentumScrollEnd}
+        renderItem={renderItem}
+        ListHeaderComponent={<View style={headerFooterStyle} />}
+        ListFooterComponent={<View style={headerFooterStyle} />}
+        // 추가 성능 최적화 props
+        windowSize={10}
+        maxToRenderPerBatch={5}
+        updateCellsBatchingPeriod={50}
+        initialNumToRender={7}
+      />
+    );
+  },
+);
+
+Wheel.displayName = "Wheel";
 
 const styles = StyleSheet.create({
   wrap: {
@@ -226,7 +262,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     gap: 10,
     paddingVertical: 8,
-    marginTop: 10,
+    marginTop: 5,
   },
   col: { alignItems: "center" },
   list: {
@@ -237,10 +273,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: COLORS.border.lightGray,
     shadowColor: COLORS.shadow.black,
-    shadowOpacity: 0.06,
-    shadowRadius: 12,
-    shadowOffset: { width: 0, height: 4 },
-    elevation: 1,
   },
   item: {
     height: ITEM_H,
