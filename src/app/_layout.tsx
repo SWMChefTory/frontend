@@ -21,6 +21,7 @@ ExpoSplashScreen.preventAutoHideAsync();
 
 import * as Notifications from "expo-notifications";
 import { useNotificationObserver } from "@/src/modules/notifications/useNotificationObserver";
+import { PortalProvider } from "@gorhom/portal";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -122,7 +123,9 @@ export default function RootLayout() {
         <BottomSheetModalProvider>
           <GlobalErrorBoundary>
             <SplashScreenController>
-              <RootNavigator />
+              <PortalProvider>
+                <RootNavigator />
+              </PortalProvider>
             </SplashScreenController>
           </GlobalErrorBoundary>
         </BottomSheetModalProvider>

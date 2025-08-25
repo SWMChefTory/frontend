@@ -1,14 +1,30 @@
-import { StyleSheet, View, Animated, RefreshControl } from "react-native";
-import { useState, useRef, useCallback, useEffect } from "react";
+import {
+  StyleSheet,
+  View,
+  Animated,
+  RefreshControl,
+  TouchableOpacity,
+} from "react-native";
+import { useState, useRef, useCallback } from "react";
+import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 import { HomeSectionHeader } from "@/src/modules/shared/components/layout/HomeSectionHeader";
 import { RecentRecipeSection } from "@/src/modules/recipe/summary/recent/components/Section";
 import { PopularRecipeSection } from "@/src/modules/recipe/summary/popular/components/Secition";
 import { COLORS } from "@/src/modules/shared/constants/colors";
+import TimerModal from "@/src/modules/timer/components/TimerModal";
+import { useHasActiveTimer } from "@/src/modules/timer/hooks/useCountdownTimer";
+import { Portal } from "@gorhom/portal";
+import { SHADOW } from "@/src/modules/shared/constants/shadow";
 
 export default function HomeScreen() {
   const scrollY = useRef(new Animated.Value(0)).current;
   const [refreshing, setRefreshing] = useState(false);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
+  const [timerModalOpen, setTimerModalOpen] = useState(false);
+
+  const hasActiveTimer = useHasActiveTimer();
+  const router = useRouter();
 
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
@@ -18,9 +34,30 @@ export default function HomeScreen() {
     }, 1500);
   }, []);
 
+  const handleTimerPress = useCallback(() => {
+    setTimerModalOpen(true);
+  }, []);
+
+  const handleTimerModalClose = useCallback(() => {
+    setTimerModalOpen(false);
+  }, []);
+
+  const navigateToRecipe = useCallback(
+    (recipeId: string, recipeTitle: string) => {
+      router.replace({
+        pathname: "/recipe/detail",
+        params: {
+          recipeId: recipeId,
+          title: recipeTitle,
+          isTimer: "true",
+        },
+      } as any);
+    },
+    [],
+  );
+
   return (
     <View style={styles.container}>
-
       <Animated.ScrollView
         style={styles.scrollView}
         showsVerticalScrollIndicator={false}
@@ -50,6 +87,31 @@ export default function HomeScreen() {
           <View style={styles.bottomSpacer} />
         </View>
       </Animated.ScrollView>
+
+      {hasActiveTimer && (
+        <TouchableOpacity
+          style={styles.timerFloatingButton}
+          onPress={handleTimerPress}
+          activeOpacity={0.7}
+        >
+          <Ionicons
+            name="timer-outline"
+            size={24}
+            color={COLORS.background.white}
+          />
+        </TouchableOpacity>
+      )}
+
+      {timerModalOpen && (
+        <Portal>
+          <TimerModal
+            onRequestClose={handleTimerModalClose}
+            recipeTitle={""}
+            recipeId={""}
+            onNavigateToRecipe={navigateToRecipe}
+          />
+        </Portal>
+      )}
     </View>
   );
 }
@@ -70,5 +132,17 @@ const styles = StyleSheet.create({
   },
   bottomSpacer: {
     height: 100,
+  },
+  timerFloatingButton: {
+    position: "absolute",
+    right: 20,
+    bottom: 30,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: COLORS.orange.main,
+    justifyContent: "center",
+    alignItems: "center",
+    ...SHADOW,
   },
 });

@@ -30,7 +30,7 @@ export type TimerModalProps = {
   recipeTitle: string;
   timerIntentType?: WebViewMessageType;
   timerAutoTime?: number;
-  onNavigateToRecipe: (recipeId: string) => void;
+  onNavigateToRecipe: (recipeId: string, recipeTitle: string) => void;
 };
 
 const TimerModal = ({
@@ -166,9 +166,10 @@ const TimerModal = ({
 
   const handleNavigate = () => {
     if (existId) {
-      onNavigateToRecipe(existId);
+      onNavigateToRecipe(existId, name || recipeTitle);
     }
   };
+
   const renderBackdrop = useCallback(
     (props: any) => (
       <BottomSheetBackdrop

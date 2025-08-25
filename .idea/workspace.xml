@@ -5,19 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c2978cfc-da03-4072-a21d-998ef4af220e" name="변경" comment="">
-      <change afterPath="$PROJECT_DIR$/src/modules/timer/components/TimerDifference.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/(app)/(tabs)/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(app)/(tabs)/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/(app)/recipe/detail.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(app)/recipe/detail.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/notifications/timerNotifications.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/notifications/timerNotifications.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/timer/components/AutoStartView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/timer/components/TimerAutoStart.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/timer/components/DurationSelector.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/timer/components/DurationSelector.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/timer/components/TimerFinishedView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/timer/components/TimerFinish.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/timer/components/TimerHeader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/timer/components/TimerHeader.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/timer/components/TimerIdle.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/timer/components/TimerIdle.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/_layout.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/timer/components/TimerModal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/timer/components/TimerModal.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/timer/components/TimerPausedView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/timer/components/TimerPause.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/timer/components/TimerProgress.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/timer/components/TimerProgress.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/timer/components/TimerRunningView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/timer/components/TimerRunning.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/timer/hooks/useCountdownTimer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/timer/hooks/useCountdownTimer.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/timer/hooks/useTimerStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/timer/hooks/useTimerStore.ts" afterDir="false" />
     </list>
@@ -108,7 +100,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/modules/timer/hooks/useTimerStore.ts</url>
-          <line>226</line>
+          <line>231</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="30" />
         </line-breakpoint>

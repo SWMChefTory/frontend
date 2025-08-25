@@ -139,3 +139,8 @@ export function useCountdownTimerState(): {
   const { state, remainingTime, duration } = useTimerStore();
   return { state, remainingTime, duration };
 }
+
+export function useHasActiveTimer(): boolean {
+  const hasActiveTimer = useTimerStore((store) => store.hasActiveTimer);
+  return hasActiveTimer();
+}

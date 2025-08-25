@@ -32,6 +32,7 @@ export interface TimerStoreState {
   getTimerStatus: (recipeId?: string) => TimerStatus;
 
   start: (params: { name: string; recipeId: string; duration: number }) => void;
+  hasActiveTimer: () => boolean;
   pause: () => void;
   resume: () => void;
   reset: () => void;
@@ -216,6 +217,10 @@ export const useTimerStore = create<TimerStoreState>()(
             set({ remainingTime: remainingSec });
           }
         }
+      },
+      hasActiveTimer: () => {
+        const s = get();
+        return s.state === TimerState.ACTIVE && s.deadlineAt !== null;
       },
     }),
     {

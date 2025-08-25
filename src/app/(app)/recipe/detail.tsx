@@ -1,12 +1,6 @@
 import { RecipeWebView } from "@/src/modules/recipe/detail/components/RecipeWebView";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
-import {
-  Alert,
-  Button,
-  SafeAreaView,
-  StatusBar,
-  StyleSheet,
-} from "react-native";
+import { SafeAreaView, StatusBar, StyleSheet } from "react-native";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import TimerModal from "@/src/modules/timer/components/TimerModal";
@@ -50,13 +44,19 @@ export default function RecipeDetailScreen() {
     setOpen(true);
   }, []);
 
-  const navigateToRecipe = useCallback((targetId: string) => {
-    console.log("navigateToRecipe", targetId);
-    router.replace({
-      pathname: "/recipe/detail",
-      params: { recipeId: targetId, isTimer: "true" },
-    } as any);
-  }, []);
+  const navigateToRecipe = useCallback(
+    (recipeId: string, recipeTitle: string) => {
+      router.replace({
+        pathname: "/recipe/detail",
+        params: {
+          recipeId: recipeId,
+          title: recipeTitle,
+          isTimer: "true",
+        },
+      } as any);
+    },
+    [],
+  );
 
   return (
     <>
