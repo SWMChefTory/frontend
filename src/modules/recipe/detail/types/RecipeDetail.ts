@@ -22,9 +22,24 @@ export enum WebViewMessageType {
   BACK_PRESSED = "BACK_PRESSED",
   CLEAR_HISTORY = "CLEAR_HISTORY",
   REFRESH_TOKEN = "REFRESH_TOKEN",
+  TIMER_START = "TIMER_START",
+  TIMER_STOP = "TIMER_STOP",
+  TIMER_CHECK = "TIMER_CHECK",
+  TIMER_SET = "TIMER_SET",
 }
 
 export interface RecipeDetailState {
   isLoading: boolean;
   canGoBack: boolean;
 }
+
+export type TimerMessage = {
+  type:
+    | WebViewMessageType.TIMER_START
+    | WebViewMessageType.TIMER_STOP
+    | WebViewMessageType.TIMER_CHECK
+    | WebViewMessageType.TIMER_SET;
+  recipe_id: string;
+  recipe_title: string;
+  timer_time?: number;
+};

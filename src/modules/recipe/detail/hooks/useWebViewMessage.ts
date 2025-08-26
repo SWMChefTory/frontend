@@ -1,14 +1,27 @@
 import { refreshToken } from "@/src/modules/shared/api/client";
 import { router } from "expo-router";
-import { useCallback } from "react";
+import React, { useCallback } from "react";
 import { WebView } from "react-native-webview";
-import { WebViewMessage, WebViewMessageType } from "../types/RecipeDetail";
+import {
+  TimerMessage,
+  WebViewMessage,
+  WebViewMessageType,
+} from "../types/RecipeDetail";
 
 interface UseWebViewMessageProps {
   webviewRef: React.RefObject<WebView | null>;
+  timerCallbacks?: {
+    onTimerStart?: (data: TimerMessage) => void;
+    onTimerStop?: (data: TimerMessage) => void;
+    onTimerCheck?: (data: TimerMessage) => void;
+    onTimerSet?: (data: TimerMessage) => void;
+  };
 }
 
-export function useWebViewMessage({ webviewRef }: UseWebViewMessageProps) {
+export function useWebViewMessage({
+  webviewRef,
+  timerCallbacks,
+}: UseWebViewMessageProps) {
   const clearWebViewHistoryByReload = useCallback(() => {
     if (webviewRef.current) {
       webviewRef.current.reload();
@@ -35,7 +48,7 @@ export function useWebViewMessage({ webviewRef }: UseWebViewMessageProps) {
             break;
 
           case WebViewMessageType.BACK_PRESSED:
-            router.back();
+            router.replace("/(app)/(tabs)");
             break;
 
           case WebViewMessageType.CLEAR_HISTORY:
@@ -43,17 +56,43 @@ export function useWebViewMessage({ webviewRef }: UseWebViewMessageProps) {
             break;
 
           case WebViewMessageType.REFRESH_TOKEN:
-              (async () => {
-                const newToken = await refreshToken();
-                if (webviewRef.current && newToken) {
-                  const payload = JSON.stringify({
-                    type: "ACCESS_TOKEN",
-                    token: newToken,
-                  });
-                  const js = `window.postMessage(${payload}, "*"); true;`;
-                  webviewRef.current.injectJavaScript(js);
-                }
-              })();
+            (async () => {
+              const newToken = await refreshToken();
+              if (webviewRef.current && newToken) {
+                const payload = JSON.stringify({
+                  type: "ACCESS_TOKEN",
+                  token: newToken,
+                });
+                const js = `window.postMessage(${payload}, "*"); true;`;
+                webviewRef.current.injectJavaScript(js);
+              }
+            })();
+            break;
+
+          case WebViewMessageType.TIMER_START:
+            timerCallbacks?.onTimerStart?.(parsedMessage as TimerMessage);
+            break;
+
+          case WebViewMessageType.TIMER_STOP:
+            console.log("타이머 중지 요청", parsedMessage);
+            timerCallbacks?.onTimerStop?.(parsedMessage as TimerMessage);
+            break;
+
+          case WebViewMessageType.TIMER_CHECK:
+            console.log("타이머 확인 요청", parsedMessage);
+
+            // 테스트용으로 timer_time을 60초로 강제 세팅
+            timerCallbacks?.onTimerSet?.({
+              ...parsedMessage,
+              timer_time: "60",
+            } as TimerMessage);
+
+            // 필요 시 원래 콜백도 주석 해제 가능
+            // timerCallbacks?.onTimerCheck?.(parsedMessage as TimerMessage);
+            break;
+
+          case WebViewMessageType.TIMER_SET:
+            timerCallbacks?.onTimerSet?.(parsedMessage as TimerMessage);
             break;
 
           default:
@@ -63,7 +102,7 @@ export function useWebViewMessage({ webviewRef }: UseWebViewMessageProps) {
         console.error("메시지 처리 중 오류:", error);
       }
     },
-    [clearWebViewHistoryByReload]
+    [clearWebViewHistoryByReload, timerCallbacks], // timerCallbacks 추가
   );
 
   return {

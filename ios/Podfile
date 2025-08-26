@@ -7,7 +7,7 @@ podfile_properties = JSON.parse(File.read(File.join(__dir__, 'Podfile.properties
 ENV['RCT_NEW_ARCH_ENABLED'] = '0' if podfile_properties['newArchEnabled'] == 'false'
 ENV['EX_DEV_CLIENT_NETWORK_INSPECTOR'] = podfile_properties['EX_DEV_CLIENT_NETWORK_INSPECTOR']
 
-platform :ios, podfile_properties['ios.deploymentTarget'] || '15.1'
+platform :ios, '17.0'
 install! 'cocoapods',
   :deterministic_uuids => false
 
@@ -60,5 +60,19 @@ target 'cheiftory' do
         end
       end
     end
+  end
+end
+
+
+# apple-targets-extension-loader -- Dynamic loading of target configurations
+Dir.glob(File.join(__dir__, '..', 'targets', '**', 'pods.rb')).each do |target_file|
+  target_name = File.basename(File.dirname(target_file))
+  target target_name do
+    # Create a new binding with access to necessary methods and variables
+    target_binding = binding
+    target_binding.local_variable_set(:podfile_properties, podfile_properties)
+
+    # Evaluate the target file content in the new binding
+    eval(File.read(target_file), target_binding, target_file)
   end
 end

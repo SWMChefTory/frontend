@@ -6,46 +6,65 @@ import { useWebViewMessage } from "../hooks/useWebViewMessage";
 import { findAccessToken } from "@/src/modules/shared/storage/SecureStorage";
 import { ApiErrorBoundary } from "@/src/modules/shared/components/error/ApiErrorBoundary";
 import { RecipeWebViewFallback } from "./Fallback";
+import { TimerMessage } from "@/src/modules/recipe/detail/types/RecipeDetail";
 
 interface RecipeWebViewProps {
   recipeId: string;
+  onOpenTimer: (data: TimerMessage) => void;
 }
 
-export function RecipeWebView ({
-  recipeId,
-}: RecipeWebViewProps) {
-  return  (
+export function RecipeWebView({ recipeId, onOpenTimer }: RecipeWebViewProps) {
+  return (
     <ApiErrorBoundary fallbackComponent={RecipeWebViewFallback}>
-      <RecipeWebViewContent recipeId={recipeId} />
+      <RecipeWebViewContent recipeId={recipeId} onOpenTimer={onOpenTimer} />
     </ApiErrorBoundary>
   );
 }
 
 export function RecipeWebViewContent({
   recipeId,
+  onOpenTimer,
 }: RecipeWebViewProps) {
-
   const webviewRef = useRef<WebView>(null);
   const [error, setError] = useState<Error | null>(null);
 
-  const accessToken = findAccessToken();  
+  const accessToken = findAccessToken();
   const url = getWebViewUrl(recipeId);
 
   const { handleMessage } = useWebViewMessage({
     webviewRef,
+    timerCallbacks: {
+      onTimerStart: (data) => {
+        onOpenTimer(data);
+      },
+      onTimerStop: (data) => {
+        onOpenTimer(data);
+      },
+      onTimerCheck: (data) => {
+        onOpenTimer(data);
+      },
+      onTimerSet: (data) => {
+        onOpenTimer(data);
+      },
+    },
   });
-
   const handleError = useCallback((error: any) => {
-    setError(new Error(`WebView 에러: ${error.nativeEvent?.description || 'Unknown error'}`));
+    setError(
+      new Error(
+        `WebView 에러: ${error.nativeEvent?.description || "Unknown error"}`,
+      ),
+    );
   }, []);
 
   const handleHttpError = useCallback((error: any) => {
-    setError(new Error(`HTTP 오류: ${error.nativeEvent?.statusCode} - ${error.nativeEvent?.description}`));
+    setError(
+      new Error(
+        `HTTP 오류: ${error.nativeEvent?.statusCode} - ${error.nativeEvent?.description}`,
+      ),
+    );
   }, []);
-  
 
   const handleWebViewLoadEnd = (syntheticEvent: any) => {
-
     if (webviewRef.current && accessToken) {
       const payload = JSON.stringify({
         type: "ACCESS_TOKEN",

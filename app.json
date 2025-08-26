@@ -1,9 +1,6 @@
 {
   "expo": {
     "name": "cheiftory",
-    "linking": {
-      "enabled": false
-    },
     "owner": "cheftory",
     "slug": "cheiftory",
     "version": "1.0.2",
@@ -13,10 +10,15 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
+      "deploymentTarget": "17.0",
+      "appleTeamId": "TCMRDSDB39",
       "supportsTablet": true,
       "bundleIdentifier": "com.anonymous.cheiftory",
       "usesAppleSignIn": true,
       "infoPlist": {
+        "UIBackgroundModes": ["audio", "fetch", "remote-notification"],
+        "NSUserNotificationUsageDescription": "타이머 종료 시 알림을 보내기 위해 필요합니다.",
+        "NSSupportsLiveActivities": true,
         "NSFaceIDUsageDescription": "안전한 로그인과 인증을 위해 Face ID를 사용합니다.",
         "NSAppTransportSecurity": {
           "NSAllowsArbitraryLoads": true
@@ -33,6 +35,10 @@
               "CFBundleURLSchemes": [
                 "com.anonymous.cheiftory"
               ]
+            },
+            {
+              "CFBundleURLName": "app-deeplink",
+              "CFBundleURLSchemes": ["cheiftory"]
             }
         ]
       }
@@ -57,6 +63,7 @@
     },
     "plugins": [
       "expo-router",
+      "@bacons/apple-targets",
       [
         "expo-splash-screen",
         {
@@ -78,7 +85,7 @@
     "extra": {
       "router": {
         "origin": false,
-        "autoLinking": false
+        "autoLinking": true
       },
       "eas": {
         "projectId": "bfa31b78-8718-4e7f-9733-56529cecf388"
