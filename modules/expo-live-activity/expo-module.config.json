@@ -3,7 +3,6 @@
   "platforms": ["apple"],
   "apple": {
     "modules": ["LiveActivityModule"],
-    "podspecPath": "LiveActivity.podspec",
-    "deploymentTarget": "17.0"
+    "podspecPath": "LiveActivity.podspec"
   }
 }
