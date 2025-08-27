@@ -2,7 +2,7 @@ import { HeaderTemplate } from "./template/HeaderTemplate";
 import { useRouter } from "expo-router";
 import { TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { HomeHeader } from "./HomeHeader";
+import { HomeHeader } from "../banner/HomeBanner";
 
 export default function IndexHeader() {
   const router = useRouter();

@@ -2,7 +2,7 @@ import { TouchableOpacity, View } from "react-native";
 import { HeaderTemplate } from "./template/HeaderTemplate";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { HomeHeader } from "./HomeHeader";
+import { HomeHeader } from "../banner/HomeBanner";
 
 export default function CollectionHeader() {
   const router = useRouter();
