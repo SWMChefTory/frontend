@@ -1,8 +1,9 @@
 import { HeaderTemplate } from "./template/HeaderTemplate";
 import { useRouter } from "expo-router";
-import { TouchableOpacity, View } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import {View } from "react-native";
 import { HomeHeader } from "../banner/HomeBanner";
+import SettingNavigationButton from "./button/navigation/SettingNavigationButton";
+import NotificationNavigationButton from "./button/navigation/NotificationNavigationButton";
 
 export default function IndexHeader() {
   const router = useRouter();
@@ -16,12 +17,8 @@ export default function IndexHeader() {
       leftComponent={<HomeHeader />}
       rightComponent={
         <View style={{ flexDirection: "row", gap: 12, marginRight: 16 }}>
-          <TouchableOpacity>
-            <Ionicons name="notifications-outline" size={24} color="#000" />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={handleSettingPress}>
-            <Ionicons name="settings-outline" size={24} color="#000" />
-          </TouchableOpacity>
+          <NotificationNavigationButton />
+          <SettingNavigationButton />
         </View>
       }
     />

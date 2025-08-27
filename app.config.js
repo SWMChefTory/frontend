@@ -59,7 +59,7 @@ export default {
         backgroundColor: "#FFF5F0",
       },
       edgeToEdgeEnabled: true,
-      package: "com.anonymous.cheiftory",
+      package: "com.cheftory.cheftory",
     },
     web: {
       bundler: "metro",
