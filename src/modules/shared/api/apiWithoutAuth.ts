@@ -78,9 +78,11 @@ export async function deleteAccount(refreshToken: string): Promise<void> {
   const deleteAccountRequest: DeleteAccountRequest = {
     refresh_token: refreshToken,
   };
-  const response = await clientWithoutAuth.post(
-    "/account/delete",
-    deleteAccountRequest,
+  const response = await clientWithoutAuth.delete(
+    "/account",
+    {
+      data : deleteAccountRequest
+    }
   );
   return response.data;
 }

@@ -7,10 +7,9 @@ Pod::Spec.new do |s|
   s.license       = { :type => 'MIT' }
   s.authors       = { 'Your Name' => 'you@example.com' }
   s.source        = { :path => '.' }
-  s.platforms     = { :ios => '17.0' }
-  s.swift_version = '5.0'
   s.source_files  = 'ios/**/*.{h,m,mm,swift}'
   s.dependency    'ExpoModulesCore'
+  s.weak_frameworks = ['ActivityKit', 'WidgetKit', 'AppIntents', 'SwiftUI']
   
   s.pod_target_xcconfig = {
     'DEFINES_MODULE' => 'YES',

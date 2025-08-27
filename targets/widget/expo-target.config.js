@@ -6,5 +6,5 @@ module.exports = (_config) => ({
   entitlements: {
     // "com.apple.security.application-groups": ["group.com.expo.dev"],
   },
-  deploymentTarget: "17.0",
+  deploymentTarget: "17.2",
 });
