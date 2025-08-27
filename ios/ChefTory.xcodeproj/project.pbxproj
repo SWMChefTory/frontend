@@ -128,6 +128,7 @@
 				XXB941E85CA0AB89A692E0XX /* PBXFileSystemSynchronizedBuildFileExceptionSet */,
 				XX3C49F596644F1073CB7FXX /* PBXFileSystemSynchronizedBuildFileExceptionSet */,
 				XX3C49F596644F1073CB7FXX /* PBXFileSystemSynchronizedBuildFileExceptionSet */,
+				XX3C49F596644F1073CB7FXX /* PBXFileSystemSynchronizedBuildFileExceptionSet */,
 			);
 			explicitFileTypes = {};
 			explicitFolders = (
@@ -310,7 +311,7 @@
 		};
 		XX70E90E0102C889F4DF59XX /* widget */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = XX2598772D1C953713E849XX /* Build configuration list for PBXNativeTarget "widget" */;
+			buildConfigurationList = XX05FEC24B1423EF456957XX /* Build configuration list for PBXNativeTarget "widget" */;
 			buildPhases = (
 				XXBA6CDF0021ABEEEDFCFBXX /* Frameworks */,
 				XXDC105B0E28F884B8E02DXX /* Sources */,
@@ -330,7 +331,7 @@
 		};
 		XXCC1B75B9675CCC6C0B57XX /* share */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = XXEF50A9EBE09CD514A594XX /* Build configuration list for PBXNativeTarget "share" */;
+			buildConfigurationList = XXB102BF2CC70407CA3FCAXX /* Build configuration list for PBXNativeTarget "share" */;
 			buildPhases = (
 				XX074B8811C1CF8E8A3D74XX /* Frameworks */,
 				XXE45443DC38DCFE1DB622XX /* Sources */,
@@ -1001,6 +1002,45 @@
 				DEVELOPMENT_TEAM = TCMRDSDB39;
 			};
 		};
+		XXB0E2340B7DF0CC53A7CCXX /* Release */ = {
+			isa = XCBuildConfiguration;
+			name = Release;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				INFOPLIST_FILE = ../targets/share/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = share;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0.2;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cheftory.cheftory.share;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				COPY_PHASE_STRIP = NO;
+				CODE_SIGN_ENTITLEMENTS = ../targets/share/generated.entitlements;
+				DEVELOPMENT_TEAM = TCMRDSDB39;
+			};
+		};
 		XXC859B13836206402D95EXX /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1042,6 +1082,46 @@
 			};
 			name = Release;
 		};
+		XXFD51EC1B3B2ED0CFD43AXX /* Release */ = {
+			isa = XCBuildConfiguration;
+			name = Release;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ../targets/widget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = widget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0.2;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cheftory.cheftory.widget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				CODE_SIGN_ENTITLEMENTS = ../targets/widget/generated.entitlements;
+				DEVELOPMENT_TEAM = TCMRDSDB39;
+			};
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1063,21 +1143,21 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		XX2598772D1C953713E849XX /* Build configuration list for PBXNativeTarget "widget" */ = {
+		XX05FEC24B1423EF456957XX /* Build configuration list for PBXNativeTarget "widget" */ = {
 			isa = XCConfigurationList;
 			defaultConfigurationIsVisible = 0;
 			buildConfigurations = (
 				XX3758F7FE8F9F09DF3483XX /* Debug */,
-				XX74ED0396C8C6EF48A94BXX /* Release */,
+				XXFD51EC1B3B2ED0CFD43AXX /* Release */,
 			);
 			defaultConfigurationName = Release;
 		};
-		XXEF50A9EBE09CD514A594XX /* Build configuration list for PBXNativeTarget "share" */ = {
+		XXB102BF2CC70407CA3FCAXX /* Build configuration list for PBXNativeTarget "share" */ = {
 			isa = XCConfigurationList;
 			defaultConfigurationIsVisible = 0;
 			buildConfigurations = (
 				XX9B93380D0C05502AAB21XX /* Debug */,
-				XX976A919361352C6F91D9XX /* Release */,
+				XXB0E2340B7DF0CC53A7CCXX /* Release */,
 			);
 			defaultConfigurationName = Release;
 		};
