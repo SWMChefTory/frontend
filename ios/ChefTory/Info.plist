@@ -39,7 +39,7 @@
         <string>apple-signin</string>
         <key>CFBundleURLSchemes</key>
         <array>
-          <string>com.anonymous.cheiftory</string>
+          <string>com.cheftory.cheftory</string>
         </array>
       </dict>
       <dict>
@@ -47,7 +47,7 @@
         <string>app-deeplink</string>
         <key>CFBundleURLSchemes</key>
         <array>
-          <string>cheiftory</string>
+          <string>cheftory</string>
         </array>
       </dict>
     </array>
@@ -64,6 +64,8 @@
     </dict>
     <key>NSFaceIDUsageDescription</key>
     <string>안전한 로그인과 인증을 위해 Face ID를 사용합니다.</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Allow $(PRODUCT_NAME) to access your microphone</string>
     <key>NSSupportsLiveActivities</key>
     <true/>
     <key>NSUserActivityTypes</key>

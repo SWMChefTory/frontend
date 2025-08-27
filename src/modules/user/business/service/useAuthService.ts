@@ -115,7 +115,7 @@ export function useLogoutViewModel() {
 export function useDeleteUserViewModel() {
   const { removeUser } = useUserStore();
 
-  const { mutate: deleteUser, isPending: isLoading } = useMutation({
+  const { mutate: deleteUser, isPending: isLoading, error } = useMutation({
     mutationFn: async () => {
       const refreshToken = findRefreshToken();
       if (refreshToken) {
@@ -128,5 +128,5 @@ export function useDeleteUserViewModel() {
     },
   });
 
-  return { deleteUser, isLoading };
+  return { deleteUser, isLoading, error };
 }

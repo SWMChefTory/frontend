@@ -8,11 +8,15 @@ import AuthActionTemplate from "./AuthActionTemplate";
 import { FullScreenLoader } from "../../../shared/splash/loading/lottieview/FullScreenLoader";
 
 export default function AuthActions() {
-  const { logout, isLoading } = useLogoutViewModel();
-  const { deleteUser } = useDeleteUserViewModel();
+  const { logout, isLoading: isLogoutLoading } = useLogoutViewModel();
+  const { deleteUser, isLoading: isDeleteLoading, error:deleteError } = useDeleteUserViewModel();
 
-  if (isLoading) {
+  if (isLogoutLoading || isDeleteLoading) {
     return <FullScreenLoader />;
+  }
+
+  if (deleteError) {
+    Alert.alert("회원탈퇴 실패");
   }
 
   const handleLogoutPress = () => {
@@ -34,7 +38,6 @@ export default function AuthActions() {
         text: "회원탈퇴",
         onPress: () => {
           deleteUser();
-          Alert.alert("회원탈퇴가 완료되었습니다.");
         },
       },
     ]);
