@@ -258,7 +258,7 @@ Wheel.displayName = "Wheel";
 const styles = StyleSheet.create({
   wrap: {
     flexDirection: "row",
-    alignItems: "center",
+    alignSelf: "center",
     justifyContent: "center",
     gap: 10,
     paddingVertical: 8,
