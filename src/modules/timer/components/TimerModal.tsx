@@ -83,6 +83,12 @@ const TimerModal = ({
 
     await scheduleTimerAlarm(recipeTitle, recipeId, durationSeconds);
     setIsAutoStartActive(false);
+
+    if (isAutoStartActive) {
+      setTimeout(() => {
+        onRequestClose();
+      }, 500);
+    }
   };
   async function handlePause() {
     pause();
@@ -140,6 +146,7 @@ const TimerModal = ({
 
   useEffect(() => {
     if (!timerIntentType) return;
+    console.log("timerIntentType", timerIntentType);
     switch (timerIntentType) {
       case WebViewMessageType.TIMER_SET: {
         if (timerAutoTime && timerAutoTime > 0 && state === TimerState.IDLE) {
@@ -151,6 +158,7 @@ const TimerModal = ({
       }
   
       case WebViewMessageType.TIMER_STOP:
+        console.log("TIMER_STOP");
         setIsAutoStartActive(false);
         if (state === TimerState.ACTIVE) {
           handlePause();
