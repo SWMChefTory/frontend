@@ -11,7 +11,6 @@ export const CARD_STYLES = {
       height: 220,
       backgroundColor: COLORS.background.white,
       borderRadius: 16,
-      paddingBottom: 12,
     },
       medium_vertical: {
       width: 400,
