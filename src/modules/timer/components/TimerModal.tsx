@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Platform, StyleSheet, View } from "react-native";
-import BottomSheet, { BottomSheetBackdrop } from "@gorhom/bottom-sheet";
+import { BottomSheetBackdrop, BottomSheetModal } from "@gorhom/bottom-sheet";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 import { useCountdownTimer } from "@/src/modules/timer/hooks/useCountdownTimer";
 import { useLiveActivity } from "@/src/modules/timer/hooks/useLiveActivity";
@@ -31,6 +31,7 @@ export type TimerModalProps = {
   timerIntentType?: WebViewMessageType;
   timerAutoTime?: number;
   onNavigateToRecipe: (recipeId: string, recipeTitle: string) => void;
+  bottomSheetModalRef: React.RefObject<BottomSheetModal | null>;
 };
 
 const TimerModal = ({
@@ -40,10 +41,11 @@ const TimerModal = ({
   timerIntentType,
   timerAutoTime,
   onNavigateToRecipe,
+  bottomSheetModalRef,
 }: TimerModalProps) => {
   const [durationSeconds, setDurationSeconds] = useState<number>(0);
   const [isAutoStartActive, setIsAutoStartActive] = useState<boolean>(false);
-
+  
   useEffect(() => {
     ensureNotificationReady().catch((e: any) => {
       console.warn("알림 준비 실패:", e);
@@ -183,7 +185,8 @@ const TimerModal = ({
   );
 
   return (
-    <BottomSheet
+    <BottomSheetModal 
+      ref={bottomSheetModalRef}
       index={0}
       snapPoints={["70%"]}
       onChange={(index) => index === -1 && onRequestClose()}
@@ -249,7 +252,7 @@ const TimerModal = ({
             />
           )}
       </View>
-    </BottomSheet>
+    </BottomSheetModal>
   );
 };
 

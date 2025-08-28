@@ -15,13 +15,11 @@ import * as Network from "expo-network";
 import { AppState, AppStateStatus, Platform } from "react-native";
 import { focusManager } from "@tanstack/react-query";
 import { useDeepLinkHandler } from "@/src/useDeepLink";
-import { Href } from "expo-router";
 
 ExpoSplashScreen.preventAutoHideAsync();
 
 import * as Notifications from "expo-notifications";
 import { useNotificationObserver } from "@/src/modules/notifications/useNotificationObserver";
-import { PortalProvider } from "@gorhom/portal";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -123,9 +121,7 @@ export default function RootLayout() {
         <BottomSheetModalProvider>
           <GlobalErrorBoundary>
             <SplashScreenController>
-              <PortalProvider>
-                <RootNavigator />
-              </PortalProvider>
+              <RootNavigator />
             </SplashScreenController>
           </GlobalErrorBoundary>
         </BottomSheetModalProvider>
