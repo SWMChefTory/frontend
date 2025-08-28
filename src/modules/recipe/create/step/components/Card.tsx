@@ -22,7 +22,13 @@ export function StepInfoCard({
     <View style={styles.stepInfoCard}>
       <View style={styles.innerContainer}>
         <Text style={styles.stepTitle}>{title}</Text>
-        <Text style={styles.stepDescription}>{description}</Text>
+        <Text 
+          style={styles.stepDescription}
+          lineBreakStrategyIOS="hangul-word"
+          textBreakStrategy="simple"
+        >
+          {description}
+        </Text>
 
         <View style={styles.stepIndicators}>
           {stepOrder.map((_, index) => (
