@@ -8,7 +8,14 @@ interface Props {
 export function TipSection({ tipText }: Props) {
   return (
     <View style={styles.tipContainer}>
-      <Text style={styles.tipText}>{tipText}</Text>
+      <Text 
+        style={styles.tipText}
+        numberOfLines={0}
+        lineBreakStrategyIOS="hangul-word"
+        textBreakStrategy="simple"
+      >
+        {tipText}
+      </Text>
     </View>
   );
 }
