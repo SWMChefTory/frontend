@@ -43,6 +43,7 @@ export default function RecipeDetailScreen() {
   }, []);
 
   const closeTimerModal = useCallback(() => {
+    setTimerMessage(null);
     bottomSheetModalRef.current?.dismiss();
   }, []);
 

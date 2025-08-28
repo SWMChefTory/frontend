@@ -74,21 +74,11 @@ export function useWebViewMessage({
             break;
 
           case WebViewMessageType.TIMER_STOP:
-            console.log("타이머 중지 요청", parsedMessage);
             timerCallbacks?.onTimerStop?.(parsedMessage as TimerMessage);
             break;
 
           case WebViewMessageType.TIMER_CHECK:
-            console.log("타이머 확인 요청", parsedMessage);
-
-            // 테스트용으로 timer_time을 60초로 강제 세팅
-            timerCallbacks?.onTimerSet?.({
-              ...parsedMessage,
-              timer_time: "60",
-            } as TimerMessage);
-
-            // 필요 시 원래 콜백도 주석 해제 가능
-            // timerCallbacks?.onTimerCheck?.(parsedMessage as TimerMessage);
+            timerCallbacks?.onTimerCheck?.(parsedMessage as TimerMessage);
             break;
 
           case WebViewMessageType.TIMER_SET:

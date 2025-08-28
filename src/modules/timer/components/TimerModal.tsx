@@ -149,7 +149,7 @@ const TimerModal = ({
         }
         break;
       }
-
+  
       case WebViewMessageType.TIMER_STOP:
         setIsAutoStartActive(false);
         if (state === TimerState.ACTIVE) {
@@ -159,12 +159,12 @@ const TimerModal = ({
           onRequestClose();
         }, 1000);
         break;
-
+  
       default:
         setIsAutoStartActive(false);
         break;
     }
-  }, []);
+  }, [timerIntentType]);
 
   const handleNavigate = () => {
     if (existId) {
