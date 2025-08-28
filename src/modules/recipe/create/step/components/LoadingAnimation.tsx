@@ -1,5 +1,4 @@
 import { View, StyleSheet, Animated } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
 import { Image, ImageSourcePropType } from "react-native";
 
 interface Props {
@@ -15,34 +14,18 @@ export function LoadingAnimation({
   image,
   colors,
   spin,
-  reverseSpin,
   bounce,
   scaleValue,
 }: Props) {
   return (
     <View style={styles.loadingContainer}>
       <View style={styles.loadingWrapper}>
-        {/* 외부 회전 링 */}
-        {/* <View style={styles.outerRingBase} />
-        <Animated.View
-          style={[
-            styles.outerRing,
-            {
-              transform: [{ rotate: spin }],
-              borderTopColor: colors[0],
-              borderRightColor: colors[1],
-              borderBottomColor: "#E2E8F0",
-              borderLeftColor: "#E2E8F0",
-            },
-          ]}
-        /> */}
-
         {/* 내부 회전 링 */}
         <Animated.View
           style={[
             styles.innerRing,
             {
-              transform: [{ rotate: reverseSpin }],
+              transform: [{ rotate: spin }],
               borderBottomColor: colors[0],
               borderTopColor: "#E2E8F0",
               borderLeftColor: "#E2E8F0",
