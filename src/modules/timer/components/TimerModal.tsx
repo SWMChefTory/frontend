@@ -83,6 +83,12 @@ const TimerModal = ({
 
     await scheduleTimerAlarm(recipeTitle, recipeId, durationSeconds);
     setIsAutoStartActive(false);
+
+    if (isAutoStartActive) {
+      setTimeout(() => {
+        onRequestClose();
+      }, 500);
+    }
   };
   async function handlePause() {
     pause();
