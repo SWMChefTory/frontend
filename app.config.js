@@ -1,7 +1,7 @@
 export default {
   expo: {
     name: "ChefTory",
-    owner: "cheftory",
+    username: "chieftory72",
     slug: "cheftory",
     version: "1.0.2",
     orientation: "portrait",
@@ -72,8 +72,8 @@ export default {
       [
         "expo-splash-screen",
         {
-          // image: "./assets/images/mainCharacter.png",
-          imageWidth: 205,
+          image: "./assets/images/mainCharacter.png",
+          imageWidth: 180,
           resizeMode: "contain",
           backgroundColor: "#FFF5F0",
         },
@@ -82,6 +82,7 @@ export default {
       "expo-font",
       "expo-web-browser",
       "expo-apple-authentication",
+      "@react-native-google-signin/google-signin"
     ],
     experiments: {
       typedRoutes: true,
@@ -93,7 +94,7 @@ export default {
         autoLinking: true,
       },
       eas: {
-        projectId: "bfa31b78-8718-4e7f-9733-56529cecf388",
+        projectId: "282261d9-c9e1-4a9f-809c-9b3f91cc8fa1",
       },
     },
   },

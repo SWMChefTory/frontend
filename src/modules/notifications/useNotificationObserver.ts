@@ -7,6 +7,7 @@ export function useNotificationObserver() {
     let isMounted = true;
 
     function redirect(notification: Notifications.Notification) {
+      console.log("notification", notification);
       const url = notification.request.content.data?.url;
       if (url && typeof url === "string") {
         setTimeout(() => {

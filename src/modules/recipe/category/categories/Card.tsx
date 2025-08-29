@@ -85,14 +85,7 @@ const styles = StyleSheet.create({
     top: 10,
     alignItems: "center",
   },
-  dragGuideText: {
-    position: "absolute",
-    bottom: 25,
-    fontSize: 8,
-    color: "rgba(255, 107, 53, 0.8)",
-    fontWeight: "600",
-    textAlign: "center",
-  },
+
   plusIconContainer: {
     position: "absolute",
     bottom: 5,
@@ -263,9 +256,6 @@ export function DroppableCategoryCard({ category, onDrop }: DropProps) {
         ? "rgba(255, 165, 0, 0.15)"
         : "rgba(255, 107, 53, 0.05)",
       shadowColor: isReceiving ? COLORS.orange.main : "rgba(255, 107, 53, 0.3)",
-      shadowOpacity: isReceiving ? 0.4 : 0.2,
-      shadowRadius: isReceiving ? 8 : 6,
-      elevation: isReceiving ? 8 : 6,
     },
   ];
 

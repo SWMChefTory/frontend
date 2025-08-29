@@ -4,6 +4,7 @@ import { DraxView } from "react-native-drax";
 import { Ionicons } from "@expo/vector-icons";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 import { useDeleteViewModel } from "./useDeleteViewModel";
+import { SHADOW } from "@/src/modules/shared/constants/shadow";
 
 interface TrashCanProps {
   isDragging: boolean;
@@ -169,14 +170,8 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     alignItems: "center",
     justifyContent: "center",
-    borderWidth: 2,
-    borderColor: "rgba(255, 107, 53, 0.4)",
     borderStyle: "dashed",
-    shadowColor: COLORS.shadow.black,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.15,
-    shadowRadius: 12,
-    elevation: 8,
+    ...SHADOW,
     pointerEvents: 'auto',
     position: 'relative',
   },

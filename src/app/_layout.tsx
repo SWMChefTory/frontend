@@ -110,11 +110,6 @@ export default function RootLayout() {
   useDeepLinkHandler();
 
   console.log("RootLayout");
-
-  useOnlineManager();
-
-  useAppState(onAppStateChange);
-
   return (
     <QueryClientProvider client={queryClient}>
       <GestureHandlerRootView style={{ flex: 1 }}>
