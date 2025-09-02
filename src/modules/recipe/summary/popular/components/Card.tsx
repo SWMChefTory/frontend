@@ -4,6 +4,9 @@ import { LinearGradient } from "expo-linear-gradient";
 import { PopularSummaryRecipe } from "../types/Recipe";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 import { SHADOW } from "@/src/modules/shared/constants/shadow";
+import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveFontSize } from "@/src/modules/shared/utils/responsiveUI";
 
 type Props = {
   recipe: PopularSummaryRecipe;
@@ -31,7 +34,7 @@ export function PopularRecipeSummaryCard({ recipe, onPress }: Props) {
 
         {/* 유튜브 로고 */}
         <View style={styles.sourceIndicator}>
-          <Ionicons name="logo-youtube" size={30} color="#FF0000" />
+          <Ionicons name="logo-youtube" size={responsiveWidth(30)} color="#FF0000" />
         </View>
 
         {/* TOP 순위 배지 */}
@@ -42,7 +45,7 @@ export function PopularRecipeSummaryCard({ recipe, onPress }: Props) {
           >
             <Ionicons
               name={recipe.rank <= 3 ? "trophy" : "trending-up"}
-              size={30} 
+              size={responsiveWidth(30)} 
               color="white"
             />
             <Text style={styles.topText}>TOP</Text>
@@ -74,38 +77,38 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
   },
   body: {
-    paddingHorizontal: 12,
-    paddingTop: 12,
+    paddingHorizontal: responsiveWidth(12),
+    paddingTop: responsiveHeight(12),
   },
   sourceIndicator: {
     position: "absolute",
-    top: 12,
-    right: 12,
+    top: responsiveHeight(12),
+    right: responsiveWidth(12),
     backgroundColor: "rgba(255, 255, 255, 0.95)",
     borderRadius: 16,
-    padding: 4,
+    padding: responsiveHeight(4),
   },
   topBadgeContainer: {
     position: "absolute",
-    top: 12,
-    left: 12,
+    top: responsiveHeight(12),
+    left: responsiveWidth(12),
     borderRadius: 16,
   },
   topBadgeGradient: {
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 8,
-    paddingVertical: 3,
+    paddingHorizontal: responsiveWidth(8),
+    paddingVertical: responsiveHeight(3),
     borderRadius: 12,
   },
   topText: {
-    color: "#FFFFFF",
-    fontSize: 15,
+    color: COLORS.background.white,
+    fontSize: responsiveFontSize(15),
     fontWeight: "700",
   },
   rankText: {
-    color: "#FFFFFF",
-    fontSize: 17,
+    color: COLORS.background.white,
+    fontSize: responsiveFontSize(17),
     fontWeight: "800",
   },
 });

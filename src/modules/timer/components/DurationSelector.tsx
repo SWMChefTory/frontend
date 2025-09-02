@@ -14,6 +14,7 @@ import {
   NativeSyntheticEvent,
 } from "react-native";
 import { COLORS } from "@/src/modules/shared/constants/colors";
+import { responsiveFontSize, responsiveHeight, responsiveWidth } from "../../shared/utils/responsiveUI";
 
 type Props = {
   hours?: number;
@@ -25,7 +26,7 @@ type Props = {
   showHours?: boolean;
 };
 
-const ITEM_H = 42;
+const ITEM_H = responsiveHeight(42);
 
 const headerFooterStyle = { height: ITEM_H * 2 };
 
@@ -258,16 +259,16 @@ Wheel.displayName = "Wheel";
 const styles = StyleSheet.create({
   wrap: {
     flexDirection: "row",
-    alignItems: "center",
+    alignSelf: "center",
     justifyContent: "center",
-    gap: 10,
-    paddingVertical: 8,
-    marginTop: 5,
+    gap: responsiveWidth(10),
+    paddingVertical: responsiveHeight(8),
+    marginTop: responsiveHeight(5),
   },
   col: { alignItems: "center" },
   list: {
     height: ITEM_H * 5,
-    width: 96,
+    width: responsiveWidth(90),
     borderRadius: 16,
     backgroundColor: COLORS.background.secondaryLightGray,
     borderWidth: 1,
@@ -280,21 +281,23 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   itemText: {
-    fontSize: 22,
+    fontSize: responsiveFontSize(22),
     fontWeight: "700",
     letterSpacing: -0.2,
     color: COLORS.font.dark,
   },
   unit: {
-    marginTop: 8,
+    marginTop: responsiveHeight(8),
     color: COLORS.text.gray,
-    fontSize: 12,
+    fontSize: responsiveFontSize(12),
   },
   sep: {
-    fontSize: 22,
+    fontSize: responsiveFontSize(22),
     fontWeight: "700",
     color: COLORS.font.dark,
-    marginHorizontal: 6,
+    marginHorizontal: responsiveWidth(6),
+    alignSelf: "center",
+    paddingBottom: responsiveHeight(20),
   },
   centerLine: {
     position: "absolute",

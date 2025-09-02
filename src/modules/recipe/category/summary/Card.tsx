@@ -4,6 +4,9 @@ import { DraxView } from "react-native-drax";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 import { CategorySummaryRecipe } from "./Recipe";
 import { SHADOW } from "@/src/modules/shared/constants/shadow";
+import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveFontSize } from "@/src/modules/shared/utils/responsiveUI";
 
 interface Props {
   recipe: CategorySummaryRecipe;
@@ -86,7 +89,7 @@ const styles = StyleSheet.create({
     width: "32%",
     backgroundColor: COLORS.background.white,
     borderRadius: 12,
-    paddingBottom: 12,
+    paddingBottom: responsiveHeight(12),
     ...SHADOW,
   },
   draggingCard: {
@@ -97,7 +100,7 @@ const styles = StyleSheet.create({
   },
   imageWrapper: {
     width: "100%",
-    height: 80,
+    height: responsiveHeight(80),
     overflow: "hidden",
     borderTopLeftRadius: 12,
     borderTopRightRadius: 12,
@@ -115,21 +118,21 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,0.2)",
   },
   body: {
-    paddingHorizontal: 12,
-    paddingTop: 12,
+    paddingHorizontal: responsiveWidth(12),
+    paddingTop: responsiveHeight(12),
   },
   title: {
-    fontSize: 13,
+    fontSize: responsiveFontSize(13),
     fontWeight: "600",
     color: COLORS.text.black,
-    lineHeight: 18,
+    lineHeight: responsiveHeight(18),
   },
   progressBg: {
     width: "100%",
-    height: 3,
+    height: responsiveHeight(3),
     backgroundColor: COLORS.background.lightGray,
     borderRadius: 2,
-    marginTop: 6,
+    marginTop: responsiveHeight(6),
   },
   progressFg: {
     height: "100%",
@@ -137,9 +140,9 @@ const styles = StyleSheet.create({
     borderRadius: 2,
   },
   progressText: {
-    fontSize: 11,
+    fontSize: responsiveFontSize(11),
     color: COLORS.text.gray,
-    marginTop: 4,
+    marginTop: responsiveHeight(4),
     fontWeight: "500",
   },
 });

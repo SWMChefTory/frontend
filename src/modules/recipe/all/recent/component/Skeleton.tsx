@@ -2,6 +2,9 @@ import React from "react";
 import { View, StyleSheet, FlatList } from "react-native";
 import Skeleton from "react-native-reanimated-skeleton";
 import { COLORS } from "@/src/modules/shared/constants/colors";
+import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
+import { SKELETON_SHADOW } from "@/src/modules/shared/constants/shadow";
 
 type Props = { itemCount?: number };
 
@@ -23,39 +26,39 @@ export function AllRecentRecipesSkeleton({ itemCount = 5 }: Props) {
               {
                 key: "thumbnail",
                 width: "100%",
-                height: 120, // AllRecentRecipeCard 높이에 맞춤
+                height: responsiveHeight(120), // AllRecentRecipeCard 높이에 맞춤
                 borderRadius: 12,
-                marginBottom: 12,
+                marginBottom: responsiveHeight(12)  ,
               },
               // 제목 (1줄)
               {
                 key: "title",
                 width: "85%",
-                height: 16, // AllRecentRecipeCard의 title fontSize
+                height: responsiveHeight(16), // AllRecentRecipeCard의 title fontSize
                 borderRadius: 4,
-                marginBottom: 8,
+                marginBottom: responsiveHeight(8),
               },
               // 메타 정보 (날짜, 시청 시간 등)
               {
                 key: "metaInfo",
                 width: "60%",
-                height: 12, // 작은 폰트 크기
+                height: responsiveHeight(12), // 작은 폰트 크기
                 borderRadius: 3,
-                marginBottom: 8,
+                marginBottom: responsiveHeight(8),
               },
               // 프로그레스 바 (시청 진행률)
               {
                 key: "progressBar",
                 width: "100%",
-                height: 4,
+                height: responsiveHeight(4),
                 borderRadius: 2,
-                marginBottom: 4,
+                marginBottom: responsiveHeight(4),
               },
               // 프로그레스 텍스트
               {
                 key: "progressText",
                 width: "40%",
-                height: 10,
+                height: responsiveHeight(10),
                 borderRadius: 3,
               },
             ],
@@ -90,24 +93,20 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.background.white,
   },
   listContainer: {
-    padding: 16,
-    paddingBottom: 100, // AllRecentRecipeSection과 동일
+    padding: responsiveWidth(16),
+    paddingBottom: responsiveHeight(100), // AllRecentRecipeSection과 동일
   },
   separator: {
-    height: 16, // AllRecentRecipeSection separator와 동일
+    height: responsiveHeight(16), // AllRecentRecipeSection separator와 동일
   },
   card: {
     backgroundColor: COLORS.background.white,
     borderRadius: 12,
-    padding: 16,
-    shadowColor: COLORS.shadow.orange,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 4,
+    padding: responsiveWidth(16),
+    ...SKELETON_SHADOW,
     borderWidth: 1,
     borderColor: "#F3F4F6",
     // 세로 리스트이므로 높이 자동 조정
-    minHeight: 200, // 적절한 최소 높이
+    minHeight: responsiveHeight(200), // 적절한 최소 높이
   },
 });

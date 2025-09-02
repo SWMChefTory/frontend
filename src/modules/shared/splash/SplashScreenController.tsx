@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useAuthBootstrap } from "@/src/modules/user/authBootstrap";
 import * as ExpoSplashScreen from "expo-splash-screen";
 
-import Animated, { 
-  useSharedValue, 
-  useAnimatedStyle, 
-  withTiming, 
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
   runOnJS,
   withDelay
 } from 'react-native-reanimated';
@@ -15,7 +15,7 @@ import { COLORS } from "../constants/colors";
 import MainCharacter from "@/src/modules/shared/splash/logo/MainCharacter";
 import NearVoice from "@/src/modules/shared/splash/logo/NearVoice";
 import FarVoice from "@/src/modules/shared/splash/logo/FarVoice";
-import MainText from "@/src/modules/shared/splash/logo/MainText"; 
+import MainText from "@/src/modules/shared/splash/logo/MainText";
 
 export function SplashScreenController({
   children,
@@ -23,16 +23,22 @@ export function SplashScreenController({
   children: React.ReactNode;
 }) {
   const { loading } = useAuthBootstrap();
-  const [showCustomSplash, setShowCustomSplash] = useState(true);
-  const [isPostStep, setIsPostStep] = useState(false);
+  const [showChildren, setShowChildren] = useState(false);
 
   // Reanimated 값들
   const translateY = useSharedValue(0);
   const scale = useSharedValue(1);
-  
+  const childrenOpacity = useSharedValue(0);
+
   const animatedScaleStyle = useAnimatedStyle(() => {
     return {
       transform: [{ scale: scale.value }],
+    };
+  });
+
+  const animatedChildrenStyle = useAnimatedStyle(() => {
+    return {
+      opacity: childrenOpacity.value,
     };
   });
 
@@ -48,48 +54,56 @@ export function SplashScreenController({
   const scaleInStart = mainTextFadeInStart + mainTextFadeInDuration;
   const moveUpStart = scaleInStart;
 
-  useEffect(()=>{
-      async function prepareApp() {
-        try {
-          await new Promise((resolve) => setTimeout(resolve, 300));
-          await ExpoSplashScreen.hideAsync();
-        } catch (error) {
-          console.warn(error);
-        }
+  useEffect(() => {
+    async function prepareApp() {
+      try {
+        await new Promise((resolve) => setTimeout(resolve, 300));
+        await ExpoSplashScreen.hideAsync();
+      } catch (error) {
+        console.warn(error);
       }
-      prepareApp();
+    }
+    prepareApp();
 
-      const currentTop = logoStyle.logoCenter.top; // 300
-      const targetTop = logoStyle.logoLogin.top;   // 300
-      const moveDistance = targetTop - currentTop; // 0
-      // postProcess 시작 - 화면을 위로 올리는 애니메이션
-      translateY.value = withDelay(moveUpStart, withTiming(moveDistance, { duration: moveUpDuration }));
-      scale.value = withDelay(scaleInStart, withTiming(0.8, { duration: scaleInDuration }, (finished)=>{
-        if (finished) {
-          runOnJS(setShowCustomSplash)(false);
-        }
-      }));
-    }, []);
+    const currentTop = logoStyle.logoCenter.top;
+    const targetTop = logoStyle.logoLogin.top;
+    const moveDistance = targetTop - currentTop;
 
+    // 애니메이션 시퀀스
+    translateY.value = withDelay(moveUpStart, withTiming(moveDistance, { duration: moveUpDuration }));
+    scale.value = withDelay(scaleInStart, withTiming(0.8, { duration: scaleInDuration }, (finished) => {
+      if (finished) {
+        // 스플래시를 숨기지 않고 children을 보여줌
+        runOnJS(setShowChildren)(true);
+        childrenOpacity.value = withTiming(1, { duration: 300 });
+      }
+    }));
+  }, []);
 
-  if (loading || showCustomSplash) {
-    return (
-    <View style={styles.outerContainer}>
-      <Animated.View style={animatedScaleStyle}>
-        <MainCharacter translateY={translateY}/>
-        <NearVoice translateY={translateY} fadeStart={nearVoiceFadeInStart} fadeDuration={nearVoiceFadeInDuration}/>
-        <FarVoice translateY={translateY} fadeStart={farVoiceFadeInStart} fadeDuration={farVoiceFadeInDuration}/>
-        <MainText translateY={translateY} fadeStart={mainTextFadeInStart} fadeDuration={mainTextFadeInDuration}/>
-      </Animated.View>
+  return (
+    <View style={{ flex: 1 }}>
+      {/* 스플래시 화면 - 항상 렌더링 */}
+      <View style={styles.outerContainer}>
+        <Animated.View style={animatedScaleStyle}>
+          <MainCharacter translateY={translateY} />
+          <NearVoice translateY={translateY} fadeStart={nearVoiceFadeInStart} fadeDuration={nearVoiceFadeInDuration} />
+          <FarVoice translateY={translateY} fadeStart={farVoiceFadeInStart} fadeDuration={farVoiceFadeInDuration} />
+          <MainText translateY={translateY} fadeStart={mainTextFadeInStart} fadeDuration={mainTextFadeInDuration} />
+        </Animated.View>
+      </View>
+      
+      {/* Children - 애니메이션 완료 후 페이드 인 */}
+      {(!loading && showChildren) && (
+        <Animated.View style={[StyleSheet.absoluteFillObject, animatedChildrenStyle]}>
+          {children}
+        </Animated.View>
+      )}
     </View>
-    );
-  }
-
-  return <>{children}</>;
+  );
 }
 
 const styles = StyleSheet.create({
-  outerContainer: { 
+  outerContainer: {
     flex: 1,
     backgroundColor: COLORS.priamry.main,
   },

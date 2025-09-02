@@ -4,6 +4,9 @@ import { DraxView } from "react-native-drax";
 import { Ionicons } from "@expo/vector-icons";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 import { useDeleteViewModel } from "./useDeleteViewModel";
+import { SHADOW } from "@/src/modules/shared/constants/shadow";
+import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveFontSize } from "@/src/modules/shared/utils/responsiveUI";
 
 interface TrashCanProps {
   isDragging: boolean;
@@ -165,18 +168,12 @@ const styles = StyleSheet.create({
   },
   trashCan: {
     backgroundColor: COLORS.background.white,
-    padding: 20,
+    padding: responsiveWidth(20),
     borderRadius: 16,
     alignItems: "center",
     justifyContent: "center",
-    borderWidth: 2,
-    borderColor: "rgba(255, 107, 53, 0.4)",
     borderStyle: "dashed",
-    shadowColor: COLORS.shadow.black,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.15,
-    shadowRadius: 12,
-    elevation: 8,
+    ...SHADOW,
     pointerEvents: 'auto',
     position: 'relative',
   },
@@ -196,7 +193,7 @@ const styles = StyleSheet.create({
   },
   trashText: {
     marginTop: 8,
-    fontSize: 14,
+    fontSize: responsiveFontSize(14),
     fontWeight: "600",
     color: COLORS.orange.main,
     textAlign: 'center',
@@ -219,7 +216,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   successText: {
-    fontSize: 14,
+    fontSize: responsiveFontSize(14),
     fontWeight: '700',
     color: COLORS.orange.main,
   },

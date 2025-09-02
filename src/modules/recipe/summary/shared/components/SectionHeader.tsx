@@ -1,6 +1,9 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 import { Ionicons } from "@expo/vector-icons";
+import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveFontSize } from "@/src/modules/shared/utils/responsiveUI";
 
 export function RecipeSectionHeader({
   title,
@@ -30,29 +33,29 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 20,
-    paddingHorizontal: 16,
+    marginBottom: responsiveHeight(20),
+    paddingHorizontal: responsiveWidth(16),
   },
   titleWithAccent: {
     flexDirection: "row",
     alignItems: "center",
   },
   orangeAccentBar: {
-    width: 5,
-    height: 26,
+    width: responsiveWidth(5),
+    height: responsiveHeight(26),
     backgroundColor: COLORS.orange.main,
-    borderRadius: 3,
-    marginRight: 14,
+    borderRadius: responsiveWidth(3),
+    marginRight: responsiveWidth(14),
   },
   modernSectionTitle: {
-    fontSize: 20,
+    fontSize: responsiveFontSize(20),
     fontFamily: "NotoSerifKR_400Regular",
     fontWeight: "700",
     color: COLORS.font.dark,
     letterSpacing: -0.5,
   },
   modernViewAllText: {
-    fontSize: 15,
+    fontSize: responsiveFontSize(15),
     fontWeight: "700",
     color: COLORS.orange.main,
     textDecorationLine: "underline",

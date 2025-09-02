@@ -3,7 +3,7 @@ import { RecipeSectionHeader } from "../../../summary/shared/components/SectionH
 import { PopularSummaryRecipe } from "../../../summary/popular/types/Recipe";
 import { PopularRecipeError } from "../shared/Fallback";
 import { ApiErrorBoundary } from "@/src/modules/shared/components/error/ApiErrorBoundary";
-import { Suspense, useCallback, useEffect, useRef } from "react";
+import { Suspense, useEffect, useRef } from "react";
 import { PopularRecipesSkeleton } from "../shared/Skeleton";
 import {
   usePopularSummaryViewModel,
@@ -11,12 +11,12 @@ import {
 } from "../viewmodels/useViewModels";
 import { DeferredComponent } from "@/src/modules/shared/utils/DeferredComponent";
 import { useRouter } from "expo-router";
-import { debounce, throttle } from "lodash";
+import { debounce } from "lodash";
 import { CARD_STYLES } from "@/src/modules/shared/constants/card";
 import PopularRecipeSummaryList from "./List";
 import { SHADOW } from "@/src/modules/shared/constants/shadow";
 import { useRefreshOnFocus } from "@/src/modules/shared/utils/useRefreshOnFocus";
-import { useFocusEffect } from "@react-navigation/native";
+import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
 
 interface Props {
   onRefresh: number;
@@ -102,8 +102,8 @@ function PopularRecipeSectionContent({
 const styles = StyleSheet.create({
   recipeSectionCard: {
     ...CARD_STYLES.large,
-    paddingVertical: 24,
-    marginBottom: 24,
+    paddingVertical: responsiveHeight(24),
+    marginBottom: responsiveHeight(24),
     ...SHADOW,
   },
 });

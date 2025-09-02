@@ -2,6 +2,7 @@ import React from "react";
 import { View, StyleSheet, FlatList } from "react-native";
 import Skeleton from "react-native-reanimated-skeleton";
 import { COLORS } from "@/src/modules/shared/constants/colors";
+import { SKELETON_SHADOW } from "@/src/modules/shared/constants/shadow";
 
 type Props = { itemCount?: number };
 
@@ -90,11 +91,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.priamry.main,
     borderRadius: 16,
     paddingBottom: 12,
-    shadowColor: COLORS.shadow.orange,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 6,
-    elevation: 4,
+    ...SKELETON_SHADOW,
     borderWidth: 1,
     borderColor: "#F3F4F6",
   },

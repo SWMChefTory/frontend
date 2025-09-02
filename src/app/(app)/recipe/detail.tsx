@@ -8,7 +8,6 @@ import { RecipeCategoryBottomSheet } from "@/src/modules/recipe/create/step/comp
 import { TimerMessage } from "@/src/modules/recipe/detail/types/RecipeDetail";
 
 export default function RecipeDetailScreen() {
-  const [open, setOpen] = useState(false);
   const [timerMessage, setTimerMessage] = useState<TimerMessage | null>(null);
   const router = useRouter();
 
@@ -21,11 +20,10 @@ export default function RecipeDetailScreen() {
   }>();
 
   const modalRef = useRef<BottomSheetModal>(null);
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
   const isCreated = params.isCreated === "true";
   const isTimer = params.isTimer === "true";
-
-  console.log(isTimer);
 
   useEffect(() => {
     if (isCreated) {
@@ -35,13 +33,18 @@ export default function RecipeDetailScreen() {
 
   useEffect(() => {
     if (isTimer) {
-      setOpen(true);
+      bottomSheetModalRef.current?.present();
     }
   }, []);
 
   const openTimerModal = useCallback((msg: TimerMessage) => {
     setTimerMessage(msg);
-    setOpen(true);
+    bottomSheetModalRef.current?.present();
+  }, []);
+
+  const closeTimerModal = useCallback(() => {
+    setTimerMessage(null);
+    bottomSheetModalRef.current?.dismiss();
   }, []);
 
   const navigateToRecipe = useCallback(
@@ -71,16 +74,15 @@ export default function RecipeDetailScreen() {
           recipeId={params.recipeId}
           onOpenTimer={openTimerModal}
         />
-        {open && (
           <TimerModal
-            onRequestClose={() => setOpen(false)}
+            onRequestClose={closeTimerModal}
             recipeTitle={params.title || timerMessage?.recipe_title || ""}
             recipeId={params.recipeId || timerMessage?.recipe_id || ""}
             timerAutoTime={timerMessage?.timer_time}
             timerIntentType={timerMessage?.type}
             onNavigateToRecipe={navigateToRecipe}
+            bottomSheetModalRef={bottomSheetModalRef}
           />
-        )}
         <RecipeCategoryBottomSheet
           modalRef={modalRef}
           recipeId={params.recipeId}

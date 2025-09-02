@@ -13,6 +13,7 @@ import { debounce } from "lodash";
 import { SHADOW } from "@/src/modules/shared/constants/shadow";
 import { CARD_STYLES } from "@/src/modules/shared/constants/card";
 import { useRefreshOnFocus } from "@/src/modules/shared/utils/useRefreshOnFocus";
+import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
 
 interface Props {
   onRefresh: number;
@@ -101,8 +102,8 @@ function RecentRecipeSectionContent({
 const styles = StyleSheet.create({
   recipeSectionCard: {
     ...CARD_STYLES.large,
-    paddingVertical: 24,
-    marginBottom: 24,
+    paddingVertical: responsiveHeight(24),
+    marginBottom: responsiveHeight(24),
     ...SHADOW,
   },
 });

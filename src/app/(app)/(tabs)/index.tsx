@@ -14,17 +14,19 @@ import { PopularRecipeSection } from "@/src/modules/recipe/summary/popular/compo
 import { COLORS } from "@/src/modules/shared/constants/colors";
 import TimerModal from "@/src/modules/timer/components/TimerModal";
 import { useHasActiveTimer } from "@/src/modules/timer/hooks/useCountdownTimer";
-import { Portal } from "@gorhom/portal";
 import { SHADOW } from "@/src/modules/shared/constants/shadow";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
 
 export default function HomeScreen() {
   const scrollY = useRef(new Animated.Value(0)).current;
   const [refreshing, setRefreshing] = useState(false);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
-  const [timerModalOpen, setTimerModalOpen] = useState(false);
 
   const hasActiveTimer = useHasActiveTimer();
   const router = useRouter();
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
@@ -35,11 +37,11 @@ export default function HomeScreen() {
   }, []);
 
   const handleTimerPress = useCallback(() => {
-    setTimerModalOpen(true);
+    bottomSheetModalRef.current?.present();
   }, []);
 
   const handleTimerModalClose = useCallback(() => {
-    setTimerModalOpen(false);
+    bottomSheetModalRef.current?.dismiss();
   }, []);
 
   const navigateToRecipe = useCallback(
@@ -102,16 +104,13 @@ export default function HomeScreen() {
         </TouchableOpacity>
       )}
 
-      {timerModalOpen && (
-        <Portal>
-          <TimerModal
+        <TimerModal
+          bottomSheetModalRef={bottomSheetModalRef}
             onRequestClose={handleTimerModalClose}
             recipeTitle={""}
             recipeId={""}
             onNavigateToRecipe={navigateToRecipe}
           />
-        </Portal>
-      )}
     </View>
   );
 }
@@ -128,18 +127,18 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   contentWrapper: {
-    paddingVertical: 20,
+    paddingVertical: responsiveHeight(20),
   },
   bottomSpacer: {
     height: 100,
   },
   timerFloatingButton: {
     position: "absolute",
-    right: 20,
-    bottom: 30,
-    width: 56,
-    height: 56,
-    borderRadius: 28,
+    right: responsiveWidth(20),
+    bottom: responsiveHeight(30),
+    width: responsiveWidth(56),
+    height: responsiveHeight(56),
+    borderRadius: responsiveWidth(28),
     backgroundColor: COLORS.orange.main,
     justifyContent: "center",
     alignItems: "center",

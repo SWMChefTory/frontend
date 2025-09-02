@@ -5,6 +5,8 @@ import { CategoryCard } from "./Card";
 import { AddCategoryCard } from "./AddCard";
 import { Category } from "../Category";
 import { CategoryState, CategorySelectedState, CategoryType } from "./State";
+import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
 
 interface Props {
   categories: Category[];
@@ -119,12 +121,12 @@ export function CategoryList({
 
 const styles = StyleSheet.create({
   categorySection: {
-    height: 120,
+    height: responsiveHeight(120),
   },
   categorySeparator: {
-    width: 8,
+    width: responsiveWidth(8),
   },
   contentContainer: {
-    paddingHorizontal: 10,
+    paddingHorizontal: responsiveWidth(10),
   },
 });

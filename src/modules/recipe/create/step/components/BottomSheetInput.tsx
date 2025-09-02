@@ -3,6 +3,9 @@ import { COLORS } from "@/src/modules/shared/constants/colors";
 import { StyleSheet, View } from "react-native";
 import { Pressable } from "react-native";
 import { Text } from "react-native";
+import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveFontSize } from "@/src/modules/shared/utils/responsiveUI";
 
 interface Props {
   value: string;
@@ -22,7 +25,7 @@ export function BottomSheetInput({ value, onChangeText, onCancel, ref }: Props) 
           ref={ref}
           autoCapitalize="none"
           autoCorrect={false}
-          placeholderTextColor="#9AA0A6"
+          placeholderTextColor={COLORS.text.gray}
         />
         <Pressable style={styles.cancelCreate} onPress={onCancel}>
           <Text style={styles.cancelCreateText}>취소</Text>
@@ -37,15 +40,15 @@ export function BottomSheetInput({ value, onChangeText, onCancel, ref }: Props) 
       flex: 1,
     },
     input: {
-      height: 44, 
+      height: responsiveHeight(44), 
       borderWidth: 1, 
-      borderColor: "#E5E7EB", 
+      borderColor: COLORS.border.lightGray, 
       borderRadius: 12,
-      paddingHorizontal: 12,
-      paddingRight: 60,
-      backgroundColor: "#FFF", 
-      fontSize: 14, 
-      color: "#111827",
+      paddingHorizontal: responsiveWidth(12),
+      paddingRight: responsiveWidth(60),
+      backgroundColor: COLORS.background.white, 
+      fontSize: responsiveFontSize(14), 
+      color: COLORS.text.black,
     },
     inputFocused: {
       borderColor: COLORS.background.orange,
@@ -53,14 +56,14 @@ export function BottomSheetInput({ value, onChangeText, onCancel, ref }: Props) 
     },
     cancelCreate: {
       position: 'absolute',
-      right: 8,
-      top: 8,
-      bottom: 8,
+      right: responsiveWidth(8),
+      top: responsiveHeight(8),
+      bottom: responsiveHeight(8),
       justifyContent: 'center', 
-      paddingHorizontal: 12,
+      paddingHorizontal: responsiveWidth(12),
     },
     cancelCreateText: {
-      color: "#6B7280",
-      fontSize: 14,
+      color: COLORS.text.gray,
+      fontSize: responsiveFontSize(14),
     },
   });

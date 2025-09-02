@@ -1,6 +1,9 @@
 import { COLORS } from "@/src/modules/shared/constants/colors";
 import { StyleSheet, Text, View } from "react-native";
 import { memo } from "react";
+import { responsiveFontSize } from "../../shared/utils/responsiveUI";
+import { responsiveWidth } from "../../shared/utils/responsiveUI";
+import { responsiveHeight } from "../../shared/utils/responsiveUI";
 
 type TimerHeaderProps = {
   recipeTitle: string;
@@ -31,20 +34,19 @@ const styles = StyleSheet.create({
   },
   titleContainer: {
     flex: 1,
-    paddingRight: 12,
-    paddingTop: 16,
+    paddingRight: responsiveWidth(12),
   },
   modalTitle: {
     color: COLORS.font.dark,
-    fontSize: 22,
+    fontSize: responsiveFontSize(22),
     fontWeight: "800",
   },
   activityTitle: {
-    paddingTop: 10,
+    paddingTop: responsiveHeight(10),
     color: COLORS.text.gray,
-    fontSize: 14,
+    fontSize: responsiveFontSize(14),
     fontWeight: "600",
-    lineHeight: 20,
-    minHeight: 40,
+    lineHeight: responsiveHeight(20),
+    minHeight: responsiveHeight(40),
   },
 });

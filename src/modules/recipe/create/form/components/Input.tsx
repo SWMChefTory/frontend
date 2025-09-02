@@ -1,6 +1,10 @@
 import { View, Text, StyleSheet, TextInput } from "react-native";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 import { BottomSheetTextInput } from "@gorhom/bottom-sheet";
+import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveFontSize } from "@/src/modules/shared/utils/responsiveUI";
+import { SHADOW } from "@/src/modules/shared/constants/shadow";
 
 interface RecipeFormInputProps {
   videoUrl: string;
@@ -53,27 +57,23 @@ const styles = StyleSheet.create({
   inputCard: {
     backgroundColor: COLORS.background.secondaryLightGray,
     borderRadius: 20,
-    padding: 20,
-    marginBottom: 24,
-    shadowColor: COLORS.shadow.black,
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.03,
-    shadowRadius: 4,
-    elevation: 1,
+    padding: responsiveWidth(20),
+    marginBottom: responsiveHeight(12),
+    ...SHADOW,
   },
   inputLabel: {
-    fontSize: 16,
+    fontSize: responsiveFontSize(16),
     fontWeight: "600",
     color: COLORS.text.gray,
-    marginBottom: 12,
+    marginBottom: responsiveHeight(12),
   },
   inputContainer: {
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: COLORS.background.white,
     borderRadius: 16,
-    paddingHorizontal: 16,
-    paddingVertical: 4,
+    paddingHorizontal: responsiveWidth(8),
+    paddingVertical: responsiveHeight(4),
     borderWidth: 2,
     borderColor: COLORS.border.lightGray,
   },
@@ -83,21 +83,21 @@ const styles = StyleSheet.create({
   },
   textInput: {
     flex: 1,
-    height: 56,
-    fontSize: 16,
+    height: responsiveHeight(56),
+    fontSize: responsiveFontSize(16),
     color: COLORS.text.black,
     backgroundColor: "transparent",
   },
   errorText: {
     color: COLORS.error.red,
-    fontSize: 12,
-    marginTop: 8,
+    fontSize: responsiveFontSize(12),
+    marginTop: responsiveHeight(8),
     fontWeight: "500",
   },
   errorTextHidden: {
     opacity: 0,
   },
   errorContainer: {
-    height: 20,
+    height: responsiveHeight(20),
   },
 });

@@ -6,6 +6,7 @@ import { BottomSheetTextInput } from "@gorhom/bottom-sheet";
 import { useRef } from "react";
 import { useCreateCategoryViewModel } from "../../../category/categories/modal/useCreateViewModel";
 import { useUpdateCategoryViewModel } from "../../../category/categories/useUpdateViewModel";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 interface Props {   
     onDismiss: () => void;
@@ -22,6 +23,7 @@ export function BottomSheetCreateContent({ onDismiss, recipeId, mode, changeMode
     const inputRef = useRef<React.ComponentRef<typeof BottomSheetTextInput>>(null);
     const { create, isCreating } = useCreateCategoryViewModel();
     const { updateCategory, updatingCategoryId } = useUpdateCategoryViewModel();
+    const insets = useSafeAreaInsets();
 
     const isBusy = isCreating || !!updatingCategoryId;
 
@@ -69,7 +71,7 @@ export function BottomSheetCreateContent({ onDismiss, recipeId, mode, changeMode
     };
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, { paddingBottom: insets.bottom }]}>
             <View style={styles.contentSection}>
                 {mode === "create" ? (
                     <View style={styles.createFormContainer}>
@@ -147,6 +149,5 @@ const styles = StyleSheet.create({
     },
     buttonSection: {
         paddingHorizontal: 20,
-        paddingBottom: 30,
     },
 });

@@ -2,6 +2,7 @@ import { memo, useMemo, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 import DurationSelector from "@/src/modules/timer/components/DurationSelector";
+import { responsiveFontSize, responsiveHeight, responsiveWidth } from "../../shared/utils/responsiveUI";
 
 const DEFAULT_TIMER_PRESETS = [
   { label: "30초", seconds: 30, color: COLORS.orange.main },
@@ -81,7 +82,6 @@ export const TimerIdle = memo(
 
       const newTotalSeconds = h * 3600 + m * 60 + s;
 
-      // DurationSelector로 변경한 시간이 preset과 일치하면 해당 preset을 선택
       const matchingPreset = presets.find((p) => p.seconds === newTotalSeconds);
       setSelectedPreset(matchingPreset || null);
 
@@ -170,19 +170,19 @@ const styles = StyleSheet.create({
   label: {
     color: COLORS.text.black,
     opacity: 0.7,
-    fontSize: 12,
-    marginTop: 10,
+    fontSize: responsiveFontSize(12),
+    marginTop: responsiveHeight(10),
   },
   presetRow: {
     flexDirection: "row",
     flexWrap: "wrap",
-    gap: 10,
-    marginTop: 8,
+    gap: responsiveWidth(10),
+    marginTop: responsiveHeight(8),
   },
   preset: {
     flex: 1,
-    paddingHorizontal: 8,
-    paddingVertical: 10,
+    paddingHorizontal: responsiveWidth(8),
+    paddingVertical: responsiveHeight(10),
     borderRadius: 999,
     borderWidth: 1,
     borderColor: COLORS.border.lightGray,
@@ -195,19 +195,19 @@ const styles = StyleSheet.create({
   },
   presetText: {
     color: COLORS.font.dark,
-    fontSize: 14,
+    fontSize: responsiveFontSize(14),
     fontWeight: "600",
   },
   presetSelectedText: {
     color: COLORS.text.black,
+    fontSize: responsiveFontSize(14),
     fontWeight: "800",
   },
   customBadge: {
     alignSelf: "flex-start",
-    marginTop: 8,
-    marginBottom: 10,
-    paddingHorizontal: 10,
-    paddingVertical: 6,
+    paddingHorizontal: responsiveWidth(10),
+    paddingVertical: responsiveHeight(6),
+    fontSize: responsiveFontSize(14),
     borderRadius: 999,
     backgroundColor: "rgba(255,69,0,0.12)",
     color: COLORS.text.black,
@@ -216,10 +216,9 @@ const styles = StyleSheet.create({
   },
   normalBadge: {
     alignSelf: "flex-start",
-    marginTop: 8,
-    marginBottom: 10,
-    paddingHorizontal: 10,
-    paddingVertical: 6,
+    paddingHorizontal: responsiveWidth(10),
+    paddingVertical: responsiveHeight(6),
+    fontSize: responsiveFontSize(14),
     borderRadius: 999,
     backgroundColor: "rgba(255,69,0,0.12)",
     color: COLORS.text.black,
@@ -238,25 +237,24 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-    marginTop: 10,
+    marginTop: responsiveHeight(10),
     alignItems: "flex-start",
     justifyContent: "center",
   },
   statusText: {
-    marginTop: 8,
+    marginTop: responsiveHeight(8),
     color: COLORS.text.gray,
-    fontSize: 16,
+    fontSize: responsiveWidth(16),
     fontWeight: "600",
   },
   bottomButtonContainer: {
     flexDirection: "row",
-    paddingBottom: 24,
-    paddingTop: 16,
-    gap: 12,
+    paddingTop: responsiveHeight(16),
+    gap: responsiveWidth(12),
   },
   btn: {
     flex: 1,
-    paddingVertical: 14,
+    paddingVertical: responsiveHeight(14),
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 14,

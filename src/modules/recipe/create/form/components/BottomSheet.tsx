@@ -45,12 +45,12 @@ export function RecipeBottomSheet({ modalRef, youtubeUrl }: Props) {
     <BottomSheetModal
       ref={modalRef}
       index={0}
-      snapPoints={["50%"]}
+      snapPoints={["55%"]}
       enablePanDownToClose={true}
       enableOverDrag={false}  
       keyboardBehavior="interactive"
       keyboardBlurBehavior="restore"
-      android_keyboardInputMode="adjustResize"
+      android_keyboardInputMode="adjustPan"
       enableDynamicSizing={false}
       backgroundStyle={{
         backgroundColor: COLORS.background.white,

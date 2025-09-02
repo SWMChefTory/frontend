@@ -7,6 +7,7 @@ import { useLoginViewModel } from "@/src/modules/user/business/service/useAuthSe
 import { OauthProvider } from "@/src/modules/user/enums/OauthProvider";
 import { FullScreenLoader } from "@/src/modules/shared/splash/loading/lottieview/FullScreenLoader";
 import LoginButtonTemplate from "../../login/LoginButtonTemplate";
+import { responsiveHeight, responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
 
 GoogleSignin.configure({
   webClientId: process.env.EXPO_PUBLIC_WEB_ID,
@@ -52,7 +53,7 @@ export default function GoogleLoginButton({ isReal }: { isReal: boolean }) {
       {isLoading && <FullScreenLoader />}
       <LoginButtonTemplate
         logoPath={require("@/assets/images/googleLogo.png")}
-        logoSize={{width:22, height:24}}
+        logoSize={{width:responsiveWidth(22), height:responsiveHeight(24)}}
         description="Google로 시작하기"
         handleSignIn={handleSignIn}
       />

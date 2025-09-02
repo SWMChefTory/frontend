@@ -5,6 +5,9 @@ import { Image } from "expo-image";
 import { COLORS } from "../../../shared/constants/colors";
 import logoStyle from "../../../shared/splash/logo/style/logostyle";
 import { Asset } from "expo-asset";
+import { responsiveWidth } from "../../../shared/utils/responsiveUI";
+import { responsiveHeight } from "../../../shared/utils/responsiveUI";
+import { responsiveFontSize } from "../../../shared/utils/responsiveUI";
  
 
 Image.prefetch('@/assets/images/mainCharacter.png', 'disk');
@@ -77,38 +80,38 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    padding: 24,
+    padding: responsiveWidth(24),
     backgroundColor: COLORS.priamry.main,
   },
   logoContainer:{
-    width: 150,
-    height: 150,
-    marginBottom: 32,
-    marginRight: 20,
+    width: responsiveWidth(150),
+    height: responsiveWidth(150),
+    marginBottom: responsiveHeight(32),
+    marginRight: responsiveWidth(20),
   },
   titleContainer:{
-    marginTop: 180,
+    marginTop: responsiveHeight(180),
     alignItems: "center",
   },
   logo: {
-    width: 150,
-    height: 150,
+    width: responsiveWidth(150),
+    height: responsiveWidth(150),
   },
   title: {
-    width: 156,
-    height: 40,
+    width: responsiveWidth(156),
+    height: responsiveHeight(40),
     fontFamily: "NotoSerifKR_700Bold",
-    fontSize: 42,
+    fontSize: responsiveFontSize(42),
     marginBottom: 22,
     fontWeight: "bold",
   },
   subTitle: {
     color: COLORS.font.dark,
-    fontSize: 16,
-    marginBottom: 32,
+    fontSize: responsiveFontSize(16),
+    marginBottom: responsiveHeight(32),
     fontWeight: "bold",
   },
   buttonCotainer: {
-    paddingBottom: 10,
+    paddingBottom: responsiveHeight(10),
   },
 });

@@ -16,3 +16,18 @@ export const SHADOW = {
         borderColor: COLORS.border.lightGray,
       }),
 };
+
+export const SKELETON_SHADOW = {
+  ...(Platform.OS === "ios"
+    ? {
+      shadowColor: COLORS.shadow.orange,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 6,
+      elevation: 4,
+      }
+    : {
+        borderWidth: 2,
+        borderColor: COLORS.border.orange,
+      }),
+};

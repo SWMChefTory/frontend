@@ -6,6 +6,8 @@ import { useCategoriesViewModel } from "@/src/modules/recipe/category/categories
 import BottomSheetCategoryCard from "./BottomSheetCategoryCard";
 import { Category as CategoryModel } from "@/src/modules/recipe/category/Category";
 import BottomSheetAddCard from "./BottomSheetAddCard";
+import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveFontSize, responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
 
 
 type Category = Pick<CategoryModel, "id" | "name" | "count">;
@@ -92,13 +94,12 @@ export function RecipeCategoryBottomSheetContent({
   const gridData = createGridData(categories, 3);
 
   return (
-    <BottomSheetView style={styles.sheetContainer}>
+      <BottomSheetView style={styles.sheetContainer}>
       <View style={styles.statusDot} />
       <View style={styles.contentCard}>
         <Text style={styles.title}>카테고리 저장/이동</Text>
         <Text style={styles.subtitle}>레시피를 어떤 카테고리에 둘까요?</Text>
 
-        {/* 카테고리 그리드 (Add 카드 포함) */}
         <View style={styles.categoriesSection}>
           <BottomSheetFlatList  
             data={gridData}
@@ -140,8 +141,8 @@ const styles = StyleSheet.create({
   },
   statusDot: {
     position: "absolute", 
-    top: 16, 
-    right: 20, 
+    top: responsiveHeight(16), 
+    right: responsiveWidth(20), 
     width: 14, 
     height: 14,
     backgroundColor: COLORS.background.orange, 
@@ -158,48 +159,48 @@ const styles = StyleSheet.create({
   contentCard: {
     flex: 1, 
     backgroundColor: COLORS.background.white, 
-    padding: 24,
+    padding: responsiveWidth(10),
   },
   title: { 
-    fontSize: 18, 
+    fontSize: responsiveFontSize(18), 
     fontWeight: "700", 
-    color: "#111827" 
+    color: COLORS.text.black 
   },
   subtitle: { 
-    marginTop: 4, 
-    fontSize: 13, 
-    color: "#6B7280" 
+    marginTop: responsiveHeight(4), 
+    fontSize: responsiveFontSize(13), 
+    color: COLORS.text.gray 
   },
   categoriesSection: {
-    marginTop: 20,
+    marginTop: responsiveHeight(10),
     flex: 1,
   },
   categoriesList: {
-    maxHeight: 500, // 350 → 500으로 증가
-    minHeight: 200, // 최소 높이는 줄이기
+    maxHeight: responsiveHeight(500),
+    minHeight: responsiveHeight(200), 
   },
   gridContainer: {
-    paddingVertical: 8,
-    paddingBottom: 200,
+    paddingVertical: responsiveHeight(8),
+    paddingBottom: responsiveHeight(300),
   },
   gridRow: {
     justifyContent: 'flex-start',
-    gap: 8,
-    marginBottom: 8,
+    gap: responsiveWidth(8),
+    marginBottom: responsiveHeight(8),
   },
   gridItem: {
     flex: 1,
-    marginHorizontal: 2,
+    marginHorizontal: responsiveWidth(2),
   },
   emptyContainer: {
     alignItems: 'center',
-    paddingVertical: 20,
-    gap: 16,
+    paddingVertical: responsiveHeight(20),
+    gap: responsiveWidth(16),
   },
   empty: { 
     textAlign: 'center',
-    color: "#6B7280", 
-    fontSize: 14,
+    color: COLORS.text.gray, 
+    fontSize: responsiveFontSize(14),
     fontStyle: 'italic'
   },
   // 변경된 부분: 빈 상태에서도 그리드 유지

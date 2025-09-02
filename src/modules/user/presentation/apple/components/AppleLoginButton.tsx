@@ -4,6 +4,8 @@ import { OauthProvider } from "@/src/modules/user/enums/OauthProvider";
 import { Alert, Image, Text, TouchableOpacity } from "react-native";
 import { FullScreenLoader } from "@/src/modules/shared/splash/loading/lottieview/FullScreenLoader";
 import LoginButtonTemplate from "../../login/LoginButtonTemplate";
+import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
 
 export function AppleLoginButton({ isReal }: { isReal: boolean }) {
   const { login, isLoading } = useLoginViewModel();
@@ -59,7 +61,7 @@ export function AppleLoginButton({ isReal }: { isReal: boolean }) {
       {isLoading && <FullScreenLoader />}
       <LoginButtonTemplate 
       logoPath={require("@/assets/images/appleLogo.png")} 
-      logoSize={{width:20, height:24}}
+      logoSize={{width:responsiveWidth(20), height:responsiveHeight(24)}}
       description={description} 
       handleSignIn={handleSignInApple} />
     </>

@@ -32,7 +32,7 @@ export function CategoryCreateModal({ openModal, onCloseModal }: Props) {
       onChangeText={setNewCategoryName}
       onCancel={handleModalCancel}
       onConfirm={addCategory}
-      isCreating={isCreating} // ✅ 생성 중 상태 전달
+      isCreating={isCreating}
     />
   );
 }

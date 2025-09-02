@@ -1,6 +1,8 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { COLORS } from "@/src/modules/shared/constants/colors";
+import { responsiveFontSize, responsiveHeight } from "../../shared/utils/responsiveUI";
+import { responsiveWidth } from "../../shared/utils/responsiveUI";
 
 type TimerDifferentProps = {
   onGoToRecipe: () => void;
@@ -39,40 +41,39 @@ const styles = StyleSheet.create({
   container: { flex: 1 },
   contentContainer: {
     flex: 1,
-    marginTop: 12,
+    marginTop: responsiveHeight(12),
     alignItems: "center",
     justifyContent: "center",
-    paddingHorizontal: 16,
+    paddingHorizontal: responsiveWidth(16),
   },
   statusText: {
-    marginTop: 8,
+    marginTop: responsiveHeight(8),
     color: COLORS.text.gray,
-    fontSize: 14,
+    fontSize: responsiveFontSize(14),
     fontWeight: "600",
   },
   titleText: {
-    marginTop: 8,
+    marginTop: responsiveHeight(8),
     color: COLORS.font.dark,
-    fontSize: 18,
+    fontSize: responsiveFontSize(18),
     fontWeight: "700",
     textAlign: "center",
   },
   timeText: {
-    marginTop: 6,
+    marginTop: responsiveHeight(6),
     color: COLORS.text.gray,
-    fontSize: 28,
+    fontSize: responsiveFontSize(28),
     fontWeight: "800",
     letterSpacing: 1,
   },
   bottomButtonContainer: {
     flexDirection: "row",
-    paddingBottom: 24,
-    paddingTop: 16,
-    gap: 12,
+    paddingTop: responsiveHeight(16),
+    gap: responsiveWidth(12),
   },
   btn: {
     flex: 1,
-    paddingVertical: 14,
+    paddingVertical: responsiveHeight(14),
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 14,

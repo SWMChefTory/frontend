@@ -11,6 +11,7 @@ import { CategoriesError } from "./Fallback";
 import { CategoryListSkeleton } from "./Skeleton";
 import { DeferredComponent } from "@/src/modules/shared/utils/DeferredComponent";
 import { useRefreshOnFocus } from "@/src/modules/shared/utils/useRefreshOnFocus";
+import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
 
 interface Props {
   selectedCategory: Category | null;
@@ -123,8 +124,8 @@ export function CategoryListSectionContent({
 
 const styles = StyleSheet.create({
   categoryList: {
-    height: 120,
+    height: responsiveHeight(100),
     borderRadius: 24,
-    marginVertical: 12,
+    marginVertical: responsiveHeight(12),
   },
 });

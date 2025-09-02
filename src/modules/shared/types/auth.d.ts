@@ -9,8 +9,8 @@ export interface SignupData {
   provider: string;
   id_token: string;
   nickname: string;
-  gender: Gender;
-  date_of_birth: UTCDateAtMidnight;
+  gender: Gender | null;
+  date_of_birth: DateOnly | null;
   is_marketing_agreed: boolean;
   is_privacy_agreed: boolean;
   is_terms_of_use_agreed: boolean;

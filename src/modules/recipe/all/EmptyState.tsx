@@ -8,6 +8,9 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { COLORS } from "@/src/modules/shared/constants/colors";
+import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveFontSize } from "@/src/modules/shared/utils/responsiveUI";
 
 interface EmptyStateProps {
   title: string;
@@ -280,7 +283,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     paddingVertical: 60,
-    paddingHorizontal: 24,
+    paddingHorizontal: responsiveWidth(24),
     backgroundColor: COLORS.background.white,
   },
   emptyContent: {
@@ -288,8 +291,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     maxWidth: 320,
-    paddingVertical: 48,
-    paddingHorizontal: 32,
+    paddingVertical: responsiveHeight(48),
+    paddingHorizontal: responsiveWidth(32),
     backgroundColor: COLORS.background.white,
     borderRadius: 32,
     borderWidth: 1,
@@ -304,37 +307,37 @@ const styles = StyleSheet.create({
   // 배경 장식 원들
   decorativeCircle1: {
     position: "absolute",
-    top: -20,
-    right: -15,
-    width: 40,
+    top: -responsiveHeight(20),
+    right: -responsiveWidth(15),
+    width: responsiveWidth(40),
     height: 40,
     borderRadius: 20,
     backgroundColor: "rgba(255, 183, 77, 0.1)",
   },
   decorativeCircle2: {
     position: "absolute",
-    bottom: -10,
-    left: -20,
-    width: 60,
+    bottom: -responsiveHeight(10),
+    left: -responsiveWidth(20),
+    width: responsiveWidth(60),
     height: 60,
     borderRadius: 30,
     backgroundColor: "rgba(255, 138, 101, 0.08)",
   },
   decorativeCircle3: {
     position: "absolute",
-    top: 20,
-    left: -30,
-    width: 24,
-    height: 24,
+    top: responsiveHeight(20),
+    left: -responsiveWidth(30),
+    width: responsiveWidth(24),
+    height: responsiveHeight(24),
     borderRadius: 12,
     backgroundColor: "rgba(251, 146, 60, 0.12)",
   },
   iconContainer: {
-    marginBottom: 28,
+    marginBottom: responsiveHeight(28),
   },
   iconBackground: {
-    width: 72,
-    height: 72,
+    width: responsiveWidth(72),
+    height: responsiveHeight(72),
     borderRadius: 24,
     backgroundColor: COLORS.background.white,
     alignItems: "center",
@@ -350,25 +353,25 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     alignItems: "center",
-    marginBottom: 32,
+    marginBottom: responsiveHeight(32),
   },
   emptyTitle: {
-    fontSize: 18,
+    fontSize: responsiveFontSize(18),
     fontWeight: "600",
     color: COLORS.text.black,
-    marginBottom: 12,
+    marginBottom: responsiveHeight(12),
     textAlign: "center",
     letterSpacing: -0.3,
   },
   emptySubtitle: {
-    fontSize: 14,
+    fontSize: responsiveFontSize(14),
     color: COLORS.text.gray,
     textAlign: "center",
-    lineHeight: 20,
+    lineHeight: responsiveHeight(20),
     letterSpacing: -0.1,
   },
   refreshButton: {
-    borderRadius: 20,
+    borderRadius: responsiveWidth(20),
     backgroundColor: COLORS.background.white,
     borderWidth: 1,
     borderColor: COLORS.orange.light,
@@ -382,14 +385,14 @@ const styles = StyleSheet.create({
   buttonContent: {
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 20,
-    paddingVertical: 12,
+    paddingHorizontal: responsiveWidth(20),
+    paddingVertical: responsiveHeight(12),
   },
   buttonText: {
     color: COLORS.orange.main,
-    fontSize: 14,
+    fontSize: responsiveFontSize(14),
     fontWeight: "500",
-    marginLeft: 6,
+    marginLeft: responsiveWidth(6),
     letterSpacing: -0.1,
   },
 });

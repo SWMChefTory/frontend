@@ -9,6 +9,7 @@ import { useRecipeCreateStatusViewModel } from "../viewmodel/useStatusViewModel"
 import { useRecipeCreateAnimation } from "../hooks/useAnimation";
 import { RecipeCreateStatus } from "../types/Status";
 import { useEffect } from "react";
+import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
 
 interface Props {
   recipeId: string;
@@ -69,7 +70,7 @@ const styles = StyleSheet.create({
   },
   content: {
     maxWidth: 320,
-    paddingHorizontal: 24,
+    paddingHorizontal: responsiveWidth(24),
     alignItems: "center",
   },
 });

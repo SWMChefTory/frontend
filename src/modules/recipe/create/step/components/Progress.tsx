@@ -1,6 +1,9 @@
 import { View, Text, StyleSheet, Animated } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { COLORS } from "@/src/modules/shared/constants/colors";
+import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveFontSize } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
 
 interface Props {
   progress: number;
@@ -39,24 +42,24 @@ export function ProgressSection({ progress, colors, scaleValue }: Props) {
 const styles = StyleSheet.create({
   progressSection: {
     width: "100%",
-    margin: 32,
+    margin: responsiveWidth(32),
   },
   progressHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 12,
+    marginBottom: responsiveHeight(12),
   },
   progressLabel: {
-    fontSize: 14,
+    fontSize: responsiveFontSize(14),
     fontWeight: "600",
     color: COLORS.text.gray,
   },
   progressValue: {
-    fontSize: 18,
+    fontSize: responsiveFontSize(18),
     fontWeight: "bold",
-    color: "#1E293B",
-    minWidth: 60,
+    color: COLORS.text.black,
+    minWidth: responsiveWidth(60),
     textAlign: "right",
   },
   progressBarContainer: {
@@ -64,9 +67,9 @@ const styles = StyleSheet.create({
   },
   progressBarBg: {
     width: "100%",
-    height: 16,
+    height: responsiveHeight(16),
     backgroundColor: COLORS.background.lightGray,
-    borderRadius: 8,
+    borderRadius: responsiveWidth(8),
     overflow: "hidden",
     shadowColor: COLORS.shadow.black,
     shadowOffset: { width: 0, height: 2 },
@@ -76,14 +79,14 @@ const styles = StyleSheet.create({
   },
   progressBar: {
     height: "100%",
-    borderRadius: 8,
+    borderRadius: responsiveWidth(8),
     position: "relative",
   },
   progressShine: {
     position: "absolute",
     right: 0,
     top: 0,
-    width: 8,
+    width: responsiveWidth(8),
     height: "100%",
     backgroundColor: COLORS.background.lightGray,
   },

@@ -5,7 +5,7 @@ import { InputTemplate } from "../components/InputTemplate";
 function BirthOfDateResult({
   dateOfBirth,
 }: {
-  dateOfBirth: DateOnly | undefined;
+  dateOfBirth: DateOnly | null;
 }) {
   if (!dateOfBirth) {
     return (

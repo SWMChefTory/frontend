@@ -13,6 +13,9 @@ import { COLORS } from "@/src/modules/shared/constants/colors";
 import { Category } from "../Category";
 import { CategoryState, CategorySelectedState } from "./State";
 import { SHADOW } from "@/src/modules/shared/constants/shadow";
+import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveFontSize } from "@/src/modules/shared/utils/responsiveUI";
 
 interface BaseProps {
   category: Category;
@@ -37,17 +40,16 @@ const baseStyles = StyleSheet.create({
     height: 120,
     backgroundColor: COLORS.background.white,
     borderRadius: 12,
-    ...SHADOW
   },
   content: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    padding: 12,
+    padding: responsiveWidth(12),
   },
   iconContainer: {
-    width: 40,
-    height: 40,
+    width: responsiveWidth(40),
+    height: responsiveWidth(40),
     borderRadius: 20,
     backgroundColor: "#FFF3F0",
     justifyContent: "center",
@@ -55,22 +57,22 @@ const baseStyles = StyleSheet.create({
     marginBottom: 8,
   },
   name: {
-    fontSize: 14,
+    fontSize: responsiveFontSize(14),
     fontWeight: "600",
     color: COLORS.text.black,
     marginBottom: 4,
     textAlign: "center",
   },
   count: {
-    fontSize: 11,
+    fontSize: responsiveFontSize(11),
     color: COLORS.text.gray,
   },
   deleteButton: {
     position: "absolute",
-    top: 6,
-    right: 6,
-    width: 20,
-    height: 20,
+    top: responsiveHeight(6),
+    right: responsiveWidth(6),
+    width: responsiveWidth(20),
+    height: responsiveHeight(20),
     borderRadius: 10,
     backgroundColor: "rgba(0,0,0,0.1)",
     justifyContent: "center",
@@ -85,14 +87,7 @@ const styles = StyleSheet.create({
     top: 10,
     alignItems: "center",
   },
-  dragGuideText: {
-    position: "absolute",
-    bottom: 25,
-    fontSize: 8,
-    color: "rgba(255, 107, 53, 0.8)",
-    fontWeight: "600",
-    textAlign: "center",
-  },
+
   plusIconContainer: {
     position: "absolute",
     bottom: 5,
@@ -134,7 +129,7 @@ export function NormalCategoryCard({ category, onPress, onDelete, categorySelect
           <View style={baseStyles.iconContainer}>
             <Ionicons
               name="folder"
-              size={24}
+              size={20}
               color={categorySelectedState === CategorySelectedState.SELECTED ? COLORS.priamry.cook : COLORS.orange.main}
             />
           </View>
@@ -263,9 +258,6 @@ export function DroppableCategoryCard({ category, onDrop }: DropProps) {
         ? "rgba(255, 165, 0, 0.15)"
         : "rgba(255, 107, 53, 0.05)",
       shadowColor: isReceiving ? COLORS.orange.main : "rgba(255, 107, 53, 0.3)",
-      shadowOpacity: isReceiving ? 0.4 : 0.2,
-      shadowRadius: isReceiving ? 8 : 6,
-      elevation: isReceiving ? 8 : 6,
     },
   ];
 
@@ -293,7 +285,7 @@ export function DroppableCategoryCard({ category, onDrop }: DropProps) {
           >
             <Ionicons
               name="folder"
-              size={24}
+              size={20}
               color={
                 isReceiving
                   ? COLORS.text.white
@@ -341,7 +333,7 @@ export function DroppableCategoryCard({ category, onDrop }: DropProps) {
                   transform: [{ translateY: arrowBounceAnim }],
                 }}
               >
-                <Ionicons name="arrow-down" size={16} color="rgba(255, 107, 53, 0.6)" />
+                <Ionicons name="arrow-down" size={12} color="rgba(255, 107, 53, 0.6)" />
               </Animated.View>
             </View>
 
@@ -401,7 +393,7 @@ export function DeletingCategoryCard({ category }: Pick<BaseProps, 'category'>) 
       ]}>
         <View style={baseStyles.content}>
           <View style={[baseStyles.iconContainer, { backgroundColor: "#F5F5F5" }]}>
-            <Ionicons name="folder" size={24} color={COLORS.text.gray} />
+            <Ionicons name="folder" size={20} color={COLORS.text.gray} />
           </View>
           <Text style={[baseStyles.name, { color: COLORS.text.gray, opacity: 0.6 }]} numberOfLines={1}>
             {category.name}
@@ -481,7 +473,7 @@ export function UpdatingCategoryCard({ category }: Pick<BaseProps, 'category'>) 
       ]}>
         <View style={baseStyles.content}>
           <View style={[baseStyles.iconContainer, { backgroundColor: "#E3F2FD" }]}>
-            <Ionicons name="folder" size={24} color="#3498DB" />
+            <Ionicons name="folder" size={20} color="#3498DB" />
           </View>
           <Text style={[baseStyles.name, { color: "#3498DB", fontWeight: "600" }]} numberOfLines={1}>
             {category.name}
@@ -529,7 +521,7 @@ export function SuccessCategoryCard({ category }: SuccessProps) {
     <View style={baseStyles.container}>
       <View style={baseStyles.content}>
         <View style={baseStyles.iconContainer}>
-          <Ionicons name="folder" size={24} color={COLORS.orange.main} />
+          <Ionicons name="folder" size={20} color={COLORS.orange.main} />
         </View>
         <Text style={baseStyles.name} numberOfLines={1}>{category.name}</Text>
         <Text style={baseStyles.count}>{category.count}개</Text>

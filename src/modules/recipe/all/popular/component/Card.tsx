@@ -5,6 +5,9 @@ import { PopularSummaryRecipe } from "@/src/modules/recipe/summary/popular/types
 import { COLORS } from "@/src/modules/shared/constants/colors";
 import { useState } from "react";
 import { SHADOW } from "@/src/modules/shared/constants/shadow";
+import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveFontSize } from "@/src/modules/shared/utils/responsiveUI";
 
 type Props = {
   recipe: PopularSummaryRecipe;
@@ -39,7 +42,7 @@ export function AllPopularRecipeCard({ recipe, onPress }: Props) {
             resizeMode="cover"
           />
           <View style={styles.sourceIndicator}>
-            <Ionicons name="logo-youtube" size={14} color="#FF0000" />
+            <Ionicons name="logo-youtube" size={responsiveWidth(14)} color="#FF0000" />
           </View>
 
           {/* TOP 순위 배지 */}
@@ -50,7 +53,7 @@ export function AllPopularRecipeCard({ recipe, onPress }: Props) {
             >
               <Ionicons
                 name={recipe.rank <= 3 ? "trophy" : "trending-up"}
-                size={10}
+                size={responsiveWidth(10)}
                 color="white"
               />
               <Text style={styles.topText}>TOP</Text>
@@ -66,7 +69,7 @@ export function AllPopularRecipeCard({ recipe, onPress }: Props) {
           </Text>
           <View style={styles.metaContainer}>
             <View style={styles.popularityContainer}>
-              <Ionicons name="trending-up" size={12} color="#9CA3AF" />
+              <Ionicons name="trending-up" size={responsiveWidth(12)} color="#9CA3AF" />
               <Text style={styles.popularityText}>인기 레시피</Text>
             </View>
             <View style={styles.countContainer}>
@@ -116,100 +119,99 @@ const styles = StyleSheet.create({
   },
   thumbnail: {
     width: "100%",
-    height: 100,
+    height: responsiveHeight(100),
     borderRadius: 12,
   },
   sourceIndicator: {
     position: "absolute",
-    top: 8,
-    right: 8,
+    top: responsiveHeight(8),
+    right: responsiveWidth(8),
     backgroundColor: "rgba(255, 255, 255, 0.95)",
     borderRadius: 8,
-    padding: 4,
+    padding: responsiveHeight(4),
   },
   topBadgeContainer: {
     position: "absolute",
-    top: 8,
-    left: 8,
-    ...SHADOW
+    top: responsiveHeight(8),
+    left: responsiveWidth(8),
   },
   topBadgeGradient: {
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 8,
-    paddingVertical: 4,
+    paddingHorizontal: responsiveWidth(8),
+    paddingVertical: responsiveHeight(4),
     borderRadius: 12,
   },
   topText: {
     color: "#FFFFFF",
-    fontSize: 9,
+    fontSize: responsiveFontSize(9),
     fontWeight: "700",
-    marginLeft: 2,
-    marginRight: 1,
+    marginLeft: responsiveWidth(2),
+    marginRight: responsiveWidth(1),
   },
   rankText: {
     color: "#FFFFFF",
-    fontSize: 11,
+    fontSize: responsiveFontSize(11),
     fontWeight: "800",
   },
   infoContainer: {
     flex: 1,
   },
   title: {
-    fontSize: 16,
+    fontSize: responsiveFontSize(16),
     fontWeight: "600",
     color: "#1F2937",
-    lineHeight: 20,
-    paddingBottom: 4,
-    height: 50,
+    lineHeight: responsiveHeight(20),
+    paddingBottom: responsiveHeight(4),
+    height: responsiveHeight(50),
   },
   metaContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingBottom: 16,
+    paddingBottom: responsiveHeight(16),
   },
   popularityContainer: {
     flexDirection: "row",
     alignItems: "center",
   },
   popularityText: {
-    fontSize: 12,
-    color: "#9CA3AF",
-    marginLeft: 4,
+    fontSize: responsiveFontSize(12),
+    color: COLORS.text.gray,
+    marginLeft: responsiveWidth(4),
     fontWeight: "500",
   },
   countContainer: {
     backgroundColor: "#F3F4F6",
-    paddingHorizontal: 8,
-    paddingVertical: 2,
-    borderRadius: 8,
+    paddingHorizontal: responsiveWidth(8),
+    paddingVertical: responsiveHeight(2),
+    borderRadius: responsiveWidth(8),
   },
   countText: {
-    fontSize: 11,
-    color: "#6B7280",
+    fontSize: responsiveFontSize(11),
+    color: COLORS.text.gray,
     fontWeight: "500",
   },
   recipeButton: {
-    borderRadius: 12,
+    borderRadius: responsiveWidth(12),
     shadowColor: COLORS.orange.main,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
+    shadowOffset: { width: responsiveWidth(0), height: responsiveHeight(2) },
+    shadowOpacity: responsiveWidth(0.2),
+    shadowRadius: responsiveWidth(4),
     elevation: 3,
   },
   recipeButtonPressed: {
-    transform: [{ scale: 0.96 }],
-    shadowOpacity: 0.3,
+    transform: [{ scale: responsiveWidth(0.96) }],
+    shadowOpacity: responsiveWidth(0.3),
     elevation: 5,
   },
   recipeButtonGradient: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    paddingHorizontal: 16,
-    paddingVertical: 10,
-    borderRadius: 12,
+    paddingHorizontal: responsiveWidth(16),
+    paddingVertical: responsiveHeight(10),
+    borderRadius: responsiveWidth(12),
   },
   recipeButtonText: {
     color: "white",

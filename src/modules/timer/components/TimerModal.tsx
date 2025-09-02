@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Platform, StyleSheet, View } from "react-native";
-import BottomSheet, { BottomSheetBackdrop } from "@gorhom/bottom-sheet";
+import { BottomSheetBackdrop, BottomSheetModal } from "@gorhom/bottom-sheet";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 import { useCountdownTimer } from "@/src/modules/timer/hooks/useCountdownTimer";
 import { useLiveActivity } from "@/src/modules/timer/hooks/useLiveActivity";
@@ -23,6 +23,8 @@ import {
   TimerStatus,
 } from "@/src/modules/timer/hooks/useTimerStore";
 import { TimerDifferent } from "@/src/modules/timer/components/TimerDifference";
+import { responsiveWidth, responsiveHeight } from "../../shared/utils/responsiveUI";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export type TimerModalProps = {
   onRequestClose: () => void;
@@ -31,6 +33,7 @@ export type TimerModalProps = {
   timerIntentType?: WebViewMessageType;
   timerAutoTime?: number;
   onNavigateToRecipe: (recipeId: string, recipeTitle: string) => void;
+  bottomSheetModalRef: React.RefObject<BottomSheetModal | null>;
 };
 
 const TimerModal = ({
@@ -40,10 +43,12 @@ const TimerModal = ({
   timerIntentType,
   timerAutoTime,
   onNavigateToRecipe,
+  bottomSheetModalRef,
 }: TimerModalProps) => {
   const [durationSeconds, setDurationSeconds] = useState<number>(0);
   const [isAutoStartActive, setIsAutoStartActive] = useState<boolean>(false);
-
+  const insets = useSafeAreaInsets();
+  
   useEffect(() => {
     ensureNotificationReady().catch((e: any) => {
       console.warn("알림 준비 실패:", e);
@@ -81,6 +86,12 @@ const TimerModal = ({
 
     await scheduleTimerAlarm(recipeTitle, recipeId, durationSeconds);
     setIsAutoStartActive(false);
+
+    if (isAutoStartActive) {
+      setTimeout(() => {
+        onRequestClose();
+      }, 500);
+    }
   };
   async function handlePause() {
     pause();
@@ -147,7 +158,7 @@ const TimerModal = ({
         }
         break;
       }
-
+  
       case WebViewMessageType.TIMER_STOP:
         setIsAutoStartActive(false);
         if (state === TimerState.ACTIVE) {
@@ -157,12 +168,12 @@ const TimerModal = ({
           onRequestClose();
         }, 1000);
         break;
-
+  
       default:
         setIsAutoStartActive(false);
         break;
     }
-  }, []);
+  }, [timerIntentType]);
 
   const handleNavigate = () => {
     if (existId) {
@@ -183,9 +194,10 @@ const TimerModal = ({
   );
 
   return (
-    <BottomSheet
+    <BottomSheetModal 
+      ref={bottomSheetModalRef}
       index={0}
-      snapPoints={["70%"]}
+      snapPoints={[responsiveHeight(600)]}
       onChange={(index) => index === -1 && onRequestClose()}
       enablePanDownToClose={true}
       enableOverDrag={false}
@@ -199,7 +211,14 @@ const TimerModal = ({
       enableHandlePanningGesture={true}
       enableContentPanningGesture={false}
     >
-      <View style={styles.contentContainer}>
+      <View 
+        style={[
+          styles.contentContainer, 
+          {
+            paddingBottom: insets.bottom,
+          },
+        ]}
+      >
         <TimerHeader recipeTitle={name || recipeTitle} />
 
         {(state !== TimerState.IDLE || isAutoStartActive) && (
@@ -249,7 +268,7 @@ const TimerModal = ({
             />
           )}
       </View>
-    </BottomSheet>
+    </BottomSheetModal>
   );
 };
 
@@ -264,12 +283,11 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-    paddingHorizontal: 18,
-    paddingBottom: 24,
+    paddingHorizontal: responsiveWidth(18),
   },
   progressContainer: {
     alignItems: "center",
     justifyContent: "center",
-    paddingTop: 40,
+    paddingTop: responsiveHeight(40),
   },
 });

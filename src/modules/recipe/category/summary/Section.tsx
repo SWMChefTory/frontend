@@ -14,6 +14,8 @@ import { TrashCan } from "./TrashCan";
 import { Category } from "../Category";
 import { SHADOW } from "@/src/modules/shared/constants/shadow";
 import { useRefreshOnFocus } from "@/src/modules/shared/utils/useRefreshOnFocus";
+import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
 interface Props {
   selectedCategory: Category | null;
   onDragStart: () => void;
@@ -93,8 +95,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: COLORS.background.white,
     borderRadius: 24,
-    padding: 12,
-    marginBottom: 24,
+    padding: responsiveWidth(12),
+    marginBottom: responsiveHeight(24),
     ...SHADOW,
   },
 });

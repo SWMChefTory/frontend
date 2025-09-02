@@ -1,6 +1,9 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 import { SHADOW } from "@/src/modules/shared/constants/shadow";
+import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveFontSize } from "@/src/modules/shared/utils/responsiveUI";
 
 interface RecipeFormButtonProps {
   isLoading: boolean;
@@ -37,13 +40,13 @@ export function RecipeFormButton({
 
 const styles = StyleSheet.create({
   createButtonWrapper: {
-    marginTop: 8,
+    marginTop: responsiveHeight(8),
   },
   createButton: {
     backgroundColor: COLORS.background.orange,
-    borderRadius: 24,
-    paddingVertical: 20,
-    paddingHorizontal: 28,
+    borderRadius: responsiveWidth(24),
+    paddingVertical: responsiveHeight(20),
+    paddingHorizontal: responsiveWidth(28),
     alignItems: "center",
     justifyContent: "center",
     ...SHADOW
@@ -56,7 +59,7 @@ const styles = StyleSheet.create({
   },
   createButtonText: {
     color: COLORS.text.white,
-    fontSize: 17,
+    fontSize: responsiveFontSize(17),
     fontWeight: "700",
   },
 });

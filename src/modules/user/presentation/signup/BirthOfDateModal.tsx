@@ -16,7 +16,7 @@ function BirthOfDateModal({
   onClickNextButton,
 }: {
   bottomSheetModalRef: React.RefObject<BottomSheetModal|null>;
-  setSelectedDateOfBirth: (dateOfBirth: DateOnly|undefined) => void;
+  setSelectedDateOfBirth: (dateOfBirth: DateOnly|null) => void;
   onClickNextButton: () => void;
 }) {
   const renderBackdrop = useCallback(

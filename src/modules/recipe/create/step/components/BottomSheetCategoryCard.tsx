@@ -2,6 +2,9 @@ import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { COLORS } from "@/src/modules/shared/constants/colors";
+import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveFontSize } from "@/src/modules/shared/utils/responsiveUI";
 
 interface Props {
   id: string;
@@ -44,11 +47,11 @@ export function BottomSheetCategoryCard({ id, name, count, selected, isCurrent =
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    height: 92,
+    height: responsiveHeight(92),
     borderRadius: 12,
     borderWidth: 1,
-    paddingHorizontal: 10,
-    paddingVertical: 10,
+    paddingHorizontal: responsiveWidth(10),
+    paddingVertical: responsiveHeight(10),
     backgroundColor: COLORS.background.white,
     justifyContent: "center",
     alignItems: "center",
@@ -62,12 +65,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFF7F3",
   },
   iconContainer: {
-    width: 32,
-    height: 32,
+    width: responsiveWidth(32),
+    height: responsiveHeight(32),
     borderRadius: 16,
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 6,
+    marginBottom: responsiveHeight(6),
   },
   iconContainerDefault: {
     backgroundColor: "#FFF3F0",
@@ -76,9 +79,9 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.orange.main,
   },
   name: {
-    fontSize: 12,
+    fontSize: responsiveFontSize(12),
     fontWeight: "600",
-    marginBottom: 2,
+    marginBottom: responsiveHeight(2),
     maxWidth: "100%",
   },
   nameDefault: {
@@ -88,7 +91,7 @@ const styles = StyleSheet.create({
     color: COLORS.orange.main,
   },
   count: {
-    fontSize: 10,
+    fontSize: responsiveFontSize(10),
   },
   countDefault: {
     color: COLORS.text.gray,
@@ -98,16 +101,16 @@ const styles = StyleSheet.create({
   },
   badge: {
     position: "absolute",
-    top: 6,
-    right: 6,
-    backgroundColor: "#F3F4F6",
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-    borderRadius: 6,
+    top: responsiveHeight(6),
+    right: responsiveWidth(6),
+    backgroundColor: COLORS.background.gray,
+    paddingHorizontal: responsiveWidth(6),
+    paddingVertical: responsiveHeight(2),
+    borderRadius: responsiveWidth(6),
   },
   badgeText: {
-    fontSize: 10,
-    color: "#6B7280",
+    fontSize: responsiveFontSize(10),
+    color: COLORS.text.gray,
     fontWeight: "600",
   },
 });
