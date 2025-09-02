@@ -14,6 +14,8 @@ import { DeferredComponent } from "@/src/modules/shared/utils/DeferredComponent"
 import { AllPopularRecipeError } from "./Fallback";
 import { AllPopularRecipesSkeleton } from "./Skeleton";
 import { debounce } from "lodash";
+import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
 
 export function AllPopularRecipeSection() {
   return (
@@ -112,13 +114,13 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.background.white,
   },
   listContainer: {
-    paddingHorizontal: 16,
-    paddingTop: 8,
+    paddingHorizontal: responsiveWidth(16),
+    paddingTop: responsiveHeight(8),
   },
   itemContainer: {
     flex: 1,
     maxWidth: "48%",
-    margin: 8,
+    margin: responsiveWidth(8),
   },
   columnWrapper: {
     justifyContent: "space-between",

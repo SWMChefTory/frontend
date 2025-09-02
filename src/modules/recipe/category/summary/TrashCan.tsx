@@ -5,6 +5,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 import { useDeleteViewModel } from "./useDeleteViewModel";
 import { SHADOW } from "@/src/modules/shared/constants/shadow";
+import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveFontSize } from "@/src/modules/shared/utils/responsiveUI";
 
 interface TrashCanProps {
   isDragging: boolean;
@@ -166,7 +168,7 @@ const styles = StyleSheet.create({
   },
   trashCan: {
     backgroundColor: COLORS.background.white,
-    padding: 20,
+    padding: responsiveWidth(20),
     borderRadius: 16,
     alignItems: "center",
     justifyContent: "center",
@@ -191,7 +193,7 @@ const styles = StyleSheet.create({
   },
   trashText: {
     marginTop: 8,
-    fontSize: 14,
+    fontSize: responsiveFontSize(14),
     fontWeight: "600",
     color: COLORS.orange.main,
     textAlign: 'center',
@@ -214,7 +216,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   successText: {
-    fontSize: 14,
+    fontSize: responsiveFontSize(14),
     fontWeight: '700',
     color: COLORS.orange.main,
   },

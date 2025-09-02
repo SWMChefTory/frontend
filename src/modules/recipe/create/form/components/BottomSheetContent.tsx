@@ -6,6 +6,9 @@ import { RecipeFormHeader } from "./Header";
 import { RecipeFormInput } from "./Input";
 import { RecipeFormButton } from "./Button";
 import { COLORS } from "@/src/modules/shared/constants/colors";
+import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
+import { SHADOW } from "@/src/modules/shared/constants/shadow";
 
 interface Props {
   onRecipeCreated?: (recipeId: string) => void;
@@ -88,25 +91,21 @@ const styles = StyleSheet.create({
   },
   statusDot: {
     position: "absolute",
-    top: 16,
-    right: 20,
-    width: 14,
-    height: 14,
+    top: responsiveHeight(16),
+    right: responsiveWidth(20),
+    width: responsiveWidth(14),
+    height: responsiveHeight(14),
     backgroundColor: COLORS.background.orange,
-    borderRadius: 7,
+    borderRadius: responsiveWidth(7),
     zIndex: 10,
-    shadowColor: COLORS.shadow.orange,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.5,
-    shadowRadius: 4,
-    elevation: 5,
-    borderWidth: 2,
+    ...SHADOW,
+    borderWidth: 1,
     borderColor: COLORS.border.white,
   },
   contentCard: {
     flex: 1,
     backgroundColor: COLORS.background.white,
     borderRadius: 24,
-    padding: 24,
+    padding: responsiveWidth(20),
   },
 });

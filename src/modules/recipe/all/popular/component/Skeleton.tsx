@@ -1,6 +1,8 @@
 import { View, StyleSheet, FlatList } from "react-native";
 import Skeleton from "react-native-reanimated-skeleton";
 import { COLORS } from "@/src/modules/shared/constants/colors";
+import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
 
 type Props = { itemCount?: number };
 
@@ -105,8 +107,8 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.background.white,
   },
   listContainer: {
-    paddingHorizontal: 16,
-    paddingTop: 8,
+    paddingHorizontal: responsiveWidth(16),
+    paddingTop: responsiveHeight(8),
   },
   columnWrapper: {
     justifyContent: "space-between",
@@ -115,9 +117,9 @@ const styles = StyleSheet.create({
   card: {
     flex: 1,
     maxWidth: "48%",
-    margin: 8,
+    margin: responsiveWidth(8),
     backgroundColor: COLORS.background.white,
-    borderRadius: 16,
+    borderRadius: responsiveWidth(16),
     shadowColor: COLORS.shadow.orange,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
@@ -125,6 +127,6 @@ const styles = StyleSheet.create({
     elevation: 4,
     borderWidth: 1,
     borderColor: "#F3F4F6",
-    minHeight: 250,
+    minHeight: responsiveHeight(250),
   },
 });

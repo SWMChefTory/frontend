@@ -2,6 +2,9 @@ import React from "react";
 import { View, StyleSheet, FlatList } from "react-native";
 import Skeleton from "react-native-reanimated-skeleton";
 import { COLORS } from "@/src/modules/shared/constants/colors";
+import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
+import { SKELETON_SHADOW } from "@/src/modules/shared/constants/shadow";
 
 type Props = { itemCount?: number };
 
@@ -18,15 +21,15 @@ export function CategoryListSkeleton({ itemCount = 6 }: Props) {
             key: "content",
             width: "100%",
             height: "100%",
-            paddingHorizontal: 12,
-            paddingVertical: 12,
+            paddingHorizontal: responsiveWidth(12),
+            paddingVertical: responsiveHeight(12),
             children: [
               // 아이콘 컨테이너 (40x40, 원형)
               {
                 key: "iconContainer",
-                width: 40,
-                height: 40,
-                borderRadius: 20,
+                width: responsiveWidth(40),
+                height: responsiveHeight(40),
+                borderRadius: responsiveWidth(20),
                 alignSelf: "center",
                 marginBottom: 8,
               },
@@ -34,8 +37,8 @@ export function CategoryListSkeleton({ itemCount = 6 }: Props) {
               {
                 key: "categoryName",
                 width: "80%",
-                height: 14, // fontSize 14
-                borderRadius: 3,
+                height: responsiveHeight(14), // fontSize 14
+                borderRadius: responsiveWidth(3),
                 alignSelf: "center",
                 marginBottom: 4,
               },
@@ -43,8 +46,8 @@ export function CategoryListSkeleton({ itemCount = 6 }: Props) {
               {
                 key: "count",
                 width: "50%",
-                height: 11, // fontSize 11
-                borderRadius: 3,
+                height: responsiveHeight(11), // fontSize 11
+                borderRadius: responsiveWidth(3),
                 alignSelf: "center",
               },
             ],
@@ -52,12 +55,12 @@ export function CategoryListSkeleton({ itemCount = 6 }: Props) {
           // 삭제 버튼 (우상단)
           {
             key: "deleteButton",
-            width: 20,
-            height: 20,
-            borderRadius: 10,
+            width: responsiveWidth(20),
+            height: responsiveHeight(20),
+            borderRadius: responsiveWidth(10),
             position: "absolute",
-            top: 6,
-            right: 6,
+            top: responsiveHeight(6),
+            right: responsiveWidth(6),
           },
         ]}
         boneColor={COLORS.skeleton.bone}
@@ -85,27 +88,20 @@ export function CategoryListSkeleton({ itemCount = 6 }: Props) {
 
 const styles = StyleSheet.create({
   container: {
-    height: 120,
+    height: responsiveHeight(100),
   },
   contentContainer: {
-    paddingHorizontal: 10,
+    paddingHorizontal: responsiveWidth(10),
   },
   separator: {
-    width: 8,
+    width: responsiveWidth(8),
   },
   card: {
-    width: 120,
-    height: 120,
+    width: responsiveWidth(120),
+    height: responsiveHeight(120),
     backgroundColor: COLORS.background.white,
-    borderRadius: 12,
-    shadowColor: COLORS.shadow.black,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    borderRadius: responsiveWidth(12),
+    ...SKELETON_SHADOW,
     borderWidth: 1,
     borderColor: "#F0F0F0",
     position: "relative",

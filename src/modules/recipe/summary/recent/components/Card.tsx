@@ -3,6 +3,9 @@ import { COLORS } from "@/src/modules/shared/constants/colors";
 import { RecentSummaryRecipe } from "../types/Recipe";
 import { SHADOW } from "@/src/modules/shared/constants/shadow";
 import { CARD_STYLES } from "@/src/modules/shared/constants/card";
+import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveFontSize } from "@/src/modules/shared/utils/responsiveUI";
 type Props = {
   recipe: RecentSummaryRecipe;
   onPress: (recipe: RecentSummaryRecipe) => void;
@@ -53,21 +56,21 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
   },
   body: {
-    paddingHorizontal: 12,
-    paddingTop: 12,
+    paddingHorizontal: responsiveWidth(12),
+    paddingTop: responsiveHeight(12),
   },
   title: {
-    fontSize: 13,
+    fontSize: responsiveFontSize(13),
     fontWeight: "600",
     color: COLORS.text.black,
-    lineHeight: 18,
+    lineHeight: responsiveHeight(18),
   },
   progressBg: {
     width: "100%",
-    height: 3,
+    height: responsiveHeight(3),
     backgroundColor: COLORS.background.lightGray,
-    borderRadius: 2,
-    marginTop: 6,
+    borderRadius: responsiveWidth(2),
+    marginTop: responsiveHeight(6),
   },
   progressFg: {
     height: "100%",
@@ -75,9 +78,9 @@ const styles = StyleSheet.create({
     borderRadius: 2,
   },
   progressText: {
-    fontSize: 11,
+    fontSize: responsiveFontSize(11),
     color: COLORS.text.gray,
-    marginTop: 4,
+    marginTop: responsiveHeight(4),
     fontWeight: "500",
   },
 });

@@ -64,7 +64,7 @@ export function RecipeCategoryBottomSheet({
       enableOverDrag={false}  
       keyboardBehavior="interactive"
       keyboardBlurBehavior="restore"
-      android_keyboardInputMode="adjustResize"
+      android_keyboardInputMode="adjustPan"
       enableDynamicSizing={false}
       footerComponent={renderFooter}
       backgroundStyle={{

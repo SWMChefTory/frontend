@@ -1,7 +1,12 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Image } from "expo-image";
 import { ImageSource } from "expo-image";
-
+import { responsiveHeight } from "../../../shared/utils/responsiveUI";
+import { responsiveWidth } from "../../../shared/utils/responsiveUI";
+import { responsiveFontSize } from "../../../shared/utils/responsiveUI";
+import { COLORS } from "../../../shared/constants/colors";
+import { SHADOW } from "@/src/modules/shared/constants/shadow";
+  
 
 function LoginButtonTemplate({ description,logoPath,logoSize, handleSignIn }: {description: string, logoPath:ImageSource, logoSize:{width:number, height:number}, handleSignIn: () => void }) {
   return (
@@ -17,36 +22,26 @@ function LoginButtonTemplate({ description,logoPath,logoSize, handleSignIn }: {d
 }
 const styles = StyleSheet.create({
     button: {
-      width: 200,
-      height: 50,
-      backgroundColor: '#FFFFFF',
-      borderRadius: 8,
-      borderWidth: 1,
-      borderColor: '#DADCE0',
-      shadowColor: '#000',
-      shadowOffset: {
-        width: 0,
-        height: 1,
-      },
-      shadowOpacity: 0.22,
-      shadowRadius: 2.22,
-      elevation: 3,
-      // marginBottom: 16,
+      width: responsiveWidth(250),
+      height: responsiveHeight(50),
+      backgroundColor: COLORS.background.white,
+      borderRadius: responsiveWidth(8),
+      ...SHADOW,
       justifyContent: 'center',
     },
     buttonContent: {
       flex: 1,
       flexDirection: 'row',
       alignItems: 'center',
-      paddingHorizontal: 16,
+      paddingHorizontal: responsiveWidth(16),
     },
     iconContainer: {
-      marginRight: 16,
+      marginRight: responsiveWidth(16),
     },
     buttonText: {
-      fontSize: 16,
+      fontSize: responsiveFontSize(16),
       fontWeight: '700',
-      color: '#3C4043',
+      color: COLORS.text.gray,
       fontFamily: 'NotoSerifKR_400Regular',
     },
   });

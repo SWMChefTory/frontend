@@ -15,6 +15,8 @@ import * as Network from "expo-network";
 import { AppState, AppStateStatus, Platform } from "react-native";
 import { focusManager } from "@tanstack/react-query";
 import { useDeepLinkHandler } from "@/src/useDeepLink";
+import { SafeAreaProvider, initialWindowMetrics } from "react-native-safe-area-context";
+
 
 ExpoSplashScreen.preventAutoHideAsync();
 
@@ -113,13 +115,15 @@ export default function RootLayout() {
   return (
     <QueryClientProvider client={queryClient}>
       <GestureHandlerRootView style={{ flex: 1 }}>
-        <BottomSheetModalProvider>
-          <GlobalErrorBoundary>
-            <SplashScreenController>
-              <RootNavigator />
-            </SplashScreenController>
-          </GlobalErrorBoundary>
-        </BottomSheetModalProvider>
+        <SafeAreaProvider initialMetrics={initialWindowMetrics}>
+          <BottomSheetModalProvider>
+            <GlobalErrorBoundary>
+              <SplashScreenController>
+                <RootNavigator />
+              </SplashScreenController>
+            </GlobalErrorBoundary>
+          </BottomSheetModalProvider>
+        </SafeAreaProvider>
       </GestureHandlerRootView>
     </QueryClientProvider>
   );

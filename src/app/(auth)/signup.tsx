@@ -14,6 +14,8 @@ import { NicknameInput } from "@/src/modules/user/presentation/components/Nickna
 import { NextButton } from "@/src/modules/user/presentation/components/NextButton";
 import { FullScreenLoader } from "@/src/modules/shared/splash/loading/lottieview/FullScreenLoader";
 import { DateOnly } from "@/src/modules/shared/utils/DateOnly";
+import { responsiveFontSize, responsiveHeight, responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
+
 
 export default function SignupScreen() {
   const [nickname, setNickname] = useState<string>("");
@@ -80,38 +82,38 @@ export default function SignupScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 40,
-    paddingHorizontal: 24,
+    paddingTop: responsiveHeight(40),
+    paddingHorizontal: responsiveWidth(24),
     backgroundColor: COLORS.background.white,
   },
   title: {
-    fontSize: 24,
+    fontSize: responsiveFontSize(24),
     fontWeight: "bold",
     color: COLORS.text.black,
     textAlign: "center",
-    marginBottom: 40,
+    marginBottom: responsiveHeight(40),
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: responsiveFontSize(16),
     color: COLORS.text.gray,
     textAlign: "center",
-    marginBottom: 40,
-    lineHeight: 22,
+    marginBottom: responsiveHeight(40),
+    lineHeight: responsiveHeight(22),
   },
 
   inputSection: {
-    marginBottom: 40,
+    marginBottom: responsiveHeight(40),
     width: "100%",
   },
 
   birthInputSection: {
-    marginTop: 10,
+    marginTop: responsiveHeight(10),
   },
 
   label: {
-    fontSize: 14,
+    fontSize: responsiveFontSize(14),
     fontWeight: "600",
     color: COLORS.text.black,
-    marginBottom: 12,
+    marginBottom: responsiveHeight(12),
   },
 });

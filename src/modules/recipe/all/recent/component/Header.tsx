@@ -8,6 +8,9 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { COLORS } from "@/src/modules/shared/constants/colors";
+import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveFontSize } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
 
 export function AllRecentRecipeTitle() {
   // 클릭 기반 애니메이션값들
@@ -190,7 +193,7 @@ export function AllRecentRecipeTitle() {
                   {
                     opacity: sparkleOpacity,
                     backgroundColor: COLORS.orange.main + "70",
-                    marginLeft: 3,
+                    marginLeft: responsiveWidth(3),
                   },
                 ]}
               />
@@ -205,7 +208,7 @@ export function AllRecentRecipeTitle() {
 const styles = StyleSheet.create({
   titleContainer: {
     alignItems: "center",
-    paddingVertical: 2,
+    paddingVertical: responsiveHeight(2),
   },
   touchableContainer: {
     alignItems: "center",
@@ -219,11 +222,11 @@ const styles = StyleSheet.create({
     position: "relative",
   },
   mainTitle: {
-    fontSize: 20,
+    fontSize: responsiveFontSize(20),
     fontWeight: "700",
     color: COLORS.text.black,
     letterSpacing: -0.4,
-    marginLeft: 8,
+    marginLeft: responsiveWidth(8),
     textShadowColor: COLORS.orange.main + "15",
     textShadowOffset: { width: 0, height: 1 },
     textShadowRadius: 3,
@@ -231,35 +234,35 @@ const styles = StyleSheet.create({
   decorationsContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginLeft: 8,
+    marginLeft: responsiveWidth(8),
   },
   sparkleIcon: {},
   subtitleWrapper: {
     flexDirection: "row",
     alignItems: "center",
-    marginTop: 4,
+    marginTop: responsiveHeight(4),
   },
   pulsingDot: {
-    width: 5,
-    height: 5,
+    width: responsiveWidth(5),
+    height: responsiveHeight(5),
     borderRadius: 2.5,
     backgroundColor: COLORS.orange.main,
-    marginRight: 8,
+    marginRight: responsiveWidth(8),
   },
   subtitle: {
-    fontSize: 12,
+    fontSize: responsiveFontSize(12),
     color: COLORS.text.gray,
     fontWeight: "500",
-    letterSpacing: 0.4,
+    letterSpacing: responsiveWidth(0.4),
   },
   smallDotsContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginLeft: 10,
+    marginLeft: responsiveWidth(10),
   },
   smallDot: {
-    width: 3,
-    height: 3,
+    width: responsiveWidth(3),
+    height: responsiveHeight(3),
     borderRadius: 1.5,
   },
 });

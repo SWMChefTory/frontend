@@ -23,6 +23,8 @@ import {
   TimerStatus,
 } from "@/src/modules/timer/hooks/useTimerStore";
 import { TimerDifferent } from "@/src/modules/timer/components/TimerDifference";
+import { responsiveWidth, responsiveHeight } from "../../shared/utils/responsiveUI";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export type TimerModalProps = {
   onRequestClose: () => void;
@@ -45,6 +47,7 @@ const TimerModal = ({
 }: TimerModalProps) => {
   const [durationSeconds, setDurationSeconds] = useState<number>(0);
   const [isAutoStartActive, setIsAutoStartActive] = useState<boolean>(false);
+  const insets = useSafeAreaInsets();
   
   useEffect(() => {
     ensureNotificationReady().catch((e: any) => {
@@ -194,7 +197,7 @@ const TimerModal = ({
     <BottomSheetModal 
       ref={bottomSheetModalRef}
       index={0}
-      snapPoints={["70%"]}
+      snapPoints={[responsiveHeight(600)]}
       onChange={(index) => index === -1 && onRequestClose()}
       enablePanDownToClose={true}
       enableOverDrag={false}
@@ -208,7 +211,14 @@ const TimerModal = ({
       enableHandlePanningGesture={true}
       enableContentPanningGesture={false}
     >
-      <View style={styles.contentContainer}>
+      <View 
+        style={[
+          styles.contentContainer, 
+          {
+            paddingBottom: insets.bottom,
+          },
+        ]}
+      >
         <TimerHeader recipeTitle={name || recipeTitle} />
 
         {(state !== TimerState.IDLE || isAutoStartActive) && (
@@ -273,12 +283,11 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-    paddingHorizontal: 18,
-    paddingBottom: 24,
+    paddingHorizontal: responsiveWidth(18),
   },
   progressContainer: {
     alignItems: "center",
     justifyContent: "center",
-    paddingTop: 40,
+    paddingTop: responsiveHeight(40),
   },
 });

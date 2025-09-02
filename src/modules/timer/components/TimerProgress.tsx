@@ -11,10 +11,11 @@ import {
 } from "react-native-reanimated";
 import { TimerState } from "@/src/modules/timer/hooks/useTimerStore";
 import { useCountdownTimerState } from "@/src/modules/timer/hooks/useCountdownTimer";
+import { responsiveFontSize, responsiveHeight, responsiveWidth } from "../../shared/utils/responsiveUI";
 
 export function TimerProgress() {
-  const size = 300;
-  const stroke = 10;
+  const size = responsiveWidth(300);
+  const stroke = responsiveWidth(10);
   const r = (size - stroke) / 2;
   const {
     duration: total,
@@ -130,10 +131,10 @@ export function TimerProgress() {
       <View style={StyleSheet.absoluteFillObject}>
         <Text
           style={{
-            fontSize: 40,
+            fontSize: responsiveFontSize(40),
             fontWeight: "bold",
             textAlign: "center",
-            marginTop: size / 2 - 20,
+            marginTop: size / 2 - responsiveHeight(20),
           }}
         >
           {formatTime(remaining)}

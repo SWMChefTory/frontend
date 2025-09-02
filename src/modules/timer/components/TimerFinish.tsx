@@ -1,5 +1,7 @@
 import { COLORS } from "@/src/modules/shared/constants/colors";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { responsiveFontSize, responsiveHeight } from "../../shared/utils/responsiveUI";
+import { responsiveWidth } from "../../shared/utils/responsiveUI";
 
 type TimerFinishedProps = {
   onEnd: () => void;
@@ -29,25 +31,24 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-    marginTop: 12,
+    marginTop: responsiveHeight(12),
     alignItems: "center",
     justifyContent: "center",
   },
   statusText: {
-    marginTop: 8,
+    marginTop: responsiveHeight(8),
     color: COLORS.text.gray,
-    fontSize: 16,
+    fontSize: responsiveFontSize(16),
     fontWeight: "600",
   },
   bottomButtonContainer: {
     flexDirection: "row",
-    paddingBottom: 24,
-    paddingTop: 16,
-    gap: 12,
+    paddingTop: responsiveHeight(16),
+    gap: responsiveWidth(12),
   },
   btn: {
     flex: 1,
-    paddingVertical: 14,
+    paddingVertical: responsiveHeight(14),
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 14,

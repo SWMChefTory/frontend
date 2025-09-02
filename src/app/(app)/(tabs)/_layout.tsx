@@ -9,13 +9,15 @@ import IndexHeader from "@/src/header/IndexHeader";
 import CollectionHeader from "@/src/header/CollectionHeader";
 import { deepLinkActionStore } from "@/src/deepLinkActionStore";
 import { usePathname, useSegments } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SHADOW } from "@/src/modules/shared/constants/shadow";
 
 export default function TabLayout() {
   const modalRef = useRef<BottomSheetModal>(null);
   console.log('TabLayout');
   const { deepLinkAction } = deepLinkActionStore();
   const [modalData, setModalData] = useState<string | null>(null);
-
+  const insets = useSafeAreaInsets();
   useEffect(() => {
       if(deepLinkAction?.actionType==='create'){
         openBottomSheet({youtubeUrl:deepLinkAction.params.youtubeUrl});
@@ -36,17 +38,13 @@ export default function TabLayout() {
         screenOptions={{
           sceneStyle: { backgroundColor: "#F8FAFC" },
           tabBarStyle: {
-            height: 80,
+            height: 80 + insets.bottom,
             paddingHorizontal: 30,
-            paddingBottom: 12,
+            paddingBottom: insets.bottom,
             paddingTop: 8,
             backgroundColor: "#ffffff",
             borderTopWidth: 0,
-            shadowColor: "#000",
-            shadowOffset: { width: 0, height: -2 },
-            shadowOpacity: 0.06,
-            shadowRadius: 8,
-            elevation: 10,
+            ...SHADOW,
             borderTopLeftRadius: 20,
             borderTopRightRadius: 20,
           },

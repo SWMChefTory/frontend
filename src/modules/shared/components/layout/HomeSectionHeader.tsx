@@ -1,7 +1,9 @@
 import { COLORS } from "../../constants/colors";
-import { LinearGradient } from "expo-linear-gradient";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { SHADOW } from "../../constants/shadow";
+import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveFontSize } from "@/src/modules/shared/utils/responsiveUI";
 
 export function HomeSectionHeader({
   title,
@@ -11,20 +13,6 @@ export function HomeSectionHeader({
   subtitle: string;
 }) {
   return (
-    // <LinearGradient
-    //   colors={[COLORS.priamry.main, COLORS.background.white]}
-    //   start={{ x: 0.5, y: 1 }}
-    //   end={{ x: 0.5, y: 0.5 }}
-    //   style={styles.headerSection}
-    // >
-    //   <Text style={styles.title}>{title}</Text>
-    //   <Text style={styles.subtitle}>{subtitle}</Text>
-    //   <View style={styles.createButton}>
-    //     <TouchableOpacity style={styles.createTachable}>
-    //       <Text style={styles.createText}>전체 보기</Text>
-    //     </TouchableOpacity>
-    //   </View>
-    // </LinearGradient>
     <View style={styles.headerSection}> 
       <Image source={require("@/assets/images/mainCharacter.png")} style={styles.logo} />
       <View style={styles.textContainer}>
@@ -38,42 +26,39 @@ export function HomeSectionHeader({
 const styles = StyleSheet.create({
   headerSection: {
     backgroundColor: COLORS.background.white,
-    paddingTop: 14,
-    paddingBottom: 14,
-    paddingHorizontal: 12,
+    paddingTop: responsiveHeight(14),
+    paddingBottom: responsiveHeight(14),
+    paddingHorizontal: responsiveWidth(12),
     ...SHADOW,
     flexDirection: "row",
   },
   logo: {
-    width: 60,
-    height: 60, 
-    marginLeft: 10,
-    marginRight: 20,
+    width: responsiveWidth(60),
+    height: responsiveHeight(60), 
+    marginLeft: responsiveWidth(10),
+    marginRight: responsiveWidth(20),
   },
   textContainer: {
-    // flexDirection: "co",
-    // alignItems: "center",
     justifyContent: "space-between",
   },
   title: {
     fontFamily: "DoHyeon_400Regular",
-    fontSize: 20,
+    fontSize: responsiveFontSize(20),
     fontWeight: "800",
-    color: "#2F2F2F",
-    // marginBottom: 2,
-    lineHeight: 40,
+    color: COLORS.font.dark,
+    lineHeight: responsiveHeight(40),
   },
   subtitle: {
     fontFamily: "DoHyeon_400Regular",
-    fontSize: 12,
-    color: "#2F2F2F",
-    lineHeight: 24,
+    fontSize: responsiveFontSize(12),
+    color: COLORS.font.dark,
+    lineHeight: responsiveHeight(24),
   },
   createButton: {
     backgroundColor: COLORS.background.white,
     borderRadius: 10,
-    paddingTop: 10,
-    width: 70,
+    paddingTop: responsiveHeight(10),
+    width: responsiveWidth(70),
     alignItems: "center",
     justifyContent: "center",
   },
@@ -83,7 +68,7 @@ const styles = StyleSheet.create({
   },
   createText: {
     fontFamily: "DoHyeon_400Regular",
-    fontSize: 12,
+    fontSize: responsiveFontSize(12),
     color: COLORS.font.dark,
   },
 });

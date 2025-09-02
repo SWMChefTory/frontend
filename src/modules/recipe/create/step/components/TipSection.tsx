@@ -1,5 +1,7 @@
 import { View, Text, StyleSheet } from "react-native";
 import { COLORS } from "@/src/modules/shared/constants/colors";
+import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveFontSize } from "@/src/modules/shared/utils/responsiveUI";
 
 interface Props {
   tipText: string;
@@ -23,10 +25,10 @@ export function TipSection({ tipText }: Props) {
 const styles = StyleSheet.create({
   tipContainer: {
     alignItems: "center",
-    padding: 16,
+    padding: responsiveWidth(16),
   },
   tipText: {
-    fontSize: 14,
+    fontSize: responsiveFontSize(14),
     color: COLORS.text.gray,
     fontStyle: "italic",
     fontWeight: "500",

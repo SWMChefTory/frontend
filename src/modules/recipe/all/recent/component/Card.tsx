@@ -4,6 +4,9 @@ import { Ionicons } from "@expo/vector-icons";
 import { RecentSummaryRecipe } from "@/src/modules/recipe/summary/recent/types/Recipe";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 import { SHADOW } from "@/src/modules/shared/constants/shadow";
+import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveFontSize } from "@/src/modules/shared/utils/responsiveUI";
 
 type Props = {
   recipe: RecentSummaryRecipe;
@@ -77,8 +80,8 @@ const styles = StyleSheet.create({
   },
   cardContent: {
     flexDirection: "row",
-    padding: 16,
-    gap: 16,
+    padding: responsiveWidth(16),
+    gap: responsiveWidth(16),
   },
   thumbnailContainer: {
     position: "relative",
@@ -86,51 +89,51 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   thumbnail: {
-    width: 160,
-    height: 120,
+    width: responsiveWidth(160),
+    height: responsiveHeight(120),
     borderRadius: 12,
   },
   sourceIndicator: {
     position: "absolute",
-    top: 6,
-    right: 6,
+    top: responsiveHeight(6),
+    right: responsiveWidth(6),
     backgroundColor: "rgba(255, 255, 255, 0.95)",
     borderRadius: 8,
-    padding: 3,
+    padding: responsiveWidth(3),
   },
   infoContainer: {
     flex: 1,
     justifyContent: "space-between",
   },
   title: {
-    fontSize: 16,
+    fontSize: responsiveFontSize(16),
     fontWeight: "600",
     color: "#1F2937",
-    lineHeight: 20,
-    marginBottom: 4,
+    lineHeight: responsiveHeight(20),
+    marginBottom: responsiveHeight(4),
   },
   titleUnderline: {
-    height: 3,
+    height: responsiveHeight(3),
     backgroundColor: COLORS.orange.main,
     borderRadius: 1.5,
-    marginBottom: 8,
-    minWidth: 2,
+    marginBottom: responsiveHeight(8),
+    minWidth: responsiveWidth(2),
   },
   metaContainer: {
-    marginBottom: 12,
+    marginBottom: responsiveHeight(12),
   },
   timeContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 4,
+    marginBottom: responsiveHeight(4),
   },
   watchedAt: {
-    fontSize: 12,
+    fontSize: responsiveFontSize(12),
     color: COLORS.text.gray,
-    marginLeft: 4,
+    marginLeft: responsiveWidth(4),
   },
   statusText: {
-    fontSize: 11,
+    fontSize: responsiveFontSize(11),
     color: COLORS.text.gray,
     fontWeight: "500",
   },
@@ -139,9 +142,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: COLORS.orange.main,
-    paddingHorizontal: 14,
-    paddingVertical: 8,
-    borderRadius: 12,
+    paddingHorizontal: responsiveWidth(14),
+    paddingVertical: responsiveHeight(8),
+    borderRadius: responsiveWidth(12),
   },
   recipeButtonPressed: {
     backgroundColor: COLORS.orange.dark,
@@ -149,8 +152,8 @@ const styles = StyleSheet.create({
   },
   recipeButtonText: {
     color: "white",
-    fontSize: 12,
+    fontSize: responsiveFontSize(12),
     fontWeight: "600",
-    marginHorizontal: 6,
+    marginHorizontal: responsiveWidth(6),
   },
 });

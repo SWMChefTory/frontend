@@ -3,6 +3,8 @@ import { StyleSheet, View } from "react-native";
 import { DraxList } from "react-native-drax";
 import { CategorySummaryRecipe } from "./Recipe";
 import { RecipeCard } from "./Card";
+import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
 
 interface Props {
   recipes: CategorySummaryRecipe[];
@@ -71,14 +73,14 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   recipeSection: {
-    paddingHorizontal: 16,
+    paddingHorizontal: responsiveWidth(16),
   },
   recipeColumnWrapper: {
     justifyContent: "space-between",
-    paddingBottom: 8,
+    paddingBottom: responsiveHeight(8),
   },
   listContentContainer: {
-    paddingBottom: 20,
+    paddingBottom: responsiveHeight(20),
   },
   emptyItem: {
     width: "32%",

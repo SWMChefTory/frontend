@@ -2,6 +2,9 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 import { SHADOW } from "@/src/modules/shared/constants/shadow";
+import { responsiveFontSize } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
 
 interface Props {
   onPress: () => void;
@@ -24,7 +27,6 @@ const styles = StyleSheet.create({
     height: 120,
     backgroundColor: COLORS.orange.main,
     borderRadius: 12,
-    ...SHADOW,
     marginBottom: 8,
     justifyContent: "center",
     alignItems: "center",
@@ -32,13 +34,13 @@ const styles = StyleSheet.create({
   addButtonContent: {
     justifyContent: "center",
     alignItems: "center",
-    padding: 12,
+    padding: responsiveWidth(12),
   },
   addButtonText: {
     color: COLORS.text.white,
-    fontSize: 12,
+    fontSize: responsiveFontSize(12),
     fontWeight: "600",
     textAlign: "center",
-    marginTop: 4,
+    marginTop: responsiveHeight(4),
   },
 });

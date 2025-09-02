@@ -8,6 +8,9 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { COLORS } from "@/src/modules/shared/constants/colors";
+import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveFontSize } from "@/src/modules/shared/utils/responsiveUI";
 
 export function AllPopularRecipeTitle() {
   // 클릭 기반 애니메이션값들
@@ -211,11 +214,11 @@ export function AllPopularRecipeTitle() {
 const styles = StyleSheet.create({
   titleContainer: {
     alignItems: "center",
-    paddingVertical: 6,
+    paddingVertical: responsiveHeight(6),
   },
   touchableContainer: {
     alignItems: "center",
-    paddingHorizontal: 12,
+    paddingHorizontal: responsiveWidth(12),
   },
   contentContainer: {
     alignItems: "center",
@@ -223,11 +226,11 @@ const styles = StyleSheet.create({
   mainTitleWrapper: {
     flexDirection: "row",
     alignItems: "center",
-    columnGap: 8, // RN 0.71+ 지원
-    paddingBottom: 2,
+    columnGap: responsiveWidth(8),
+    paddingBottom: responsiveHeight(2),
   },
   mainTitle: {
-    fontSize: 20,
+    fontSize: responsiveFontSize(20),
     fontWeight: "700",
     color: COLORS.text.black,
     letterSpacing: -0.4,
@@ -238,37 +241,37 @@ const styles = StyleSheet.create({
   decorationsContainer: {
     flexDirection: "row",
     alignItems: "center",
-    paddingLeft: 6,
+    paddingLeft: responsiveWidth(6),
   },
   sparkleIcon: {
-    paddingTop: 1,
+    paddingTop: responsiveHeight(1),
   },
   subtitleWrapper: {
     flexDirection: "row",
     alignItems: "center",
-    paddingTop: 4,
+    paddingTop: responsiveHeight(4),
   },
   pulsingDot: {
-    width: 5,
-    height: 5,
+    width: responsiveWidth(5),
+    height: responsiveHeight(5),
     borderRadius: 2.5,
     backgroundColor: COLORS.orange.main,
-    marginRight: 8,
+    marginRight: responsiveWidth(8),
   },
   subtitle: {
-    fontSize: 12,
+    fontSize: responsiveFontSize(12),
     color: COLORS.text.gray,
     fontWeight: "500",
-    letterSpacing: 0.4,
+    letterSpacing: responsiveWidth(0.4),
   },
   smallDotsContainer: {
     flexDirection: "row",
     alignItems: "center",
-    paddingLeft: 8,
+    paddingLeft: responsiveWidth(8),
   },
   smallDot: {
-    width: 3,
-    height: 3,
+    width: responsiveWidth(3),
+    height: responsiveHeight(3),
     borderRadius: 1.5,
   },
 });

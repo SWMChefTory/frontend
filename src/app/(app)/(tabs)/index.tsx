@@ -16,6 +16,8 @@ import TimerModal from "@/src/modules/timer/components/TimerModal";
 import { useHasActiveTimer } from "@/src/modules/timer/hooks/useCountdownTimer";
 import { SHADOW } from "@/src/modules/shared/constants/shadow";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
 
 export default function HomeScreen() {
   const scrollY = useRef(new Animated.Value(0)).current;
@@ -125,18 +127,18 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   contentWrapper: {
-    paddingVertical: 20,
+    paddingVertical: responsiveHeight(20),
   },
   bottomSpacer: {
     height: 100,
   },
   timerFloatingButton: {
     position: "absolute",
-    right: 20,
-    bottom: 30,
-    width: 56,
-    height: 56,
-    borderRadius: 28,
+    right: responsiveWidth(20),
+    bottom: responsiveHeight(30),
+    width: responsiveWidth(56),
+    height: responsiveHeight(56),
+    borderRadius: responsiveWidth(28),
     backgroundColor: COLORS.orange.main,
     justifyContent: "center",
     alignItems: "center",

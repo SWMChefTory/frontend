@@ -11,6 +11,9 @@ import { PopularSummaryRecipe } from "../types/Recipe";
 import { PopularRecipeSummaryCard } from "./Card";
 import { EmptyStateCard } from "../../recent/components/EmptyCard";
 import { SHADOW } from "@/src/modules/shared/constants/shadow";
+import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveFontSize } from "@/src/modules/shared/utils/responsiveUI";
 
 type Props = {
   recipes: PopularSummaryRecipe[];
@@ -166,10 +169,10 @@ export default function PopularRecipeSummaryList({ recipes, onPress }: Props) {
     return (
       <Pressable
         onPress={onPress}
-        hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+        hitSlop={{ top: responsiveHeight(8), bottom: responsiveHeight(8), left: responsiveWidth(8), right: responsiveWidth(8) }}
         accessibilityRole="button"
         accessibilityLabel={`슬라이드 ${i + 1}로 이동`}
-        style={{ paddingHorizontal: 4 }} // gap 대체
+        style={{ paddingHorizontal: responsiveWidth(4) }}
       >
         <Animated.View style={[styles.indicator, rStyle]} />
       </Pressable>
@@ -240,32 +243,32 @@ export default function PopularRecipeSummaryList({ recipes, onPress }: Props) {
 
 const styles = StyleSheet.create({
   wrapper: {
-    paddingBottom: 16,
+    paddingBottom: responsiveHeight(16),
   },
   headerContainer: {
-    paddingHorizontal: 20,
-    marginBottom: 16,
+    paddingHorizontal: responsiveWidth(20),
+    marginBottom: responsiveHeight(16),
   },
   sectionTitle: {
-    fontSize: 24,
+    fontSize: responsiveFontSize(24),
     fontWeight: "700",
     color: "#1A1A1A",
-    marginBottom: 4,
+    marginBottom: responsiveHeight(4),
   },
   sectionSubtitle: {
-    fontSize: 15,
+    fontSize: responsiveFontSize(15),
     fontWeight: "400",
     color: "#666666",
   },
   carouselContainer: {
     position: "relative",
-    paddingBottom: 100,
+    paddingBottom: responsiveHeight(100),
   },
   carousel: {
     alignSelf: "center",
   },
   cardWrapper: {
-    paddingHorizontal: 10,
+    paddingHorizontal: responsiveWidth(10),
     justifyContent: "center",
     alignItems: "center",
   },
@@ -274,23 +277,23 @@ const styles = StyleSheet.create({
   },
   metaOverlay: {
     position: "absolute",
-    bottom: 0,
-    left: 30,
-    right: 30,
+    bottom: responsiveHeight(0),
+    left: responsiveWidth(30),
+    right: responsiveWidth(30),
     zIndex: 10,
   },
   metaContainer: {
     backgroundColor: "#FFFFFF",
     borderRadius: 16,
-    padding: 20,
+    padding: responsiveWidth(20),
     ...SHADOW
   },
   recipeTitle: {
     color: "#000000",
-    fontSize: 20,
+    fontSize: responsiveFontSize(20),
     fontWeight: "700",
-    marginBottom: 12,
-    lineHeight: 24,
+    marginBottom: responsiveHeight(12),
+    lineHeight: responsiveHeight(24),
   },
   metaRow: {
     flexDirection: "row",
@@ -301,41 +304,41 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "#FFFFFF",
-    paddingHorizontal: 12,
-    paddingVertical: 6,
+    paddingHorizontal: responsiveWidth(12),
+    paddingVertical: responsiveHeight(6),
     borderRadius: 20,
   },
   viewCountLabel: {
     color: "#000000",
-    fontSize: 13,
+    fontSize: responsiveFontSize(13),
     fontWeight: "400",
-    marginRight: 6,
+    marginRight: responsiveWidth(6),
   },
   viewCountValue: {
     color: "#000000",
-    fontSize: 14,
+    fontSize: responsiveFontSize(14),
     fontWeight: "600",
   },
   indexContainer: {
     backgroundColor: "#FFFFFF",
-    paddingHorizontal: 10,
-    paddingVertical: 4,
+    paddingHorizontal: responsiveWidth(10),
+    paddingVertical: responsiveHeight(4),
     borderRadius: 12,
   },
   indexText: {
     color: "#000000",
-    fontSize: 12,
+    fontSize: responsiveFontSize(12),
     fontWeight: "500",
   },
   indicatorContainer: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    paddingTop: 20,
+    paddingTop: responsiveHeight(20),
   },
   indicator: {
-    height: 8,
-    borderRadius: 4,
+    height: responsiveHeight(8),
+    borderRadius: responsiveWidth(4),
     backgroundColor: "#000000",
     // width/opacity/scale는 애니메이션에서 제어
   },

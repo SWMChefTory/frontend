@@ -1,4 +1,6 @@
 import { COLORS } from "@/src/modules/shared/constants/colors";
+import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
 import { View, StyleSheet } from "react-native";
 import { Pressable } from "react-native";
 import { Text } from "react-native";
@@ -16,7 +18,7 @@ export function BottomSheetButton({ handleDismiss, isDisabled, onPress, isLoadin
             disabled={isDisabled}
           >
             {isLoading ? (
-              <ActivityIndicator color="#FFF" />
+              <ActivityIndicator color={COLORS.text.white} />
             ) : (
               <Text style={styles.btnPrimaryText}>
                 {buttonLabel}
@@ -30,33 +32,33 @@ export function BottomSheetButton({ handleDismiss, isDisabled, onPress, isLoadin
 const styles = StyleSheet.create({
     btnRow: { 
         flexDirection: "row", 
-        gap: 10, 
-        marginTop: 20 
+        gap: responsiveWidth(10), 
+        marginTop: responsiveHeight(20) 
       },
       btn: { 
         flex: 1, 
-        height: 48, 
+        height: responsiveHeight(48), 
         borderRadius: 12, 
         alignItems: "center", 
         justifyContent: "center" 
       },
       btnSecondary: { 
         borderWidth: 1, 
-        borderColor: "#E5E7EB", 
-        backgroundColor: "#FFF" 
+        borderColor: COLORS.border.lightGray, 
+        backgroundColor: COLORS.background.white 
       },
       btnPrimary: { 
         backgroundColor: COLORS.background.orange 
       },
       btnDisabled: { 
-        backgroundColor: "#F3F4F6" 
+        backgroundColor: COLORS.background.gray 
       },
       btnPrimaryText: { 
-        color: "#FFF", 
+        color: COLORS.text.white, 
         fontWeight: "700" 
       },
       btnSecondaryText: { 
-        color: "#374151", 
+        color: COLORS.text.gray, 
         fontWeight: "600" 
       },
     });

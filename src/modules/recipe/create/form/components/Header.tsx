@@ -1,5 +1,9 @@
 import { View, Text, StyleSheet } from "react-native";
 import { COLORS } from "@/src/modules/shared/constants/colors";
+import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveFontSize } from "@/src/modules/shared/utils/responsiveUI";
+import { SHADOW } from "@/src/modules/shared/constants/shadow";
 
 interface Props {
   title: string;
@@ -24,38 +28,34 @@ const styles = StyleSheet.create({
   headerSection: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 32,
+    marginBottom: responsiveHeight(15),
   },
   iconContainer: {
-    width: 64,
-    height: 64,
+    width: responsiveWidth(64),
+    height: responsiveHeight(64),
     borderRadius: 24,
     backgroundColor: COLORS.background.orange,
     justifyContent: "center",
     alignItems: "center",
-    marginRight: 20,
-    shadowColor: COLORS.shadow.orange,
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.3,
-    shadowRadius: 12,
-    elevation: 6,
+    marginRight: responsiveWidth(20),
+    ...SHADOW,
   },
   iconText: {
-    fontSize: 24,
+    fontSize: responsiveFontSize(24),
     color: COLORS.text.white,
   },
   titleContainer: {
     flex: 1,
   },
   title: {
-    fontSize: 22,
+    fontSize: responsiveFontSize(22),
     fontWeight: "bold",
     color: COLORS.text.black,
-    marginBottom: 4,
+    marginBottom: responsiveHeight(4),
   },
   subtitle: {
-    fontSize: 15,
+    fontSize: responsiveFontSize(15),
     color: COLORS.text.gray,
-    lineHeight: 22,
+    lineHeight: responsiveHeight(22),
   },
 });

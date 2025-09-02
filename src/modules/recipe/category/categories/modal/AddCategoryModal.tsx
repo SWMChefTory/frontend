@@ -11,6 +11,8 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { COLORS } from "@/src/modules/shared/constants/colors";
+import { responsiveFontSize, responsiveWidth, responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
+
 
 interface Props {
   visible: boolean;
@@ -215,21 +217,21 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.background.white,
     borderRadius: 16,
     width: "80%",
-    maxWidth: 300,
+    maxWidth: responsiveWidth(300),
     position: "relative",
     overflow: "hidden",
   },
   contentContainer: {
-    padding: 24,
+    padding: responsiveWidth(24),
   },
   creatingContent: {
     opacity: 0.3,
   },
   modalTitle: {
-    fontSize: 20,
+    fontSize: responsiveFontSize(20),
     fontWeight: "bold",
     color: COLORS.text.black,
-    marginBottom: 20,
+    marginBottom: responsiveHeight(20),
     textAlign: "center",
   },
   creatingTitle: {
@@ -239,9 +241,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#E0E0E0",
     borderRadius: 8,
-    padding: 12,
-    fontSize: 16,
-    marginBottom: 20,
+    padding: responsiveWidth(12),
+    fontSize: responsiveFontSize(16),
+    marginBottom: responsiveHeight(20),
     backgroundColor: COLORS.background.white,
   },
   disabledInput: {
@@ -251,15 +253,15 @@ const styles = StyleSheet.create({
   },
   modalButtons: {
     flexDirection: "row",
-    gap: 12,
+    gap: responsiveWidth(12),
   },
   modalButton: {
     flex: 1,
-    padding: 12,
+    padding: responsiveWidth(12),
     borderRadius: 8,
     alignItems: "center",
     justifyContent: "center",
-    minHeight: 44,
+    minHeight: responsiveHeight(44),
   },
   cancelButton: {
     backgroundColor: "#F5F5F5",
@@ -282,12 +284,12 @@ const styles = StyleSheet.create({
   },
   cancelButtonText: {
     color: COLORS.text.gray,
-    fontSize: 16,
+    fontSize: responsiveFontSize(16),
     fontWeight: "500",
   },
   confirmButtonText: {
     color: COLORS.text.white,
-    fontSize: 16,
+    fontSize: responsiveFontSize(16),
     fontWeight: "500",
   },
   disabledButtonText: {
@@ -302,13 +304,13 @@ const styles = StyleSheet.create({
   },
   loadingContent: {
     alignItems: "center",
-    padding: 20,
+    padding: responsiveWidth(20),
   },
   loadingIconContainer: {
     position: "relative",
-    marginBottom: 16,
-    width: 60,
-    height: 60,
+    marginBottom: responsiveHeight(16),
+    width: responsiveWidth(60),
+    height: responsiveHeight(60),
     justifyContent: "center",
     alignItems: "center",
   },
@@ -317,14 +319,14 @@ const styles = StyleSheet.create({
     opacity: 0.3,
   },
   loadingText: {
-    fontSize: 16,
+    fontSize: responsiveFontSize(16),
     fontWeight: "600",
     color: COLORS.text.black,
     textAlign: "center",
-    marginBottom: 4,
+    marginBottom: responsiveHeight(4),
   },
   loadingSubText: {
-    fontSize: 14,
+    fontSize: responsiveFontSize(14),
     color: COLORS.text.gray,
     textAlign: "center",
   },
