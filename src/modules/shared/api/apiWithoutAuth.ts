@@ -13,6 +13,9 @@ export interface UserResponse {
   gender: Gender;
   nickname: string;
   date_of_birth: string;
+  is_marketing_agreed: boolean;
+  is_privacy_agreed: boolean;
+  is_terms_of_use_agreed: boolean;
 }
 
 export interface LoginRequest {
@@ -26,6 +29,9 @@ export interface SignupRequest {
   nickname: string;
   gender: string;
   date_of_birth: UTCDateAtMidnight;
+  is_marketing_agreed: boolean;
+  is_privacy_agreed: boolean;
+  is_terms_of_use_agreed: boolean;
 }
 
 export interface RefreshTokenRequest {
@@ -65,6 +71,9 @@ export async function signupUser(
     nickname: signupData.nickname,
     gender: signupData.gender,
     date_of_birth: signupData.date_of_birth,
+    is_marketing_agreed: signupData.is_marketing_agreed,
+    is_privacy_agreed: signupData.is_privacy_agreed,
+    is_terms_of_use_agreed: signupData.is_terms_of_use_agreed,
   };
   console.log("signupRequest", signupRequest);
   const response = await clientWithoutAuth.post(

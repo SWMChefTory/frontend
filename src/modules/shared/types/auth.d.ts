@@ -11,6 +11,9 @@ export interface SignupData {
   nickname: string;
   gender: Gender;
   date_of_birth: UTCDateAtMidnight;
+  is_marketing_agreed: boolean;
+  is_privacy_agreed: boolean;
+  is_terms_of_use_agreed: boolean;
 }
 
 export interface AuthContextType {

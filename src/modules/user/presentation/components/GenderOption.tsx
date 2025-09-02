@@ -3,12 +3,13 @@ import { Gender, getGenderLabel } from "@/src/modules/user/enums/Gender";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 
 export const GenderOptions = ({
-  selectedGender,
+  selectedGender = Gender.FEMALE,
   setGender: setSeletedGender,
 }: {
-  selectedGender: Gender;
+  selectedGender?: Gender;
   setGender: (gender: Gender) => void;
 }) => {
+  console.log("selectedGender", selectedGender);
   return (
     <View style={styles.genderContainer}>
       {Object.keys(Gender).map((gender) => (

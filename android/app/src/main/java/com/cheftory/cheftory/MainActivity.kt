@@ -1,4 +1,4 @@
-package com.anonymous.cheiftory
+package com.cheftory.cheftory
 import expo.modules.splashscreen.SplashScreenManager
 
 import android.os.Build

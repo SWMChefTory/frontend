@@ -36,6 +36,9 @@ export function useLoginViewModel() {
           gender: data.user_info.gender,
           nickname: data.user_info.nickname,
           dateOfBirth: DateOnly.create(data.user_info.date_of_birth),
+          isMarketingAgreed: data.user_info.is_marketing_agreed,
+          isPrivacyAgreed: data.user_info.is_privacy_agreed,
+          isTermsOfUseAgreed: data.user_info.is_terms_of_use_agreed,
         }),
       );
       storeAuthToken(data.access_token, data.refresh_token);
@@ -82,6 +85,9 @@ export function useSignupViewModel() {
           gender: data.user_info.gender,
           nickname: data.user_info.nickname,
           dateOfBirth: DateOnly.create(data.user_info.date_of_birth),
+          isMarketingAgreed: data.user_info.is_marketing_agreed,
+          isPrivacyAgreed: data.user_info.is_privacy_agreed,
+          isTermsOfUseAgreed: data.user_info.is_terms_of_use_agreed,
         }),
       );
     },

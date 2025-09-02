@@ -15,13 +15,13 @@ import * as Network from "expo-network";
 import { AppState, AppStateStatus, Platform } from "react-native";
 import { focusManager } from "@tanstack/react-query";
 import { useDeepLinkHandler } from "@/src/useDeepLink";
-import { Href } from "expo-router";
 
 ExpoSplashScreen.preventAutoHideAsync();
 
 import * as Notifications from "expo-notifications";
 import { useNotificationObserver } from "@/src/modules/notifications/useNotificationObserver";
 import { PortalProvider } from "@gorhom/portal";
+import ScreenBlocker from "@/src/modules/shared/blocker/ScreenBlocker";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -120,16 +120,17 @@ export default function RootLayout() {
   return (
     <QueryClientProvider client={queryClient}>
       <GestureHandlerRootView style={{ flex: 1 }}>
+      <PortalProvider>
         <BottomSheetModalProvider>
           <GlobalErrorBoundary>
             <SplashScreenController>
-              <PortalProvider>
                 <RootNavigator />
-              </PortalProvider>
             </SplashScreenController>
           </GlobalErrorBoundary>
         </BottomSheetModalProvider>
+        </PortalProvider>
       </GestureHandlerRootView>
+      <ScreenBlocker />
     </QueryClientProvider>
   );
 }

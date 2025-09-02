@@ -14,11 +14,13 @@ import {
 import { COLORS } from "@/src/modules/shared/constants/colors";
 import { validateNickname } from "@/src/modules/user/business/validation/userInputValidation";
 
+
+const ACCESSORY_ID = "CHANGE_NAME_NICKNAME_INPUT";
 export default function ChangeName() {
   const user = useUserViewModel();
   const { changeNickname, isLoading } = useChangeNameViewModel();
   const [nickname, setNickname] = useState(user?.nickname || "");
-  const inputAccessoryViewID = "uniqueNameID"; // 더 고유한 ID
+  const inputAccessoryViewID = ACCESSORY_ID; // 더 고유한 ID
   const [isNameChanged, setIsNameChanged] = useState(false);
 
   function handleChangedNameSubit(nickname: string) {

@@ -3,20 +3,20 @@ import { Gender } from "@/src/modules/user/enums/Gender";
 import { userSchema } from "@/src/modules/user/business/validation/userScheme";
 
 export class User {
-  readonly gender: Gender;
+  readonly gender: Gender|undefined;
   readonly nickname: string;
-  readonly dateOfBirth: DateOnly;
+  readonly dateOfBirth: DateOnly|undefined;
 
-  private constructor(gender: Gender, nickname: string, dateOfBirth: DateOnly) {
+  private constructor(gender: Gender|undefined, nickname: string, dateOfBirth: DateOnly|undefined) {
     this.gender = gender;
     this.nickname = nickname;
     this.dateOfBirth = dateOfBirth;
   }
 
   static create(data: {
-    gender: Gender;
+    gender: Gender | undefined;
     nickname: string; // Nullish 제거 (Zod 스키마와 맞추기 위해)
-    dateOfBirth: DateOnly | Date; // Nullish 제거
+    dateOfBirth: DateOnly | undefined; // Nullish 제거
   }): User {
     const validatedData = userSchema.parse({
       gender: data.gender,
