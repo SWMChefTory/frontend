@@ -15,11 +15,6 @@ function BirthOfDateModalContent({
   onClickNextButton: () => void;
   setSelectedGender: (gender: Gender|null) => void;
 }) {
-  const [dateOfBirthInput, setDateOfBirthInput] = useState<DateOnly>(
-    DateOnly.create(new Date().toISOString())
-  );
-
-
   const [gender, setGender] = useState<Gender>(Gender.FEMALE);
 //   console.log("gender", gender);
   return (

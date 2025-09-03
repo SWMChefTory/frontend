@@ -15,7 +15,7 @@ import { COLORS } from "@/src/modules/shared/constants/colors";
 import { validateNickname } from "@/src/modules/user/business/validation/userInputValidation";
 
 
-const ACCESSORY_ID = "CHANGE_NAME_NICKNAME_INPUT";
+const ACCESSORY_ID = "CHANGE_NAME_INPUT";
 export default function ChangeName() {
   const user = useUserViewModel();
   const { changeNickname, isLoading } = useChangeNameViewModel();

@@ -20,8 +20,6 @@ import GenderResult from "./GenderResult";
 import GenderModal from "./GenderModal";
 import { useFocusEffect, useIsFocused } from "@react-navigation/native";
 
-import { useInteractionBlocker } from "@/src/modules/shared/blocker/store/interactionBlocker";
-
 enum ButtonState {
   NICKNAME,
   BIRTH_OF_DATE,
@@ -38,8 +36,8 @@ export default function SignupPage({
 }) {
   const [nickname, setNickname] = useState<string>("");
   const [gender, setGender] = useState<Gender | null>(null);
-  const [dateOfBirth, setDateOfBirth] = useState<DateOnly | undefined>(
-    undefined
+  const [dateOfBirth, setDateOfBirth] = useState<DateOnly | null>(
+    null
   );
   const [buttonState, setButtonState] = useState(ButtonState.NICKNAME);
 
@@ -95,7 +93,7 @@ export default function SignupPage({
       id_token: token as string,
       provider: provider as string,
       nickname: nickname,
-      gender: gender as Gender,
+      gender: gender,
       date_of_birth: dateOfBirth,
       is_marketing_agreed: isMarketingAgreed,
       is_privacy_agreed: isPrivacyPolicyAgreed,
@@ -182,6 +180,7 @@ export default function SignupPage({
           handleAgreementPage={() => {
             TermsAndConditionModalRef.current?.dismiss();
           }}
+          handleSignupPress={handleSignupPress}
           isServiceAgree={isTermsOfUseAgreed}
           setIsServiceAgree={setIsTermsOfUseAgreed}
           isPrivacyAgree={isPrivacyPolicyAgreed}

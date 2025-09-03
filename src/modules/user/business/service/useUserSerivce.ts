@@ -28,7 +28,10 @@ export function useUserViewModel() {
         User.create({
           gender: data.gender,
           nickname: data.nickname,
-          dateOfBirth: DateOnly.create(data.date_of_birth),
+          dateOfBirth: data.date_of_birth ? DateOnly.create(data.date_of_birth) : null,
+          isMarketingAgreed: data.is_marketing_agreed,
+          isPrivacyAgreed: data.is_privacy_agreed,
+          isTermsOfUseAgreed: data.is_terms_of_use_agreed,
         }),
       );
     }

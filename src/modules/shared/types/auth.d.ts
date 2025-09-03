@@ -1,4 +1,5 @@
-import { Gender } from "../../user/enums/Gender";
+import { Gender } from "../../user/enums/Gender"; 
+import { DateOnly } from "../utils/DateOnly";
 
 export interface LoginInfo {
   id_token: string;

@@ -11,7 +11,7 @@ function BirthOfDateModalContent({
   setSelectedDateOfBirth,
 }: {
   onClickNextButton: () => void;
-  setSelectedDateOfBirth: (dateOfBirth: DateOnly|undefined) => void;
+  setSelectedDateOfBirth: (dateOfBirth: DateOnly|null) => void;
 }) {
   const [dateOfBirthInput, setDateOfBirthInput] = useState<DateOnly>(
     DateOnly.create(new Date().toISOString())
@@ -31,7 +31,7 @@ function BirthOfDateModalContent({
           <NextButton
             handleSignupPress={()=>{
                 onClickNextButton();
-                setSelectedDateOfBirth(undefined);
+                setSelectedDateOfBirth(null);
             }}
             buttonText="건너뛰기"
             isLoading={false}

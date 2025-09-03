@@ -21,12 +21,12 @@ export default function ProfilePage() {
         />
         <UserFeatureItemTemplate
           title="생년월일"
-          value={user.dateOfBirth.toJSON()}
+          value={user.dateOfBirth?.toJSON() ?? "선택 안함"}
           action={() => router.push("/settings/changeDateOfBirth")}
         />
         <UserFeatureItemTemplate
           title="성별"
-          value={user.gender}
+          value={user.gender ?? "선택 안함"}
           action={() => router.push("/settings/changeGender")}
         />
       </View>

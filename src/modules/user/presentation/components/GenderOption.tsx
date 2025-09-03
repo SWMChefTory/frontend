@@ -6,7 +6,7 @@ export const GenderOptions = ({
   selectedGender = Gender.FEMALE,
   setGender: setSeletedGender,
 }: {
-  selectedGender?: Gender;
+  selectedGender?: Gender | null;
   setGender: (gender: Gender) => void;
 }) => {
   console.log("selectedGender", selectedGender);
@@ -31,7 +31,7 @@ const GenderOption = ({
 }: {
   gender: Gender;
   setGender: (gender: Gender) => void;
-  selectedGender: Gender;
+  selectedGender: Gender | null;
 }) => (
   <TouchableOpacity
     style={[

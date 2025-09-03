@@ -34,13 +34,9 @@
         </scene>
     </scenes>
     <resources>
-<<<<<<< HEAD
-        <image name="SplashScreenLogo" width="100" height="90.333335876464844"/>
-=======
         <image name="SplashScreenLogo" width="180" height="180"/>
         <namedColor name="SplashScreenBackground">
             <color alpha="1.000" blue="0.941176470588235" green="0.960784313725490" red="1.00000000000000" customColorSpace="sRGB" colorSpace="custom"/>
         </namedColor>
->>>>>>> 7687e2454300465711c71dceb892280101778b33
     </resources>
 </document>

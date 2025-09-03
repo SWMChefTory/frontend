@@ -26,6 +26,7 @@ export default function TermsAndCondition({
   setIsPrivacyAgree,
   isMarketingAgree,
   setIsMarketingAgree,
+  handleSignupPress,
 }: {
   handleAgreementPage: () => void;
   isServiceAgree: boolean;
@@ -34,6 +35,7 @@ export default function TermsAndCondition({
   setIsPrivacyAgree: (isPrivacyAgree: boolean) => void;
   isMarketingAgree: boolean;
   setIsMarketingAgree: (isMarketingAgree: boolean) => void;
+  handleSignupPress: () => void;
 }) {
   const router = useRouter();  
 
@@ -69,7 +71,7 @@ export default function TermsAndCondition({
             ]}
           >
             {" "}
-            전체 동의하기
+            전체 동의하기   
           </Text>
         </TouchableOpacity>
       </View>
@@ -197,7 +199,7 @@ export default function TermsAndCondition({
       <View style={styles.buttonSection}>
         <View style={styles.buttonContainer}>
           <NextButton
-            handleSignupPress={() => {}}
+            handleSignupPress={handleSignupPress}
             buttonText="다음"
             isLoading={false}
             isEnabled={isServiceAgree && isPrivacyAgree}

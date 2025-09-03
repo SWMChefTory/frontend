@@ -48,6 +48,10 @@ export const DateOfBirthPick = ({
     const newDate = DateOnly.create(newDateTime.toISODate() || "");
     console.log("newDateTime", newDateTime.toISODate());
     console.log("newDate", newDate);
+    if (newDate === null) {
+      throw new Error("newDate is null");
+    }
+
     return newDate;
   };
 

@@ -17,11 +17,16 @@ export function useAuthBootstrap() {
           User.create({
             gender: user.gender,
             nickname: user.nickname,
-            dateOfBirth: DateOnly.create(user.date_of_birth),
+            dateOfBirth: user.date_of_birth ? DateOnly.create(user.date_of_birth) : null,
+            isMarketingAgreed: user.is_marketing_agreed,
+            isPrivacyAgreed: user.is_privacy_agreed,
+            isTermsOfUseAgreed: user.is_terms_of_use_agreed,
           }),
         );
       } catch (e) {
         removeUser();
+        console.log("error발생");
+        console.error(e);
       } finally {
         setLoading(false);
       }
