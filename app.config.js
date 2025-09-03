@@ -32,6 +32,7 @@ export default {
         NSSupportsLiveActivities: true, //이런거 보고 push notification 설정
         NSFaceIDUsageDescription:
           "안전한 로그인과 인증을 위해 Face ID를 사용합니다.",
+        NSMicrophoneUsageDescription: "셰프토리는 음성으로 레시피를 제어하기 위해 마이크 접근 권한이 필요합니다.",
         NSAppTransportSecurity: {
           NSAllowsArbitraryLoads: true,
         },
