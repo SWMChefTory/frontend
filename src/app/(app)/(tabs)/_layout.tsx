@@ -28,7 +28,8 @@ export default function TabLayout() {
 
   const openBottomSheet = useCallback(({youtubeUrl=""}:{youtubeUrl:string}) => {
     setModalData(youtubeUrl);
-
+    console.log("openBottomSheet");
+    console.log(modalRef.current);
     modalRef.current?.present();
   }, []);
 

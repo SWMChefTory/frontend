@@ -12,7 +12,19 @@ export default function AuthLayout() {
       <Stack.Screen
         name="signup"
         options={{
-          header : () => <OnlyBackTemplate  title="회원가입" />,  
+          header : () => <OnlyBackTemplate  title="" />,  
+          animation: "none",
+        }}
+      />
+      <Stack.Screen
+        name="agreement/ServiceTermsAndConditions"
+        options={{header: () => <OnlyBackTemplate  title="" />,
+          animation: "none",
+        }}
+      />
+      <Stack.Screen
+        name="agreement/PrivacyTermsAndConditions"
+        options={{header: () => <OnlyBackTemplate  title="" />,
           animation: "none",
         }}
       />

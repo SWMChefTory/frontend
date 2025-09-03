@@ -9,9 +9,11 @@ const dateOfBirthSchema = z
     return parsed.isValid;
   }, "올바른 날짜 형식이 아닙니다 (YYYY-MM-DD)")
   .refine((dateStr) => {
-    const parsed = DateTime.fromISO(dateStr);
-    const now = DateTime.now();
-    return parsed < now;
+    const parsed = DateTime.fromISO(dateStr).startOf("day");
+    const now = DateTime.now().startOf("day");
+    console.log("parsed", parsed);
+    console.log("now", now);
+    return parsed <= now;
   }, "미래 날짜는 입력할 수 없습니다")
   .refine((dateStr) => {
     const parsed = DateTime.fromISO(dateStr);

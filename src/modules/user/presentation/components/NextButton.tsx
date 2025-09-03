@@ -3,20 +3,24 @@ import { COLORS } from "@/src/modules/shared/constants/colors";
 
 export const NextButton = ({
   handleSignupPress: handleSignupPress,
-  isLoading,
+  buttonText,
+  isLoading=false,
+  isEnabled=true,
 }: {
   handleSignupPress: () => void;
+  buttonText: string;
   isLoading: boolean;
+  isEnabled: boolean;
 }) => {
   return (
     <View style={styles.nextButtonContainer}>
       <TouchableOpacity
-        style={styles.nextButton}
+        style={[styles.nextButton,(isLoading || !isEnabled) && styles.nextButtonDisabled]}
         onPress={handleSignupPress}
-        disabled={isLoading}
+        disabled={isLoading || !isEnabled}
       >
         <Text style={styles.nextButtonText}>
-          {isLoading ? "처리중..." : "다음"}
+          {isLoading ? "처리중..." : buttonText}
         </Text>
       </TouchableOpacity>
     </View>
@@ -26,10 +30,10 @@ export const NextButton = ({
 const styles = StyleSheet.create({
   nextButton: {
     backgroundColor: COLORS.orange.main,
-    paddingVertical: 16,
+    justifyContent: "center",
     borderRadius: 12,
     alignItems: "center",
-    marginTop: 20,
+    // marginTop: 20,
     shadowColor: COLORS.shadow.orange,
     shadowOffset: {
       width: 0,
@@ -38,7 +42,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 8,
     elevation: 4,
-    width: 240,
+    flex: 1,
+    alignSelf: "stretch",
+  },
+  nextButtonDisabled: {
+    backgroundColor: COLORS.orange.inactive,
   },
   nextButtonText: {
     color: COLORS.text.white,
@@ -47,8 +55,9 @@ const styles = StyleSheet.create({
   },
 
   nextButtonContainer: {
-    marginTop: 20,
     alignItems: "center",
-    width: "100%",
+    justifyContent: "center",
+    flex: 1,
+    alignSelf: "stretch",
   },
 });

@@ -14,14 +14,9 @@ export default function ChangeDateOfBirth() {
     user?.dateOfBirth || DateOnly.create(new Date().toISOString()),
   );
   const { changeDateOfBirth, isLoading } = useChangeDateOfBirthViewModel();
-  const [isDateOfBirthChanged, setIsDateOfBirthChanged] = useState(false);
+  const [isDateOfBirthChanged, setIsDateOfBirthChanged] = useState(true);
 
   const handleChangeDateOfBirth = () => {
-    if (dateOfBirthInput.toJSON() === user?.dateOfBirth?.toJSON()) {
-      setIsDateOfBirthChanged(false);
-    } else {
-      setIsDateOfBirthChanged(true);
-    }
     changeDateOfBirth(dateOfBirthInput);
   };
 

@@ -11,7 +11,7 @@ import { COLORS } from "@/src/modules/shared/constants/colors";
 export default function ChangeGenderPage() {
   const user = useUserViewModel();
   const { changeGender, isLoading } = useChangeGenderViewModel();
-  const [gender, setGender] = useState<Gender>(user?.gender || Gender.MALE);
+  const [gender, setGender] = useState<Gender|null>(user?.gender || null);
   const [isGenderChanged, setIsGenderChanged] = useState(false);
 
   const handleChangedGenderSubmit = (gender: Gender) => {
@@ -33,7 +33,7 @@ export default function ChangeGenderPage() {
       />
       <TouchableOpacity
         style={[styles.button, !isGenderChanged && styles.buttonDisabled]}
-        onPress={() => changeGender(gender)}
+        onPress={() => changeGender(gender ?? Gender.MALE)}
         disabled={isLoading || !isGenderChanged}
       >
         <Text style={styles.buttonText}>변경</Text>

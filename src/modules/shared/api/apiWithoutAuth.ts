@@ -1,7 +1,7 @@
 import { clientWithoutAuth } from "@/src/modules/shared/api/clientWithoutAuth";
 import { LoginInfo, SignupData } from "@/src/modules/shared/types/auth";
-import { UTCDateAtMidnight } from "@/src/modules/shared/utils/UTCDateAtMidnight";
 import { Gender } from "@/src/modules/user/enums/Gender";
+import { DateOnly } from "../utils/DateOnly";
 
 export interface AuthorizationTokenResponse {
   access_token: string;
@@ -9,10 +9,47 @@ export interface AuthorizationTokenResponse {
   user_info: UserResponse;
 }
 
-export interface UserResponse {
-  gender: Gender;
+export interface RawAuthorizationTokenResponse {
+  access_token: string;
+  refresh_token: string;
+  user_info: RawUserResponse;
+}
+
+interface RawUserResponse {
+  gender: Gender|null;
   nickname: string;
-  date_of_birth: string;
+  date_of_birth: string | null;
+  terms_of_use_agreed_at: DateOnly | null;
+  privacy_agreed_at: DateOnly | null;
+  marketing_agreed_at: DateOnly | null;
+}
+
+function fromRaw(rawAuthorizationTokenResponse: RawAuthorizationTokenResponse): AuthorizationTokenResponse {
+  return {
+    access_token: rawAuthorizationTokenResponse.access_token,
+    refresh_token: rawAuthorizationTokenResponse.refresh_token,
+    user_info: convertRawUserResponseToUserResponse(rawAuthorizationTokenResponse.user_info),
+  };
+}
+
+function convertRawUserResponseToUserResponse(rawUserResponse: RawUserResponse): UserResponse {
+  return {
+    gender: rawUserResponse.gender,
+    nickname: rawUserResponse.nickname,
+    date_of_birth: rawUserResponse.date_of_birth,
+    is_marketing_agreed: rawUserResponse.marketing_agreed_at ? true : false,
+    is_privacy_agreed: rawUserResponse.privacy_agreed_at ? true : false,
+    is_terms_of_use_agreed: rawUserResponse.terms_of_use_agreed_at ? true : false,
+  };
+}
+
+export interface UserResponse {
+  gender: Gender|null;
+  nickname: string;
+  date_of_birth: string | null;
+  is_marketing_agreed: boolean;
+  is_privacy_agreed: boolean;
+  is_terms_of_use_agreed: boolean;
 }
 
 export interface LoginRequest {
@@ -24,8 +61,11 @@ export interface SignupRequest {
   id_token: string;
   provider: string;
   nickname: string;
-  gender: string;
-  date_of_birth: UTCDateAtMidnight;
+  gender: Gender | null;
+  date_of_birth: DateOnly | null;
+  is_marketing_agreed: boolean;
+  is_privacy_agreed: boolean;
+  is_terms_of_use_agreed: boolean;
 }
 
 export interface RefreshTokenRequest {
@@ -52,7 +92,8 @@ export async function loginUser(
     "/account/login/oauth",
     loginRequest,
   );
-  return response.data;
+  console.log("response", response.data);
+  return fromRaw(response.data);
 }
 
 export async function signupUser(
@@ -65,13 +106,17 @@ export async function signupUser(
     nickname: signupData.nickname,
     gender: signupData.gender,
     date_of_birth: signupData.date_of_birth,
+    is_marketing_agreed: signupData.is_marketing_agreed,
+    is_privacy_agreed: signupData.is_privacy_agreed,
+    is_terms_of_use_agreed: signupData.is_terms_of_use_agreed,
   };
   console.log("signupRequest", signupRequest);
   const response = await clientWithoutAuth.post(
     "/account/signup/oauth",
     signupRequest,
   );
-  return response.data;
+
+  return fromRaw(response.data);
 }
 
 export async function deleteAccount(refreshToken: string): Promise<void> {
