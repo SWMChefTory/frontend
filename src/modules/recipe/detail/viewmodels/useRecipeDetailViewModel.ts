@@ -1,8 +1,9 @@
-import { findAccessToken } from "@/src/modules/shared/storage/SecureStorage"; // Import findAccessToken
+import { findAccessToken } from "@/src/modules/shared/storage/SecureStorage";
 import { useEffect, useState } from "react";
+import { refreshToken } from "@/src/modules/shared/api/client";
 
 export function useRecipeDetailViewModel() {
-  const [accessToken, setAccessToken] = useState<string | null>(null); // State to hold accessToken
+  const [accessToken, setAccessToken] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchAccessToken = async () => {
@@ -11,7 +12,19 @@ export function useRecipeDetailViewModel() {
     };
     fetchAccessToken();
   }, []);
+
+  const refetch = async () => {
+    try {
+      const token = await refreshToken();
+      setAccessToken(token);
+    } catch (error) {
+      setAccessToken(null);
+      throw error;
+    }
+  };
+
   return {
     accessToken,
+    refetch,
   };
 }

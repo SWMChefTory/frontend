@@ -1,4 +1,3 @@
-import { refreshToken } from "@/src/modules/shared/api/client";
 import { router } from "expo-router";
 import React, { useCallback } from "react";
 import { WebView } from "react-native-webview";
@@ -16,11 +15,13 @@ interface UseWebViewMessageProps {
     onTimerCheck?: (data: TimerMessage) => void;
     onTimerSet?: (data: TimerMessage) => void;
   };
+  refreshTokenCallback: () => Promise<void>;
 }
 
 export function useWebViewMessage({
   webviewRef,
   timerCallbacks,
+  refreshTokenCallback,
 }: UseWebViewMessageProps) {
   const clearWebViewHistoryByReload = useCallback(() => {
     if (webviewRef.current) {
@@ -56,17 +57,7 @@ export function useWebViewMessage({
             break;
 
           case WebViewMessageType.REFRESH_TOKEN:
-            (async () => {
-              const newToken = await refreshToken();
-              if (webviewRef.current && newToken) {
-                const payload = JSON.stringify({
-                  type: "ACCESS_TOKEN",
-                  token: newToken,
-                });
-                const js = `window.postMessage(${payload}, "*"); true;`;
-                webviewRef.current.injectJavaScript(js);
-              }
-            })();
+            refreshTokenCallback();
             break;
 
           case WebViewMessageType.TIMER_START:

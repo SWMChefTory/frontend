@@ -20,23 +20,47 @@ const client = axios.create({
   timeout: 10000,
 });
 
-//todo 유저 상태 값 갱신해줘야 할듯. 에러 발생 시 토큰을 지우면 로그인 상태가 아닌데, 유저값이 갱신되지 않음.
-export async function refreshToken() {
-  try {
-    const refreshToken = findRefreshToken();
-    if (!refreshToken) throw new Error("No refresh token");
+// 토큰 갱신 공유 자원 - 중복 호출 방지
+class TokenRefreshManager {
+  private refreshPromise: Promise<string> | null = null;
+  private isRefreshing = false;
 
-    const response = await reissueRefreshToken(refreshToken);
-    await storeAccessToken(response.access_token);
-    await storeRefreshToken(response.refresh_token);
-    return response.access_token;
-  } catch (error) {
-    await removeAuthToken();
-    useUserStore.getState().setUser(null);
+  async refreshToken(): Promise<string> {
+    // 이미 갱신 중이면 기존 Promise 반환
+    if (this.isRefreshing && this.refreshPromise) {
+      return this.refreshPromise;
+    }
 
-    throw error;
+    this.isRefreshing = true;
+    this.refreshPromise = this.executeRefresh();
+
+    try {
+      return await this.refreshPromise;
+    } finally {
+      // 갱신 완료 후 상태 초기화
+      this.isRefreshing = false;
+      this.refreshPromise = null;
+    }
+  }
+
+  private async executeRefresh(): Promise<string> {
+    try {
+      const refreshToken = findRefreshToken();
+      if (!refreshToken) throw new Error("No refresh token");
+
+      const response = await reissueRefreshToken(refreshToken);
+      await storeAccessToken(response.access_token);
+      await storeRefreshToken(response.refresh_token);
+      return response.access_token;
+    } catch (error) {
+      await removeAuthToken();
+      useUserStore.getState().setUser(null);
+      throw error;
+    }
   }
 }
+
+const tokenRefreshManager = new TokenRefreshManager();
 
 function isNetworkError(error: unknown): boolean {
   return isAxiosError(error) && !error.response && Boolean(error.request);
@@ -66,7 +90,6 @@ client.interceptors.request.use(
   },
 );
 
-//응답을 받았을 때, access token이 만료되었을 때의 오류라면 refresh token으로 다시 발급 받거나, 발급에 실패하면 로그 아웃 상태로 바꾼다.
 client.interceptors.response.use(
   async (res) => {
     console.log("response", res.data);
@@ -81,13 +104,13 @@ client.interceptors.response.use(
 
     if (
       isAxiosError(error) &&
-      //todo : accesstoken가 만료되었을 때만? 혹은 유효하지 않은 것까지?
       error.response?.data?.errorCode?.startsWith("AUTH") &&
       !originalRequest._retry
     ) {
       originalRequest._retry = true;
 
       try {
+        // 공유 자원을 통해 토큰 갱신 - 중복 호출 방지
         const newToken = await refreshToken();
         originalRequest.headers.Authorization = `${newToken}`;
         return client(originalRequest);
@@ -103,5 +126,7 @@ client.interceptors.response.use(
     }
   },
 );
+
+export const refreshToken = () => tokenRefreshManager.refreshToken();
 
 export { client };
