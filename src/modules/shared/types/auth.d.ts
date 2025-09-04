@@ -1,5 +1,7 @@
 import { Gender } from "../../user/enums/Gender"; 
-import { DateOnly } from "../utils/DateOnly";
+import { DateOnly } from "../utils/dateOnly";
+
+//레거시 코드
 
 export interface LoginInfo {
   id_token: string;

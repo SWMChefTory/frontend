@@ -1,6 +1,6 @@
 import { AuthorizationTokenResponse } from "@/src/modules/shared/api/apiWithoutAuth";
 import { client } from "@/src/modules/shared/api/client";
-import { DateOnly } from "@/src/modules/shared/utils/DateOnly";
+import { DateOnly } from "@/src/modules/shared/utils/dateOnly";
 import { Gender } from "@/src/modules/user/enums/Gender";
 
 export interface UserGetResponse {

@@ -4,7 +4,7 @@ import { Gender } from "@/src/modules/user/enums/Gender";
 import { useSignupViewModel } from "@/src/modules/user/business/service/useAuthService";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 import { FullScreenLoader } from "@/src/modules/shared/splash/loading/lottieview/FullScreenLoader";
-import { DateOnly } from "@/src/modules/shared/utils/DateOnly";
+import { DateOnly } from "@/src/modules/shared/utils/dateOnly";
 import {
   BottomSheetModal,
   BottomSheetModalProvider,
@@ -71,10 +71,6 @@ export default function SignupPage({
   const BirthOfDateModalRef = useRef<BottomSheetModal>(null);
   const GenderModalRef = useRef<BottomSheetModal>(null);
   const TermsAndConditionModalRef = useRef<BottomSheetModal>(null);
-
-  const openTermsAndConditionsModal = useCallback(() => {
-    TermsAndConditionModalRef.current?.present();
-  }, []);
 
   const renderBackdrop = useCallback(
     (props: BottomSheetBackdropProps) => (

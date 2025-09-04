@@ -16,7 +16,7 @@ import { AxiosError } from "axios";
 import { Alert } from "react-native";
 import { useRouter } from "expo-router";
 import { User } from "@/src/modules/user/business/viewmodel/user";
-import { DateOnly } from "@/src/modules/shared/utils/DateOnly";
+import { DateOnly } from "@/src/modules/shared/utils/dateOnly";
 
 export function useLoginViewModel() {
   const { setUser } = useUserStore();

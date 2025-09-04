@@ -6,7 +6,7 @@ import {
 import { useState } from "react";
 import { DateOfBirthPick } from "@/src/modules/user/presentation/components/DateOfBirthPick";
 import { COLORS } from "@/src/modules/shared/constants/colors";
-import { DateOnly } from "@/src/modules/shared/utils/DateOnly";
+import { DateOnly } from "@/src/modules/shared/utils/dateOnly";
 
 export default function ChangeDateOfBirth() {
   const user = useUserViewModel();

@@ -1,7 +1,6 @@
 export default {
   expo: {
     name: "ChefTory",
-    username: "chieftory72",
     slug: "cheftory",
     version: "1.0.2",
     orientation: "portrait",
@@ -9,6 +8,7 @@ export default {
     scheme: "cheftory",
     userInterfaceStyle: "automatic",
     newArchEnabled: true,
+    owner: "cheftory", //eas build 소유 organization 이거는 unique한거라 cheftory로 만들 수 없음.
     "splash": {
       "image": "./assets/images/splashscreen_logo.png",
       "resizeMode": "contain",
@@ -100,7 +100,7 @@ export default {
         autoLinking: true,
       },
       eas: {
-        projectId: "282261d9-c9e1-4a9f-809c-9b3f91cc8fa1",
+        projectId: "745eee82-c2f6-4403-91f6-4859abb54740",
       },
     },
   },

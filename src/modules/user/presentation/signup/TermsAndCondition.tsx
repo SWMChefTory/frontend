@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { DateOfBirthPick } from "../components/DateOfBirthPick";
 import { useEffect, useState } from "react";
-import { DateOnly } from "@/src/modules/shared/utils/DateOnly";
+import { DateOnly } from "@/src/modules/shared/utils/dateOnly";
 import { NextButton } from "../components/NextButton";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 import { Ionicons } from "@expo/vector-icons";

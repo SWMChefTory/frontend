@@ -6,7 +6,7 @@ import {
 } from "@gorhom/bottom-sheet";
 import { useCallback } from "react";
 import BirthOfDateModalContent from "./BirthOfDateModalContent";
-import { DateOnly } from "@/src/modules/shared/utils/DateOnly";
+import { DateOnly } from "@/src/modules/shared/utils/dateOnly";
 import { Gender } from "../../enums/Gender";
 import GenderModalContent from "./GenderModalContent";
 
