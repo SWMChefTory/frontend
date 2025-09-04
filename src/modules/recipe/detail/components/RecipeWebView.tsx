@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Platform, StyleSheet } from "react-native";
 import { WebView } from "react-native-webview";
 import { getUserAgent, getWebViewUrl } from "../constants/WebViewConfig";
@@ -7,6 +7,7 @@ import { findAccessToken } from "@/src/modules/shared/storage/SecureStorage";
 import { ApiErrorBoundary } from "@/src/modules/shared/components/error/ApiErrorBoundary";
 import { RecipeWebViewFallback } from "./Fallback";
 import { TimerMessage } from "@/src/modules/recipe/detail/types/RecipeDetail";
+import { useRecipeDetailViewModel } from "@/src/modules/recipe/detail/viewmodels/useRecipeDetailViewModel";
 
 interface RecipeWebViewProps {
   recipeId: string;
@@ -27,8 +28,7 @@ export function RecipeWebViewContent({
 }: RecipeWebViewProps) {
   const webviewRef = useRef<WebView>(null);
   const [error, setError] = useState<Error | null>(null);
-
-  const accessToken = findAccessToken();
+  const { accessToken, refetch } = useRecipeDetailViewModel();
   const url = getWebViewUrl(recipeId);
 
   const { handleMessage } = useWebViewMessage({
@@ -47,6 +47,10 @@ export function RecipeWebViewContent({
         onOpenTimer(data);
       },
     },
+    refreshTokenCallback: async () => {
+      console.log("[Native] 웹뷰에서 토큰 재발급 요청 받음");
+      await refetch();
+    },
   });
   const handleError = useCallback((error: any) => {
     setError(
@@ -64,7 +68,7 @@ export function RecipeWebViewContent({
     );
   }, []);
 
-  const handleWebViewLoadEnd = (syntheticEvent: any) => {
+  useEffect(() => {
     if (webviewRef.current && accessToken) {
       const payload = JSON.stringify({
         type: "ACCESS_TOKEN",
@@ -75,7 +79,7 @@ export function RecipeWebViewContent({
 
       console.log(`[Native] 액세스 토큰을 웹뷰로 전송: ${accessToken}`);
     }
-  };
+  }, [accessToken]);
 
   if (error) {
     throw error;
@@ -98,7 +102,6 @@ export function RecipeWebViewContent({
       style={styles.webview}
       userAgent={getUserAgent()}
       onMessage={handleMessage}
-      onLoadEnd={handleWebViewLoadEnd}
       onError={handleError}
       onHttpError={handleHttpError}
       mediaPlaybackRequiresUserAction={false}
@@ -124,9 +127,6 @@ export function RecipeWebViewContent({
         allowFileAccess: true,
         allowUniversalAccessFromFileURLs: true,
         setSupportMultipleWindows: false,
-        onPermissionRequest: (request: any) => {
-          request.grant();
-        },
       })}
     />
   );

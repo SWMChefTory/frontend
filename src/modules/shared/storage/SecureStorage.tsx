@@ -11,11 +11,13 @@ export const findAccessToken: () => string | null = () => {
   return SecureStore.getItem(ACCESS_TOKEN_KEY);
 };
 export const storeAccessToken = async (accessToken: string) => {
+  console.debug("Storing access token", accessToken);
   await SecureStore.setItemAsync(ACCESS_TOKEN_KEY, accessToken);
 };
 
-export const storeRefreshToken = async (accessToken: string) => {
-  await SecureStore.setItemAsync(REFRESH_TOKEN_KEY, accessToken);
+export const storeRefreshToken = async (refreshToken: string) => {
+  console.debug("Storing refresh token", refreshToken);
+  await SecureStore.setItemAsync(REFRESH_TOKEN_KEY, refreshToken);
 };
 
 export const storeAuthToken = async (
