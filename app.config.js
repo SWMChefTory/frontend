@@ -95,6 +95,7 @@ export default {
       reactCanary: true,
     },
     extra: {
+      sentryDsn: process.env.EXPO_PUBLIC_SENTRY_DSN,
       router: {
         origin: false,
         autoLinking: true,

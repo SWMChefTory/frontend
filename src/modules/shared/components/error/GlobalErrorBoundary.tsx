@@ -1,6 +1,8 @@
 import { QueryErrorResetBoundary } from "@tanstack/react-query";
 import { ErrorBoundary } from "react-error-boundary";
 import { GlobalError } from "./Fallback";
+import * as Sentry from '@sentry/react-native';
+import React from "react";
 
 interface Props {
   children: React.ReactNode;
@@ -9,7 +11,9 @@ interface Props {
 export function GlobalErrorBoundary({ children }: Props) {
   return (
     <QueryErrorResetBoundary>
-      <ErrorBoundary FallbackComponent={GlobalError}>{children}</ErrorBoundary>
+      <Sentry.ErrorBoundary fallback={React.createElement(GlobalError)}>  
+           {children}
+         </Sentry.ErrorBoundary>
     </QueryErrorResetBoundary>
   );
 }
