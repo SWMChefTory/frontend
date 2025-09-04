@@ -7,7 +7,7 @@ import {
 } from "@/src/modules/user/business/service/api/api";
 import { useUserStore } from "@/src/modules/user/business/store/userStore";
 import { User } from "../viewmodel/user";
-import { DateOnly } from "@/src/modules/shared/utils/DateOnly";
+import { DateOnly } from "@/src/modules/shared/utils/dateOnly";
 import { useEffect } from "react";
 import { Gender } from "../../enums/Gender";
 

@@ -2,7 +2,7 @@ import { getUser } from "@/src/modules/user/business/service/api/api";
 import { useUserStore } from "@/src/modules/user/business/store/userStore";
 import { useEffect, useState } from "react";
 import { User } from "@/src/modules/user/business/viewmodel/user";
-import { DateOnly } from "@/src/modules/shared/utils/DateOnly";
+import { DateOnly } from "@/src/modules/shared/utils/dateOnly";
 
 export function useAuthBootstrap() {
   const { removeUser, setUser, isLoggedIn } = useUserStore();

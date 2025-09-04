@@ -1,7 +1,7 @@
 import { clientWithoutAuth } from "@/src/modules/shared/api/clientWithoutAuth";
 import { LoginInfo, SignupData } from "@/src/modules/shared/types/auth";
 import { Gender } from "@/src/modules/user/enums/Gender";
-import { DateOnly } from "../utils/DateOnly";
+import { DateOnly } from "../utils/dateOnly";
 
 export interface AuthorizationTokenResponse {
   access_token: string;

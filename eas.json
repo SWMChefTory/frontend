@@ -8,7 +8,9 @@
       "developmentClient": true,
       "distribution": "internal",
       "ios": {
-        "simulator": true
+        "simulator": true,
+        "image": "macos-sequoia-15.5-xcode-16.4",
+        "cocoapods": "1.16.2"
       },
       "env": {
         "EXPO_PUBLIC_WEB_ID": "@EXPO_PUBLIC_WEB_ID",
@@ -20,6 +22,11 @@
     },
     "preview": {
       "distribution": "internal",
+      "ios": {
+        "image": "macos-sequoia-15.5-xcode-16.4",
+        "cocoapods": "1.16.2",
+        "scheme": "ChefTory"
+      },
       "env": {
         "EXPO_PUBLIC_WEB_ID": "@EXPO_PUBLIC_WEB_ID",
         "EXPO_PUBLIC_IOS_ID": "@EXPO_PUBLIC_IOS_ID",
@@ -30,6 +37,11 @@
     },
     "production": {
       "autoIncrement": true,
+      "ios": {
+        "image": "macos-sequoia-15.5-xcode-16.4",
+        "cocoapods": "1.16.2",
+        "scheme": "ChefTory"
+      },
       "env": {
         "EXPO_PUBLIC_WEB_ID": "@EXPO_PUBLIC_WEB_ID",
         "EXPO_PUBLIC_IOS_ID": "@EXPO_PUBLIC_IOS_ID",

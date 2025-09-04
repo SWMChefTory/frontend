@@ -4,7 +4,7 @@ import { GenderOptions } from "@/src/modules/user/presentation/components/Gender
 import { DateOfBirthPick } from "@/src/modules/user/presentation/components/DateOfBirthPick";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 import { StyleSheet } from "react-native";
-import { DateOnly } from "@/src/modules/shared/utils/DateOnly";
+import { DateOnly } from "@/src/modules/shared/utils/dateOnly";
 import { Gender } from "../../enums/Gender";
 import { NextButton } from "../components/NextButton";
 

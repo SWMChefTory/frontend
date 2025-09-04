@@ -68,7 +68,7 @@ export function RecipeWebViewContent({
     );
   }, []);
 
-  useEffect(() => {
+  const handleWebViewLoadEnd = useCallback(() => {
     if (webviewRef.current && accessToken) {
       const payload = JSON.stringify({
         type: "ACCESS_TOKEN",
@@ -100,6 +100,7 @@ export function RecipeWebViewContent({
       ref={webviewRef}
       source={{ uri: url }}
       style={styles.webview}
+      onLoadEnd={handleWebViewLoadEnd}
       userAgent={getUserAgent()}
       onMessage={handleMessage}
       onError={handleError}

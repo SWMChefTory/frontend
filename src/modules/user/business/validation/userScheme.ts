@@ -1,4 +1,4 @@
-import { DateOnly } from "@/src/modules/shared/utils/DateOnly";
+import { DateOnly } from "@/src/modules/shared/utils/dateOnly";
 import { z } from "zod";
 import { Gender } from "../../enums/Gender";
 

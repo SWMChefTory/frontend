@@ -1,4 +1,4 @@
-import { DateOnly } from "@/src/modules/shared/utils/DateOnly";
+import { DateOnly } from "@/src/modules/shared/utils/dateOnly";
 import { View, Text, StyleSheet, TextInput } from "react-native";
 import { InputTemplate } from "../components/InputTemplate";
 

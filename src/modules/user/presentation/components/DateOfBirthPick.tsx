@@ -2,7 +2,7 @@ import { View, StyleSheet } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { DateTime } from "luxon";
 import { COLORS } from "../../../shared/constants/colors";
-import { DateOnly } from "@/src/modules/shared/utils/DateOnly";
+import { DateOnly } from "@/src/modules/shared/utils/dateOnly";
 // 월별 일수 계산 함수
 const getDaysInMonth = (year: number, month: number): number[] => {
   const daysCount = DateTime.local(year, month).daysInMonth;

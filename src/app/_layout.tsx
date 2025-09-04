@@ -15,7 +15,15 @@
   import { AppState, AppStateStatus, Platform } from "react-native";
   import { focusManager } from "@tanstack/react-query";
   import { useDeepLinkHandler } from "@/src/useDeepLink";
+  import * as Sentry from '@sentry/react-native';
+  import Constants from "expo-constants";
 
+  Sentry.init({
+    dsn: Constants.expoConfig?.extra?.sentryDsn,
+    tracesSampleRate: 1.0,
+    profilesSampleRate: 1.0,
+  });
+  
   ExpoSplashScreen.preventAutoHideAsync();
 
   import * as Notifications from "expo-notifications";

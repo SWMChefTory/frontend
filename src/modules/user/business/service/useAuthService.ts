@@ -16,7 +16,16 @@ import { AxiosError } from "axios";
 import { Alert } from "react-native";
 import { useRouter } from "expo-router";
 import { User } from "@/src/modules/user/business/viewmodel/user";
-import { DateOnly } from "@/src/modules/shared/utils/DateOnly";
+import { DateOnly } from "@/src/modules/shared/utils/dateOnly";
+import * as Sentry from '@sentry/react-native';
+
+
+
+// export interface AuthorizationTokenResponse {
+//   access_token: string;
+//   refresh_token: string;
+//   user_info: UserResponse;
+// }
 
 export function useLoginViewModel() {
   const { setUser } = useUserStore();
@@ -28,18 +37,24 @@ export function useLoginViewModel() {
     error,
   } = useMutation({
     mutationFn: async (loginInfo: LoginInfo) => {
-      return loginUser(loginInfo);
+      const data = await loginUser(loginInfo);
+      const user = User.create({
+        gender: data.user_info.gender,
+        nickname: data.user_info.nickname,
+        dateOfBirth: data.user_info.date_of_birth ? DateOnly.create(data.user_info.date_of_birth) : null,
+        isMarketingAgreed: data.user_info.is_marketing_agreed,
+        isPrivacyAgreed: data.user_info.is_privacy_agreed,
+        isTermsOfUseAgreed: data.user_info.is_terms_of_use_agreed,
+      });
+      return {
+        user,
+        access_token: data.access_token,
+        refresh_token: data.refresh_token,
+      };
     },
     onSuccess: (data) => {
       setUser(
-        User.create({
-          gender: data.user_info.gender,
-          nickname: data.user_info.nickname,
-          dateOfBirth: data.user_info.date_of_birth ? DateOnly.create(data.user_info.date_of_birth) : null,
-          isMarketingAgreed: data.user_info.is_marketing_agreed,
-          isPrivacyAgreed: data.user_info.is_privacy_agreed,
-          isTermsOfUseAgreed: data.user_info.is_terms_of_use_agreed,
-        }),
+        data.user
       );
       storeAuthToken(data.access_token, data.refresh_token);
     },
@@ -61,6 +76,7 @@ export function useLoginViewModel() {
         return;
       }
       Alert.alert("알 수 없는 이유로 로그인에 실패했습니다.");
+      Sentry.captureException(error);
     },
     throwOnError: false,
   });

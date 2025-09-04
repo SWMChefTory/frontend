@@ -97,10 +97,6 @@ client.interceptors.response.use(
   },
   async (error) => {
     const originalRequest = error.config;
-    console.log("requestURL", originalRequest);
-    console.log("requestHeaders", originalRequest.headers.Authorization);
-    console.log("requestBody", originalRequest.data);
-    console.log("errorResponse", error.response?.data);
 
     if (originalRequest.skipAuth) {
       return Promise.reject(error);
