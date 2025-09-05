@@ -19,7 +19,7 @@
   import Constants from "expo-constants";
 
   Sentry.init({
-    dsn: Constants.expoConfig?.extra?.sentryDsn,
+    dsn: "https://8efe9b2af11c71662ad73df4bea9cd61@o4509948359933952.ingest.us.sentry.io/4509948389163008",
     tracesSampleRate: 1.0,
     profilesSampleRate: 1.0,
   });

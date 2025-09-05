@@ -20,13 +20,6 @@ import { DateOnly } from "@/src/modules/shared/utils/dateOnly";
 import * as Sentry from '@sentry/react-native';
 
 
-
-// export interface AuthorizationTokenResponse {
-//   access_token: string;
-//   refresh_token: string;
-//   user_info: UserResponse;
-// }
-
 export function useLoginViewModel() {
   const { setUser } = useUserStore();
   const router = useRouter();

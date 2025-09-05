@@ -87,12 +87,10 @@ export async function loginUser(
     id_token: loginInfo.id_token,
     provider: loginInfo.provider,
   };
-  console.log("loginRequest", loginRequest);
   const response = await clientWithoutAuth.post(
     "/account/login/oauth",
     loginRequest,
   );
-  console.log("response", response.data);
   return fromRaw(response.data);
 }
 
