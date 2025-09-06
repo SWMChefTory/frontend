@@ -21,7 +21,7 @@ export function useRecentAllViewModel(): {
       (string | boolean)[],
       number
     >({
-      queryKey: ["recentRecipes", isFocused],
+      queryKey: ["allRecentRecipes", isFocused],
       queryFn: ({ pageParam = 0 }) => fetchRecentAll({ page: pageParam }),
       getNextPageParam: (lastPage) => {
         return lastPage.has_next ? lastPage.current_page + 1 : undefined;

@@ -17,8 +17,10 @@ import { DeferredComponent } from "@/src/modules/shared/utils/DeferredComponent"
 import { AllRecentRecipesSkeleton } from "@/src/modules/recipe/all/recent/component/Skeleton";
 import { AllRecentRecipeError } from "@/src/modules/recipe/all/recent/component/Fallback";
 import { debounce } from "lodash";
-import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
-import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
+import {
+  responsiveWidth,
+  responsiveHeight,
+} from "@/src/modules/shared/utils/responsiveUI";
 
 export function AllRecentRecipeSection() {
   return (
@@ -44,7 +46,7 @@ export function AllRecentRecipeSectionContent() {
     refetch,
     fetchNextPage,
     hasNextPage,
-    isFetchingNextPage
+    isFetchingNextPage,
   } = useRecentAllViewModel();
   const router = useRouter();
 

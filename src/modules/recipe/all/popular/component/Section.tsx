@@ -18,8 +18,10 @@ import { DeferredComponent } from "@/src/modules/shared/utils/DeferredComponent"
 import { AllPopularRecipeError } from "./Fallback";
 import { AllPopularRecipesSkeleton } from "./Skeleton";
 import { debounce } from "lodash";
-import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
-import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
+import {
+  responsiveHeight,
+  responsiveWidth,
+} from "@/src/modules/shared/utils/responsiveUI";
 
 export function AllPopularRecipeSection() {
   return (
@@ -45,7 +47,7 @@ export function AllPopularRecipeSectionContent() {
     refetch,
     fetchNextPage,
     hasNextPage,
-    isFetchingNextPage
+    isFetchingNextPage,
   } = useAllPopularSummaryViewModel();
   const { create } = useRecipeCreateViewModel();
   const router = useRouter();

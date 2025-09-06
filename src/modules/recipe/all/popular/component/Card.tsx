@@ -44,7 +44,11 @@ export function AllPopularRecipeCard({ recipe, onPress }: Props) {
             resizeMode="cover"
           />
           <View style={styles.sourceIndicator}>
-            <Ionicons name="logo-youtube" size={responsiveWidth(14)} color="#FF0000" />
+            <Ionicons
+              name="logo-youtube"
+              size={responsiveWidth(14)}
+              color="#FF0000"
+            />
           </View>
 
           {/* TOP 순위 배지 */}
@@ -71,7 +75,11 @@ export function AllPopularRecipeCard({ recipe, onPress }: Props) {
           </Text>
           <View style={styles.metaContainer}>
             <View style={styles.popularityContainer}>
-              <Ionicons name="trending-up" size={responsiveWidth(12)} color="#9CA3AF" />
+              <Ionicons
+                name="trending-up"
+                size={responsiveWidth(12)}
+                color="#9CA3AF"
+              />
               <Text style={styles.popularityText}>인기 레시피</Text>
             </View>
             <View style={styles.countContainer}>
