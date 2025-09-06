@@ -2,8 +2,10 @@ import { FlatList, StyleSheet, View } from "react-native";
 import { RecentRecipe } from "@/src/modules/recipe/types/Recipe";
 import { RecentRecipeSummaryCard } from "./Card";
 import { EmptyStateCard } from "./EmptyCard";
-import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
-import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
+import {
+  responsiveWidth,
+  responsiveHeight,
+} from "@/src/modules/shared/utils/responsiveUI";
 
 type Props = {
   recipes: RecentRecipe[];
@@ -37,8 +39,13 @@ export default function RecentRecipeSummaryList({ recipes, onPress }: Props) {
           horizontal
           showsHorizontalScrollIndicator={false}
           keyExtractor={(item) => item.recipeId.toString()}
-          ItemSeparatorComponent={() => <View style={{ width: responsiveWidth(12) }} />}
-          contentContainerStyle={{ paddingHorizontal: responsiveWidth(16), paddingVertical: responsiveHeight(8) }}
+          ItemSeparatorComponent={() => (
+            <View style={{ width: responsiveWidth(12) }} />
+          )}
+          contentContainerStyle={{
+            paddingHorizontal: responsiveWidth(16),
+            paddingVertical: responsiveHeight(8),
+          }}
           renderItem={({ item }) => (
             <RecentRecipeSummaryCard recipe={item} onPress={onPress} />
           )}

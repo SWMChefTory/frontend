@@ -4,7 +4,7 @@ import { SafeAreaView, StatusBar, StyleSheet } from "react-native";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import TimerModal from "@/src/modules/timer/components/TimerModal";
-import { RecipeCategoryBottomSheet } from "@/src/modules/recipe/create/step/components/BottomSheet";
+import { RecipeCategoryBottomSheet } from "@/src/modules/recipe/category/categories/bottomsheet/BottomSheet";
 import { TimerMessage } from "@/src/modules/recipe/detail/types/RecipeDetail";
 
 export default function RecipeDetailScreen() {

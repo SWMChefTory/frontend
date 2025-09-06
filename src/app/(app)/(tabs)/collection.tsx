@@ -1,5 +1,5 @@
 import { View, StyleSheet } from "react-native";
-import { RecipeCategorySection } from "@/src/modules/recipe/category/Section";
+import { RecipeCategorySection } from "@/src/modules/recipe/category/components/Section";
 import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
 
 export default function Collection() {

@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createCategory } from "../../api";
+import { createCategory } from "../api/api";
 import { withMinDelay } from "@/src/modules/shared/utils/delay";
 
 export function useCreateCategoryViewModel() {
