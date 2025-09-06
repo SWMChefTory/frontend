@@ -1,11 +1,17 @@
 import { Suspense, useCallback, useRef } from "react";
-import { FlatList, RefreshControl, StyleSheet, View } from "react-native";
+import {
+  FlatList,
+  RefreshControl,
+  StyleSheet,
+  View,
+  ActivityIndicator,
+} from "react-native";
 import { AllRecentRecipeCard } from "@/src/modules/recipe/all/recent/component/Card";
-import { RecentSummaryRecipe } from "@/src/modules/recipe/summary/recent/types/Recipe";
+import { RecentRecipe } from "@/src/modules/recipe/types/Recipe";
 import { COLORS } from "@/src/modules/shared/constants/colors";
-import { useRecentSummaryViewModel } from "@/src/modules/recipe/summary/recent/viewmodels/useViewModels";
+import { useRecentAllViewModel } from "@/src/modules/recipe/all/recent/viewmodels/useViewModels";
 import { useRouter } from "expo-router";
-import { AllRecipeEmptyState } from "@/src/modules/recipe/all/EmptyState";
+import { AllRecipeEmptyState } from "@/src/modules/recipe/all/components/EmptyState";
 import { ApiErrorBoundary } from "@/src/modules/shared/components/error/ApiErrorBoundary";
 import { DeferredComponent } from "@/src/modules/shared/utils/DeferredComponent";
 import { AllRecentRecipesSkeleton } from "@/src/modules/recipe/all/recent/component/Skeleton";
@@ -33,12 +39,18 @@ export function AllRecentRecipeSection() {
 }
 
 export function AllRecentRecipeSectionContent() {
-  const { recentRecipes, refetch } = useRecentSummaryViewModel();
+  const {
+    recentRecipes,
+    refetch,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage
+  } = useRecentAllViewModel();
   const router = useRouter();
 
   const handleRecipeView = useRef(
     debounce(
-      (recipe: RecentSummaryRecipe) => {
+      (recipe: RecentRecipe) => {
         router.push({
           pathname: "/recipe/detail",
           params: { recipeId: recipe.recipeId },
@@ -53,7 +65,7 @@ export function AllRecentRecipeSectionContent() {
   ).current;
 
   const renderItem = useCallback(
-    ({ item }: { item: RecentSummaryRecipe }) => (
+    ({ item }: { item: RecentRecipe }) => (
       <AllRecentRecipeCard recipe={item} onPress={handleRecipeView} />
     ),
     [handleRecipeView],
@@ -75,6 +87,22 @@ export function AllRecentRecipeSectionContent() {
     refetch();
   }, [refetch]);
 
+  const handleEndReached = useCallback(() => {
+    if (hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+
+  const renderFooter = useCallback(() => {
+    if (!isFetchingNextPage) return null;
+
+    return (
+      <View style={styles.footerLoader}>
+        <ActivityIndicator size="small" color={COLORS.orange.main} />
+      </View>
+    );
+  }, [isFetchingNextPage]);
+
   return (
     <FlatList
       data={recentRecipes}
@@ -84,6 +112,9 @@ export function AllRecentRecipeSectionContent() {
       showsVerticalScrollIndicator={false}
       ItemSeparatorComponent={() => <View style={styles.separator} />}
       ListEmptyComponent={renderEmptyState}
+      ListFooterComponent={renderFooter}
+      onEndReached={handleEndReached}
+      onEndReachedThreshold={0.5}
       refreshControl={
         <RefreshControl
           refreshing={false}
@@ -107,5 +138,10 @@ const styles = StyleSheet.create({
   },
   separator: {
     height: responsiveHeight(16),
+  },
+  footerLoader: {
+    paddingVertical: responsiveHeight(20),
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

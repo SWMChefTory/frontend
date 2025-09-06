@@ -2,12 +2,12 @@ import { useMemo, useRef, useState } from "react";
 import { View, StyleSheet, FlatList, Text, ActivityIndicator, Pressable } from "react-native";
 import { BottomSheetFlatList, BottomSheetView } from "@gorhom/bottom-sheet";
 import { COLORS } from "@/src/modules/shared/constants/colors";
-import { useCategoriesViewModel } from "@/src/modules/recipe/category/categories/useCategoriesViewModel";
 import BottomSheetCategoryCard from "./BottomSheetCategoryCard";
-import { Category as CategoryModel } from "@/src/modules/recipe/category/Category";
+import { Category as CategoryModel } from "@/src/modules/recipe/category/types/Category";
 import BottomSheetAddCard from "./BottomSheetAddCard";
 import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
 import { responsiveFontSize, responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
+import { useCategoriesViewModel } from "../../../category/categories/hooks/useCategoriesViewModel";
 
 
 type Category = Pick<CategoryModel, "id" | "name" | "count">;

@@ -1,6 +1,6 @@
 import { View, StyleSheet } from "react-native";
-import { RecipeSectionHeader } from "../../../summary/shared/components/SectionHeader";
-import { PopularSummaryRecipe } from "../../../summary/popular/types/Recipe";
+import { RecipeSectionHeader } from "../../components/SectionHeader";
+import { PopularRecipe } from "@/src/modules/recipe/types/Recipe";
 import { PopularRecipeError } from "../shared/Fallback";
 import { ApiErrorBoundary } from "@/src/modules/shared/components/error/ApiErrorBoundary";
 import { Suspense, useEffect, useRef } from "react";
@@ -28,7 +28,7 @@ export function PopularRecipeSection({ onRefresh }: Props) {
 
   const handleRecipePress = useRef(
     debounce(
-      async (recipe: PopularSummaryRecipe) => {
+      async (recipe: PopularRecipe) => {
         const recipeId = (await create(recipe.video_url))!.recipe_id;
         router.push({
           pathname: "/recipe/create",
@@ -78,7 +78,7 @@ export function PopularRecipeSection({ onRefresh }: Props) {
 }
 
 interface PopularRecipeSectionContentProps {
-  onPress: (recipe: PopularSummaryRecipe) => void;
+  onPress: (recipe: PopularRecipe) => void;
   onRefresh: number;
 }
 

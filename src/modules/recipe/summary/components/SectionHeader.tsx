@@ -1,9 +1,11 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 import { Ionicons } from "@expo/vector-icons";
-import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
-import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
-import { responsiveFontSize } from "@/src/modules/shared/utils/responsiveUI";
+import {
+  responsiveHeight,
+  responsiveWidth,
+  responsiveFontSize,
+} from "@/src/modules/shared/utils/responsiveUI";
 
 export function RecipeSectionHeader({
   title,

@@ -1,14 +1,18 @@
 import React, { Suspense, useCallback, useRef } from "react";
-import { FlatList, RefreshControl, StyleSheet, View } from "react-native";
-import { AllPopularRecipeCard } from "@/src/modules/recipe/all/popular/component/Card";
-import { PopularSummaryRecipe } from "@/src/modules/recipe/summary/popular/types/Recipe";
-import { COLORS } from "@/src/modules/shared/constants/colors";
 import {
-  usePopularSummaryViewModel,
-  useRecipeCreateViewModel,
-} from "@/src/modules/recipe/summary/popular/viewmodels/useViewModels";
+  FlatList,
+  RefreshControl,
+  StyleSheet,
+  View,
+  ActivityIndicator,
+} from "react-native";
+import { AllPopularRecipeCard } from "@/src/modules/recipe/all/popular/component/Card";
+import { PopularRecipe } from "@/src/modules/recipe/types/Recipe";
+import { COLORS } from "@/src/modules/shared/constants/colors";
+import { useRecipeCreateViewModel } from "@/src/modules/recipe/summary/popular/viewmodels/useViewModels";
+import { useAllPopularSummaryViewModel } from "@/src/modules/recipe/all/popular/viewmodels/useViewModels";
 import { useRouter } from "expo-router";
-import { AllRecipeEmptyState } from "@/src/modules/recipe/all/EmptyState";
+import { AllRecipeEmptyState } from "@/src/modules/recipe/all/components/EmptyState";
 import { ApiErrorBoundary } from "@/src/modules/shared/components/error/ApiErrorBoundary";
 import { DeferredComponent } from "@/src/modules/shared/utils/DeferredComponent";
 import { AllPopularRecipeError } from "./Fallback";
@@ -36,13 +40,19 @@ export function AllPopularRecipeSection() {
 }
 
 export function AllPopularRecipeSectionContent() {
-  const { popularRecipes, refetch } = usePopularSummaryViewModel();
+  const {
+    allPopularRecipes,
+    refetch,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage
+  } = useAllPopularSummaryViewModel();
   const { create } = useRecipeCreateViewModel();
   const router = useRouter();
 
   const handleRecipeView = useRef(
     debounce(
-      async (recipe: PopularSummaryRecipe) => {
+      async (recipe: PopularRecipe) => {
         const recipeId = (await create(recipe.video_url))!.recipe_id;
         router.push({
           pathname: "/recipe/create",
@@ -58,7 +68,7 @@ export function AllPopularRecipeSectionContent() {
   ).current;
 
   const renderItem = useCallback(
-    ({ item }: { item: PopularSummaryRecipe }) => {
+    ({ item }: { item: PopularRecipe }) => {
       return (
         <View style={styles.itemContainer}>
           <AllPopularRecipeCard recipe={item} onPress={handleRecipeView} />
@@ -84,18 +94,37 @@ export function AllPopularRecipeSectionContent() {
     refetch();
   }, [refetch]);
 
+  const handleEndReached = useCallback(() => {
+    if (hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+
+  const renderFooter = useCallback(() => {
+    if (!isFetchingNextPage) return null;
+
+    return (
+      <View style={styles.footerLoader}>
+        <ActivityIndicator size="small" color={COLORS.orange.main} />
+      </View>
+    );
+  }, [isFetchingNextPage]);
+
   return (
     <FlatList
-      data={popularRecipes}
+      data={allPopularRecipes}
       numColumns={2}
       keyExtractor={(item) => item.recipeId}
       renderItem={renderItem}
       columnWrapperStyle={
-        popularRecipes.length > 1 ? styles.columnWrapper : undefined
+        allPopularRecipes.length > 1 ? styles.columnWrapper : undefined
       }
       contentContainerStyle={styles.listContainer}
       showsVerticalScrollIndicator={false}
       ListEmptyComponent={renderEmptyState}
+      ListFooterComponent={renderFooter}
+      onEndReached={handleEndReached}
+      onEndReachedThreshold={0.5}
       refreshControl={
         <RefreshControl
           refreshing={false}
@@ -124,5 +153,11 @@ const styles = StyleSheet.create({
   },
   columnWrapper: {
     justifyContent: "space-between",
+  },
+  footerLoader: {
+    paddingVertical: responsiveHeight(20),
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
   },
 });

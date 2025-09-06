@@ -1,16 +1,18 @@
 import { useState } from "react";
 import { StyleSheet, View, Text, Image, Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { RecentSummaryRecipe } from "@/src/modules/recipe/summary/recent/types/Recipe";
+import { RecentRecipe } from "@/src/modules/recipe/types/Recipe";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 import { SHADOW } from "@/src/modules/shared/constants/shadow";
-import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
-import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
-import { responsiveFontSize } from "@/src/modules/shared/utils/responsiveUI";
+import {
+  responsiveWidth,
+  responsiveHeight,
+  responsiveFontSize,
+} from "@/src/modules/shared/utils/responsiveUI";
 
 type Props = {
-  recipe: RecentSummaryRecipe;
-  onPress: (recipe: RecentSummaryRecipe) => void;
+  recipe: RecentRecipe;
+  onPress: (recipe: RecentRecipe) => void;
 };
 
 export function AllRecentRecipeCard({ recipe, onPress }: Props) {

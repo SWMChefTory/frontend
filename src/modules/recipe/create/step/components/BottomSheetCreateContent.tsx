@@ -4,9 +4,9 @@ import { BottomSheetButton } from "./BottomSheetButton";
 import { useState } from "react";
 import { BottomSheetTextInput } from "@gorhom/bottom-sheet";
 import { useRef } from "react";
-import { useCreateCategoryViewModel } from "../../../category/categories/modal/useCreateViewModel";
-import { useUpdateCategoryViewModel } from "../../../category/categories/useUpdateViewModel";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useCreateCategoryViewModel } from "../../../category/categories/modal/useCreateViewModel";
+import { useUpdateCategoryViewModel } from "../../../category/categories/hooks/useUpdateViewModel";
 
 interface Props {   
     onDismiss: () => void;

@@ -1,17 +1,19 @@
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import { PopularSummaryRecipe } from "@/src/modules/recipe/summary/popular/types/Recipe";
+import { PopularRecipe } from "@/src/modules/recipe/types/Recipe";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 import { useState } from "react";
 import { SHADOW } from "@/src/modules/shared/constants/shadow";
-import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
-import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
-import { responsiveFontSize } from "@/src/modules/shared/utils/responsiveUI";
+import {
+  responsiveHeight,
+  responsiveFontSize,
+  responsiveWidth,
+} from "@/src/modules/shared/utils/responsiveUI";
 
 type Props = {
-  recipe: PopularSummaryRecipe;
-  onPress: (recipe: PopularSummaryRecipe) => void;
+  recipe: PopularRecipe;
+  onPress: (recipe: PopularRecipe) => void;
 };
 
 export function AllPopularRecipeCard({ recipe, onPress }: Props) {

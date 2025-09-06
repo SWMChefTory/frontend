@@ -1,20 +1,22 @@
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import { PopularSummaryRecipe } from "../types/Recipe";
+import { PopularRecipe } from "../../../types/Recipe";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 import { SHADOW } from "@/src/modules/shared/constants/shadow";
-import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
-import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
-import { responsiveFontSize } from "@/src/modules/shared/utils/responsiveUI";
+import {
+  responsiveWidth,
+  responsiveHeight,
+  responsiveFontSize,
+} from "@/src/modules/shared/utils/responsiveUI";
 
 type Props = {
-  recipe: PopularSummaryRecipe;
-  onPress: (recipe: PopularSummaryRecipe) => void;
+  recipe: PopularRecipe;
+  onPress: (recipe: PopularRecipe) => void;
 };
 
 export function PopularRecipeSummaryCard({ recipe, onPress }: Props) {
-    const getTopBadgeColors = (rank: number): [string, string] => {
+  const getTopBadgeColors = (rank: number): [string, string] => {
     switch (rank) {
       case 1:
         return ["#FFD700", "#FFA500"]; // 골드
@@ -34,7 +36,11 @@ export function PopularRecipeSummaryCard({ recipe, onPress }: Props) {
 
         {/* 유튜브 로고 */}
         <View style={styles.sourceIndicator}>
-          <Ionicons name="logo-youtube" size={responsiveWidth(30)} color="#FF0000" />
+          <Ionicons
+            name="logo-youtube"
+            size={responsiveWidth(30)}
+            color="#FF0000"
+          />
         </View>
 
         {/* TOP 순위 배지 */}
@@ -45,7 +51,7 @@ export function PopularRecipeSummaryCard({ recipe, onPress }: Props) {
           >
             <Ionicons
               name={recipe.rank <= 3 ? "trophy" : "trending-up"}
-              size={responsiveWidth(30)} 
+              size={responsiveWidth(30)}
               color="white"
             />
             <Text style={styles.topText}>TOP</Text>
@@ -60,7 +66,7 @@ export function PopularRecipeSummaryCard({ recipe, onPress }: Props) {
 const styles = StyleSheet.create({
   card: {
     width: "100%",
-    aspectRatio: 16/9,
+    aspectRatio: 16 / 9,
     backgroundColor: COLORS.background.white,
     borderRadius: 16,
     ...SHADOW,

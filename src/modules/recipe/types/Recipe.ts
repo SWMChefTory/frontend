@@ -1,6 +1,52 @@
-import { RecentRecipeApiResponse } from "../api/api";
+import { PopularSummaryRecipeResponse } from "../summary/popular/api/api";
+import { AllPopularRecipeResponse } from "@/src/modules/recipe/all/popular/api/api";
+import { RecentSummaryRecipeApiResponse } from "../summary/recent/api/api";
+import { RecentAllRecipeApiResponse } from "../all/recent/api/api";
 
-export class RecentSummaryRecipe {
+export class PopularRecipe {
+  recipeId: string;
+  title: string;
+  youtubeId: string;
+  count: number;
+  thumbnailUrl: string;
+  rank: number;
+  video_url: string;
+
+  private constructor(
+    recipeId: string,
+    title: string,
+    youtubeId: string,
+    count: number,
+    thumbnailUrl: string,
+    rank: number,
+    video_url: string,
+  ) {
+    this.recipeId = recipeId;
+    this.title = title;
+    this.youtubeId = youtubeId;
+    this.count = count;
+    this.thumbnailUrl = thumbnailUrl;
+    this.rank = rank;
+    this.video_url = video_url;
+  }
+
+  static create(
+    apiResponse: PopularSummaryRecipeResponse | AllPopularRecipeResponse,
+    rank: number,
+  ): PopularRecipe {
+    return new PopularRecipe(
+      apiResponse.recipe_id,
+      apiResponse.recipe_title,
+      apiResponse.video_id,
+      apiResponse.count,
+      apiResponse.video_thumbnail_url,
+      rank,
+      apiResponse.video_url,
+    );
+  }
+}
+
+export class RecentRecipe {
   recipeId: string;
   title: string;
   youtubeId: string;
@@ -32,8 +78,10 @@ export class RecentSummaryRecipe {
     this.categoryId = categoryId;
   }
 
-  static create(apiResponse: RecentRecipeApiResponse): RecentSummaryRecipe {
-    return new RecentSummaryRecipe(
+  static create(
+    apiResponse: RecentSummaryRecipeApiResponse | RecentAllRecipeApiResponse,
+  ): RecentRecipe {
+    return new RecentRecipe(
       apiResponse.recipe_id,
       apiResponse.recipe_title,
       apiResponse.video_id,

@@ -1,13 +1,13 @@
 import { FlatList, StyleSheet, View } from "react-native";
-import { RecentSummaryRecipe } from "../types/Recipe";
+import { RecentRecipe } from "@/src/modules/recipe/types/Recipe";
 import { RecentRecipeSummaryCard } from "./Card";
 import { EmptyStateCard } from "./EmptyCard";
 import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
 import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
 
 type Props = {
-  recipes: RecentSummaryRecipe[];
-  onPress: (recipe: RecentSummaryRecipe) => void;
+  recipes: RecentRecipe[];
+  onPress: (recipe: RecentRecipe) => void;
 };
 
 export default function RecentRecipeSummaryList({ recipes, onPress }: Props) {

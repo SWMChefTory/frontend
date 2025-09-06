@@ -4,7 +4,7 @@ import { ApiErrorBoundary } from "@/src/modules/shared/components/error/ApiError
 import { COLORS } from "@/src/modules/shared/constants/colors";
 import { RecipeCreateFormError } from "@/src/modules/recipe/create/form/shared/Fallback";
 import { RecipeCategoryBottomSheetContent } from "./BottomSheetContent";
-import { CategoryListSkeleton } from "@/src/modules/recipe/category/categories/Skeleton";
+import { CategoryListSkeleton } from "@/src/modules/recipe/category/categories/components/Skeleton";
 import { DeferredComponent } from "@/src/modules/shared/utils/DeferredComponent";
 import { StyleSheet } from "react-native";
 import { BottomSheetDefaultFooterProps } from "@gorhom/bottom-sheet/lib/typescript/components/bottomSheetFooter/types";

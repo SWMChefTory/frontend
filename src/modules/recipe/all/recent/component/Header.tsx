@@ -8,9 +8,11 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { COLORS } from "@/src/modules/shared/constants/colors";
-import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
-import { responsiveFontSize } from "@/src/modules/shared/utils/responsiveUI";
-import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
+import {
+  responsiveHeight,
+  responsiveFontSize,
+  responsiveWidth,
+} from "@/src/modules/shared/utils/responsiveUI";
 
 export function AllRecentRecipeTitle() {
   // 클릭 기반 애니메이션값들
