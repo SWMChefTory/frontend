@@ -11,8 +11,11 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { COLORS } from "@/src/modules/shared/constants/colors";
-import { responsiveFontSize, responsiveWidth, responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
-
+import {
+  responsiveFontSize,
+  responsiveWidth,
+  responsiveHeight,
+} from "@/src/modules/shared/utils/responsiveUI";
 
 interface Props {
   visible: boolean;

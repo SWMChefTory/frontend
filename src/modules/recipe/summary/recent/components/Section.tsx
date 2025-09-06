@@ -1,6 +1,6 @@
 import { View, StyleSheet } from "react-native";
-import { RecentSummaryRecipe } from "../types/Recipe";
-import { RecipeSectionHeader } from "../../shared/components/SectionHeader";
+import { RecentRecipe } from "@/src/modules/recipe/types/Recipe";
+import { RecipeSectionHeader } from "../../components/SectionHeader";
 import { RecentRecipeError } from "../shared/Fallback";
 import { ApiErrorBoundary } from "@/src/modules/shared/components/error/ApiErrorBoundary";
 import { useEffect, Suspense, useRef } from "react";
@@ -24,7 +24,7 @@ export function RecentRecipeSection({ onRefresh }: Props) {
 
   const handleRecipePress = useRef(
     debounce(
-      (recipe: RecentSummaryRecipe) => {
+      (recipe: RecentRecipe) => {
         router.push({
           pathname: "/recipe/detail",
           params: {
@@ -80,7 +80,7 @@ export function RecentRecipeSection({ onRefresh }: Props) {
 }
 
 interface RecentRecipeSectionContentProps {
-  onPress: (recipe: RecentSummaryRecipe) => void;
+  onPress: (recipe: RecentRecipe) => void;
   onRefresh: number;
 }
 

@@ -7,17 +7,19 @@ import Animated, {
   Extrapolate,
 } from "react-native-reanimated";
 import Carousel, { ICarouselInstance } from "react-native-reanimated-carousel";
-import { PopularSummaryRecipe } from "../types/Recipe";
+import { PopularRecipe } from "../../../types/Recipe";
 import { PopularRecipeSummaryCard } from "./Card";
 import { EmptyStateCard } from "../../recent/components/EmptyCard";
 import { SHADOW } from "@/src/modules/shared/constants/shadow";
-import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
-import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
-import { responsiveFontSize } from "@/src/modules/shared/utils/responsiveUI";
+import {
+  responsiveWidth,
+  responsiveHeight,
+  responsiveFontSize,
+} from "@/src/modules/shared/utils/responsiveUI";
 
 type Props = {
-  recipes: PopularSummaryRecipe[];
-  onPress: (recipe: PopularSummaryRecipe) => void;
+  recipes: PopularRecipe[];
+  onPress: (recipe: PopularRecipe) => void;
 };
 
 const { width: screenWidth } = Dimensions.get("window");
@@ -43,8 +45,8 @@ export default function PopularRecipeSummaryList({ recipes, onPress }: Props) {
   }, [recipes.length, currentIndex]);
 
   const renderPopularRecipeItem = useCallback(
-    (onPressCb: (recipe: PopularSummaryRecipe) => void) => {
-      return ({ item }: { item: PopularSummaryRecipe }) => {
+    (onPressCb: (recipe: PopularRecipe) => void) => {
+      return ({ item }: { item: PopularRecipe }) => {
         return (
           <View style={styles.cardWrapper}>
             <PopularRecipeSummaryCard recipe={item} onPress={onPressCb} />
@@ -52,7 +54,7 @@ export default function PopularRecipeSummaryList({ recipes, onPress }: Props) {
         );
       };
     },
-    []
+    [],
   );
 
   const renderEmptyItem = ({ index }: { index: number }) => {
@@ -103,7 +105,7 @@ export default function PopularRecipeSummaryList({ recipes, onPress }: Props) {
       absProgress.value = absoluteProgress;
       progress.value = offsetProgress;
     },
-    [absProgress, progress]
+    [absProgress, progress],
   );
 
   const handleIndicatorPress = useCallback((index: number) => {
@@ -120,13 +122,13 @@ export default function PopularRecipeSummaryList({ recipes, onPress }: Props) {
     return (
       <View style={styles.metaOverlay}>
         <View style={styles.metaContainer}>
-        <Text
-          style={styles.recipeTitle}
-          numberOfLines={1}
-          ellipsizeMode="tail"
-        >
-          {currentRecipe.title}
-        </Text>
+          <Text
+            style={styles.recipeTitle}
+            numberOfLines={1}
+            ellipsizeMode="tail"
+          >
+            {currentRecipe.title}
+          </Text>
           <View style={styles.metaRow}>
             <View style={styles.viewCountContainer}>
               <Text style={styles.viewCountLabel}>조회수</Text>
@@ -169,7 +171,12 @@ export default function PopularRecipeSummaryList({ recipes, onPress }: Props) {
     return (
       <Pressable
         onPress={onPress}
-        hitSlop={{ top: responsiveHeight(8), bottom: responsiveHeight(8), left: responsiveWidth(8), right: responsiveWidth(8) }}
+        hitSlop={{
+          top: responsiveHeight(8),
+          bottom: responsiveHeight(8),
+          left: responsiveWidth(8),
+          right: responsiveWidth(8),
+        }}
         accessibilityRole="button"
         accessibilityLabel={`슬라이드 ${i + 1}로 이동`}
         style={{ paddingHorizontal: responsiveWidth(4) }}
@@ -286,7 +293,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
     borderRadius: 16,
     padding: responsiveWidth(20),
-    ...SHADOW
+    ...SHADOW,
   },
   recipeTitle: {
     color: "#000000",

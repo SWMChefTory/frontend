@@ -10,7 +10,7 @@ interface Props {
 export function TipSection({ tipText }: Props) {
   return (
     <View style={styles.tipContainer}>
-      <Text 
+      <Text
         style={styles.tipText}
         numberOfLines={0}
         lineBreakStrategyIOS="hangul-word"
