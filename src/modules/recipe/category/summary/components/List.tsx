@@ -1,6 +1,7 @@
-import { useMemo } from "react";
-import { StyleSheet, View } from "react-native";
+import { useMemo, useCallback } from "react";
+import { StyleSheet, View, ActivityIndicator } from "react-native";
 import { DraxList } from "react-native-drax";
+import { COLORS } from "@/src/modules/shared/constants/colors";
 import { CategorySummaryRecipe } from "../types/Recipe";
 import { RecipeCard } from "./Card";
 import {
@@ -14,6 +15,9 @@ interface Props {
   onDragStart: () => void;
   onDragEnd: () => void;
   isDragging: boolean;
+  onEndReached?: () => void;
+  hasNextPage?: boolean;
+  isFetchingNextPage?: boolean;
 }
 
 type RecipeListItem = CategorySummaryRecipe | { isEmpty: true; id: string };
@@ -24,6 +28,9 @@ export function CategoryRecipeSummaryList({
   onDragStart,
   onDragEnd,
   isDragging,
+  onEndReached,
+  hasNextPage,
+  isFetchingNextPage,
 }: Props) {
   const paddedRecipes = useMemo((): RecipeListItem[] => {
     const remainder = recipes.length % 3;
@@ -62,6 +69,22 @@ export function CategoryRecipeSummaryList({
     );
   };
 
+  const handleEndReached = useCallback(() => {
+    if (hasNextPage && !isFetchingNextPage && onEndReached) {
+      onEndReached();
+    }
+  }, [hasNextPage, isFetchingNextPage, onEndReached]);
+
+  const renderFooter = useCallback(() => {
+    if (!isFetchingNextPage) return null;
+    
+    return (
+      <View style={styles.footerLoader}>
+        <ActivityIndicator size="small" color={COLORS.orange.main} />
+      </View>
+    );
+  }, [isFetchingNextPage]);
+
   return (
     <DraxList
       data={paddedRecipes}
@@ -72,6 +95,9 @@ export function CategoryRecipeSummaryList({
       columnWrapperStyle={styles.recipeColumnWrapper}
       contentContainerStyle={styles.listContentContainer}
       showsVerticalScrollIndicator={false}
+      onEndReached={handleEndReached}
+      onEndReachedThreshold={0.5}
+      ListFooterComponent={renderFooter}
     />
   );
 }
@@ -92,5 +118,11 @@ const styles = StyleSheet.create({
   },
   emptyItem: {
     width: "32%",
+  },
+  footerLoader: {
+    paddingVertical: responsiveHeight(16),
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
   },
 });

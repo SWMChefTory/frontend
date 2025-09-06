@@ -5,7 +5,7 @@ import { useState, useRef } from "react";
 import { BottomSheetTextInput } from "@gorhom/bottom-sheet";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useCreateCategoryViewModel } from "../modal/useCreateViewModel";
-import { useUpdateCategoryViewModel } from "../hooks/useUpdateViewModel";
+import { useUpdateCategoryViewModel } from "@/src/modules/recipe/category/categories/viewmodels/useUpdateViewModel";
 
 interface Props {
   onDismiss: () => void;

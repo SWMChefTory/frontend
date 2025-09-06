@@ -8,9 +8,9 @@ import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
 import { Category } from "@/src/modules/recipe/category/categories/types/Category";
 import { CategoriesError } from "./Fallback";
 import { CategoryListSkeleton } from "./Skeleton";
-import { useCategoriesViewModel } from "../hooks/useCategoriesViewModel";
-import { useDeleteCategoryViewModel } from "../hooks/useDeleteViewModel";
-import { useUpdateCategoryViewModel } from "../hooks/useUpdateViewModel";
+import { useCategoriesViewModel } from "@/src/modules/recipe/category/categories/viewmodels/useCategoriesViewModel";
+import { useDeleteCategoryViewModel } from "@/src/modules/recipe/category/categories/viewmodels/useDeleteViewModel";
+import { useUpdateCategoryViewModel } from "@/src/modules/recipe/category/categories/viewmodels/useUpdateViewModel";
 import { CategoryList } from "./List";
 
 interface Props {

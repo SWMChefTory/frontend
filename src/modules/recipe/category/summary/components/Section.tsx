@@ -59,7 +59,13 @@ export function CategoryRecipeListSectionContent({
   onDragEnd,
   isDragging,
 }: Props) {
-  const { recipes, refetchAll } = useCategoryRecipesViewModel(
+  const { 
+    recipes, 
+    refetchAll, 
+    fetchNextPage, 
+    hasNextPage, 
+    isFetchingNextPage 
+  } = useCategoryRecipesViewModel(
     selectedCategory?.id ?? null,
   );
   const router = useRouter();
@@ -94,6 +100,9 @@ export function CategoryRecipeListSectionContent({
         onDragStart={onDragStart}
         onDragEnd={onDragEnd}
         isDragging={isDragging}
+        onEndReached={fetchNextPage}
+        hasNextPage={hasNextPage}
+        isFetchingNextPage={isFetchingNextPage}
       />
       <TrashCan onDragEnd={onDragEnd} isDragging={isDragging} />
     </>

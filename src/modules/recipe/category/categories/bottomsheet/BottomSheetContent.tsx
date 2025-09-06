@@ -9,7 +9,7 @@ import {
   responsiveFontSize,
   responsiveWidth,
 } from "@/src/modules/shared/utils/responsiveUI";
-import { useCategoriesViewModel } from "../hooks/useCategoriesViewModel";
+import { useCategoriesViewModel } from "@/src/modules/recipe/category/categories/viewmodels/useCategoriesViewModel";
 
 type Category = Pick<CategoryModel, "id" | "name" | "count">;
 

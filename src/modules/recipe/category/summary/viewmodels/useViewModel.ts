@@ -1,10 +1,11 @@
 import {
   useMutation,
   useQueryClient,
-  useSuspenseQuery,
+  useSuspenseInfiniteQuery,
+  InfiniteData,
 } from "@tanstack/react-query";
 import { CategorySummaryRecipe } from "../types/Recipe";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { useIsFocused } from "@react-navigation/native";
 import { withMinDelay } from "@/src/modules/shared/utils/delay";
 import {
@@ -19,20 +20,42 @@ type CategoryRecipesApiResponse =
   | CategorizedRecipesApiResponse
   | UnCategorizedRecipesApiResponse;
 
-export function useCategoryRecipesViewModel(categoryId: string | null) {
+export function useCategoryRecipesViewModel(categoryId: string | null): {
+  recipes: CategorySummaryRecipe[];
+  refetchAll: () => void;
+  fetchNextPage: () => void;
+  hasNextPage: boolean;
+  isFetchingNextPage: boolean;
+} {
   const isFocused = useIsFocused();
   const queryClient = useQueryClient();
-  const { data } = useSuspenseQuery<CategoryRecipesApiResponse>({
-    queryKey: ["categoryRecipes", categoryId],
-    queryFn: async () => {
+  
+  const {
+    data,
+    refetch,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useSuspenseInfiniteQuery<
+    CategoryRecipesApiResponse,
+    Error,
+    InfiniteData<CategoryRecipesApiResponse>,
+    string[],
+    number
+  >({
+    queryKey: ["categoryRecipes", categoryId || "uncategorized"],
+    queryFn: ({ pageParam = 0 }) => {
       if (categoryId) {
-        return await fetchCategorizedSummary(categoryId);
+        return fetchCategorizedSummary({ categoryId, page: pageParam });
       } else {
-        return await fetchUnCategorizedSummary();
+        return fetchUnCategorizedSummary({ page: pageParam });
       }
     },
+    getNextPageParam: (lastPage) => {
+      return lastPage.has_next ? lastPage.current_page + 1 : undefined;
+    },
+    initialPageParam: 0,
     staleTime: 5 * 60 * 1000,
-    subscribed: isFocused,
   });
 
   const refetchAll = useCallback(() => {
@@ -41,25 +64,35 @@ export function useCategoryRecipesViewModel(categoryId: string | null) {
     });
   }, [queryClient]);
 
-  const recipes: CategorySummaryRecipe[] = (() => {
-    if (!data) return [];
-
-    if (categoryId && "categorized_recipes" in data) {
-      return data.categorized_recipes.map((recipe) =>
-        CategorySummaryRecipe.createCategorized(recipe),
-      );
-    } else if (!categoryId && "unCategorized_recipes" in data) {
-      return data.unCategorized_recipes.map((recipe) =>
-        CategorySummaryRecipe.createUncategorized(recipe),
-      );
+  const handleFetchNextPage = useCallback(() => {
+    if (hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
     }
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
-    return [];
-  })();
+  const recipes: CategorySummaryRecipe[] = useMemo(() => {
+    return (
+      data?.pages.flatMap((page: CategoryRecipesApiResponse) => {
+        if (categoryId && "categorized_recipes" in page) {
+          return page.categorized_recipes.map((recipe) =>
+            CategorySummaryRecipe.createCategorized(recipe),
+          );
+        } else if (!categoryId && "unCategorized_recipes" in page) {
+          return page.unCategorized_recipes.map((recipe) =>
+            CategorySummaryRecipe.createUncategorized(recipe),
+          );
+        }
+        return [];
+      }) || []
+    );
+  }, [data, categoryId]);
 
   return {
     recipes,
     refetchAll,
+    fetchNextPage: handleFetchNextPage,
+    hasNextPage: !!hasNextPage,
+    isFetchingNextPage,
   };
 }
 
