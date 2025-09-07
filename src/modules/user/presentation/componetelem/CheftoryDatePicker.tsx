@@ -9,7 +9,7 @@ const getDaysInMonth = (year: number, month: number): number[] => {
   return Array.from({ length: (DateTime.now().year === year && DateTime.now().month === month) ? DateTime.now().day : daysCount || 0 }, (_, i) => i + 1);
 };
 
-export const DateOfBirthPick = ({
+export const CheftoryDatePicker = ({
   dateOfBirth,
   setDateOfBirth,
 }: {
@@ -21,7 +21,6 @@ export const DateOfBirthPick = ({
   const nowYear = now.year;
   const nowMonth = now.month;
   const nowDay = now.day;
-  // dateOfBirth = dateOfBirth ?? DateOnly.create(new Date().toISOString());
 
   const currentYear = dateOfBirth.dateOfBirth.year;
   const currentMonth = dateOfBirth.dateOfBirth.month;
@@ -136,7 +135,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     // gap: 8,
     borderRadius: 12,
-    // padding: 4,
+    padding: 4,
     height: 200,
   },
   yearPickerWrapper: {

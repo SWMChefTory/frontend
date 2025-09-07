@@ -12,13 +12,18 @@ import {
   BottomSheetBackdropProps,
 } from "@gorhom/bottom-sheet";
 import TermsAndConditions from "@/src/modules/user/presentation/signup/TermsAndCondition";
+import { Button, makeStyles } from '@rneui/themed';
 
 import InputName from "@/src/modules/user/presentation/signup/InputName";
-import BirthOfDateModal from "./BirthOfDateModal";
+import DateModal from "../components/modal/DateModal";
 import BirthOfDateResult from "./BirthOfDateResult";
 import GenderResult from "./GenderResult";
-import GenderModal from "./GenderModal";
+import GenderModal from "../components/modal/GenderModal";
 import { useFocusEffect, useIsFocused } from "@react-navigation/native";
+import TermsAndConditionsModal from "../components/modal/TermsAndConditionsModal";
+
+import {TextInput} from 'react-native-paper'
+  
 
 enum ButtonState {
   NICKNAME,
@@ -40,6 +45,8 @@ export default function SignupPage({
     null
   );
   const [buttonState, setButtonState] = useState(ButtonState.NICKNAME);
+
+//   const styles = useStyles(props);
 
   const [isPrivacyPolicyAgreed, setIsPrivacyPolicyAgreed] = useState(false);
   const [isTermsOfUseAgreed, setIsTermsOfUseAgreed] = useState(false);
@@ -72,17 +79,6 @@ export default function SignupPage({
   const GenderModalRef = useRef<BottomSheetModal>(null);
   const TermsAndConditionModalRef = useRef<BottomSheetModal>(null);
 
-  const renderBackdrop = useCallback(
-    (props: BottomSheetBackdropProps) => (
-      <BottomSheetBackdrop
-        {...props}
-        pressBehavior="none"
-        appearsOnIndex={0}
-        disappearsOnIndex={-1}
-          />    
-    ),
-    []
-  );
 
   function handleSignupPress() {
     signup({
@@ -99,7 +95,7 @@ export default function SignupPage({
 
   let guideText = "";
   if (buttonState === ButtonState.NICKNAME) {
-    guideText = "이름을 입력해주세요";
+    guideText = "닉네임을 입력해주세요";
   } else if (buttonState === ButtonState.BIRTH_OF_DATE) {
     guideText = "생년월일을 선택해주세요";
   } else if (buttonState === ButtonState.GENDER) {
@@ -112,12 +108,20 @@ export default function SignupPage({
     // <BottomSheetModalProvider>
     <View style={styles.container}>
       {isLoading && <FullScreenLoader />}
+      {/* <TextInput
+          label="닉네임"
+          value={nickname}
+          onChangeText={setNickname}
+          mode="outlined"
+        /> */}
+        
+
       <View style={styles.titleContainer}>
         <Text style={styles.title}>{guideText}</Text>
       </View>
       <View style={styles.formArea}>
         <View style={styles.inputSection}>
-          <Text style={styles.label}>이름</Text>
+          <Text style={styles.label}>닉네임</Text>
           <InputName
             nickname={nickname}
             setNickname={setNickname}
@@ -127,6 +131,8 @@ export default function SignupPage({
             }}
           />
         </View>
+
+
 
         {buttonState !== ButtonState.NICKNAME && (
           <View style={styles.inputSection}>
@@ -144,7 +150,7 @@ export default function SignupPage({
           )}
       </View>
 
-      <BirthOfDateModal
+      <DateModal
         bottomSheetModalRef={BirthOfDateModalRef}
         setSelectedDateOfBirth={setDateOfBirth}
         onClickNextButton={() => {
@@ -164,29 +170,20 @@ export default function SignupPage({
         }}
       />
 
-      <BottomSheetModal
-        ref={TermsAndConditionModalRef}
-        backdropComponent={renderBackdrop}
-        snapPoints={["45%"]}
-        enableHandlePanningGesture={false}
-        enableContentPanningGesture={false}
-        enableDynamicSizing={false}
-      >
-        <TermsAndConditions
-          handleAgreementPage={() => {
-            TermsAndConditionModalRef.current?.dismiss();
-          }}
-          handleSignupPress={handleSignupPress}
-          isServiceAgree={isTermsOfUseAgreed}
-          setIsServiceAgree={setIsTermsOfUseAgreed}
-          isPrivacyAgree={isPrivacyPolicyAgreed}
-          setIsPrivacyAgree={setIsPrivacyPolicyAgreed}
-          isMarketingAgree={isMarketingAgreed}
-          setIsMarketingAgree={setIsMarketingAgreed}
-        />
-      </BottomSheetModal>
+      <TermsAndConditionsModal
+        bottomSheetModalRef={TermsAndConditionModalRef}
+        handleAgreementPage={() => {
+          TermsAndConditionModalRef.current?.dismiss();
+        }}
+        handleSignupPress={handleSignupPress}
+        isServiceAgree={isTermsOfUseAgreed}
+        setIsServiceAgree={setIsTermsOfUseAgreed}
+        isPrivacyAgree={isPrivacyPolicyAgreed}
+        setIsPrivacyAgree={setIsPrivacyPolicyAgreed}
+        isMarketingAgree={isMarketingAgreed}
+        setIsMarketingAgree={setIsMarketingAgreed}
+      />
     </View>
-    // </BottomSheetModalProvider>
   );
 }
 

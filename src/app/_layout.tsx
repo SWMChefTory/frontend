@@ -15,20 +15,29 @@
   import { AppState, AppStateStatus, Platform } from "react-native";
   import { focusManager } from "@tanstack/react-query";
   import { useDeepLinkHandler } from "@/src/useDeepLink";
-  import * as Sentry from '@sentry/react-native';
+  import * as Sentry from "@sentry/react-native";
   import Constants from "expo-constants";
+  import { MD3LightTheme as DefaultTheme, PaperProvider, useTheme } from "react-native-paper";
 
   Sentry.init({
     dsn: "https://8efe9b2af11c71662ad73df4bea9cd61@o4509948359933952.ingest.us.sentry.io/4509948389163008",
     tracesSampleRate: 1.0,
     profilesSampleRate: 1.0,
+    replaysSessionSampleRate: 0.1,
+    replaysOnErrorSampleRate: 1.0,
+    integrations: [
+    Sentry.mobileReplayIntegration(),
+  ],
   });
-  
+
   ExpoSplashScreen.preventAutoHideAsync();
 
   import * as Notifications from "expo-notifications";
   import { useNotificationObserver } from "@/src/modules/notifications/useNotificationObserver";
-  import { initialWindowMetrics, SafeAreaProvider } from "react-native-safe-area-context";
+  import {
+    initialWindowMetrics,
+    SafeAreaProvider,
+  } from "react-native-safe-area-context";
 
   Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -79,6 +88,7 @@
     const [loaded, error] = useFonts({
       DoHyeon_400Regular,
     });
+    const theme = useTheme();
 
     useEffect(() => {
       if ((loading && loaded) || error) {
@@ -98,6 +108,12 @@
         screenOptions={{
           headerBackVisible: false,
           headerLeft: () => <CustomBackButton />,
+          headerStyle: {
+            backgroundColor: theme.colors.primary, // 헤더 배경색
+          },
+          contentStyle: {
+            backgroundColor: theme.colors.background, // 화면 컨텐츠 배경색
+          },
         }}
       >
         <Stack.Protected guard={isLoggedIn}>
@@ -111,6 +127,49 @@
     );
   }
 
+  const theme = {
+    ...DefaultTheme,
+    colors: {
+      ...DefaultTheme.colors,
+      primary: "#f57c00",
+      onPrimary: "#ffffff",
+      primaryContainer: "#ffd54f",
+      onPrimaryContainer: "#1a1a1a",
+      secondary: "#ff5722",
+      surface: "#ffffff",
+      background: "#ffffff",
+    },
+  
+    sizes: {
+      button: {
+        height: 48, // 공통 높이
+        small: { 
+          paddingHorizontal: 16,
+          width: '22%'  // 4개 배치용
+        },
+        medium: { 
+          paddingHorizontal: 20,
+          width: '47%'  // 2개 배치용
+        },
+        large: { 
+          paddingHorizontal: 24,
+          width: '100%' // 1개 배치용
+        }
+      },
+      input: {
+        height: 56,
+        paddingHorizontal: 16,
+      },
+      spacing: {
+        xs: 4,
+        sm: 8,
+        md: 16,
+        lg: 24,
+        xl: 32,
+      },
+    },
+  };
+
   export default function RootLayout() {
     useOnlineManager();
 
@@ -118,25 +177,25 @@
     useNotificationObserver();
     useDeepLinkHandler();
 
-    console.log("RootLayout");
-
     useOnlineManager();
 
     useAppState(onAppStateChange);
 
-  return (
-    <QueryClientProvider client={queryClient}>
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <SafeAreaProvider initialMetrics={initialWindowMetrics}>
-          <BottomSheetModalProvider>
-            <GlobalErrorBoundary>
-              <SplashScreenController>
-                <RootNavigator />
-              </SplashScreenController>
-            </GlobalErrorBoundary>
-          </BottomSheetModalProvider>
-        </SafeAreaProvider>
-      </GestureHandlerRootView>
-    </QueryClientProvider>
-  );
-}
+    return (
+      <QueryClientProvider client={queryClient}>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <SafeAreaProvider initialMetrics={initialWindowMetrics}>
+            <PaperProvider theme={theme}>
+              <BottomSheetModalProvider>
+                <GlobalErrorBoundary>
+                  <SplashScreenController>
+                    <RootNavigator />
+                  </SplashScreenController>
+                </GlobalErrorBoundary>
+              </BottomSheetModalProvider>
+            </PaperProvider>
+          </SafeAreaProvider>
+        </GestureHandlerRootView>
+      </QueryClientProvider>
+    );
+  }

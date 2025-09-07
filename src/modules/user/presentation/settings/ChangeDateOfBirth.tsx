@@ -22,7 +22,7 @@ export default function ChangeDateOfBirth() {
 
   return (
     <View style={styles.container}>
-      <DateOfBirthPick
+      {/* <DateOfBirthPick
         dateOfBirth={dateOfBirthInput}
         setDateOfBirth={setDateOfBirthInput}
       />
@@ -32,7 +32,7 @@ export default function ChangeDateOfBirth() {
         disabled={isLoading || !isDateOfBirthChanged}
       >
         <Text style={styles.buttonText}>변경</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 }
