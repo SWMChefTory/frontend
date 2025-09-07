@@ -29,7 +29,7 @@ export default function CheftoryTextInput({
   value: string;
   onChangeValue: (text: string) => void;
   onPressButton: () => void;
-  isValid?: boolean;
+  isValid?: boolean|null;
   buttonText?: string;
   isFocused?: boolean;
   onFocus?: () => void;
@@ -63,14 +63,13 @@ export default function CheftoryTextInput({
         }}
         onFocus={onFocus}
         ref={textInputRef}
-        error={!isValid}
+        error={isValid !== null && !isValid}
       />
       {Platform.OS === 'ios' && (
         <InputAccessoryView nativeID={inputAccessoryViewID}>
           <Button 
             mode="contained"
             onPress={onPressButton}
-            disabled={!isValid}
             style={styles.accessoryButton}
           >
             {buttonText}

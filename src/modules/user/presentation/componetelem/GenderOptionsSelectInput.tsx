@@ -12,12 +12,14 @@ export function GenderOptionsSelectInput({
     isFocused,
     toFocus,
     toBlur,
+    isValid,
 }: {
     gender: Gender|null;
     handlePress: (gender: Gender|null) => void;
     isFocused: boolean;
     toFocus: () => void;
     toBlur: () => void;
+    isValid: boolean|null;
 }
 ) {
     const modalRef = useRef<BottomSheetModal>(null);
@@ -41,8 +43,9 @@ export function GenderOptionsSelectInput({
           left="chevron-down"
           isFocused={isFocused}
           toFocus={toFocus}  
+          isValid={isValid}
         />
-        <GenderModal bottomSheetModalRef={modalRef} onClickNextButton={handlePress} toBlur={toBlur} />
+        <GenderModal bottomSheetModalRef={modalRef} gender={gender} onClickNextButton={handlePress} toBlur={toBlur} />
       </>
     );
   }

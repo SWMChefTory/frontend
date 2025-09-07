@@ -11,9 +11,22 @@ interface Props {
 export function GlobalErrorBoundary({ children }: Props) {
   return (
     <QueryErrorResetBoundary>
-      <Sentry.ErrorBoundary fallback={React.createElement(GlobalError)}>  
-           {children}
-         </Sentry.ErrorBoundary>
+      {({ reset: queryReset }) => (
+        <Sentry.ErrorBoundary 
+          fallback={({ error, resetError }) => (
+            <GlobalError 
+              // error={error} 
+              resetErrorBoundary={() => {
+                resetError();    // Sentry 에러 바운더리 리셋
+                queryReset();    // React Query 에러 리셋
+              }} 
+            />
+          )}
+        >  
+          {children}
+        </Sentry.ErrorBoundary>
+      )}
     </QueryErrorResetBoundary>
   );
 }
+

@@ -9,5 +9,5 @@ export default function SignupScreen() {
     token,
     provider,
   });
-  return <SignupPage />;
+  return <SignupPage token={token as string} provider={provider as string} />;
 }

@@ -36,7 +36,7 @@ function BirthOfDateModalContent({
         onPress={()=>{
             onClickNextButton(null);
         }}>
-            <Text>입력 안함</Text>
+            <Text>선택 없음</Text>
         </Button>
         <Button 
         mode="contained" 

@@ -25,6 +25,7 @@
     profilesSampleRate: 1.0,
     replaysSessionSampleRate: 0.1,
     replaysOnErrorSampleRate: 1.0,
+    environment: __DEV__ ? 'development' : 'production',
     integrations: [
     Sentry.mobileReplayIntegration(),
   ],

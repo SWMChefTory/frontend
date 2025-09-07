@@ -11,6 +11,7 @@
     left="chevron-down",
     isFocused,
     toFocus,
+    isValid,
   }: {
     label: string;
     value: string;
@@ -19,6 +20,7 @@
     left?: IconSource;
     isFocused: boolean;
     toFocus: () => void;
+    isValid: boolean|null;
   }) {
     const theme = useTheme();
 
@@ -32,6 +34,7 @@
         outlineColor={isFocused ? theme.colors.primary : theme.colors.outline}
         activeOutlineColor={isFocused ? theme.colors.primary : theme.colors.outline}
         mode="outlined"
+        error={isValid !== null && !isValid}
         theme={{
           colors: {
             onSurfaceVariant: isFocused ? theme.colors.primary : theme.colors.onSurfaceVariant,

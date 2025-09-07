@@ -10,12 +10,14 @@ export function DateOfBirthSelectInput({
     isFocused,
     toFocus,
     toBlur,
+    isValid,
 }: {
     dateOfBirth: DateOnly|null;
     handlePress: (date: DateOnly|null) => void;
     isFocused: boolean;
     toFocus: () => void;
-    toBlur: () => void;
+    toBlur: () => void; 
+    isValid: boolean|null;
 }
 ) {
     const modalRef = useRef<BottomSheetModal>(null);
@@ -39,6 +41,7 @@ export function DateOfBirthSelectInput({
           left="calendar"
           isFocused={isFocused}
           toFocus={toFocus}  
+          isValid={isValid}
         />
         <DateModal bottomSheetModalRef={modalRef} onClickNextButton={handlePress} toBlur={toBlur} />
       </>

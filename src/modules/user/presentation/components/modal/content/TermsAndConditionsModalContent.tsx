@@ -1,8 +1,15 @@
-import { BottomSheetView } from "@gorhom/bottom-sheet";
+import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { NextButton } from "../../NextButton";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import { useState } from "react";
+
+export interface AgreeValue {
+  isServiceAgree: boolean;
+  isPrivacyAgree: boolean;
+  isMarketingAgree: boolean;
+}
 
 const localColor = {
   text: {
@@ -12,26 +19,25 @@ const localColor = {
   },
 };
 
-export default function TermsAndCondition({
-  handleAgreementPage,
-  isServiceAgree,
-  setIsServiceAgree,
-  isPrivacyAgree,
-  setIsPrivacyAgree,
-  isMarketingAgree,
-  setIsMarketingAgree,
+export default function TermsAndConditionsModalContent({
   handleSignupPress,
+  toBlur,
+  toFocus,
 }: {
-  handleAgreementPage: () => void;
-  isServiceAgree: boolean;
-  setIsServiceAgree: (isServiceAgree: boolean) => void;
-  isPrivacyAgree: boolean;
-  setIsPrivacyAgree: (isPrivacyAgree: boolean) => void;
-  isMarketingAgree: boolean;
-  setIsMarketingAgree: (isMarketingAgree: boolean) => void;
-  handleSignupPress: () => void;
+  handleSignupPress: (agreeValue: AgreeValue) => void;
+  toBlur: () => void;
+  toFocus: () => void;
 }) {
   const router = useRouter();  
+  const [agreeValue, setAgreeValue] = useState<AgreeValue>({
+    isServiceAgree: false,
+    isPrivacyAgree: false,
+    isMarketingAgree: false,
+  });
+
+  const isServiceAgree = agreeValue.isServiceAgree;
+  const isPrivacyAgree = agreeValue.isPrivacyAgree;
+  const isMarketingAgree = agreeValue.isMarketingAgree;
 
   return (
     <BottomSheetView style={styles.container}>
@@ -39,9 +45,12 @@ export default function TermsAndCondition({
         <TouchableOpacity
           style={styles.allAgreeBotton}
           onPress={() => {
-            setIsServiceAgree(!isServiceAgree);
-            setIsPrivacyAgree(!isPrivacyAgree);
-            setIsMarketingAgree(!isMarketingAgree);
+            setAgreeValue({
+              ...agreeValue,
+              isServiceAgree: true,
+              isPrivacyAgree: true,
+              isMarketingAgree: true,
+            });
           }}
         >
           <Ionicons
@@ -78,7 +87,10 @@ export default function TermsAndCondition({
         <TouchableOpacity
           style={styles.detailLeftContainer}
           onPress={() => {
-            setIsServiceAgree(!isServiceAgree);
+            setAgreeValue({
+              ...agreeValue,
+              isServiceAgree: !isServiceAgree,
+            });
           }}
         >
           <Ionicons
@@ -105,8 +117,10 @@ export default function TermsAndCondition({
         <TouchableOpacity
           style={styles.detailRightContainer}
           onPress={() => {
-            handleAgreementPage();
-            router.push("/agreement/ServiceTermsAndConditions");
+            toBlur();
+            router.push({
+                pathname: "/agreement/ServiceTermsAndConditions",
+              });
           }}
         >
           <Ionicons
@@ -121,7 +135,10 @@ export default function TermsAndCondition({
         <TouchableOpacity
           style={styles.detailLeftContainer}
           onPress={() => {
-            setIsPrivacyAgree(!isPrivacyAgree);
+            setAgreeValue({
+              ...agreeValue,
+              isPrivacyAgree: !isPrivacyAgree,
+            });
           }}
         >
           <Ionicons
@@ -148,8 +165,10 @@ export default function TermsAndCondition({
         <TouchableOpacity
           style={styles.detailRightContainer}
           onPress={() => {
-            handleAgreementPage();
-            router.push("/agreement/PrivacyTermsAndConditions");
+            toBlur();
+            router.push({
+                pathname: "/agreement/PrivacyTermsAndConditions",
+              });
           }}
         >
           <Ionicons
@@ -164,7 +183,10 @@ export default function TermsAndCondition({
         <TouchableOpacity
           style={styles.detailLeftContainer}
           onPress={() => {
-            setIsMarketingAgree(!isMarketingAgree);
+            setAgreeValue({
+              ...agreeValue,
+              isMarketingAgree: !isMarketingAgree,
+            });
           }}
         >
           <Ionicons
@@ -193,7 +215,7 @@ export default function TermsAndCondition({
       <View style={styles.buttonSection}>
         <View style={styles.buttonContainer}>
           <NextButton
-            handleSignupPress={handleSignupPress}
+            handleSignupPress={()=>handleSignupPress(agreeValue)}
             buttonText="다음"
             isLoading={false}
             isEnabled={isServiceAgree && isPrivacyAgree}

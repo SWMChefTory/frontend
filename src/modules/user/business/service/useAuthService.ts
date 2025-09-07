@@ -103,7 +103,7 @@ export function useSignupViewModel() {
     onError: (error) => {
       console.log("signup error", error);
     },
-    throwOnError: false,
+    throwOnError: true,
   });
 
   return { signup, isLoading, error };
