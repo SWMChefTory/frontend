@@ -1,6 +1,6 @@
 import { BottomSheetView } from "@gorhom/bottom-sheet";
 import { Text, View, StyleSheet } from "react-native";
-import { Gender } from "../../../../enums/Gender";
+import { Gender } from "@/src/modules/user/enums/Gender";
 import { RadioButton } from 'react-native-paper';
 
 export default function GenderModalContent({

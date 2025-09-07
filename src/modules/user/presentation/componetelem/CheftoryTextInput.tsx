@@ -1,13 +1,8 @@
-// import styles from "@/src/modules/shared/splash/logo/style/logostyle";
 import { TextInput, Button } from "react-native-paper";
-import { IconSource } from 'react-native-paper/lib/typescript/components/Icon';
 import { useEffect, useId, useRef } from "react";
 import {
   InputAccessoryView,
-  Keyboard,
-  TouchableOpacity,
   StyleSheet,
-  View,
   Platform,
 } from "react-native";
 
@@ -44,8 +39,6 @@ export default function CheftoryTextInput({
     }
   },[isFocused])
 
-  console.log("isFocused text", isFocused);
-
   return (
     <>
       <TextInput
@@ -54,6 +47,8 @@ export default function CheftoryTextInput({
         onChangeText={onChangeValue}
         mode="outlined"
         inputAccessoryViewID={inputAccessoryViewID}
+
+  
         returnKeyType="done" // 또는 "next", "send", "search"
         onSubmitEditing={() => {
             console.log("onSubmitEditing");
@@ -69,8 +64,8 @@ export default function CheftoryTextInput({
         <InputAccessoryView nativeID={inputAccessoryViewID}>
           <Button 
             mode="contained"
+            style={{borderRadius: 0}}
             onPress={onPressButton}
-            style={styles.accessoryButton}
           >
             {buttonText}
           </Button>
@@ -80,8 +75,3 @@ export default function CheftoryTextInput({
   );
 }
 
-const styles = StyleSheet.create({
-    accessoryButton: {
-      borderRadius: 0,
-    },
-  });

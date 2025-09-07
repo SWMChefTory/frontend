@@ -9,7 +9,6 @@ export const GenderOptions = ({
   selectedGender?: Gender | null;
   setGender: (gender: Gender) => void;
 }) => {
-  console.log("selectedGender", selectedGender);
   return (
     <View style={styles.genderContainer}>
       {Object.keys(Gender).map((gender) => (

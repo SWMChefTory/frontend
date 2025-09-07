@@ -1,10 +1,8 @@
 import { BottomSheetView } from "@gorhom/bottom-sheet";
 import { Text, View, StyleSheet } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { DateOfBirthPick } from "../../DateOfBirthPick";
 import { useState } from "react";
 import { DateOnly } from "@/src/modules/shared/utils/dateOnly";
-import { NextButton } from "../../NextButton";
 import { Button, useTheme } from "react-native-paper";
 
 
@@ -23,10 +21,12 @@ function BirthOfDateModalContent({
       <View style={styles.titleContainer}>
         <Text style={styles.title}>생년월일을 알려주세요</Text>
       </View>
+      <View style={{height: 32}}></View>
       <DateOfBirthPick
         dateOfBirth={dateOfBirthInput ?? DateOnly.create(new Date().toISOString())}
         setDateOfBirth={setDateOfBirthInput}
       />
+      <View style={{height: 32}}></View>
       <View style={styles.buttonSection}>
         <Button
         mode="contained" 
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 16,
     paddingHorizontal: 32,
-    gap: 16,
+    // gap: 16,
   },
   titleContainer: {
     alignItems: "flex-start",
