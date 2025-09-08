@@ -1,4 +1,4 @@
-import SquareButton from "@/src/modules/user/presentation/componetelem/SquareButton";
+import SquareButton from "@/src/modules/user/presentation/components/SquareButton";
 import TermsAndConditionsModal from "@/src/modules/user/presentation/components/modal/TermsAndConditionsModal";
 import { useEffect, useRef } from "react";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
@@ -36,7 +36,6 @@ export default function SignupButton({
       }, [isFocused]);
 
 
-
   const handlePress = () => {
     onPress();
     toFocus();
@@ -48,7 +47,7 @@ export default function SignupButton({
     
   return (
     <>
-      <SquareButton label="회원 가입" onPress={handlePress} disabled={!isValid} />
+      <SquareButton label="다음" onPress={handlePress} disabled={!isValid} />
       <TermsAndConditionsModal
         bottomSheetModalRef={bottomSheetModalRef}
         handleSignupPress={handleSignupPress}

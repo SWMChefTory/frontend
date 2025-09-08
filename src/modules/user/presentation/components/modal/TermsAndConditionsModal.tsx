@@ -30,13 +30,16 @@ export default function TermsAndConditionsModal({
         <BottomSheetModal
             ref={bottomSheetModalRef}
             backdropComponent={renderBackdrop}
-            snapPoints={["45%"]}
+            snapPoints={["50%"]}
             enableHandlePanningGesture={false}
             enableContentPanningGesture={false}
             enableDynamicSizing={false}
         >
             <TermsAndConditionsModalContent 
-                handleSignupPress={handleSignupPress}
+                handleSignupPress={(agreeValue)=>{
+                    console.log("agreeValue", agreeValue);
+                    handleSignupPress(agreeValue);
+                }}
                 toBlur={toBlur}
             />  
         </BottomSheetModal>

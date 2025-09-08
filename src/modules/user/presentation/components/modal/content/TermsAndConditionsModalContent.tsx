@@ -1,9 +1,9 @@
-import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
+import { BottomSheetView } from "@gorhom/bottom-sheet";
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
-import { NextButton } from "../../NextButton";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useState } from "react";
+import SquareButton from "../../SquareButton";
 
 export interface AgreeValue {
   isServiceAgree: boolean;
@@ -22,11 +22,9 @@ const localColor = {
 export default function TermsAndConditionsModalContent({
   handleSignupPress,
   toBlur,
-  toFocus,
 }: {
   handleSignupPress: (agreeValue: AgreeValue) => void;
   toBlur: () => void;
-  toFocus: () => void;
 }) {
   const router = useRouter();  
   const [agreeValue, setAgreeValue] = useState<AgreeValue>({
@@ -77,12 +75,12 @@ export default function TermsAndConditionsModalContent({
             전체 동의하기   
           </Text>
         </TouchableOpacity>
+        
+        
       </View>
-      <View style={styles.lineContainer}>
-        <View
-          style={{ height: 1, backgroundColor: "#E0E0E0", width: "100%" }}
-        />
-      </View>
+      <View style ={{ height:16 }}/>
+      {/* <View style = {{backgroundColor: "grey", height: 1, width: "88%"}}></View> */}
+      {/* <View style ={{ height:15 }}/> */}
       <View style={styles.detailContainer}>
         <TouchableOpacity
           style={styles.detailLeftContainer}
@@ -130,6 +128,7 @@ export default function TermsAndConditionsModalContent({
           />
         </TouchableOpacity>
       </View>
+      <View style ={{ height:8 }}/>
 
       <View style={styles.detailContainer}>
         <TouchableOpacity
@@ -179,6 +178,8 @@ export default function TermsAndConditionsModalContent({
         </TouchableOpacity>
       </View>
 
+      <View style ={{ height:8 }}/>
+
       <View style={styles.detailContainer}>
         <TouchableOpacity
           style={styles.detailLeftContainer}
@@ -211,14 +212,13 @@ export default function TermsAndConditionsModalContent({
           </Text>
         </TouchableOpacity>
       </View>
+      <View style ={{ height:32 }}/>
 
       <View style={styles.buttonSection}>
         <View style={styles.buttonContainer}>
-          <NextButton
-            handleSignupPress={()=>handleSignupPress(agreeValue)}
-            buttonText="다음"
-            isLoading={false}
-            isEnabled={isServiceAgree && isPrivacyAgree}
+          <SquareButton
+            onPress={() => handleSignupPress(agreeValue)}
+            label="회원가입"
           />
         </View>
       </View>
@@ -229,21 +229,16 @@ export default function TermsAndConditionsModalContent({
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    // padding: 40,
-    // paddingBottom: 80,
     flexDirection: "column",
-    // justifyContent: "center",
     alignItems: "center",
-    alignSelf: "stretch",
-    // padding: 40,
-    // paddingBottom: 100,
+    marginTop: 16,
+    // justifyContent: "center",
+    // alignSelf: "stretch",
   },
   AllAgreeBottonContainer: {
+    // marginVertical: 12,
     // alignItems: "center",
-    marginVertical: 12,
-    width: "88%",
-
-    // paddingVertical:10,
+    width: "90%",
   },
   allAgreeBotton: {
     backgroundColor: "#E6E6E6",
@@ -257,15 +252,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: localColor.text.gray,
   },
-  lineContainer: {
-    width: "88%",
-    marginTop: 12,
-    marginBottom: 16,
-    // paddingHorizontal: 24,
-  },
   detailContainer: {
-    width: "88%",
-    marginVertical: 8,
+    width: "90%",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
@@ -273,24 +261,26 @@ const styles = StyleSheet.create({
   detailLeftContainer: {
     flexDirection: "row",
     alignItems: "center",
+    height: 48,
   },
   detailRightContainer: {
     flexDirection: "row",
     alignItems: "center",
-    paddingRight: 4,
+    // paddingRight: 4,
+    height: 48,
+    // width: 48,
   },
   detailText: {
     color: localColor.text.gray,
     fontSize: 16,
   },
   buttonSection: {
-    // flex: 1,
-    marginTop: 36,
-    marginHorizontal: 20,
-    height: 48,
-    alignSelf: "stretch",
+    // marginTop: 16,
+    // marginHorizontal: 20,
+    // height: 48,
+    // alignSelf: "stretch",
     alignItems: "center",
-    // width: "100%",
+    width: "90%",
     flexDirection: "row",
     // justifyContent: "center",
   },
@@ -298,9 +288,9 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flex: 1,
 
-    // width: "100%",
+    // width: "80%",
     alignSelf: "stretch",
-    paddingHorizontal: 10,
+    // paddingHorizontal: 10,
   },
 
   button: {

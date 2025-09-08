@@ -3,43 +3,43 @@ import {
   useUserViewModel,
   useChangeGenderViewModel,
   } from "@/src/modules/user/business/service/useUserSerivce";
-import { GenderOptions } from "@/src/modules/user/presentation/components/GenderOption";
+// import { GenderOptions } from "@/src/modules/user/presentation/components/GenderOption";
 import { useState } from "react";
 import { Gender } from "@/src/modules/user/enums/Gender";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 
 export default function ChangeGenderPage() {
-  const user = useUserViewModel();
-  const { changeGender, isLoading } = useChangeGenderViewModel();
-  const [gender, setGender] = useState<Gender|null>(user?.gender || null);
-  const [isGenderChanged, setIsGenderChanged] = useState(false);
+  // const user = useUserViewModel();
+  // const { changeGender, isLoading } = useChangeGenderViewModel();
+  // const [gender, setGender] = useState<Gender|null>(user?.gender || null);
+  // const [isGenderChanged, setIsGenderChanged] = useState(false);
 
-  const handleChangedGenderSubmit = (gender: Gender) => {
-    console.log("gender", gender);
-    console.log(user?.gender);
-    if (gender === user?.gender) {
-      setIsGenderChanged(false);
-    } else {
-      setIsGenderChanged(true);
-    }
-    setGender(gender);
-  };
+  // const handleChangedGenderSubmit = (gender: Gender) => {
+  //   console.log("gender", gender);
+  //   console.log(user?.gender);
+  //   if (gender === user?.gender) {
+  //     setIsGenderChanged(false);
+  //   } else {
+  //     setIsGenderChanged(true);
+  //   }
+  //   setGender(gender);
+  // };
 
-  return (
-    <View style={styles.container}>
-      <GenderOptions
-        selectedGender={gender}
-        setGender={handleChangedGenderSubmit}
-      />
-      <TouchableOpacity
-        style={[styles.button, !isGenderChanged && styles.buttonDisabled]}
-        onPress={() => changeGender(gender ?? Gender.MALE)}
-        disabled={isLoading || !isGenderChanged}
-      >
-        <Text style={styles.buttonText}>변경</Text>
-      </TouchableOpacity>
-    </View>
-  );
+  // return (
+  //   <View style={styles.container}>
+  //     <GenderOptions
+  //       selectedGender={gender}
+  //       setGender={handleChangedGenderSubmit}
+  //     />
+  //     <TouchableOpacity
+  //       style={[styles.button, !isGenderChanged && styles.buttonDisabled]}
+  //       onPress={() => changeGender(gender ?? Gender.MALE)}
+  //       disabled={isLoading || !isGenderChanged}
+  //     >
+  //       <Text style={styles.buttonText}>변경</Text>
+  //     </TouchableOpacity>
+  //   </View>
+  // );
 }
 
 const styles = StyleSheet.create({

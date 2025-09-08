@@ -11,10 +11,12 @@ import GenderModalContent from "./content/GenderModalContent";
 
 export default function GenderModal({
   bottomSheetModalRef,
+  gender,
   onClickNextButton,
   toBlur,
 }: {
   bottomSheetModalRef: React.RefObject<BottomSheetModal|null>;
+  gender: Gender|null;
   onClickNextButton: (gender: Gender|null) => void;
   toBlur: () => void;
 }) {
@@ -40,7 +42,7 @@ export default function GenderModal({
         enableContentPanningGesture={false}
         enableDynamicSizing={false}
       >
-        <GenderModalContent onClickNextButton={onClickNextButton} />
+        <GenderModalContent gender={gender} onClickNextButton={onClickNextButton} />
       </BottomSheetModal>
     </View>
   );

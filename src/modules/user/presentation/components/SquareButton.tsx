@@ -1,5 +1,4 @@
 import { Button, useTheme } from "react-native-paper";
-import { TouchableOpacity } from "react-native";
 
 export default function SquareButton({
   label,
@@ -27,8 +26,6 @@ export default function SquareButton({
         alignItems: "center", // 가로 중앙 정렬 추가
       }}
       labelStyle={{
-        fontSize: 16,
-        fontWeight: "bold",
         color: theme.colors.onPrimary,
       }}
       disabled={disabled}

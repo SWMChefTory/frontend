@@ -1,10 +1,8 @@
 import { useEffect, useRef } from "react";
 import CheftorySelectInput from "./CheftorySelectInput";
-import { DateOnly } from "@/src/modules/shared/utils/dateOnly";
-import DateModal from "@/src/modules/user/presentation/components/modal/DateModal";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { Gender } from "../../enums/Gender";
-import GenderModal from "../components/modal/GenderModal";
+import GenderModal from "@/src/modules/user/presentation/components/modal/GenderModal";
 
 export function GenderOptionsSelectInput({
     gender,

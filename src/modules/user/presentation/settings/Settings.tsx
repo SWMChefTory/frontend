@@ -5,8 +5,8 @@ import AuthActions from "@/src/modules/user/presentation/settings/AuthActions";
 export default function Settings() {
   return (
     <View style={styles.container}>
-      <UserFeatureItems />
-      <AuthActions/>
+      {/* <UserFeatureItems />
+      <AuthActions/> */}
     </View>
   );
 }

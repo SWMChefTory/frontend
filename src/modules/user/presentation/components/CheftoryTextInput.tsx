@@ -48,7 +48,6 @@ export default function CheftoryTextInput({
         mode="outlined"
         inputAccessoryViewID={inputAccessoryViewID}
 
-  
         returnKeyType="done" // 또는 "next", "send", "search"
         onSubmitEditing={() => {
             console.log("onSubmitEditing");
@@ -64,8 +63,13 @@ export default function CheftoryTextInput({
         <InputAccessoryView nativeID={inputAccessoryViewID}>
           <Button 
             mode="contained"
-            style={{borderRadius: 0}}
+            disabled={!isValid}
+            style={{ borderRadius: 0}}
+            contentStyle={{height: 48}}
             onPress={onPressButton}
+            labelStyle={{
+                lineHeight: undefined, // 기본 lineHeight 제거
+              }}
           >
             {buttonText}
           </Button>

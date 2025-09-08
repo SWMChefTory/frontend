@@ -1,26 +1,33 @@
 import { BottomSheetView } from "@gorhom/bottom-sheet";
 import { Text, View, StyleSheet } from "react-native";
 import { Gender } from "@/src/modules/user/enums/Gender";
-import { RadioButton } from 'react-native-paper';
+import { RadioButton } from "react-native-paper";
 
 export default function GenderModalContent({
   gender: currentGender,
   onClickNextButton,
 }: {
-  gender: Gender|null;
-  onClickNextButton: (gender: Gender|null) => void;
+  gender: Gender | null;
+  onClickNextButton: (gender: Gender | null) => void;
 }) {
   return (
     <BottomSheetView style={styles.container}>
       <View style={styles.innerContainer}>
-      <View style={styles.titleContainer}>
-        <Text style={styles.title}>성별을 선택해주세요</Text>
-      </View>
-      <RadioButton.Group onValueChange={value => onClickNextButton(value === '' ? null : (value as Gender))} value={currentGender as string}>
-      <RadioButton.Item label="여성" value={Gender.FEMALE} />
-      <RadioButton.Item label="남성" value={Gender.MALE} />
-      <RadioButton.Item label="선택 없음" value={""} />
-    </RadioButton.Group>
+        <View style={{height: 16}}></View>
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>성별을 선택해주세요</Text>
+        </View>
+        <View style={{ height: 32 }}></View>
+        <RadioButton.Group
+          onValueChange={(value) =>
+            onClickNextButton(value === "" ? null : (value as Gender))
+          }
+          value={currentGender as string}
+        >
+          <RadioButton.Item label="여성" value={Gender.FEMALE} />
+          <RadioButton.Item label="남성" value={Gender.MALE} />
+          <RadioButton.Item label="선택 없음" value={""} />
+        </RadioButton.Group>
       </View>
     </BottomSheetView>
   );
@@ -32,9 +39,6 @@ const styles = StyleSheet.create({
     width: "100%",
     alignSelf: "center",
     marginTop: 16,
-    // justifyContent: "center",
-    // alignItems: "center",
-    // alignSelf: "center",
   },
   innerContainer: {
     width: "90%",
@@ -42,7 +46,6 @@ const styles = StyleSheet.create({
   },
   titleContainer: {
     marginLeft: 16,
-    marginBottom: 32,
   },
   title: {
     fontSize: 20,
@@ -68,4 +71,3 @@ const styles = StyleSheet.create({
     alignSelf: "stretch",
   },
 });
-

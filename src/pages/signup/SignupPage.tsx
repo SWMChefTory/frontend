@@ -1,21 +1,20 @@
-import CheftoryTextInput from "@/src/modules/user/presentation/componetelem/CheftoryTextInput";
+import CheftoryTextInput from "@/src/modules/user/presentation/components/CheftoryTextInput";
 import { useCallback, useState } from "react";
 import { Gender } from "@/src/modules/user/enums/Gender";
 import { DateOnly } from "@/src/modules/shared/utils/dateOnly";
 import { View } from "react-native";
-import { DateOfBirthSelectInput } from "@/src/modules/user/presentation/componetelem/DateOfBirthSelectInput";
+import { DateOfBirthSelectInput } from "@/src/modules/user/presentation/components/DateOfBirthSelectInput";
 import { Text, useTheme } from "react-native-paper";
-import { GenderOptionsSelectInput } from "../componetelem/GenderOptionsSelectInput";
-import SignupButton, { AgreeValue } from "../componetelem/SignupButton";
+import { GenderOptionsSelectInput } from "@/src/modules/user/presentation/components/GenderOptionsSelectInput";
+import SignupButton, { AgreeValue } from "@/src/modules/user/presentation/components/SignupButton";
 import { useSignupViewModel } from "@/src/modules/user/business/service/useAuthService";
 import { userSchema } from "@/src/modules/user/business/validation/userSchema";
-import { useFocusEffect } from "@react-navigation/native";
 
 enum ButtonState {
   NICKNAME,
   BIRTH_OF_DATE,
   GENDER,
-  SIGN_UP,
+  TERMS_AND_CONDITIONS,
 }
 
 function SignupPage({
@@ -38,10 +37,7 @@ function SignupPage({
     new Set<ButtonState>([ButtonState.NICKNAME])
   );
 
-  console.log("token", token);
-  console.log("provider", provider);
-
-  const { signup, isLoading, error } = useSignupViewModel();
+  const { signup, isLoading } = useSignupViewModel();
 
   const [focusedInput, setFocusedInput] = useState<ButtonState | null>(null);
 
@@ -91,9 +87,9 @@ function SignupPage({
     else {
       setIsGenderValid(true);
     }
-    if (!inputNames.has(ButtonState.SIGN_UP)) {
-      setInputNames(new Set([...inputNames, ButtonState.SIGN_UP]));
-      setFocusedInput(ButtonState.SIGN_UP);
+    if (!inputNames.has(ButtonState.TERMS_AND_CONDITIONS)) {
+      setInputNames(new Set([...inputNames, ButtonState.TERMS_AND_CONDITIONS]));
+      setFocusedInput(ButtonState.TERMS_AND_CONDITIONS);
       return;
     }
     setFocusedInput(null);
@@ -123,8 +119,8 @@ function SignupPage({
   if (inputNames.has(ButtonState.GENDER)) {
     label = "성별을 선택해주세요.";
   }
-  if (inputNames.has(ButtonState.SIGN_UP)) {
-    label = "회원 가입을 진행해주세요.";
+  if (inputNames.has(ButtonState.TERMS_AND_CONDITIONS)) {
+    label = "약관 동의";
   }
 
   return (
@@ -186,9 +182,9 @@ function SignupPage({
       )}
       <View style={{ height: 32 }} />
       {
-        inputNames.has(ButtonState.SIGN_UP) && (
+        inputNames.has(ButtonState.TERMS_AND_CONDITIONS) && (
           <SignupButton
-            onPress={() => {setFocusedInput(ButtonState.SIGN_UP)}}
+            onPress={() => {setFocusedInput(ButtonState.TERMS_AND_CONDITIONS)}}
             onPressConfirm={handlePressSignUpButton}
             onPressCancel={() => {
               setFocusedInput(null);
@@ -197,9 +193,9 @@ function SignupPage({
               setFocusedInput(null);
             }}
             toFocus={() => {
-              setFocusedInput(ButtonState.SIGN_UP);
+              setFocusedInput(ButtonState.TERMS_AND_CONDITIONS);
             }}
-            isFocused={focusedInput === ButtonState.SIGN_UP}
+            isFocused={focusedInput === ButtonState.TERMS_AND_CONDITIONS}
             isValid={isNicknameValid && isDateOfBirthValid && isGenderValid ? true:false}
           />
         )

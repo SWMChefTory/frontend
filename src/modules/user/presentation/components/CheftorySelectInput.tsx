@@ -34,7 +34,7 @@
         outlineColor={isFocused ? theme.colors.primary : theme.colors.outline}
         activeOutlineColor={isFocused ? theme.colors.primary : theme.colors.outline}
         mode="outlined"
-        error={isValid !== null && !isValid}
+        error={isValid !== null || !isValid}
         theme={{
           colors: {
             onSurfaceVariant: isFocused ? theme.colors.primary : theme.colors.onSurfaceVariant,

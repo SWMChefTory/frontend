@@ -1,6 +1,7 @@
 import { StyleSheet } from "react-native";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 
+//todo constant 옮기기
 export const errorStyles = StyleSheet.create({
   container: {
     flex: 1,
