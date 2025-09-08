@@ -14,6 +14,7 @@ import { SHADOW } from "@/src/modules/shared/constants/shadow";
 import { CARD_STYLES } from "@/src/modules/shared/constants/card";
 import { useRefreshOnFocus } from "@/src/modules/shared/utils/useRefreshOnFocus";
 import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
+import { track } from "@/src/modules/shared/utils/analytics";
 
 interface Props {
   onRefresh: number;
@@ -25,6 +26,7 @@ export function RecentRecipeSection({ onRefresh }: Props) {
   const handleRecipePress = useRef(
     debounce(
       (recipe: RecentRecipe) => {
+        track.event("click_recent_recipe_card");
         router.push({
           pathname: "/recipe/detail",
           params: {

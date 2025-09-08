@@ -5,7 +5,7 @@ import {
   RefreshControl,
   TouchableOpacity,
 } from "react-native";
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { HomeSectionHeader } from "@/src/modules/shared/components/layout/HomeSectionHeader";
@@ -18,6 +18,7 @@ import { SHADOW } from "@/src/modules/shared/constants/shadow";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
 import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
+import { track } from "@/src/modules/shared/utils/analytics";
 
 export default function HomeScreen() {
   const scrollY = useRef(new Animated.Value(0)).current;
@@ -34,6 +35,9 @@ export default function HomeScreen() {
     setTimeout(() => {
       setRefreshing(false);
     }, 1500);
+  }, []);
+  useEffect(() => {
+    track.screen("Home");
   }, []);
 
   const handleTimerPress = useCallback(() => {

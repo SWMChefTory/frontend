@@ -1,4 +1,11 @@
-import { router, Tabs, useLocalSearchParams, Redirect } from "expo-router";
+import {
+  router,
+  Tabs,
+  useLocalSearchParams,
+  Redirect,
+  usePathname,
+  useSegments,
+} from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { View, TouchableOpacity, StyleSheet } from "react-native";
 import { COLORS } from "@/src/modules/shared/constants/colors";
@@ -8,30 +15,36 @@ import { RecipeBottomSheet } from "@/src/modules/recipe/create/form/components/B
 import IndexHeader from "@/src/header/IndexHeader";
 import CollectionHeader from "@/src/header/CollectionHeader";
 import { deepLinkActionStore } from "@/src/deepLinkActionStore";
-import { usePathname, useSegments } from 'expo-router';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { SHADOW } from "@/src/modules/shared/constants/shadow";
+import { track } from "@/src/modules/shared/utils/analytics";
 
 export default function TabLayout() {
   const modalRef = useRef<BottomSheetModal>(null);
-  console.log('TabLayout');
+  console.log("TabLayout");
   const { deepLinkAction } = deepLinkActionStore();
   const [modalData, setModalData] = useState<string | null>(null);
   const insets = useSafeAreaInsets();
   useEffect(() => {
-      if(deepLinkAction?.actionType==='create'){
-        openBottomSheet({youtubeUrl:deepLinkAction.params.youtubeUrl});
+    if (deepLinkAction?.actionType === "create") {
+      openBottomSheet({ youtubeUrl: deepLinkAction.params.youtubeUrl });
 
-        return;
-      }
+      return;
+    }
   }, [deepLinkAction]);
 
-  const openBottomSheet = useCallback(({youtubeUrl=""}:{youtubeUrl:string}) => {
-    setModalData(youtubeUrl);
-    console.log("openBottomSheet");
-    console.log(modalRef.current);
-    modalRef.current?.present();
-  }, []);
+  const openBottomSheet = useCallback(
+    ({ youtubeUrl = "" }: { youtubeUrl: string }) => {
+      track.event("open_create_bottom_sheet", {
+        from: "tabs",
+        youtubeUrl: youtubeUrl,
+      });
+      setModalData(youtubeUrl);
+      console.log(modalRef.current);
+      modalRef.current?.present();
+    },
+    [],
+  );
 
   return (
     <>
@@ -76,8 +89,14 @@ export default function TabLayout() {
           options={{
             tabBarButton: () => (
               <View style={style.container}>
-                <RecipeBottomSheet modalRef={modalRef} youtubeUrl={modalData||""} />
-                <TouchableOpacity onPress={()=>openBottomSheet({youtubeUrl:""})} activeOpacity={0.8}>
+                <RecipeBottomSheet
+                  modalRef={modalRef}
+                  youtubeUrl={modalData || ""}
+                />
+                <TouchableOpacity
+                  onPress={() => openBottomSheet({ youtubeUrl: "" })}
+                  activeOpacity={0.8}
+                >
                   <Ionicons
                     name="add-circle-outline"
                     size={48}

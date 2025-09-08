@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -17,12 +17,16 @@ import {
   useUserViewModel,
 } from "@/src/modules/user/business/service/useUserSerivce";
 import { router } from "expo-router";
+import { track } from "@/src/modules/shared/utils/analytics";
 
 function NameScreen() {
   const user = useUserViewModel();
   const { changeNickname, isLoading } = useChangeNameViewModel();
   const [nickname, setNickname] = useState(user?.nickname || "");
   const [error, setError] = useState("");
+  useEffect(() => {
+    track.screen("UserName");
+  }, []);
 
   const handleNicknameChange = (text: string) => {
     setNickname(text);

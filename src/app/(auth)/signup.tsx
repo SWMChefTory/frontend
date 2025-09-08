@@ -1,12 +1,12 @@
 import { useLocalSearchParams } from "expo-router";
-import { COLORS } from "@/src/modules/shared/constants/colors";
 import SignupPage from "@/src/modules/user/presentation/signup/SingupPage";
+import { useEffect } from "react";
+import { track } from "@/src/modules/shared/utils/analytics";
 
 export default function SignupScreen() {
+  useEffect(() => {
+    track.screen("Signup");
+  }, []);
   const { token, provider } = useLocalSearchParams();
-  console.log({
-    token,
-    provider,
-  });
   return <SignupPage token={token as string} provider={provider as string} />;
 }

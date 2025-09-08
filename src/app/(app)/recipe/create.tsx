@@ -2,8 +2,13 @@ import { useLocalSearchParams, useRouter, Stack } from "expo-router";
 import { RecipeStepContent } from "@/src/modules/recipe/create/step/components/Content";
 import { RecipeCreateStepError } from "@/src/modules/recipe/create/step/shared/Fallback";
 import { ApiErrorBoundary } from "@/src/modules/shared/components/error/ApiErrorBoundary";
+import { useEffect } from "react";
+import { track } from "@/src/modules/shared/utils/analytics";
 
 export default function RecipeCreateScreen() {
+  useEffect(() => {
+    track.screen("RecipeCreate");
+  }, []);
   const { recipeId } = useLocalSearchParams<{
     recipeId: string;
   }>();
