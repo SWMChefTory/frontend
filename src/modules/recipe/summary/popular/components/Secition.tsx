@@ -17,6 +17,7 @@ import PopularRecipeSummaryList from "./List";
 import { SHADOW } from "@/src/modules/shared/constants/shadow";
 import { useRefreshOnFocus } from "@/src/modules/shared/utils/useRefreshOnFocus";
 import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
+import { track } from "@/src/modules/shared/utils/analytics";
 
 interface Props {
   onRefresh: number;
@@ -30,6 +31,7 @@ export function PopularRecipeSection({ onRefresh }: Props) {
     debounce(
       async (recipe: PopularRecipe) => {
         const recipeId = (await create(recipe.video_url))!.recipe_id;
+        track.event("click_popular_recipe_card");
         router.push({
           pathname: "/recipe/create",
           params: { recipeId },

@@ -18,7 +18,8 @@ import BirthOfDateModal from "./BirthOfDateModal";
 import BirthOfDateResult from "./BirthOfDateResult";
 import GenderResult from "./GenderResult";
 import GenderModal from "./GenderModal";
-import { useFocusEffect, useIsFocused } from "@react-navigation/native";
+import { useIsFocused } from "@react-navigation/native";
+import { track } from "@/src/modules/shared/utils/analytics";
 
 enum ButtonState {
   NICKNAME,
@@ -95,6 +96,7 @@ export default function SignupPage({
       is_privacy_agreed: isPrivacyPolicyAgreed,
       is_terms_of_use_agreed: isTermsOfUseAgreed,
     });
+    track.event("signup");
   }
 
   let guideText = "";

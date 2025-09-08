@@ -18,6 +18,7 @@ import {
   responsiveWidth,
   responsiveHeight,
 } from "@/src/modules/shared/utils/responsiveUI";
+import { track } from "@/src/modules/shared/utils/analytics";
 interface Props {
   selectedCategory: Category | null;
   onDragStart: () => void;
@@ -59,15 +60,13 @@ export function CategoryRecipeListSectionContent({
   onDragEnd,
   isDragging,
 }: Props) {
-  const { 
-    recipes, 
-    refetchAll, 
-    fetchNextPage, 
-    hasNextPage, 
-    isFetchingNextPage 
-  } = useCategoryRecipesViewModel(
-    selectedCategory?.id ?? null,
-  );
+  const {
+    recipes,
+    refetchAll,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useCategoryRecipesViewModel(selectedCategory?.id ?? null);
   const router = useRouter();
 
   useRefreshOnFocus(refetchAll);
@@ -75,6 +74,7 @@ export function CategoryRecipeListSectionContent({
   const handleRecipePress = useRef(
     debounce(
       (recipe: CategorySummaryRecipe) => {
+        track.event("click_category_recipe_card");
         router.push({
           pathname: "/recipe/detail",
           params: {

@@ -4,7 +4,7 @@
 node_modules/
 
 .idea/
-
+firebase/
 # Expo
 .expo/
 dist/
@@ -44,3 +44,6 @@ app-example
 .env
 
 .env.local
+
+ios/
+android/

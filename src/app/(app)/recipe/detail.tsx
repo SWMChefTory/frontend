@@ -6,10 +6,14 @@ import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import TimerModal from "@/src/modules/timer/components/TimerModal";
 import { RecipeCategoryBottomSheet } from "@/src/modules/recipe/category/categories/bottomsheet/BottomSheet";
 import { TimerMessage } from "@/src/modules/recipe/detail/types/RecipeDetail";
+import { track } from "@/src/modules/shared/utils/analytics";
 
 export default function RecipeDetailScreen() {
   const [timerMessage, setTimerMessage] = useState<TimerMessage | null>(null);
   const router = useRouter();
+  useEffect(() => {
+    track.screen("RecipeDetail");
+  }, []);
 
   const params = useLocalSearchParams<{
     recipeId: string;
