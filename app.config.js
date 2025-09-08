@@ -104,5 +104,12 @@ export default {
         projectId: "745eee82-c2f6-4403-91f6-4859abb54740",
       },
     },
+    updates: {
+      url: "https://u.expo.dev/745eee82-c2f6-4403-91f6-4859abb54740",
+      enabled: true,
+      checkAutomatically: "ON_LOAD",
+      fallbackToCacheTimeout: 0,
+    },
+    runtimeVersion: require("./package.json").version,
   },
 };
