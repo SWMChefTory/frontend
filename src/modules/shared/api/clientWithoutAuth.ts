@@ -26,7 +26,6 @@ clientWithoutAuth.interceptors.response.use(
     console.log("requestHeaders", originalRequest.headers.Authorization);
     console.log("requestBody", originalRequest.data);
     console.log("errorResponse", error.response?.data);
-    
 
     if (isAxiosError(error) && isNetworkError(error)) {
       setTimeout(() => Promise.reject(error), 200);

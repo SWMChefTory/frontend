@@ -4,20 +4,18 @@ import {
   BottomSheetModal,
   BottomSheetBackdrop,
 } from "@gorhom/bottom-sheet";
-import { useCallback } from "react";
-import { Gender } from "../../../enums/Gender";
-import GenderModalContent from "./content/GenderModalContent";
+import { useCallback} from "react";
+import BirthOfDateModalContent from "./content/DateModalContent";
+import { DateOnly } from "@/src/modules/shared/utils/dateOnly";
 
 
-export default function GenderModal({
+function DateModal({
   bottomSheetModalRef,
-  gender,
   onClickNextButton,
   toBlur,
 }: {
   bottomSheetModalRef: React.RefObject<BottomSheetModal|null>;
-  gender: Gender|null;
-  onClickNextButton: (gender: Gender|null) => void;
+  onClickNextButton: (dateOfBirth: DateOnly|null) => void;
   toBlur: () => void;
 }) {
   const renderBackdrop = useCallback(
@@ -30,21 +28,22 @@ export default function GenderModal({
         onPress={toBlur}
       />
     ),
-    [toBlur]
+    []
   );
   return (
     <View>
       <BottomSheetModal
         ref={bottomSheetModalRef}
         backdropComponent={renderBackdrop}
-        snapPoints={["40%"]}
+        snapPoints={["50%"]}
         enableHandlePanningGesture={false}
         enableContentPanningGesture={false}
         enableDynamicSizing={false}
       >
-        <GenderModalContent gender={gender} onClickNextButton={onClickNextButton} />
+        <BirthOfDateModalContent onClickNextButton={onClickNextButton} />
       </BottomSheetModal>
     </View>
   );
 }
 
+export default DateModal;

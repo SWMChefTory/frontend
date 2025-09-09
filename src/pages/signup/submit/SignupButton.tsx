@@ -1,5 +1,5 @@
-import SquareButton from "@/src/modules/user/presentation/components/SquareButton";
-import TermsAndConditionsModal from "@/src/modules/user/presentation/components/modal/TermsAndConditionsModal";
+import SquareButton from "@/src/shared/components/textInputs/SquareButtonTemplate";
+import TermsAndConditionsModal from "@/src/pages/signup/submit/modal/TermsAndConditionsModal";
 import { useEffect, useRef } from "react";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 

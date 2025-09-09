@@ -1,8 +1,8 @@
 import { useEffect, useRef } from "react";
-import CheftorySelectInput from "./CheftorySelectInput";
+import SelectInputTemplate from "../../../shared/components/textInputs/SelectInputTemplate";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import { Gender } from "../../enums/Gender";
-import GenderModal from "@/src/modules/user/presentation/components/modal/GenderModal";
+import { Gender } from "../../../modules/user/enums/Gender";
+import GenderModal from "@/src/pages/signup/gender/modal/GenderModal";
 
 export function GenderOptionsSelectInput({
     gender,
@@ -34,7 +34,7 @@ export function GenderOptionsSelectInput({
   
     return (
       <>
-        <CheftorySelectInput    
+        <SelectInputTemplate    
           label="성별"
           value={gender?.toString() || "선택 없음"}
           placeholder="성별을 선택하세요"

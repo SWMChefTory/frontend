@@ -1,5 +1,5 @@
 import { useLocalSearchParams } from "expo-router";
-import SignupPage from "@/src/modules/user/presentation/signup/SignupPage";
+import SignupPage from "@/src/pages/signup/SignupPage";
 
 export default function SignupScreen() {
   const { token, provider } = useLocalSearchParams();

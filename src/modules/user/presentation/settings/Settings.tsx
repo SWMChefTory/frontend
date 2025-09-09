@@ -1,12 +1,12 @@
 import { View, StyleSheet } from "react-native";
-import UserFeatureItems from "@/src/modules/user/presentation/settings/UserFeatureItems";
-import AuthActions from "@/src/modules/user/presentation/settings/AuthActions";
+import UserFeatureItems from "@/src/modules/user/presentation/settings/user/UserFeatureItems";
+import AuthActions from "@/src/modules/user/presentation/settings/auth/AuthActions";
 
 export default function Settings() {
   return (
     <View style={styles.container}>
-      {/* <UserFeatureItems />
-      <AuthActions/> */}
+      <UserFeatureItems />
+      <AuthActions/>
     </View>
   );
 }

@@ -1,12 +1,12 @@
-import CheftoryTextInput from "@/src/modules/user/presentation/components/CheftoryTextInput";
-import { useCallback, useState } from "react";
+import TextInputTemplate from "@/src/shared/components/textInputs/TextInputTemplate";
+import { useState } from "react";
 import { Gender } from "@/src/modules/user/enums/Gender";
 import { DateOnly } from "@/src/modules/shared/utils/dateOnly";
 import { View } from "react-native";
-import { DateOfBirthSelectInput } from "@/src/modules/user/presentation/components/DateOfBirthSelectInput";
-import { Text, useTheme } from "react-native-paper";
-import { GenderOptionsSelectInput } from "@/src/modules/user/presentation/components/GenderOptionsSelectInput";
-import SignupButton, { AgreeValue } from "@/src/modules/user/presentation/components/SignupButton";
+import { DateOfBirthSelectInput } from "@/src/pages/signup/dateofbirth/DateOfBirthSelectInput";
+import { Text } from "react-native-paper";
+import { GenderOptionsSelectInput } from "@/src/pages/signup/gender/GenderOptionsSelectInput";
+import SignupButton, { AgreeValue } from "@/src/pages/signup/submit/SignupButton";
 import { useSignupViewModel } from "@/src/modules/user/business/service/useAuthService";
 import { userSchema } from "@/src/modules/user/business/validation/userSchema";
 
@@ -130,7 +130,7 @@ function SignupPage({
       <Text variant="titleLarge">{label}</Text>
       <View style={{ height: 32 }} />
       {inputNames.has(ButtonState.NICKNAME) && (
-        <CheftoryTextInput
+        <TextInputTemplate
           label="닉네임"
           value={nickname}
           onChangeValue={(text) => {
@@ -148,7 +148,7 @@ function SignupPage({
           }}
           isValid={isNicknameValid}
           isFocused={focusedInput === ButtonState.NICKNAME}
-        ></CheftoryTextInput>
+        ></TextInputTemplate>
       )}
       <View style={{ height: 16 }} />
       {inputNames.has(ButtonState.BIRTH_OF_DATE) && (

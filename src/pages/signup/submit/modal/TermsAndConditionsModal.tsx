@@ -1,7 +1,7 @@
 import { BottomSheetBackdrop, BottomSheetBackdropProps, BottomSheetModal } from "@gorhom/bottom-sheet";
-import TermsAndConditionsModalContent from "@/src/modules/user/presentation/components/modal/content/TermsAndConditionsModalContent";
+import TermsAndConditionsModalContent from "@/src/pages/signup/submit/modal/content/TermsAndConditionsModalContent";
 import { useCallback } from "react";
-import { AgreeValue } from "./content/TermsAndConditionsModalContent";
+import { AgreeValue } from "@/src/pages/signup/submit/modal/content/TermsAndConditionsModalContent";
 
 export default function TermsAndConditionsModal({
     handleSignupPress,

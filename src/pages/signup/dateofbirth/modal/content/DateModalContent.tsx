@@ -1,6 +1,6 @@
 import { BottomSheetView } from "@gorhom/bottom-sheet";
 import { Text, View, StyleSheet } from "react-native";
-import { DateOfBirthPick } from "../../DateOfBirthPick";
+import { DatePicker } from "@/src/widgets/DatePicker";
 import { useState } from "react";
 import { DateOnly } from "@/src/modules/shared/utils/dateOnly";
 import { Button, useTheme } from "react-native-paper";
@@ -22,7 +22,7 @@ function BirthOfDateModalContent({
         <Text style={styles.title}>생년월일을 알려주세요</Text>
       </View>
       <View style={{height: 32}}></View>
-      <DateOfBirthPick
+      <DatePicker
         dateOfBirth={dateOfBirthInput ?? DateOnly.create(new Date().toISOString())}
         setDateOfBirth={setDateOfBirthInput}
       />

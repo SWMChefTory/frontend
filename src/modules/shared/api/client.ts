@@ -6,7 +6,7 @@ import {
   storeAccessToken,
   storeRefreshToken,
 } from "@/src/modules/shared/storage/SecureStorage";
-import { reissueRefreshToken } from "@/src/modules/shared/api/apiWithoutAuth";
+import { reissueRefreshToken } from "@/src/modules/shared/api/refresh/reissueApi";
 import { useUserStore } from "@/src/modules/user/business/store/userStore";
 
 declare module "axios" {
@@ -25,6 +25,8 @@ class TokenRefreshManager {
   private refreshPromise: Promise<string> | null = null;
   private isRefreshing = false;
 
+
+  //토큰 재발급
   async refreshToken(): Promise<string> {
     // 이미 갱신 중이면 기존 Promise 반환
     if (this.isRefreshing && this.refreshPromise) {

@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
-import CheftorySelectInput from "./CheftorySelectInput";
+import SelectInputTemplate from "@/src/shared/components/textInputs/SelectInputTemplate";
 import { DateOnly } from "@/src/modules/shared/utils/dateOnly";
-import DateModal from "@/src/modules/user/presentation/components/modal/DateModal";
+import DateModal from "@/src/pages/signup/dateofbirth/modal/DateModal";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 
 export function DateOfBirthSelectInput({
@@ -34,7 +34,7 @@ export function DateOfBirthSelectInput({
   
     return (
       <>
-        <CheftorySelectInput    
+        <SelectInputTemplate    
           label="생년월일"
           value={dateOfBirth?.toString() || "선택 없음"}
           placeholder="날짜를 선택하세요"

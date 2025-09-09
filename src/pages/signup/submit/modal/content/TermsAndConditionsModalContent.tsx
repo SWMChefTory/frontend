@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import SquareButton from "../../SquareButton";
+import SquareButton from "@/src/shared/components/textInputs/SquareButtonTemplate";
 
 export interface AgreeValue {
   isServiceAgree: boolean;

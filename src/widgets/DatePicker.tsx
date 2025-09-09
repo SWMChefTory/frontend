@@ -1,7 +1,7 @@
 import { View, StyleSheet } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { DateTime } from "luxon";
-import { COLORS } from "../../../shared/constants/colors";
+import { COLORS } from "../modules/shared/constants/colors";
 import { DateOnly } from "@/src/modules/shared/utils/dateOnly";
 // 월별 일수 계산 함수
 const getDaysInMonth = (year: number, month: number): number[] => {
@@ -9,7 +9,7 @@ const getDaysInMonth = (year: number, month: number): number[] => {
   return Array.from({ length: (DateTime.now().year === year && DateTime.now().month === month) ? DateTime.now().day : daysCount || 0 }, (_, i) => i + 1);
 };
 
-export const DateOfBirthPick = ({
+export const DatePicker = ({
   dateOfBirth,
   setDateOfBirth,
 }: {
@@ -21,8 +21,7 @@ export const DateOfBirthPick = ({
   const nowYear = now.year;
   const nowMonth = now.month;
   const nowDay = now.day;
-  // dateOfBirth = dateOfBirth ?? DateOnly.create(new Date().toISOString());
-
+  
   const currentYear = dateOfBirth.dateOfBirth.year;
   const currentMonth = dateOfBirth.dateOfBirth.month;
   const currentDay = dateOfBirth.dateOfBirth.day;
@@ -30,7 +29,6 @@ export const DateOfBirthPick = ({
   const years = Array.from({ length: 100 }, (_, i) => nowYear - i);
   
   const months = Array.from({ length: nowYear > currentYear ? 12 : nowMonth }, (_, i) => i + 1);
-  // const months = dateOfBirth.dateOfBirth.year === currentYear ? Array.from({ length: 12 }, (_, i) => i + 1) : currentMonth;
 
   // 현재 선택된 년/월에 해당하는 일수 계산
   const availableDays = getDaysInMonth(currentYear, currentMonth);

@@ -9,8 +9,15 @@ import {
 
 //chefory의 키보드 악세사리가 존재하는 텍스트 인풋
 //material design 3의 조건에 따르고 있음.
-//validateValue가 실패하면 텍스트 인풋에 
-export default function CheftoryTextInput({
+// onFoucs는 textInput이 클릭되었을 때
+// onSubmitEditing은 키보드의 확인 버튼이 눌렸을 때
+// onChangeValue는 텍스트가 변경될 때
+// onPressButton은 키보드의 확인 버튼이 눌렸을 때
+// isValid는 텍스트가 유효한지 여부
+// buttonText는 키보드의 확인 버튼의 텍스트
+// isFocused는 텍스트 인풋이 포커스되었는지 여부
+// isSubmittable은 키보드의 버튼이 눌러질 수 있는지 여부
+export default function TextInputTemplate({
   label,
   value,
   onChangeValue,
@@ -19,6 +26,7 @@ export default function CheftoryTextInput({
   buttonText="확인",
   isFocused = false,
   onFocus = () => {},
+  isSubmittable = true,
 }: {
   label: string;
   value: string;
@@ -28,6 +36,7 @@ export default function CheftoryTextInput({
   buttonText?: string;
   isFocused?: boolean;
   onFocus?: () => void;
+  isSubmittable?: boolean;
 }) {
   const inputAccessoryViewID = useId();
 
@@ -63,7 +72,7 @@ export default function CheftoryTextInput({
         <InputAccessoryView nativeID={inputAccessoryViewID}>
           <Button 
             mode="contained"
-            disabled={!isValid}
+            disabled={!isValid || !isSubmittable}
             style={{ borderRadius: 0}}
             contentStyle={{height: 48}}
             onPress={onPressButton}

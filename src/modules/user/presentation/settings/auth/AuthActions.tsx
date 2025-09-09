@@ -4,8 +4,8 @@ import {
   useDeleteUserViewModel,
   useLogoutViewModel,
 } from "@/src/modules/user/business/service/useAuthService";
-import AuthActionTemplate from "./AuthActionTemplate";
-import { FullScreenLoader } from "../../../shared/splash/loading/lottieview/FullScreenLoader";
+import AuthActionTemplate from "@/src/modules/user/presentation/settings/auth/_templates/AuthActionTemplate";
+import { FullScreenLoader } from "@/src/modules/shared/splash/loading/lottieview/FullScreenLoader";
 
 export default function AuthActions() {
   const { logout, isLoading: isLogoutLoading } = useLogoutViewModel();
