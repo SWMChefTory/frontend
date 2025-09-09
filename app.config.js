@@ -20,7 +20,9 @@ export default {
           "group.com.cheftory.cheftory",
         ],
       },
-      googleServicesFile: "./firebase/GoogleService-Info.plist",
+      googleServicesFile:
+        process.env.GOOGLE_SERVICES_PLIST ||
+        "./firebase/GoogleService-Info.plist",
       deploymentTarget: "17.2",
       appleTeamId: "TCMRDSDB39",
       supportsTablet: true,
@@ -57,7 +59,8 @@ export default {
       },
     },
     android: {
-      googleServicesFile: "./firebase/google-services.json",
+      googleServicesFile:
+        process.env.GOOGLE_SERVICES_JSON || "./firebase/google-services.json",
       permissions: [
         "android.permission.RECORD_AUDIO",
         "android.permission.MODIFY_AUDIO_SETTINGS",
