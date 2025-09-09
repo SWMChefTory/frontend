@@ -16,6 +16,7 @@ clientRefreshingClient.interceptors.response.use(
   },
   async (error) => {
     console.log("refresh 실패.");
+    console.log("error", error);
     if (isAxiosError(error) && isNetworkError(error)) {
       setTimeout(() => Promise.reject(error), 200);
     } else {

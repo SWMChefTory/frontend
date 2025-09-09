@@ -4,14 +4,19 @@ interface ReissueTokenResponse {
   access_token: string;
   refresh_token: string;
 }
+interface RawReissueTokenRequest {
+  refresh_token: string;
+}
 
 export async function reissueRefreshToken(
   refreshToken: string
 ): Promise<ReissueTokenResponse> {
-  const refreshTokenRequest = refreshToken;
+  const rawRefreshTokenRequest: RawReissueTokenRequest = {
+    refresh_token: refreshToken,
+  };
   const response = await clientRefreshingClient.post(
     "/auth/token/reissue",
-    refreshTokenRequest
+    rawRefreshTokenRequest,
   );
   return response.data;
 }

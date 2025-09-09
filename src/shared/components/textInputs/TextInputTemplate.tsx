@@ -46,6 +46,9 @@ export default function TextInputTemplate({
     if(!isFocused){
       textInputRef.current?.blur();
     }
+    else {
+      textInputRef.current?.focus();
+    }
   },[isFocused])
 
   return (
@@ -65,6 +68,10 @@ export default function TextInputTemplate({
           }
         }}
         onFocus={onFocus}
+        right={<TextInput.Icon 
+          icon="close-circle" 
+          onPress={() => onChangeValue('')} 
+        />}
         ref={textInputRef}
         error={isValid !== null && !isValid}
       />

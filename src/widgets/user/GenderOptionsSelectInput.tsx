@@ -1,8 +1,9 @@
 import { useEffect, useRef } from "react";
-import SelectInputTemplate from "../../../shared/components/textInputs/SelectInputTemplate";
+import SelectInputTemplate from "@/src/shared/components/textInputs/SelectInputTemplate";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import { Gender } from "../../../modules/user/enums/Gender";
-import GenderModal from "@/src/pages/signup/gender/modal/GenderModal";
+import { Gender } from "@/src/modules/user/enums/Gender";
+import GenderModal from "@/src/widgets/user/gender/modal/GenderModal";
+import { getGenderLabel } from "@/src/modules/user/enums/Gender";
 
 export function GenderOptionsSelectInput({
     gender,
@@ -36,7 +37,7 @@ export function GenderOptionsSelectInput({
       <>
         <SelectInputTemplate    
           label="성별"
-          value={gender?.toString() || "선택 없음"}
+          value={gender?getGenderLabel(gender) : "선택 없음"}
           placeholder="성별을 선택하세요"
           left="chevron-down"
           isFocused={isFocused}

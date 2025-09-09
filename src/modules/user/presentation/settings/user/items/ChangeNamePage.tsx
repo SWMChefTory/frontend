@@ -7,12 +7,13 @@ import {
   useUserViewModel,
 } from "@/src/modules/user/business/service/useUserSerivce";
 import { userSchema } from "@/src/modules/user/business/validation/userSchema";
+import { getGenderLabel } from "@/src/modules/user/enums/Gender";
 
 export default function ChangeNamePage() {
   const user = useUserViewModel();
   const [isNicknameValid, setIsNicknameValid] = useState<boolean | null>(null);
   const [nicknameChanged, setNicknameChanged] = useState(
-    user?.nickname || "erorr"
+    user?.nickname || "error"
   );
   const { changeNickname, isLoading } = useChangeNameViewModel();
 
@@ -23,18 +24,19 @@ export default function ChangeNamePage() {
   const handlePressNickNameButton = () => {
     const result = userSchema
       .pick({ nickname: true })
-      .safeParse({ nicknameChanged });
+      .safeParse({ nickname: nicknameChanged });
     if (!result.success) {
       changeNickname(nicknameChanged);
     }
   };
 
-  const handlePressKeyBoard = () => {
-    changeNickname(nicknameChanged);
+  const handlePressKeyBoard = (nicknameChanged: string) => {
+    setNicknameChanged(nicknameChanged);
     const result = userSchema
       .pick({ nickname: true })
-      .safeParse({ nicknameChanged });
+      .safeParse({ nickname: nicknameChanged });
     if (!result.success) {
+      console.log("nicknameChanged", nicknameChanged);
       setIsNicknameValid(false);
     } else {
       setIsNicknameValid(true);

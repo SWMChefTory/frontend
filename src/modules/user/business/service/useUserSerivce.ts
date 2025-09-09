@@ -94,14 +94,14 @@ export function useChangeDateOfBirthViewModel() {
 export function useChangeGenderViewModel() {
   const { setUser, user } = useUserStore();
   const { mutate: changeGender, isPending: isLoading } = useMutation({
-    onMutate: async (gender: Gender) => {
+    onMutate: async (gender: Gender|null) => {
       if (!user) {
         throw new Error("User is null");
       }
       const userChanged = user.withGender(gender);
       return { userChanged };
     },
-    mutationFn: async (gender: Gender) => {
+    mutationFn: async (gender: Gender|null) => {
       return changeUserGender(gender);
     },
     onSuccess: (data, variables, context) => {

@@ -22,16 +22,17 @@ import { track } from "@/src/modules/shared/utils/analytics";
 export default function TabLayout() {
   const modalRef = useRef<BottomSheetModal>(null);
   console.log("TabLayout");
-  const { deepLinkAction } = deepLinkActionStore();
+  const { deepLinkAction} = deepLinkActionStore();
   const [modalData, setModalData] = useState<string | null>(null);
   const insets = useSafeAreaInsets();
+
   useEffect(() => {
-    if (deepLinkAction?.actionType === "create") {
-      openBottomSheet({ youtubeUrl: deepLinkAction.params.youtubeUrl });
+    if(deepLinkAction?.actionType==='create'){
+      openBottomSheet({youtubeUrl:deepLinkAction.params.youtubeUrl});
 
       return;
     }
-  }, [deepLinkAction]);
+}, [deepLinkAction]);
 
   const openBottomSheet = useCallback(
     ({ youtubeUrl = "" }: { youtubeUrl: string }) => {
@@ -40,7 +41,6 @@ export default function TabLayout() {
         youtubeUrl: youtubeUrl,
       });
       setModalData(youtubeUrl);
-      console.log(modalRef.current);
       modalRef.current?.present();
     },
     [],

@@ -36,6 +36,7 @@ export function useDeepLinkHandler() {
       const parsedUrl = Linking.parse(url);
       const isFromExternal = parsedUrl.queryParams?.external === "true";
       console.log("isFromExternal", isFromExternal);
+      console.log("url", url);
       if (isFromExternal) {
         handleExternalDeepLink(url);
       } else {
@@ -72,6 +73,7 @@ export function useDeepLinkHandler() {
 
     if (!parsedUrl.hostname) {
       if (queryParams?.["video-id"]) {
+        console.log("queryParams", queryParams);
         setDeepLinkAction({
           actionType: "create",
           params: {

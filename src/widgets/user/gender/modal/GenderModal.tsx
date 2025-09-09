@@ -6,7 +6,7 @@ import {
 } from "@gorhom/bottom-sheet";
 import { useCallback } from "react";
 import { Gender } from "@/src/modules/user/enums/Gender";
-import GenderModalContent from "@/src/pages/signup/gender/modal/content/GenderModalContent";
+import GenderModalContent from "@/src/widgets/user/gender/modal/content/GenderModalContent";
 
 
 export default function GenderModal({

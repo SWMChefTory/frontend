@@ -27,7 +27,7 @@ export default {
       bundleIdentifier: "com.cheftory.cheftory",
       usesAppleSignIn: true,
       infoPlist: {
-        UIBackgroundModes: ["audio", "fetch", "remote-notification"],
+        UIBackgroundModes: ["fetch", "remote-notification"],
         NSUserNotificationUsageDescription:
           "타이머 종료 시 알림을 보내기 위해 필요합니다.",
         NSSupportsLiveActivities: true,

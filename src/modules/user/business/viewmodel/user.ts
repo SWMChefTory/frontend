@@ -69,7 +69,7 @@ export class User {
     });
   }
 
-  withGender(gender: Gender): User {
+  withGender(gender: Gender|null): User {
     return User.create({
       gender,
       nickname: this.nickname,

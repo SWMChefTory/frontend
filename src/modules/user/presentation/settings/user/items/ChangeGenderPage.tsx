@@ -7,58 +7,65 @@ import {
 import { Text } from "react-native-paper";
 import { useState } from "react";
 import { Gender } from "@/src/modules/user/enums/Gender";
-import { COLORS } from "@/src/modules/shared/constants/colors";
-import TextInputTemplate from "@/src/shared/components/textInputs/TextInputTemplate";
+import { GenderOptionsSelectInput } from "@/src/widgets/user/GenderOptionsSelectInput";
+import SquareButton from "@/src/shared/components/textInputs/SquareButtonTemplate";
 
 export default function ChangeGenderPage() {
   const user = useUserViewModel();
   const { changeGender, isLoading } = useChangeGenderViewModel();
   const [gender, setGender] = useState<Gender | null>(user?.gender || null);
+  const [isFocused, setIsFocused] = useState(false);
   const [isGenderChanged, setIsGenderChanged] = useState(false);
 
-  const handleChangedGenderSubmit = (gender: Gender) => {
+  const handleChangedGenderSubmit = (gender: Gender|null) => {
     console.log("gender", gender);
     console.log(user?.gender);
     if (gender === user?.gender) {
       setIsGenderChanged(false);
     } else {
       setIsGenderChanged(true);
+      setGender(gender);
     }
-    setGender(gender);
+    setIsFocused(false);
   };
+
+  const handlePressButton = () => {
+    if(isGenderChanged){
+      changeGender(gender);
+    }
+  }
 
   return (
     <View style={styles.container}>
-      <View style={{ width: "80%", height: "100%", alignSelf: "center" }}>
-        <View style={{ height: 16 }} />
+      <View style={{ height: 16 }} />
+      <View style={{ width: "80%", alignSelf: "center" }}>
         <Text variant="titleLarge">성별을 선택해주세요.</Text>
-        <View style={{ height: 32 }} />
       </View>
+      <View style={{ height: 32 }} />
+      <View style={{ width: "80%" }}>
+      <GenderOptionsSelectInput
+        gender={gender}
+        handlePress={handleChangedGenderSubmit}
+        isFocused={isFocused}
+        toFocus={() => {setIsFocused(true)}}
+        toBlur={() => {setIsFocused(false)}}
+        isValid={isGenderChanged}
+      />
+      <View style={{ height: 32 }} />
+      <SquareButton
+        label="확인"
+        onPress={handlePressButton}
+        disabled={!isGenderChanged}
+      />
+      </View>
+      <View style={{ height: 32 }} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    width: 400,
-    // paddingHorizontal: 75,
-    paddingTop: 16,
     alignItems: "center",
-    justifyContent: "center",
-  },
-  button: {
-    backgroundColor: COLORS.orange.main,
-    paddingVertical: 16,
-    paddingHorizontal: 24,
-    borderRadius: 8,
-    marginTop: 32,
-  },
-  buttonText: {
-    color: COLORS.text.white,
-    fontSize: 12,
-    fontWeight: "bold",
-  },
-  buttonDisabled: {
-    backgroundColor: COLORS.orange.inactive,
+    width: "100%",
   },
 });

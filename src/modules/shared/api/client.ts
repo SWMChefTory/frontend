@@ -56,7 +56,6 @@ class TokenRefreshManager {
       return response.access_token;
     } catch (error) {
       await removeAuthToken();
-      useUserStore.getState().setUser(null);
       throw error;
     }
   }
@@ -66,7 +65,7 @@ const tokenRefreshManager = new TokenRefreshManager();
 
 function isNetworkError(error: unknown): boolean {
   return isAxiosError(error) && !error.response && Boolean(error.request);
-}
+} 
 
 client.interceptors.request.use(
   async (config) => {
