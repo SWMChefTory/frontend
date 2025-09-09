@@ -1,8 +1,10 @@
 import { View, StyleSheet, FlatList } from "react-native";
 import Skeleton from "react-native-reanimated-skeleton";
 import { COLORS } from "@/src/modules/shared/constants/colors";
-import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
-import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
+import {
+  responsiveHeight,
+  responsiveWidth,
+} from "@/src/modules/shared/utils/responsiveUI";
 
 type Props = { itemCount?: number };
 

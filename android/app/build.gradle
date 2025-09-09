@@ -87,13 +87,13 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace 'com.cheftory.cheftory'
+    namespace "com.cheftory"
     defaultConfig {
-        applicationId 'com.cheftory.cheftory'
+        applicationId "com.cheftory"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
-        versionName "1.0.2"
+        versionName "1.0"
     }
     signingConfigs {
         debug {

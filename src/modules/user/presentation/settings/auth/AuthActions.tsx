@@ -6,6 +6,7 @@ import {
 } from "@/src/modules/user/business/service/useAuthService";
 import AuthActionTemplate from "@/src/modules/user/presentation/settings/auth/_templates/AuthActionTemplate";
 import { FullScreenLoader } from "@/src/modules/shared/splash/loading/lottieview/FullScreenLoader";
+import { track } from "@/src/modules/shared/utils/analytics";
 
 export default function AuthActions() {
   const { logout, isLoading: isLogoutLoading } = useLogoutViewModel();
@@ -26,6 +27,7 @@ export default function AuthActions() {
         text: "로그아웃",
         onPress: () => {
           logout();
+          track.event("logout");
         },
       },
     ]);
@@ -38,6 +40,7 @@ export default function AuthActions() {
         text: "회원탈퇴",
         onPress: () => {
           deleteUser();
+          track.event("delete_account");
         },
       },
     ]);

@@ -8,11 +8,11 @@ export default {
     scheme: "cheftory",
     userInterfaceStyle: "automatic",
     newArchEnabled: true,
-    owner: "cheftory", //eas build 소유 organization 이거는 unique한거라 cheftory로 만들 수 없음.
-    "splash": {
-      "image": "./assets/images/splashscreen_logo.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#FFFFFF"
+    owner: "cheftory",
+    splash: {
+      image: "./assets/images/splashscreen_logo.png",
+      resizeMode: "contain",
+      backgroundColor: "#FFFFFF",
     },
     ios: {
       entitlements: {
@@ -20,19 +20,21 @@ export default {
           "group.com.cheftory.cheftory",
         ],
       },
+      googleServicesFile: "./firebase/GoogleService-Info.plist",
       deploymentTarget: "17.2",
       appleTeamId: "TCMRDSDB39",
       supportsTablet: true,
       bundleIdentifier: "com.cheftory.cheftory",
-      usesAppleSignIn: true, //이런거 보고 expo가 알아서 apple sign in 설정
+      usesAppleSignIn: true,
       infoPlist: {
         UIBackgroundModes: ["audio", "fetch", "remote-notification"],
         NSUserNotificationUsageDescription:
           "타이머 종료 시 알림을 보내기 위해 필요합니다.",
-        NSSupportsLiveActivities: true, //이런거 보고 push notification 설정
+        NSSupportsLiveActivities: true,
         NSFaceIDUsageDescription:
           "안전한 로그인과 인증을 위해 Face ID를 사용합니다.",
-        NSMicrophoneUsageDescription: "셰프토리는 음성으로 레시피를 제어하기 위해 마이크 접근 권한이 필요합니다.",
+        NSMicrophoneUsageDescription:
+          "셰프토리는 음성으로 레시피를 제어하기 위해 마이크 접근 권한이 필요합니다.",
         NSAppTransportSecurity: {
           NSAllowsArbitraryLoads: true,
         },
@@ -55,6 +57,7 @@ export default {
       },
     },
     android: {
+      googleServicesFile: "./firebase/google-services.json",
       permissions: [
         "android.permission.RECORD_AUDIO",
         "android.permission.MODIFY_AUDIO_SETTINGS",
@@ -88,7 +91,17 @@ export default {
       "expo-font",
       "expo-web-browser",
       "expo-apple-authentication",
-      "@react-native-google-signin/google-signin"
+      "@react-native-google-signin/google-signin",
+      "@react-native-firebase/app",
+      [
+        "expo-build-properties",
+        {
+          ios: {
+            useFrameworks: "static",
+            useModularHeaders: true,
+          },
+        },
+      ],
     ],
     experiments: {
       typedRoutes: true,
@@ -104,5 +117,12 @@ export default {
         projectId: "745eee82-c2f6-4403-91f6-4859abb54740",
       },
     },
+    updates: {
+      url: "https://u.expo.dev/745eee82-c2f6-4403-91f6-4859abb54740",
+      enabled: true,
+      checkAutomatically: "ON_LOAD",
+      fallbackToCacheTimeout: 0,
+    },
+    runtimeVersion: require("./package.json").version,
   },
 };

@@ -1,6 +1,6 @@
 import { View, StyleSheet } from "react-native";
-import { RecentSummaryRecipe } from "../types/Recipe";
-import { RecipeSectionHeader } from "../../shared/components/SectionHeader";
+import { RecentRecipe } from "@/src/modules/recipe/types/Recipe";
+import { RecipeSectionHeader } from "../../components/SectionHeader";
 import { RecentRecipeError } from "../shared/Fallback";
 import { ApiErrorBoundary } from "@/src/modules/shared/components/error/ApiErrorBoundary";
 import { useEffect, Suspense, useRef } from "react";
@@ -14,6 +14,7 @@ import { SHADOW } from "@/src/modules/shared/constants/shadow";
 import { CARD_STYLES } from "@/src/modules/shared/constants/card";
 import { useRefreshOnFocus } from "@/src/modules/shared/utils/useRefreshOnFocus";
 import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
+import { track } from "@/src/modules/shared/utils/analytics";
 
 interface Props {
   onRefresh: number;
@@ -24,7 +25,8 @@ export function RecentRecipeSection({ onRefresh }: Props) {
 
   const handleRecipePress = useRef(
     debounce(
-      (recipe: RecentSummaryRecipe) => {
+      (recipe: RecentRecipe) => {
+        track.event("click_recent_recipe_card");
         router.push({
           pathname: "/recipe/detail",
           params: {
@@ -80,7 +82,7 @@ export function RecentRecipeSection({ onRefresh }: Props) {
 }
 
 interface RecentRecipeSectionContentProps {
-  onPress: (recipe: RecentSummaryRecipe) => void;
+  onPress: (recipe: RecentRecipe) => void;
   onRefresh: number;
 }
 

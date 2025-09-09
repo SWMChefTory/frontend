@@ -1,7 +1,7 @@
-import { PopularRecipeApiResponse } from "../api/api";
-import { PopularSummaryRecipe } from "../types/Recipe";
+import { PopularRecipe } from "@/src/modules/recipe/types/Recipe";
+import { PopularSummaryRecipeApiResponse } from "@/src/modules/recipe/summary/popular/api/api";
 
-export const popularRecipesApiMock: PopularRecipeApiResponse = {
+export const popularRecipesApiMock: PopularSummaryRecipeApiResponse = {
   recommend_recipes: [
     {
       recipe_id: "1",
@@ -10,6 +10,7 @@ export const popularRecipesApiMock: PopularRecipeApiResponse = {
       video_thumbnail_url:
         "https://img.youtube.com/vi/j7s9VRsrm9o/hqdefault.jpg",
       count: 120,
+      video_url: "https://www.youtube.com/watch?v=j7s9VRsrm9o",
     },
     {
       recipe_id: "2",
@@ -18,6 +19,7 @@ export const popularRecipesApiMock: PopularRecipeApiResponse = {
       video_thumbnail_url:
         "https://img.youtube.com/vi/j7s9VRsrm9o/hqdefault.jpg",
       count: 120,
+      video_url: "https://www.youtube.com/watch?v=j7s9VRsrm9o",
     },
     {
       recipe_id: "3",
@@ -26,6 +28,7 @@ export const popularRecipesApiMock: PopularRecipeApiResponse = {
       video_thumbnail_url:
         "https://img.youtube.com/vi/j7s9VRsrm9o/hqdefault.jpg",
       count: 120,
+      video_url: "https://www.youtube.com/watch?v=j7s9VRsrm9o",
     },
     {
       recipe_id: "4",
@@ -34,6 +37,7 @@ export const popularRecipesApiMock: PopularRecipeApiResponse = {
       video_thumbnail_url:
         "https://img.youtube.com/vi/j7s9VRsrm9o/hqdefault.jpg",
       count: 120,
+      video_url: "https://www.youtube.com/watch?v=j7s9VRsrm9o",
     },
     {
       recipe_id: "5",
@@ -42,6 +46,7 @@ export const popularRecipesApiMock: PopularRecipeApiResponse = {
       video_thumbnail_url:
         "https://img.youtube.com/vi/j7s9VRsrm9o/hqdefault.jpg",
       count: 120,
+      video_url: "https://www.youtube.com/watch?v=j7s9VRsrm9o",
     },
     {
       recipe_id: "6",
@@ -50,12 +55,13 @@ export const popularRecipesApiMock: PopularRecipeApiResponse = {
       video_thumbnail_url:
         "https://img.youtube.com/vi/j7s9VRsrm9o/hqdefault.jpg",
       count: 120,
+      video_url: "https://www.youtube.com/watch?v=j7s9VRsrm9o",
     },
   ],
 };
 
-export function recipeSummariesMock(): PopularSummaryRecipe[] {
+export function recipeSummariesMock(): PopularRecipe[] {
   return popularRecipesApiMock.recommend_recipes.map((overview, index) => {
-    return PopularSummaryRecipe.create(overview, index + 1);
+    return PopularRecipe.create(overview, index + 1);
   });
 }

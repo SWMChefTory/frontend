@@ -9,6 +9,7 @@ import { GenderOptionsSelectInput } from "@/src/pages/signup/gender/GenderOption
 import SignupButton, { AgreeValue } from "@/src/pages/signup/submit/SignupButton";
 import { useSignupViewModel } from "@/src/modules/user/business/service/useAuthService";
 import { userSchema } from "@/src/modules/user/business/validation/userSchema";
+import { track } from "@/src/modules/shared/utils/analytics";
 
 enum ButtonState {
   NICKNAME,
@@ -106,6 +107,7 @@ function SignupPage({
       is_privacy_agreed: agreeValue.isPrivacyAgree,
       is_terms_of_use_agreed: agreeValue.isServiceAgree,
     });
+    track.event("signup");
     setFocusedInput(null);
   };
 

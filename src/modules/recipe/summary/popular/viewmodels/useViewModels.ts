@@ -1,8 +1,9 @@
-import { PopularSummaryRecipe } from "@/src/modules/recipe/summary/popular/types/Recipe";
+import { PopularRecipe } from "@/src/modules/recipe/types/Recipe";
 import {
   createPopularRecipe,
   fetchPopularSummary,
-  PopularRecipeOverview,
+  PopularSummaryRecipeApiResponse,
+  PopularSummaryRecipeResponse,
 } from "@/src/modules/recipe/summary/popular/api/api";
 import {
   useMutation,
@@ -11,18 +12,18 @@ import {
 } from "@tanstack/react-query";
 
 export function usePopularSummaryViewModel(): {
-  popularRecipes: PopularSummaryRecipe[];
+  popularRecipes: PopularRecipe[];
   refetch: () => Promise<any>;
 } {
-  const { data, refetch } = useSuspenseQuery({
-    queryKey: ["popularRecipes"],
+  const { data, refetch } = useSuspenseQuery<PopularSummaryRecipeApiResponse>({
+    queryKey: ["popularSummaryRecipes"],
     queryFn: fetchPopularSummary,
   });
 
   const popularRecipes =
     data?.recommend_recipes.map(
-      (overview: PopularRecipeOverview, index: number) =>
-        PopularSummaryRecipe.create(overview, index + 1),
+      (overview: PopularSummaryRecipeResponse, index: number) =>
+        PopularRecipe.create(overview, index + 1),
     ) || [];
 
   return {
@@ -37,7 +38,7 @@ export function useRecipeCreateViewModel() {
     mutationFn: (youtubeUrl: string) => createPopularRecipe(youtubeUrl),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["recentRecipes"],
+        queryKey: ["popularSummaryRecipes"],
       });
     },
   });

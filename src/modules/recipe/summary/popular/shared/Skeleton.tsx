@@ -17,7 +17,7 @@ export function PopularRecipesSkeleton({ itemCount = 3 }: Props) {
   // 스켈레톤 데이터 생성
   const skeletonData = Array.from({ length: itemCount }, (_, i) => ({ id: i }));
 
-  const renderSkeletonCard = ({ item }: { item: { id: number } }) => (
+  const renderSkeletonCard = () => (
     <View style={styles.cardWrapper}>
       <View style={[styles.skeletonCard, { height: cardHeight }]}>
         <Skeleton
@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
   },
   skeletonCard: {
     width: "100%",
-    aspectRatio: 16/9,
+    aspectRatio: 16 / 9,
     backgroundColor: COLORS.background.white,
     borderRadius: 16,
     overflow: "hidden",

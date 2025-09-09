@@ -2,8 +2,10 @@ import React from "react";
 import { View, StyleSheet, FlatList } from "react-native";
 import Skeleton from "react-native-reanimated-skeleton";
 import { COLORS } from "@/src/modules/shared/constants/colors";
-import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
-import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
+import {
+  responsiveWidth,
+  responsiveHeight,
+} from "@/src/modules/shared/utils/responsiveUI";
 import { SKELETON_SHADOW } from "@/src/modules/shared/constants/shadow";
 
 type Props = { itemCount?: number };
@@ -26,15 +28,15 @@ export function AllRecentRecipesSkeleton({ itemCount = 5 }: Props) {
               {
                 key: "thumbnail",
                 width: "100%",
-                height: responsiveHeight(120), // AllRecentRecipeCard 높이에 맞춤
+                height: responsiveHeight(120),
                 borderRadius: 12,
-                marginBottom: responsiveHeight(12)  ,
+                marginBottom: responsiveHeight(12),
               },
               // 제목 (1줄)
               {
                 key: "title",
                 width: "85%",
-                height: responsiveHeight(16), // AllRecentRecipeCard의 title fontSize
+                height: responsiveHeight(16),
                 borderRadius: 4,
                 marginBottom: responsiveHeight(8),
               },
@@ -42,7 +44,7 @@ export function AllRecentRecipesSkeleton({ itemCount = 5 }: Props) {
               {
                 key: "metaInfo",
                 width: "60%",
-                height: responsiveHeight(12), // 작은 폰트 크기
+                height: responsiveHeight(12),
                 borderRadius: 3,
                 marginBottom: responsiveHeight(8),
               },
@@ -94,10 +96,10 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     padding: responsiveWidth(16),
-    paddingBottom: responsiveHeight(100), // AllRecentRecipeSection과 동일
+    paddingBottom: responsiveHeight(100),
   },
   separator: {
-    height: responsiveHeight(16), // AllRecentRecipeSection separator와 동일
+    height: responsiveHeight(16),
   },
   card: {
     backgroundColor: COLORS.background.white,

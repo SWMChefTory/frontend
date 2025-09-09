@@ -73,18 +73,12 @@ client.interceptors.request.use(
     if (config.skipAuth) {
       return config;
     }
-
-    try {
-      const token = findAccessToken();
-      if (token) {
-        config.headers.Authorization = `${token}`;
-        return config;
-      } else {
-        throw new Error("No access token available");
-      }
-    } catch (error) {
-      throw error;
+    const token = findAccessToken();
+    if (!token) {
+      return config;
     }
+    config.headers.Authorization = `${token}`;
+    return config;
   },
   (error) => {
     return Promise.reject(error);
@@ -93,12 +87,10 @@ client.interceptors.request.use(
 
 client.interceptors.response.use(
   async (res) => {
-    console.log("response", res.data);
     return res;
   },
   async (error) => {
     const originalRequest = error.config;
-
     if (originalRequest.skipAuth) {
       return Promise.reject(error);
     }
