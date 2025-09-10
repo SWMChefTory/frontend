@@ -31,7 +31,7 @@ export function useRecipeCreateStatusViewModel(recipeId: string) {
   const getActualStatus = (): RecipeCreateStatus => {
     if (!data?.video_info) return RecipeCreateStatus.VIDEO_ANALYSIS;
     if (data.recipe_steps?.length > 0) return RecipeCreateStatus.COMPLETED;
-    if (data.ingredients_info) return RecipeCreateStatus.COOKING_STEPS_ANALYSIS;
+    if (data.analysis) return RecipeCreateStatus.COOKING_STEPS_ANALYSIS;
     return RecipeCreateStatus.INGREDIENTS_ANALYSIS;
   };
 

@@ -8,8 +8,12 @@ export interface RecipeVideoInfo {
   video_id: string;
 }
 
-export interface RecipeIngredientsInfo {
+export interface RecipeAnalysisInfo {
   id: string;
+  description: string;
+  tags: string[];
+  servings: number;
+  cooking_time: number;
   ingredients: {
     name: string;
     amount: number;
@@ -28,7 +32,7 @@ export interface RecipeStepInfo {
 export interface RecipeCreateStatusApiResponse {
   recipe_status: RecipeCreateStatus;
   video_info: RecipeVideoInfo;
-  ingredients_info: RecipeIngredientsInfo;
+  analysis: RecipeAnalysisInfo;
   recipe_steps: RecipeStepInfo[];
 }
 
