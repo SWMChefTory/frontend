@@ -25,8 +25,6 @@ export function useAuthBootstrap() {
         );
       } catch (e) {
         removeUser();
-        console.log("error발생");
-        console.error(e);
       } finally {
         setLoading(false);
       }

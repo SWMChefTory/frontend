@@ -43,7 +43,7 @@ export function useUserViewModel() {
 export function useChangeNameViewModel() {
   const { setUser, user } = useUserStore();
   const { mutate: changeNickname, isPending: isLoading } = useMutation({
-    onMutate: async (name: string) => {
+   onMutate: async (name: string) => {
       //유저 유효성 검증은 도메인 모델에서 진행
       if (!user) {
         throw new Error("User is null");
@@ -60,7 +60,7 @@ export function useChangeNameViewModel() {
       setUser(context?.userChanged);
     },
     onError: (error) => {
-      console.error(error);
+      return Promise.reject(error);
     },
     throwOnError: false,
   });
@@ -94,14 +94,14 @@ export function useChangeDateOfBirthViewModel() {
 export function useChangeGenderViewModel() {
   const { setUser, user } = useUserStore();
   const { mutate: changeGender, isPending: isLoading } = useMutation({
-    onMutate: async (gender: Gender) => {
+    onMutate: async (gender: Gender|null) => {
       if (!user) {
         throw new Error("User is null");
       }
       const userChanged = user.withGender(gender);
       return { userChanged };
     },
-    mutationFn: async (gender: Gender) => {
+    mutationFn: async (gender: Gender|null) => {
       return changeUserGender(gender);
     },
     onSuccess: (data, variables, context) => {

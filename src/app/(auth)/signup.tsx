@@ -1,6 +1,7 @@
 import { useLocalSearchParams } from "expo-router";
-import SignupPage from "@/src/modules/user/presentation/signup/SingupPage";
+import SignupPage from "@/src/pages/signup/SignupPage";
 import { useEffect } from "react";
+
 import { track } from "@/src/modules/shared/utils/analytics";
 
 export default function SignupScreen() {

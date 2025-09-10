@@ -23,6 +23,7 @@
     },
     "preview": {
       "distribution": "internal",
+      "prebuildCommand": "npx expo prebuild --platform ios --clean",
       "ios": {
         "image": "macos-sequoia-15.5-xcode-16.4",
         "cocoapods": "1.16.2",
@@ -39,6 +40,7 @@
     },
     "production": {
       "autoIncrement": true,
+      "prebuildCommand": "npx expo prebuild --platform ios --clean",
       "ios": {
         "image": "macos-sequoia-15.5-xcode-16.4",
         "cocoapods": "1.16.2",

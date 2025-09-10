@@ -1,4 +1,4 @@
-import { userSchema } from "./userScheme";
+import { userSchema } from "./userSchema";
 
 export function validateNickname(nickname: string) {
   const result = userSchema.pick({ nickname: true }).safeParse({ nickname });

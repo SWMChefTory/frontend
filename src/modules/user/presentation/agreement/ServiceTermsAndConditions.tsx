@@ -265,7 +265,6 @@ export default function ServiceTermsAndConditionsPage() {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.contentContainer}
       >
-        헤더
         <View style={styles.header}>
           <Text style={styles.title}>{termsOfServiceData.title}</Text>
           <Text style={styles.effectiveDate}>

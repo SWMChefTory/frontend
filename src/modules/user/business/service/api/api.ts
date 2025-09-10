@@ -57,7 +57,7 @@ export const changeUserDateOfBirth = async (dateOfBirth: string) => {
   }
 };
 
-export const changeUserGender = async (gender: Gender) => {
+export const changeUserGender = async (gender: Gender|null) => {
   const response = await client.put("/users/me/gender", { gender: gender });
   if (!response.data) {
     throw new Error("응답에 body가 없습니다.");

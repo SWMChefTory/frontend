@@ -1,6 +1,6 @@
 import { DateOnly } from "@/src/modules/shared/utils/dateOnly";
 import { Gender } from "@/src/modules/user/enums/Gender";
-import { userSchema } from "@/src/modules/user/business/validation/userScheme";
+import { userSchema } from "@/src/modules/user/business/validation/userSchema";
 
 export class User {
   readonly gender: Gender|undefined | null;
@@ -69,7 +69,7 @@ export class User {
     });
   }
 
-  withGender(gender: Gender): User {
+  withGender(gender: Gender|null): User {
     return User.create({
       gender,
       nickname: this.nickname,

@@ -5,6 +5,7 @@ import { RecipeBottomSheetContent } from "./BottomSheetContent";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 import { ApiErrorBoundary } from "@/src/modules/shared/components/error/ApiErrorBoundary";
 import { useRouter } from "expo-router";
+import { deepLinkActionStore } from "@/src/deepLinkActionStore";
 
 interface Props {
   modalRef: React.RefObject<BottomSheetModal | null>;
@@ -13,6 +14,7 @@ interface Props {
 
 export function RecipeBottomSheet({ modalRef, youtubeUrl }: Props) {
   const router = useRouter();
+  const { clearDeepLinkAction } = deepLinkActionStore();
 
   const handleRecipeCreated = useCallback(
     (recipeId: string) => {
@@ -31,7 +33,7 @@ export function RecipeBottomSheet({ modalRef, youtubeUrl }: Props) {
         disappearsOnIndex={-1}
         appearsOnIndex={0}
         opacity={0.5}
-        onPress={() => modalRef.current?.dismiss()}
+        onPress={clearDeepLinkAction}
       />
     ),
     [modalRef],

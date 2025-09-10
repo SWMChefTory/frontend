@@ -17,6 +17,7 @@ import NearVoice from "@/src/modules/shared/splash/logo/NearVoice";
 import FarVoice from "@/src/modules/shared/splash/logo/FarVoice";
 import MainText from "@/src/modules/shared/splash/logo/MainText";
 
+//splash screen의 각 요소 애니메이션 조절
 export function SplashScreenController({
   children,
 }: {
