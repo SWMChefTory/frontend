@@ -30,7 +30,7 @@ struct ShareErrorView: View {
           HStack(spacing: 0) {
             VStack {
               Text(message)
-                .font(.system(size: 16, weight: .bold))
+                .font(.system(size: 8, weight: .bold))
                 .multilineTextAlignment(.center)
                 .foregroundColor(Color(hex: "#FFFFFF"))
                 .lineLimit(1)
