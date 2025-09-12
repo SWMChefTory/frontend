@@ -1,13 +1,13 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import { TimerMessage } from "@/src/modules/recipe/detail/types/RecipeDetail";
+import { useRecipeDetailViewModel } from "@/src/modules/recipe/detail/viewmodels/useRecipeDetailViewModel";
+import { ApiErrorBoundary } from "@/src/modules/shared/components/error/ApiErrorBoundary";
+import { findAccessToken } from "@/src/modules/shared/storage/SecureStorage";
+import { useCallback, useRef, useState } from "react";
 import { Platform, StyleSheet } from "react-native";
 import { WebView } from "react-native-webview";
 import { getUserAgent, getWebViewUrl } from "../constants/WebViewConfig";
 import { useWebViewMessage } from "../hooks/useWebViewMessage";
-import { findAccessToken } from "@/src/modules/shared/storage/SecureStorage";
-import { ApiErrorBoundary } from "@/src/modules/shared/components/error/ApiErrorBoundary";
 import { RecipeWebViewFallback } from "./Fallback";
-import { TimerMessage } from "@/src/modules/recipe/detail/types/RecipeDetail";
-import { useRecipeDetailViewModel } from "@/src/modules/recipe/detail/viewmodels/useRecipeDetailViewModel";
 
 interface RecipeWebViewProps {
   recipeId: string;
@@ -50,21 +50,31 @@ export function RecipeWebViewContent({
     refreshTokenCallback: async () => {
       console.log("[Native] 웹뷰에서 토큰 재발급 요청 받음");
       await refetch();
+      const newToken = await findAccessToken();
+      if (webviewRef.current && newToken) {
+        const payload = JSON.stringify({
+          type: "ACCESS_TOKEN",
+          token: newToken,
+        });
+        const js = `window.postMessage(${payload}, '*'); true;`;
+        webviewRef.current.injectJavaScript(js);
+        console.log(`[Native] 액세스 토큰을 웹뷰로 전송: ${newToken}`);
+      }
     },
   });
   const handleError = useCallback((error: any) => {
     setError(
       new Error(
-        `WebView 에러: ${error.nativeEvent?.description || "Unknown error"}`,
-      ),
+        `WebView 에러: ${error.nativeEvent?.description || "Unknown error"}`
+      )
     );
   }, []);
 
   const handleHttpError = useCallback((error: any) => {
     setError(
       new Error(
-        `HTTP 오류: ${error.nativeEvent?.statusCode} - ${error.nativeEvent?.description}`,
-      ),
+        `HTTP 오류: ${error.nativeEvent?.statusCode} - ${error.nativeEvent?.description}`
+      )
     );
   }, []);
 
