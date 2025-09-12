@@ -48,7 +48,7 @@ export const changeUserNickname = async (name: string) => {
   }
 };
 
-export const changeUserDateOfBirth = async (dateOfBirth: string) => {
+export const changeUserDateOfBirth = async (dateOfBirth: string|null) => {
   const response = await client.put("/users/me/date-of-birth", {
     date_of_birth: dateOfBirth,
   });

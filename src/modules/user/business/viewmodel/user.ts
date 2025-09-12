@@ -58,7 +58,7 @@ export class User {
     });
   }
 
-  withDateOfBirth(dateOfBirth: DateOnly): User {
+  withDateOfBirth(dateOfBirth: DateOnly|null): User {
     return User.create({
       gender: this.gender,
       nickname: this.nickname,

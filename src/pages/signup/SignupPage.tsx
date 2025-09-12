@@ -1,16 +1,11 @@
 import TextInputTemplate from "@/src/shared/components/textInputs/TextInputTemplate";
 import { useState } from "react";
-import { Gender } from "@/src/modules/user/enums/Gender";
-import { DateOnly } from "@/src/modules/shared/utils/dateOnly";
 import { View } from "react-native";
-import { DateOfBirthSelectInput } from "@/src/pages/signup/dateofbirth/DateOfBirthSelectInput";
 import { Text } from "react-native-paper";
-import { GenderOptionsSelectInput } from "@/src/widgets/user/GenderOptionsSelectInput";
 import SignupButton, { AgreeValue } from "@/src/pages/signup/submit/SignupButton";
 import { useSignupViewModel } from "@/src/modules/user/business/service/useAuthService";
 import { userSchema } from "@/src/modules/user/business/validation/userSchema";
 import { track } from "@/src/modules/shared/utils/analytics";
-import { countBy } from "lodash";
 import useNickname from "@/src/pages/signup/hooks/useRandomName";
 
 enum ButtonState {

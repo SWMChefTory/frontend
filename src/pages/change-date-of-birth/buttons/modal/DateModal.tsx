@@ -10,10 +10,12 @@ import { DateOnly } from "@/src/modules/shared/utils/dateOnly";
 
 
 function DateModal({
+  dateOfBirth,
   bottomSheetModalRef,
   onClickNextButton,
   toBlur,
 }: {
+  dateOfBirth: DateOnly|null;
   bottomSheetModalRef: React.RefObject<BottomSheetModal|null>;
   onClickNextButton: (dateOfBirth: DateOnly|null) => void;
   toBlur: () => void;
@@ -40,7 +42,7 @@ function DateModal({
         enableContentPanningGesture={false}
         enableDynamicSizing={false}
       >
-        <BirthOfDateModalContent onClickNextButton={onClickNextButton} />
+        <BirthOfDateModalContent onClickNextButton={onClickNextButton} dateOfBirth={dateOfBirth} />
       </BottomSheetModal>
     </View>
   );

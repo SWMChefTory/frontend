@@ -65,16 +65,3 @@ export default function WriteLongTextModal({
     </BottomSheetModal>
   );
 }
-
-
-const styles = StyleSheet.create({
-  handle: {
-    display: "flex",
-    width: 40,
-    height: 4,
-    backgroundColor: '#ccc',
-    borderRadius: 2,
-    alignSelf: 'center',
-    marginVertical: 8
-  }
-});

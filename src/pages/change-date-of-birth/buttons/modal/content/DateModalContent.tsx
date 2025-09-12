@@ -8,18 +8,23 @@ import { Button, useTheme } from "react-native-paper";
 
 function BirthOfDateModalContent({
   onClickNextButton,
+  dateOfBirth,
 }: {
   onClickNextButton: (dateOfBirth: DateOnly|null) => void;
+  dateOfBirth: DateOnly|null;
 }) {
   const theme = useTheme() as any; 
   const [dateOfBirthInput, setDateOfBirthInput] = useState<DateOnly|null>(
-    DateOnly.create(new Date().toISOString())
+    dateOfBirth
   );
+
+  console.log(dateOfBirthInput,"dateOfBirthInput");
+  dateOfBirthInput === dateOfBirth
 
   return (
     <BottomSheetView style={styles.container}>
       <View style={styles.titleContainer}>
-        <Text style={styles.title}>생년월일을 알려주세요</Text>
+        <Text style={styles.title}>생년월일을 변경해주세요</Text>
       </View>
       <View style={{height: 32}}></View>
       <DatePicker
@@ -29,24 +34,28 @@ function BirthOfDateModalContent({
       <View style={{height: 32}}></View>
       <View style={styles.buttonSection}>
         <Button
+        disabled={dateOfBirthInput==null}
         mode="contained" 
         style={[
             theme.sizes.button.medium,
+            {backgroundColor: dateOfBirthInput==null ? theme.colors.onPrimaryContainerDisabled : theme.colors.primary},
         ]}
         onPress={()=>{
             onClickNextButton(null);
         }}>
-            <Text>선택 없음</Text>
+            <Text>선택 안함</Text>
         </Button>
         <Button 
+        disabled={dateOfBirthInput === dateOfBirth}
         mode="contained" 
         style={[
             theme.sizes.button.medium,
+            {backgroundColor: dateOfBirthInput === dateOfBirth ? theme.colors.onPrimaryContainerDisabled : theme.colors.primary},
         ]}
         onPress={()=>{
             onClickNextButton(dateOfBirthInput);
         }}>
-            <Text>다음</Text>
+            <Text>변경하기</Text>
         </Button >
       </View>
     </BottomSheetView>

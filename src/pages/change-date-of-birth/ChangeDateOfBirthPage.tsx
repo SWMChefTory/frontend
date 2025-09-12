@@ -9,6 +9,7 @@ import { DatePicker } from "@/src/widgets/DatePicker";
 import { DateOnly } from "@/src/modules/shared/utils/dateOnly";
 import SquareButton from "@/src/shared/components/textInputs/SquareButtonTemplate";
 import { useRouter } from "expo-router";
+import { DateOfBirthSelectInput } from "@/src/pages/change-date-of-birth/buttons/DateOfBirthSelectInput";
 
 export default function ChangeDateOfBirth() {
   const user = useUserViewModel();
@@ -18,35 +19,28 @@ export default function ChangeDateOfBirth() {
   const { changeDateOfBirth, isLoading } = useChangeDateOfBirthViewModel();
   const [isDateOfBirthChanged, setIsDateOfBirthChanged] = useState(true);
   const router = useRouter();
-
-  const handleChangeDateOfBirth = () => {
-    changeDateOfBirth(dateOfBirthInput);
-    router.back();
-  };
+  const [isFocused, setIsFocused] = useState(false);
 
   return (
     <View style={styles.container}>
       <View style={{ height: 16 }} />
-      
-      <View style={{ width: "80%" }}>
-        <Text variant="titleLarge">생년월일을 입력해주세요.</Text>
-      </View>
-      
-      <View style={{ height: 32 }} />
-      
-      <View style={{ width: "90%" }}>
-        <DatePicker
-          dateOfBirth={dateOfBirthInput}
-          setDateOfBirth={setDateOfBirthInput}
-        />
+      <View style={{ width: "80%", alignSelf: "center" }}>
+        <Text variant="titleLarge">생년월일을 변경해주세요.</Text>
       </View>
 
       <View style={{ height: 32 }} />
       <View style={{width: "80%" }} >
-      <SquareButton
-        label="변경"
-        onPress={handleChangeDateOfBirth}
-        disabled={isLoading || !isDateOfBirthChanged}
+      <DateOfBirthSelectInput
+        dateOfBirth={dateOfBirthInput}
+        handlePress={(date) => {
+          changeDateOfBirth(date);
+          setIsFocused(false);  
+          router.back();
+        }}
+        isFocused={isFocused}
+        toFocus={() => {setIsFocused(true);}}
+        toBlur={() => {setIsFocused(false);}}
+        isValid={true}
       />
       </View>
     </View>

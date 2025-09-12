@@ -70,15 +70,15 @@ export function useChangeNameViewModel() {
 export function useChangeDateOfBirthViewModel() {
   const { setUser, user } = useUserStore();
   const { mutate: changeDateOfBirth, isPending: isLoading } = useMutation({
-    onMutate: async (dateOfBirth: DateOnly) => {
+    onMutate: async (dateOfBirth: DateOnly | null) => {
       if (!user) {
         throw new Error("User is null");
       }
       const userChanged = user.withDateOfBirth(dateOfBirth);
       return { userChanged };
     },
-    mutationFn: async (dateOfBirth: DateOnly) => {
-      return changeUserDateOfBirth(dateOfBirth.toJSON());
+    mutationFn: async (dateOfBirth: DateOnly | null) => {
+      return changeUserDateOfBirth(dateOfBirth?.toJSON() || null);
     },
     onSuccess: (data, variables, context) => {
       setUser(context?.userChanged);
