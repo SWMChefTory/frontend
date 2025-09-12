@@ -6,7 +6,6 @@ import {
 } from "@/src/modules/user/business/service/useUserSerivce";
 import { useState } from "react";
 import { DatePicker } from "@/src/widgets/DatePicker";
-import { COLORS } from "@/src/modules/shared/constants/colors";
 import { DateOnly } from "@/src/modules/shared/utils/dateOnly";
 import SquareButton from "@/src/shared/components/textInputs/SquareButtonTemplate";
 import { useRouter } from "expo-router";

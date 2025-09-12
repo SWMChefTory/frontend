@@ -140,6 +140,8 @@ function useOnlineManager() {
       onPrimary: "#ffffff",
       primaryContainer: "#ffd54f",
       onPrimaryContainer: "#1a1a1a",
+      onPrimaryContainerDisabled: "#C7C7C7",
+      deEmphasized: "#1a1a1a",
       secondary: "#ff5722",
       surface: "#ffffff",
       background: "#ffffff",

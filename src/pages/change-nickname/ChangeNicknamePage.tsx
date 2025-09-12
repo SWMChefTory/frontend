@@ -7,9 +7,8 @@ import {
   useUserViewModel,
 } from "@/src/modules/user/business/service/useUserSerivce";
 import { userSchema } from "@/src/modules/user/business/validation/userSchema";
-import { getGenderLabel } from "@/src/modules/user/enums/Gender";
 
-export default function ChangeNamePage() {
+export default function ChangeNicknamePage() {
   const user = useUserViewModel();
   const [isNicknameValid, setIsNicknameValid] = useState<boolean | null>(null);
   const [nicknameChanged, setNicknameChanged] = useState(

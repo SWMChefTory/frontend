@@ -68,7 +68,6 @@ export function useLoginViewModel() {
         });
         return;
       }
-      Alert.alert("알 수 없는 이유로 로그인에 실패했습니다.");
       Sentry.captureException(error);
     },
     throwOnError: false,

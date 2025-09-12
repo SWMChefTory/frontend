@@ -217,6 +217,7 @@ export default function TermsAndConditionsModalContent({
       <View style={styles.buttonSection}>
         <View style={styles.buttonContainer}>
           <SquareButton
+            disabled={!isServiceAgree || !isPrivacyAgree}
             onPress={() => handleSignupPress(agreeValue)}
             label="회원가입"
           />

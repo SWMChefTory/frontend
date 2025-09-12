@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from "react-native";
-import UserFeatureItemTemplate from "@/src/modules/user/presentation/settings/user/items/_templates/UserFeatureItem";
+import UserFeatureItemTemplate from "@/src/pages/settings/user/_template/UserInfoItemTemplate";
 import { useUserViewModel } from "@/src/modules/user/business/service/useUserSerivce";
 import { router } from "expo-router";
 
@@ -17,17 +17,17 @@ export default function ProfilePage() {
         <UserFeatureItemTemplate
           title="이름"
           value={user.nickname}
-          action={() => router.push("/settings/changeName")}
+          action={() => router.push("/settings/user/changeName")}
         />
         <UserFeatureItemTemplate
           title="생년월일"
           value={user.dateOfBirth?.toJSON() ?? "선택 안함"}
-          action={() => router.push("/settings/changeDateOfBirth")}
+          action={() => router.push("/settings/user/changeDateOfBirth")}
         />
         <UserFeatureItemTemplate
           title="성별"
           value={user.gender ?? "선택 안함"}
-          action={() => router.push("/settings/changeGender")}
+          action={() => router.push("/settings/user/changeGender")}
         />
       </View>
     </>

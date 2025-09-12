@@ -4,21 +4,15 @@ import {
   useDeleteUserViewModel,
   useLogoutViewModel,
 } from "@/src/modules/user/business/service/useAuthService";
-import AuthActionTemplate from "@/src/modules/user/presentation/settings/auth/_templates/AuthActionTemplate";
+import AuthActionTemplate from "@/src/pages/settings/auth/_template/AuthActionTemplate";
 import { FullScreenLoader } from "@/src/modules/shared/splash/loading/lottieview/FullScreenLoader";
 import { track } from "@/src/modules/shared/utils/analytics";
+import { router } from "expo-router";
+import { useUserViewModel } from "@/src/modules/user/business/service/useUserSerivce";
 
 export default function AuthActions() {
   const { logout, isLoading: isLogoutLoading } = useLogoutViewModel();
-  const { deleteUser, isLoading: isDeleteLoading, error:deleteError } = useDeleteUserViewModel();
-
-  if (isLogoutLoading || isDeleteLoading) {
-    return <FullScreenLoader />;
-  }
-
-  if (deleteError) {
-    Alert.alert("회원탈퇴 실패");
-  }
+  const user = useUserViewModel();
 
   const handleLogoutPress = () => {
     Alert.alert("로그아웃", "정말 로그아웃 하시겠습니까?", [
@@ -34,16 +28,11 @@ export default function AuthActions() {
   };
 
   const handleDeleteUserPress = () => {
-    Alert.alert("회원탈퇴", "정말 회원탈퇴하시겠습니까?", [
-      { text: "취소", onPress: () => {} },
-      {
-        text: "회원탈퇴",
-        onPress: () => {
-          deleteUser();
-          track.event("delete_account");
-        },
-      },
-    ]);
+    router.push({
+      pathname: "/settings/auth/MembershipWithdrwal",
+      params: { userNickname: user?.nickname },
+    });
+    track.event("delete_account");
   };
 
   return (

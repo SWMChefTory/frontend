@@ -140,16 +140,3 @@ export async function logoutUser(refreshToken: string): Promise<void> {
   );
   return response.data;
 }
-
-export async function reissueRefreshToken(
-  refreshToken: string,
-): Promise<AuthorizationTokenResponse> {
-  const refreshTokenRequest: RefreshTokenRequest = {
-    refresh_token: refreshToken,
-  };
-  const response = await clientWithoutAuth.post(
-    "/auth/token/reissue",
-    refreshTokenRequest,
-  );
-  return response.data;
-}

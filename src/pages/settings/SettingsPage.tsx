@@ -1,8 +1,8 @@
 import { View, StyleSheet } from "react-native";
-import UserFeatureItems from "@/src/modules/user/presentation/settings/user/UserFeatureItems";
-import AuthActions from "@/src/modules/user/presentation/settings/auth/AuthActions";
+import UserFeatureItems from "@/src/pages/settings/user/UserFeatureItems";
+import AuthActions from "@/src/pages/settings/auth/AuthActions";
 
-export default function Settings() {
+export default function SettingsPage() {
   return (
     <View style={styles.container}>
       <UserFeatureItems />

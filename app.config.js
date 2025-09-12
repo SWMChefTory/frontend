@@ -102,6 +102,7 @@ export default {
           ios: {
             useFrameworks: "static",
             useModularHeaders: true,
+            deploymentTarget: "16.1"
           },
         },
       ],
