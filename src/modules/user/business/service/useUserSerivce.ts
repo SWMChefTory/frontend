@@ -10,6 +10,7 @@ import { User } from "../viewmodel/user";
 import { DateOnly } from "@/src/modules/shared/utils/dateOnly";
 import { useEffect } from "react";
 import { Gender } from "../../enums/Gender";
+import * as Sentry from '@sentry/react-native';
 
 export function useUserViewModel() {
   const { user, setUser } = useUserStore();
@@ -42,7 +43,7 @@ export function useUserViewModel() {
 
 export function useChangeNameViewModel() {
   const { setUser, user } = useUserStore();
-  const { mutate: changeNickname, isPending: isLoading } = useMutation({
+  const { mutateAsync: changeNickname, isPending: isLoading, error } = useMutation({
    onMutate: async (name: string) => {
       //유저 유효성 검증은 도메인 모델에서 진행
       if (!user) {
@@ -53,23 +54,24 @@ export function useChangeNameViewModel() {
     },
     //유효성 검증이 완료되면 전송
     mutationFn: async (name: string) => {
-      return changeUserNickname(name);
+      return await changeUserNickname(name);
     },
     //서버까지 통신 잘되면 상태 변화.
     onSuccess: (data, variables, context) => {
       setUser(context?.userChanged);
     },
     onError: (error) => {
+      Sentry.captureException(error);
       return Promise.reject(error);
     },
     throwOnError: false,
   });
-  return { changeNickname, isLoading };
+  return { changeNickname, isLoading, error};
 }
 
 export function useChangeDateOfBirthViewModel() {
   const { setUser, user } = useUserStore();
-  const { mutate: changeDateOfBirth, isPending: isLoading } = useMutation({
+  const { mutateAsync: changeDateOfBirth, isPending: isLoading } = useMutation({
     onMutate: async (dateOfBirth: DateOnly | null) => {
       if (!user) {
         throw new Error("User is null");
@@ -93,7 +95,7 @@ export function useChangeDateOfBirthViewModel() {
 
 export function useChangeGenderViewModel() {
   const { setUser, user } = useUserStore();
-  const { mutate: changeGender, isPending: isLoading } = useMutation({
+  const { mutateAsync: changeGender, isPending: isLoading } = useMutation({
     onMutate: async (gender: Gender|null) => {
       if (!user) {
         throw new Error("User is null");
@@ -102,7 +104,7 @@ export function useChangeGenderViewModel() {
       return { userChanged };
     },
     mutationFn: async (gender: Gender|null) => {
-      return changeUserGender(gender);
+      return await changeUserGender(gender);
     },
     onSuccess: (data, variables, context) => {
       setUser(context?.userChanged);

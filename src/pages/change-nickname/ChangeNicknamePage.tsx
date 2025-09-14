@@ -1,12 +1,14 @@
 import TextInputTemplate from "@/src/shared/components/textInputs/TextInputTemplate";
 import { useState } from "react";
-import { View } from "react-native";
+import { ActivityIndicator, Alert, View } from "react-native";
 import { Text } from "react-native-paper";
 import {
   useChangeNameViewModel,
   useUserViewModel,
 } from "@/src/modules/user/business/service/useUserSerivce";
 import { userSchema } from "@/src/modules/user/business/validation/userSchema";
+import { useRouter } from "expo-router";
+import { is } from "zod/v4/locales";
 
 export default function ChangeNicknamePage() {
   const user = useUserViewModel();
@@ -14,18 +16,26 @@ export default function ChangeNicknamePage() {
   const [nicknameChanged, setNicknameChanged] = useState(
     user?.nickname || "error"
   );
-  const { changeNickname, isLoading } = useChangeNameViewModel();
+  const { changeNickname, error, isLoading } = useChangeNameViewModel();
+  console.log("isLoading", isLoading);
+
+  const router = useRouter();
 
   if (!user) {
     throw new Error("Protected route accessed without authenticated user");
   }
 
-  const handlePressNickNameButton = () => {
+  const handlePressNickNameButton = async () => {
     const result = userSchema
       .pick({ nickname: true })
       .safeParse({ nickname: nicknameChanged });
-    if (!result.success) {
-      changeNickname(nicknameChanged);
+    if (result.success) {
+      try {
+        await changeNickname(nicknameChanged); // changeNickname = mutateAsync
+        router.back();
+      } catch (e) {
+        Alert.alert("에러", "닉네임 변경에 실패했습니다.");
+      }
     }
   };
 
@@ -35,7 +45,6 @@ export default function ChangeNicknamePage() {
       .pick({ nickname: true })
       .safeParse({ nickname: nicknameChanged });
     if (!result.success) {
-      console.log("nicknameChanged", nicknameChanged);
       setIsNicknameValid(false);
     } else {
       setIsNicknameValid(true);

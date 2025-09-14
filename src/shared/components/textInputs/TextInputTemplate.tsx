@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Platform,
 } from "react-native";
+import { fa } from "zod/v4/locales";
 
 
 //chefory의 키보드 악세사리가 존재하는 텍스트 인풋

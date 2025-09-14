@@ -42,14 +42,15 @@ export const getUser: () => Promise<UserGetResponse> = async () => {
 };
 
 export const changeUserNickname = async (name: string) => {
-  const response = await client.put("/users/me/nickname", { nickname: name });
-  if (!response.data) {
+  const response = await client.patch("/users/me", { nickname: name });
+  if (!response.data) { 
     throw new Error("응답에 body가 없습니다.");
   }
 };
 
 export const changeUserDateOfBirth = async (dateOfBirth: string|null) => {
-  const response = await client.put("/users/me/date-of-birth", {
+  console.log("dateOfBirth", dateOfBirth);
+  const response = await client.patch("/users/me", {
     date_of_birth: dateOfBirth,
   });
   if (!response.data) {
@@ -58,7 +59,7 @@ export const changeUserDateOfBirth = async (dateOfBirth: string|null) => {
 };
 
 export const changeUserGender = async (gender: Gender|null) => {
-  const response = await client.put("/users/me/gender", { gender: gender });
+  const response = await client.patch("/users/me", { gender: gender });
   if (!response.data) {
     throw new Error("응답에 body가 없습니다.");
   }
