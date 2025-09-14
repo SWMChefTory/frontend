@@ -4,6 +4,8 @@ import {
   changeUserNickname,
   changeUserDateOfBirth,
   changeUserGender,
+  UserRequest,
+  patchUser,
 } from "@/src/modules/user/business/service/api/api";
 import { useUserStore } from "@/src/modules/user/business/store/userStore";
 import { User } from "../viewmodel/user";
@@ -29,7 +31,7 @@ export function useUserViewModel() {
         User.create({
           gender: data.gender,
           nickname: data.nickname,
-          dateOfBirth: data.date_of_birth ? DateOnly.create(data.date_of_birth) : null,
+          dateOfBirth: data.date_of_birth,
           isMarketingAgreed: data.is_marketing_agreed,
           isPrivacyAgreed: data.is_privacy_agreed,
           isTermsOfUseAgreed: data.is_terms_of_use_agreed,
@@ -41,23 +43,30 @@ export function useUserViewModel() {
   return user;
 }
 
-export function useChangeNameViewModel() {
-  const { setUser, user } = useUserStore();
-  const { mutateAsync: changeNickname, isPending: isLoading, error } = useMutation({
-   onMutate: async (name: string) => {
-      //유저 유효성 검증은 도메인 모델에서 진행
+export function useChangeUserViewModel() {
+  const { setUser } = useUserStore();
+
+  const { mutateAsync: changeUser, isPending: isLoading } = useMutation({
+    onMutate: async (user: User) => {
       if (!user) {
         throw new Error("User is null");
       }
-      const userChanged = user.withNickname(name);
+      console.log("user", user);
+      const userChanged = User.create(user);
       return { userChanged };
     },
-    //유효성 검증이 완료되면 전송
-    mutationFn: async (name: string) => {
-      return await changeUserNickname(name);
+    mutationFn: async (user: User) => {
+      return await patchUser({
+        gender: user.gender,
+        nickname: user.nickname,
+        date_of_birth: user.dateOfBirth,
+        is_marketing_agreed: user.isMarketingAgreed,
+        is_privacy_agreed: user.isPrivacyAgreed,
+        is_terms_of_use_agreed: user.isTermsOfUseAgreed,
+      });
     },
-    //서버까지 통신 잘되면 상태 변화.
     onSuccess: (data, variables, context) => {
+      console.log("user", context?.userChanged);
       setUser(context?.userChanged);
     },
     onError: (error) => {
@@ -66,53 +75,7 @@ export function useChangeNameViewModel() {
     },
     throwOnError: false,
   });
-  return { changeNickname, isLoading, error};
+
+  return { changeUser, isLoading };
 }
 
-export function useChangeDateOfBirthViewModel() {
-  const { setUser, user } = useUserStore();
-  const { mutateAsync: changeDateOfBirth, isPending: isLoading } = useMutation({
-    onMutate: async (dateOfBirth: DateOnly | null) => {
-      if (!user) {
-        throw new Error("User is null");
-      }
-      const userChanged = user.withDateOfBirth(dateOfBirth);
-      return { userChanged };
-    },
-    mutationFn: async (dateOfBirth: DateOnly | null) => {
-      return changeUserDateOfBirth(dateOfBirth?.toJSON() || null);
-    },
-    onSuccess: (data, variables, context) => {
-      setUser(context?.userChanged);
-    },
-    onError: (error) => {
-      console.error(error);
-    },
-    throwOnError: false,
-  });
-  return { changeDateOfBirth, isLoading };
-}
-
-export function useChangeGenderViewModel() {
-  const { setUser, user } = useUserStore();
-  const { mutateAsync: changeGender, isPending: isLoading } = useMutation({
-    onMutate: async (gender: Gender|null) => {
-      if (!user) {
-        throw new Error("User is null");
-      }
-      const userChanged = user.withGender(gender);
-      return { userChanged };
-    },
-    mutationFn: async (gender: Gender|null) => {
-      return await changeUserGender(gender);
-    },
-    onSuccess: (data, variables, context) => {
-      setUser(context?.userChanged);
-    },
-    onError: (error) => {
-      console.error(error);
-    },
-    throwOnError: false,
-  });
-  return { changeGender, isLoading };
-}

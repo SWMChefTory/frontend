@@ -1,14 +1,13 @@
 import TextInputTemplate from "@/src/shared/components/textInputs/TextInputTemplate";
 import { useState } from "react";
-import { ActivityIndicator, Alert, View } from "react-native";
+import { Alert, View } from "react-native";
 import { Text } from "react-native-paper";
 import {
-  useChangeNameViewModel,
+  useChangeUserViewModel,
   useUserViewModel,
 } from "@/src/modules/user/business/service/useUserSerivce";
 import { userSchema } from "@/src/modules/user/business/validation/userSchema";
 import { useRouter } from "expo-router";
-import { is } from "zod/v4/locales";
 
 export default function ChangeNicknamePage() {
   const user = useUserViewModel();
@@ -16,7 +15,7 @@ export default function ChangeNicknamePage() {
   const [nicknameChanged, setNicknameChanged] = useState(
     user?.nickname || "error"
   );
-  const { changeNickname, error, isLoading } = useChangeNameViewModel();
+  const { changeUser, isLoading } = useChangeUserViewModel();
   console.log("isLoading", isLoading);
 
   const router = useRouter();
@@ -31,7 +30,7 @@ export default function ChangeNicknamePage() {
       .safeParse({ nickname: nicknameChanged });
     if (result.success) {
       try {
-        await changeNickname(nicknameChanged); // changeNickname = mutateAsync
+        await changeUser(user.withNickname(nicknameChanged));
         router.back();
       } catch (e) {
         Alert.alert("에러", "닉네임 변경에 실패했습니다.");

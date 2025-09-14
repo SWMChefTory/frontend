@@ -1,7 +1,7 @@
 import { View, StyleSheet, Alert} from "react-native";
 import { Text } from "react-native-paper";
 import {
-  useChangeDateOfBirthViewModel,
+  useChangeUserViewModel,
   useUserViewModel,
 } from "@/src/modules/user/business/service/useUserSerivce";
 import { useState } from "react";
@@ -11,16 +11,22 @@ import { DateOfBirthSelectInput } from "@/src/pages/change-date-of-birth/buttons
 
 export default function ChangeDateOfBirth() {
   const user = useUserViewModel();
-  const [dateOfBirthInput, setDateOfBirthInput] = useState<DateOnly>(
-    user?.dateOfBirth || DateOnly.create(new Date().toISOString())
+  const [dateOfBirthInput, setDateOfBirthInput] = useState<DateOnly | null>(
+    user?.dateOfBirth || null
   );
-  const { changeDateOfBirth, isLoading } = useChangeDateOfBirthViewModel();
+  const { changeUser, isLoading } = useChangeUserViewModel();
   const router = useRouter();
   const [isFocused, setIsFocused] = useState(false);
+  
+  if (!user) {
+    throw new Error("protected page에서 user가 없습니다.");
+  }
 
   const handlePressDateOfBirthButton = async (dateOfBirthInput: DateOnly | null) => {
     try {
-      await changeDateOfBirth(dateOfBirthInput);
+      await changeUser(
+        user.withDateOfBirth(dateOfBirthInput),
+      );
       router.back();
     } catch (e) {
       console.error(e);
@@ -30,7 +36,7 @@ export default function ChangeDateOfBirth() {
 
   return (
     <View style={styles.container}>
-      <View style={{ height: 16 }} />
+      <View style={{ height: 16 }} /> 
       <View style={{ width: "80%", alignSelf: "center" }}>
         <Text variant="titleLarge">생년월일을 변경해주세요.</Text>
       </View>

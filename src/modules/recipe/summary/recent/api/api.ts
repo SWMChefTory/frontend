@@ -19,5 +19,6 @@ export interface RecentSummaryRecipesApiResponse {
 export async function fetchRecentSummary(): Promise<RecentSummaryRecipesApiResponse> {
   const response =
     await client.get<RecentSummaryRecipesApiResponse>(`/recipes/recent`);
+  console.log(response.data);
   return response.data;
 }

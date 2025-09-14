@@ -21,6 +21,8 @@
   }) {
     const theme = useTheme();
 
+    console.log("isValid", isValid !== null && !isValid);
+
     return (
       <TextInput
         label={label}

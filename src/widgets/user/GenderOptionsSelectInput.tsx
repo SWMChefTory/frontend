@@ -37,7 +37,7 @@ export function GenderOptionsSelectInput({
       <>
         <SelectInputTemplate    
           label="성별"
-          value={gender?getGenderLabel(gender) : "선택 없음"}
+          value={gender?getGenderLabel(gender) : "선택 안함"}
           placeholder="성별을 선택하세요"
           left="chevron-down"
           isFocused={isFocused}

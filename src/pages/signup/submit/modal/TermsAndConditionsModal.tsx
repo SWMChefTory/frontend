@@ -36,6 +36,7 @@ export default function TermsAndConditionsModal({
             enableContentPanningGesture={false}
             enableDynamicSizing={false}
             animateOnMount={false}
+            
         >
             <TermsAndConditionsModalContent 
                 handleSignupPress={(agreeValue)=>{

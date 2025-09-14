@@ -1,7 +1,7 @@
 import { View, StyleSheet, Alert } from "react-native";
 import {
   useUserViewModel,
-  useChangeGenderViewModel,
+  useChangeUserViewModel,
 } from "@/src/modules/user/business/service/useUserSerivce";
 import { Text } from "react-native-paper";
 import { useState } from "react";
@@ -12,10 +12,14 @@ import { router } from "expo-router";
 
 export default function ChangeGenderPage() {
   const user = useUserViewModel();
-  const { changeGender, isLoading } = useChangeGenderViewModel();
+  const { changeUser, isLoading } = useChangeUserViewModel();
   const [gender, setGender] = useState<Gender | null>(user?.gender || null);
   const [isFocused, setIsFocused] = useState(false);
   const [isGenderChanged, setIsGenderChanged] = useState(false);
+
+  if (!user) {
+    throw new Error("protected page에서 user가 없습니다.");
+  }
 
   const handleChangedGenderSubmit = (gender: Gender | null) => {
     console.log("gender", gender);
@@ -32,7 +36,7 @@ export default function ChangeGenderPage() {
   const handlePressButton = async () => {
     if (isGenderChanged) {
       try {
-        await changeGender(gender);
+        await changeUser(user.withGender(gender));
         router.back();
       } catch (e) {
         console.error(e);

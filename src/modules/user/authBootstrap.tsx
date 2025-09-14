@@ -17,7 +17,7 @@ export function useAuthBootstrap() {
           User.create({
             gender: user.gender,
             nickname: user.nickname,
-            dateOfBirth: user.date_of_birth ? DateOnly.create(user.date_of_birth) : null,
+            dateOfBirth: user.date_of_birth,
             isMarketingAgreed: user.is_marketing_agreed,
             isPrivacyAgreed: user.is_privacy_agreed,
             isTermsOfUseAgreed: user.is_terms_of_use_agreed,
