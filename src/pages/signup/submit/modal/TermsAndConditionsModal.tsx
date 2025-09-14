@@ -14,6 +14,7 @@ export default function TermsAndConditionsModal({
     onCancelPress: () => void;
     toBlur: () => void;
   }) {
+
     const renderBackdrop = useCallback(
         (props: BottomSheetBackdropProps) => (
           <BottomSheetBackdrop
@@ -34,6 +35,7 @@ export default function TermsAndConditionsModal({
             enableHandlePanningGesture={false}
             enableContentPanningGesture={false}
             enableDynamicSizing={false}
+            animateOnMount={false}
         >
             <TermsAndConditionsModalContent 
                 handleSignupPress={(agreeValue)=>{

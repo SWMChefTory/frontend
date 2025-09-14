@@ -9,6 +9,8 @@ export interface AgreeValue {
   isMarketingAgree: boolean;
 }
 
+// 버튼을 누르면 모달이 켜짐.
+
 export default function SignupButton({
   onPress,
   onPressConfirm,
@@ -31,10 +33,10 @@ export default function SignupButton({
         if (isFocused) {
           bottomSheetModalRef.current?.present();
         } else {
-          bottomSheetModalRef.current?.dismiss();
+          console.log("dismiss!!!!!!!");
+          bottomSheetModalRef.current?.forceClose();
         }
       }, [isFocused]);
-
 
   const handlePress = () => {
     onPress();

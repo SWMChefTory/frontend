@@ -61,7 +61,7 @@ export function AppleLoginButton({ isReal }: { isReal: boolean }) {
       {isLoading && <FullScreenLoader />}
       <LoginButtonTemplate 
       logoPath={require("@/assets/images/appleLogo.png")} 
-      logoSize={{width:responsiveWidth(20), height:responsiveHeight(24)}}
+      logoSize={{width:20, height:24}}
       description={description} 
       handleSignIn={handleSignInApple} />
     </>

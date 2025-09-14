@@ -99,7 +99,7 @@ final class ShareViewController: UIViewController, UIGestureRecognizerDelegate {
     ) { [weak self] _ in
       self?.close()
     }
-  }
+  } 
   
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)

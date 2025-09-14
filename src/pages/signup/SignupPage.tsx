@@ -7,6 +7,7 @@ import { useSignupViewModel } from "@/src/modules/user/business/service/useAuthS
 import { userSchema } from "@/src/modules/user/business/validation/userSchema";
 import { track } from "@/src/modules/shared/utils/analytics";
 import useNickname from "@/src/pages/signup/hooks/useRandomName";
+import { useIsFocused } from '@react-navigation/native';
 
 enum ButtonState {
   NICKNAME,
@@ -24,6 +25,7 @@ function SignupPage({
   }) {
   const { nickname, setNickname } = useNickname();
   const [isNicknameValid, setIsNicknameValid] = useState<boolean>(true);
+  const isScreenFocused = useIsFocused();
 
   const [inputNames, setInputNames] = useState(
     new Set<ButtonState>([ButtonState.NICKNAME])
@@ -32,6 +34,8 @@ function SignupPage({
   const { signup, isLoading } = useSignupViewModel();
 
   const [focusedInput, setFocusedInput] = useState<ButtonState | null>(ButtonState.NICKNAME);
+
+  console.log("isScreenFocused", isScreenFocused);
 
   const handlePressNickNameButton = () => {
     const result = userSchema.pick({ nickname: true }).safeParse({ nickname });
@@ -117,7 +121,7 @@ function SignupPage({
             toFocus={() => {
               setFocusedInput(ButtonState.TERMS_AND_CONDITIONS);
             }}
-            isFocused={focusedInput === ButtonState.TERMS_AND_CONDITIONS}
+            isFocused={focusedInput === ButtonState.TERMS_AND_CONDITIONS && isScreenFocused}
             isValid={isNicknameValid ? true:false}
           />
         )

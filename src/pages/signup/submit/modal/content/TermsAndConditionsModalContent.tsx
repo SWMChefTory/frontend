@@ -115,7 +115,6 @@ export default function TermsAndConditionsModalContent({
         <TouchableOpacity
           style={styles.detailRightContainer}
           onPress={() => {
-            toBlur();
             router.push({
                 pathname: "/agreement/ServiceTermsAndConditions",
               });
@@ -164,7 +163,6 @@ export default function TermsAndConditionsModalContent({
         <TouchableOpacity
           style={styles.detailRightContainer}
           onPress={() => {
-            toBlur();
             router.push({
                 pathname: "/agreement/PrivacyTermsAndConditions",
               });
