@@ -18,9 +18,7 @@ export interface WebViewNavigationState {
 }
 
 export enum WebViewMessageType {
-  FINISH_COOKING = "FINISH_COOKING",
-  BACK_PRESSED = "BACK_PRESSED",
-  CLEAR_HISTORY = "CLEAR_HISTORY",
+  GO_HOME = "GO_HOME",
   REFRESH_TOKEN = "REFRESH_TOKEN",
   TIMER_START = "TIMER_START",
   TIMER_STOP = "TIMER_STOP",
