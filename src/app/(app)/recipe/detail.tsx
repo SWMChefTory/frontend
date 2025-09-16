@@ -4,6 +4,7 @@ import { TimerMessage } from "@/src/modules/recipe/detail/types/RecipeDetail";
 import { track } from "@/src/modules/shared/utils/analytics";
 import TimerModal from "@/src/modules/timer/components/TimerModal";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { Audio, InterruptionModeAndroid, InterruptionModeIOS } from "expo-av";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { StatusBar, StyleSheet } from "react-native";
@@ -14,6 +15,42 @@ export default function RecipeDetailScreen() {
   const router = useRouter();
   useEffect(() => {
     track.screen("RecipeDetail");
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        await Audio.setAudioModeAsync({
+          allowsRecordingIOS: true,
+          playsInSilentModeIOS: true,
+          interruptionModeIOS: InterruptionModeIOS.DoNotMix,
+          interruptionModeAndroid: InterruptionModeAndroid.DoNotMix,
+          shouldDuckAndroid: false,
+          staysActiveInBackground: false,
+          playThroughEarpieceAndroid: true,
+        });
+      } catch (e) {
+        console.warn("Failed to set audio mode", e);
+      }
+    })();
+
+    return () => {
+      (async () => {
+        try {
+          await Audio.setAudioModeAsync({
+            allowsRecordingIOS: false,
+            playsInSilentModeIOS: false,
+            interruptionModeIOS: InterruptionModeIOS.DuckOthers,
+            interruptionModeAndroid: InterruptionModeAndroid.DuckOthers,
+            shouldDuckAndroid: true,
+            staysActiveInBackground: false,
+            playThroughEarpieceAndroid: false,
+          });
+        } catch (e) {
+          console.warn("Failed to reset audio mode", e);
+        }
+      })();
+    };
   }, []);
 
   const params = useLocalSearchParams<{
