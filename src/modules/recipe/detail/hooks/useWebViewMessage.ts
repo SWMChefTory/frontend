@@ -33,7 +33,6 @@ export function useWebViewMessage({
     (event: any) => {
       try {
         const message = event.nativeEvent.data;
-        console.log("웹뷰에서 받은 메시지:", message);
 
         let parsedMessage: WebViewMessage;
         try {
@@ -43,17 +42,8 @@ export function useWebViewMessage({
         }
 
         switch (parsedMessage.type) {
-          case WebViewMessageType.FINISH_COOKING:
-            console.log("조리 종료. 첫 화면으로 이동합니다.");
+          case WebViewMessageType.GO_HOME:
             router.replace("/(app)/(tabs)");
-            break;
-
-          case WebViewMessageType.BACK_PRESSED:
-            router.replace("/(app)/(tabs)");
-            break;
-
-          case WebViewMessageType.CLEAR_HISTORY:
-            clearWebViewHistoryByReload();
             break;
 
           case WebViewMessageType.REFRESH_TOKEN:
@@ -75,15 +65,12 @@ export function useWebViewMessage({
           case WebViewMessageType.TIMER_SET:
             timerCallbacks?.onTimerSet?.(parsedMessage as TimerMessage);
             break;
-
-          default:
-            console.log("처리되지 않은 메시지 타입:", parsedMessage.type);
         }
       } catch (error) {
         console.error("메시지 처리 중 오류:", error);
       }
     },
-    [clearWebViewHistoryByReload, timerCallbacks], // timerCallbacks 추가
+    [clearWebViewHistoryByReload, timerCallbacks]
   );
 
   return {
