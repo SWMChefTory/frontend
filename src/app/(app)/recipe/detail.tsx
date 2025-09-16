@@ -1,12 +1,13 @@
-import { RecipeWebView } from "@/src/modules/recipe/detail/components/RecipeWebView";
-import { Stack, useLocalSearchParams, useRouter } from "expo-router";
-import { SafeAreaView, StatusBar, StyleSheet } from "react-native";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import TimerModal from "@/src/modules/timer/components/TimerModal";
 import { RecipeCategoryBottomSheet } from "@/src/modules/recipe/category/categories/bottomsheet/BottomSheet";
+import { RecipeWebView } from "@/src/modules/recipe/detail/components/RecipeWebView";
 import { TimerMessage } from "@/src/modules/recipe/detail/types/RecipeDetail";
 import { track } from "@/src/modules/shared/utils/analytics";
+import TimerModal from "@/src/modules/timer/components/TimerModal";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { Stack, useLocalSearchParams, useRouter } from "expo-router";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { StatusBar, StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function RecipeDetailScreen() {
   const [timerMessage, setTimerMessage] = useState<TimerMessage | null>(null);
@@ -62,7 +63,7 @@ export default function RecipeDetailScreen() {
         },
       } as any);
     },
-    [],
+    []
   );
 
   return (
@@ -72,21 +73,21 @@ export default function RecipeDetailScreen() {
         backgroundColor="white"
         translucent={false}
       />
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
         <Stack.Screen options={{ headerShown: false }} />
         <RecipeWebView
           recipeId={params.recipeId}
           onOpenTimer={openTimerModal}
         />
-          <TimerModal
-            onRequestClose={closeTimerModal}
-            recipeTitle={params.title || timerMessage?.recipe_title || ""}
-            recipeId={params.recipeId || timerMessage?.recipe_id || ""}
-            timerAutoTime={timerMessage?.timer_time}
-            timerIntentType={timerMessage?.type}
-            onNavigateToRecipe={navigateToRecipe}
-            bottomSheetModalRef={bottomSheetModalRef}
-          />
+        <TimerModal
+          onRequestClose={closeTimerModal}
+          recipeTitle={params.title || timerMessage?.recipe_title || ""}
+          recipeId={params.recipeId || timerMessage?.recipe_id || ""}
+          timerAutoTime={timerMessage?.timer_time}
+          timerIntentType={timerMessage?.type}
+          onNavigateToRecipe={navigateToRecipe}
+          bottomSheetModalRef={bottomSheetModalRef}
+        />
         <RecipeCategoryBottomSheet
           modalRef={modalRef}
           recipeId={params.recipeId}
