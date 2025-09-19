@@ -69,7 +69,6 @@ const styles = StyleSheet.create({
     zIndex: 50,
   },
   content: {
-    maxWidth: 320,
     paddingHorizontal: responsiveWidth(24),
     alignItems: "center",
   },

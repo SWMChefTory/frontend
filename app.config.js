@@ -1,8 +1,8 @@
 export default {
   expo: {
-    name: "ChefTory",
+    name: "쉐프토리",
     slug: "cheftory",
-    version: "1.0.2",
+    version: "1.0.3",
     orientation: "portrait",
     icon: "./assets/images/mainCharacter.png",
     scheme: "cheftory",
@@ -29,7 +29,9 @@ export default {
       bundleIdentifier: "com.cheftory.cheftory",
       usesAppleSignIn: true,
       infoPlist: {
-        UIBackgroundModes: ["fetch", "remote-notification"],
+        CFBundleDevelopmentRegion: "ko",
+        ITSAppUsesNonExemptEncryption: false,
+        UIBackgroundModes: ["fetch", "remote-notification", "audio"],
         NSUserNotificationUsageDescription:
           "타이머 종료 시 알림을 보내기 위해 필요합니다.",
         NSSupportsLiveActivities: true,
@@ -64,7 +66,6 @@ export default {
       permissions: [
         "android.permission.RECORD_AUDIO",
         "android.permission.MODIFY_AUDIO_SETTINGS",
-        "android.permission.AUDIO_CAPTURE",
       ],
       adaptiveIcon: {
         foregroundImage: "./assets/images/mainCharacter.png",

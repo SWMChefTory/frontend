@@ -60,22 +60,23 @@ export function RecipeWebViewContent({
         });
         const js = `window.postMessage(${payload}, '*'); true;`;
         webviewRef.current.injectJavaScript(js);
+        console.log(`[Native] 액세스 토큰을 웹뷰로 전송: ${newToken}`);
       }
     },
   });
   const handleError = useCallback((error: any) => {
     setError(
       new Error(
-        `WebView 에러: ${error.nativeEvent?.description || "Unknown error"}`
-      )
+        `WebView 에러: ${error.nativeEvent?.description || "Unknown error"}`,
+      ),
     );
   }, []);
 
   const handleHttpError = useCallback((error: any) => {
     setError(
       new Error(
-        `HTTP 오류: ${error.nativeEvent?.statusCode} - ${error.nativeEvent?.description}`
-      )
+        `HTTP 오류: ${error.nativeEvent?.statusCode} - ${error.nativeEvent?.description}`,
+      ),
     );
   }, []);
 
@@ -102,7 +103,7 @@ export function RecipeWebViewContent({
           return true; // 기본 뒤로가기 동작 소모
         }
         return false;
-      }
+      },
     );
     return () => subscription.remove();
   }, []);

@@ -88,17 +88,6 @@ export default function PopularRecipeSummaryList({ recipes, onPress }: Props) {
     );
   };
 
-  const formatViewCount = (count: number): string => {
-    if (count >= 1_000_000) {
-      return `${(count / 1_000_000).toFixed(1)}M`;
-    } else if (count >= 10_000) {
-      return `${Math.floor(count / 1_000)}k`;
-    } else if (count >= 1_000) {
-      return `${(count / 1_000).toFixed(1)}k`;
-    }
-    return count.toString();
-  };
-
   const handleProgressChange = useCallback(
     (offsetProgress: number, absoluteProgress: number) => {
       // 인덱스는 onSnapToItem에서 확정, 여기서는 애니메이션용 값만 저장
@@ -131,10 +120,6 @@ export default function PopularRecipeSummaryList({ recipes, onPress }: Props) {
           </Text>
           <View style={styles.metaRow}>
             <View style={styles.viewCountContainer}>
-              <Text style={styles.viewCountLabel}>조회수</Text>
-              <Text style={styles.viewCountValue}>
-                {formatViewCount(currentRecipe.count)}
-              </Text>
             </View>
             <View style={styles.indexContainer}>
               <Text style={styles.indexText}>
@@ -232,8 +217,8 @@ export default function PopularRecipeSummaryList({ recipes, onPress }: Props) {
           style={styles.carousel}
           mode="parallax"
           modeConfig={{
-            parallaxScrollingScale: 0.9,
-            parallaxScrollingOffset: 90,
+            parallaxScrollingScale: 1,
+            parallaxScrollingOffset: 80,
             parallaxAdjacentItemScale: 0.7,
           }}
           onProgressChange={handleProgressChange}
@@ -300,7 +285,7 @@ const styles = StyleSheet.create({
     fontSize: responsiveFontSize(20),
     fontWeight: "700",
     marginBottom: responsiveHeight(12),
-    lineHeight: responsiveHeight(24),
+    lineHeight: responsiveHeight(26),
   },
   metaRow: {
     flexDirection: "row",

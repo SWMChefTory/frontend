@@ -25,10 +25,11 @@ export function StepInfoCard({
     <View style={styles.stepInfoCard}>
       <View style={styles.innerContainer}>
         <Text style={styles.stepTitle}>{title}</Text>
-        <Text 
+        <Text
           style={styles.stepDescription}
           lineBreakStrategyIOS="hangul-word"
           textBreakStrategy="simple"
+          numberOfLines={2}
         >
           {description}
         </Text>
@@ -60,7 +61,9 @@ const styles = StyleSheet.create({
   stepInfoCard: {
     backgroundColor: COLORS.background.white,
     borderRadius: 24,
-    padding: responsiveWidth(32),
+    padding: responsiveWidth(24),
+    width: responsiveWidth(250),
+    height: responsiveHeight(180),
     ...SHADOW,
     borderWidth: 1,
     borderColor: COLORS.border.lightGray,
@@ -75,13 +78,15 @@ const styles = StyleSheet.create({
     color: COLORS.text.black,
     paddingBottom: responsiveHeight(12),
     textAlign: "center",
+    height: responsiveHeight(35),
   },
   stepDescription: {
     fontSize: responsiveFontSize(16),
     color: COLORS.text.gray,
-    lineHeight: 24,
+    lineHeight: responsiveHeight(20),
     textAlign: "center",
     paddingBottom: 24,
+    minHeight: responsiveHeight(40),
   },
   stepIndicators: {
     flexDirection: "row",
