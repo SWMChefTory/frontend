@@ -1,6 +1,7 @@
 import { RecipeWebView } from "@/src/modules/recipe/detail/components/RecipeWebView";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
-import { SafeAreaView, StatusBar, StyleSheet } from "react-native";
+import { StatusBar, StyleSheet, View } from "react-native";
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useCallback, useEffect, useRef, useState } from "react";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import TimerModal from "@/src/modules/timer/components/TimerModal";
@@ -10,6 +11,7 @@ import { track } from "@/src/modules/shared/utils/analytics";
 
 export default function RecipeDetailScreen() {
   const [timerMessage, setTimerMessage] = useState<TimerMessage | null>(null);
+  const insets = useSafeAreaInsets();
   const router = useRouter();
   useEffect(() => {
     track.screen("RecipeDetail");
@@ -72,7 +74,7 @@ export default function RecipeDetailScreen() {
         backgroundColor="white"
         translucent={false}
       />
-      <SafeAreaView style={styles.container}>
+      <View style={[styles.container]} >
         <Stack.Screen options={{ headerShown: false }} />
         <RecipeWebView
           recipeId={params.recipeId}
@@ -91,7 +93,7 @@ export default function RecipeDetailScreen() {
           modalRef={modalRef}
           recipeId={params.recipeId}
         />
-      </SafeAreaView>
+      </View>
     </>
   );
 }
@@ -99,6 +101,10 @@ export default function RecipeDetailScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: "black",
+    
+    // width: "100%",
+    // height: "100%",
   },
+  // webview: {
 });

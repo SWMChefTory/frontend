@@ -72,6 +72,7 @@ export default function TabLayout() {
           animation: "fade",
         }}
       >
+        
         <Tabs.Screen
           name="index"
           options={{

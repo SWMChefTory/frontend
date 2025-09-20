@@ -78,7 +78,8 @@
     "react-native-web": "~0.20.0",
     "react-native-webview": "^13.13.5",
     "zod": "^4.0.14",
-    "zustand": "^5.0.6"
+    "zustand": "^5.0.6",
+    "expo-screen-orientation": "~8.1.7"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

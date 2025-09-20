@@ -19,6 +19,7 @@ import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
 import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
 import { track } from "@/src/modules/shared/utils/analytics";
+import { OrientationLocker, PORTRAIT } from "react-native-orientation-locker";
 
 export default function HomeScreen() {
   const scrollY = useRef(new Animated.Value(0)).current;

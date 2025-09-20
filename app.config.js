@@ -19,6 +19,7 @@ export default {
         "com.apple.security.application-groups": [
           "group.com.cheftory.cheftory",
         ],
+        "requireFullScreen": true
       },
       googleServicesFile:
         process.env.GOOGLE_SERVICES_PLIST ||
@@ -93,7 +94,7 @@ export default {
       "expo-secure-store",
       "expo-font",
       "expo-web-browser",
-      "expo-apple-authentication",
+      "expo-apple-authentication",  
       "@react-native-google-signin/google-signin",
       "@react-native-firebase/app",
       [
@@ -106,6 +107,7 @@ export default {
           },
         },
       ],
+      ["expo-screen-orientation", { initialOrientation: "DEFAULT" }],
     ],
     experiments: {
       typedRoutes: true,

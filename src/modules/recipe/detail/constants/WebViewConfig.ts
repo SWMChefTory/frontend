@@ -2,6 +2,7 @@ import { Platform } from "react-native";
 
 export const WEBVIEW_CONFIG = {
   BASE_URL: "https://webview.cheftories.com",
+  //TODO : IOS Agent를 임의로 설정할 필요가 있나?
   USER_AGENTS: {
     IOS: "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1",
     ANDROID:
@@ -29,6 +30,8 @@ export const getUserAgent = (): string => {
 };
 
 export const getWebViewUrl = (recipeId: string): string => {
-  console.log("WEBVIEW_CONFIG.BASE_URL", WEBVIEW_CONFIG.BASE_URL);
-  return `${WEBVIEW_CONFIG.BASE_URL}/#/recipes/${recipeId}`;
+  // console.log("WEBVIEW_CONFIG.BASE_URL", WEBVIEW_CONFIG.BASE_URL);
+  const temp = `http://localhost:3000/#/recipes/${recipeId}`
+  return temp;
+  // return `${WEBVIEW_CONFIG.BASE_URL}/#/recipes/${recipeId}`;
 };

@@ -16,12 +16,18 @@ interface UseWebViewMessageProps {
     onTimerSet?: (data: TimerMessage) => void;
   };
   refreshTokenCallback: () => Promise<void>;
+  orientation: {
+    lockToPortraitUp: () => Promise<void>;
+    lockToLandscapeLeft: () => Promise<void>;
+    unlockOrientation: () => Promise<void>;
+  }
 }
 
 export function useWebViewMessage({
   webviewRef,
   timerCallbacks,
   refreshTokenCallback,
+  orientation,
 }: UseWebViewMessageProps) {
   const clearWebViewHistoryByReload = useCallback(() => {
     if (webviewRef.current) {
@@ -74,6 +80,19 @@ export function useWebViewMessage({
 
           case WebViewMessageType.TIMER_SET:
             timerCallbacks?.onTimerSet?.(parsedMessage as TimerMessage);
+            break;
+
+          case WebViewMessageType.LOCK_TO_PORTRAIT_UP:
+            orientation.lockToPortraitUp();
+            break;
+
+          case WebViewMessageType.LOCK_TO_LANDSCAPE_LEFT:
+            console.log("가로모드");
+            orientation.lockToLandscapeLeft();
+            break;
+
+          case WebViewMessageType.UNLOCK_ORIENTATION:
+            orientation.unlockOrientation();
             break;
 
           default:
