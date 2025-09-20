@@ -7,7 +7,6 @@ import { useLoginViewModel } from "@/src/modules/user/business/service/useAuthSe
 import { OauthProvider } from "@/src/modules/user/enums/OauthProvider";
 import { FullScreenLoader } from "@/src/modules/shared/splash/loading/lottieview/FullScreenLoader";
 import LoginButtonTemplate from "../../login/LoginButtonTemplate";
-import { countBy } from "lodash";
 
 GoogleSignin.configure({
   webClientId: process.env.EXPO_PUBLIC_WEB_ID,
@@ -37,8 +36,9 @@ export default function GoogleLoginButton({ isReal }: { isReal: boolean }) {
         console.log("Google Sign-In cancelled or failed:", response.type);
       }
     } catch (err) {
-      console.error("Google Sign-In Error:", err);
-      Alert.alert("오류", "Google 로그인 중 오류가 발생했습니다.");
+      console.log(err);
+      Alert.alert("Google Sign-In Error:" + err);
+      // Alert.alert("오류", "Google 로그인 중 오류가 발생했습니다.");
     }
   };
 

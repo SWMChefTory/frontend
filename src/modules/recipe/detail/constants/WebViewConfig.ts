@@ -1,25 +1,11 @@
 import { Platform } from "react-native";
 
 export const WEBVIEW_CONFIG = {
-  BASE_URL: "https://webview.cheftories.com",
-  //TODO : IOS Agent를 임의로 설정할 필요가 있나?
+  BASE_URL: process.env.EXPO_PUBLIC_WEBVIEW_URL,
   USER_AGENTS: {
     IOS: "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1",
     ANDROID:
       "Mozilla/5.0 (Linux; Android 10; SM-G975F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.120 Mobile Safari/537.36",
-  },
-
-  LOADING_CONFIG: {
-    LOADING_TEXT: "레시피를 불러오는 중...",
-    SPINNER_COLOR: "#007AFF",
-    SPINNER_SIZE: "large" as const,
-  },
-
-  ERROR_MESSAGES: {
-    LOAD_ERROR: "페이지 로드 오류",
-    LOAD_ERROR_DESCRIPTION: "페이지를 불러오는데 문제가 발생했습니다.",
-    BACK_BUTTON_TEXT: "뒤로가기",
-    RETRY_BUTTON_TEXT: "다시 시도",
   },
 } as const;
 
@@ -30,8 +16,5 @@ export const getUserAgent = (): string => {
 };
 
 export const getWebViewUrl = (recipeId: string): string => {
-  // console.log("WEBVIEW_CONFIG.BASE_URL", WEBVIEW_CONFIG.BASE_URL);
-  const temp = `http://localhost:3000/#/recipes/${recipeId}`
-  return temp;
-  // return `${WEBVIEW_CONFIG.BASE_URL}/#/recipes/${recipeId}`;
+  return `${WEBVIEW_CONFIG.BASE_URL}/#/recipes/${recipeId}`;
 };

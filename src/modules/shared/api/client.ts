@@ -86,6 +86,7 @@ client.interceptors.request.use(
 
 client.interceptors.response.use(
   async (res) => {
+    console.log(res);
     return res;
   },
   async (error) => {

@@ -22,8 +22,7 @@ export function RecipeSectionHeader({
       </View>
       {onPress && (
         <TouchableOpacity onPress={onPress}>
-          <Ionicons name="resize-sharp" size={25} color={COLORS.orange.main} />
-          {/* <Text style={styles.modernViewAllText}>전체 보기</Text> */}
+          <Text style={styles.modernViewAllText}>더보기</Text>
         </TouchableOpacity>
       )}
     </View>

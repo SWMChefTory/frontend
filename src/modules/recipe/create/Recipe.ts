@@ -30,8 +30,8 @@ export class Recipe {
     );
 
     const ingredients = new Recipe.Ingredients(
-      res.ingredients_info.id,
-      res.ingredients_info.ingredients.map(
+      res.analysis.id,
+      res.analysis.ingredients.map(
         (i) => new Recipe.Ingredients.Item(i.name, i.amount, i.unit),
       ),
     );
@@ -48,26 +48,6 @@ export class Recipe {
     );
 
     return new Recipe(res.recipe_status, video, ingredients, steps);
-  }
-
-  /** 전체 스텝 수 */
-  getStepCount(): number {
-    return this.steps.length;
-  }
-
-  /** 전체 소요 시간(mm:ss) – 영상 길이 기준 */
-  getFormattedDuration(): string {
-    return this.video.getFormattedDuration();
-  }
-
-  /** 재료 요약 문자열 */
-  getIngredientsSummary(): string {
-    return this.ingredients.getSummary();
-  }
-
-  /** 특정 스텝 조회 (1-based order) */
-  getStep(order: number): Recipe.Step | undefined {
-    return this.steps.find((s) => s.order === order);
   }
 }
 

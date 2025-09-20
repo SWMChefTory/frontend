@@ -7,8 +7,8 @@ import Animated, {
   useAnimatedStyle,
   withTiming,
   runOnJS,
-  withDelay
-} from 'react-native-reanimated';
+  withDelay,
+} from "react-native-reanimated";
 import logoStyle from "./logo/style/logostyle";
 import { View, StyleSheet } from "react-native";
 import { COLORS } from "../constants/colors";
@@ -71,14 +71,20 @@ export function SplashScreenController({
     const moveDistance = targetTop - currentTop;
 
     // 애니메이션 시퀀스
-    translateY.value = withDelay(moveUpStart, withTiming(moveDistance, { duration: moveUpDuration }));
-    scale.value = withDelay(scaleInStart, withTiming(0.8, { duration: scaleInDuration }, (finished) => {
-      if (finished) {
-        // 스플래시를 숨기지 않고 children을 보여줌
-        runOnJS(setShowChildren)(true);
-        childrenOpacity.value = withTiming(1, { duration: 300 });
-      }
-    }));
+    translateY.value = withDelay(
+      moveUpStart,
+      withTiming(moveDistance, { duration: moveUpDuration }),
+    );
+    scale.value = withDelay(
+      scaleInStart,
+      withTiming(0.8, { duration: scaleInDuration }, (finished) => {
+        if (finished) {
+          // 스플래시를 숨기지 않고 children을 보여줌
+          runOnJS(setShowChildren)(true);
+          childrenOpacity.value = withTiming(1, { duration: 300 });
+        }
+      }),
+    );
   }, []);
 
   return (
@@ -87,15 +93,29 @@ export function SplashScreenController({
       <View style={styles.outerContainer}>
         <Animated.View style={animatedScaleStyle}>
           <MainCharacter translateY={translateY} />
-          <NearVoice translateY={translateY} fadeStart={nearVoiceFadeInStart} fadeDuration={nearVoiceFadeInDuration} />
-          <FarVoice translateY={translateY} fadeStart={farVoiceFadeInStart} fadeDuration={farVoiceFadeInDuration} />
-          <MainText translateY={translateY} fadeStart={mainTextFadeInStart} fadeDuration={mainTextFadeInDuration} />
+          <NearVoice
+            translateY={translateY}
+            fadeStart={nearVoiceFadeInStart}
+            fadeDuration={nearVoiceFadeInDuration}
+          />
+          <FarVoice
+            translateY={translateY}
+            fadeStart={farVoiceFadeInStart}
+            fadeDuration={farVoiceFadeInDuration}
+          />
+          <MainText
+            translateY={translateY}
+            fadeStart={mainTextFadeInStart}
+            fadeDuration={mainTextFadeInDuration}
+          />
         </Animated.View>
       </View>
-      
+
       {/* Children - 애니메이션 완료 후 페이드 인 */}
-      {(!loading && showChildren) && (
-        <Animated.View style={[StyleSheet.absoluteFillObject, animatedChildrenStyle]}>
+      {!loading && showChildren && (
+        <Animated.View
+          style={[StyleSheet.absoluteFillObject, animatedChildrenStyle]}
+        >
           {children}
         </Animated.View>
       )}

@@ -37,6 +37,8 @@ export interface RecipeDetailState {
 }
 
 export type TimerMessage = {
+
+  
   type:
     | WebViewMessageType.TIMER_START
     | WebViewMessageType.TIMER_STOP

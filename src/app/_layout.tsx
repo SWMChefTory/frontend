@@ -18,27 +18,12 @@ import { useAuthBootstrap } from "../modules/user/authBootstrap";
 import * as Network from "expo-network";
 import { AppState, AppStateStatus, Platform, View } from "react-native";
 import { useDeepLinkHandler } from "@/src/useDeepLink";
-import * as Sentry from "@sentry/react-native";
-import Constants from "expo-constants";
 import {
   MD3LightTheme as DefaultTheme,
   PaperProvider,
   useTheme,
 } from "react-native-paper";
 
-import * as ScreenOrientation from "expo-screen-orientation";
-
-Sentry.init({
-  dsn: "https://8efe9b2af11c71662ad73df4bea9cd61@o4509948359933952.ingest.us.sentry.io/4509948389163008",
-  tracesSampleRate: 1.0,
-  profilesSampleRate: 1.0,
-  replaysSessionSampleRate: 0.1,
-  replaysOnErrorSampleRate: 1.0,
-  environment: __DEV__ ? "development" : "production",
-  integrations: [Sentry.mobileReplayIntegration()],
-});
-
-ExpoSplashScreen.preventAutoHideAsync();
 
 import * as Notifications from "expo-notifications";
 import { useNotificationObserver } from "@/src/modules/notifications/useNotificationObserver";
@@ -47,6 +32,9 @@ import {
   SafeAreaProvider,
 } from "react-native-safe-area-context";
 import { checkAndApplyUpdates } from "../modules/shared/utils/codepush";
+import * as ScreenOrientation from "expo-screen-orientation";
+
+ExpoSplashScreen.preventAutoHideAsync();
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -103,15 +91,12 @@ function RootNavigator() {
     if ((loading && loaded) || error) {
       checkAndApplyUpdates();
     }
-  }, [loaded, error]);
+  }, []);
 
   if (!loaded && !error) {
     return null;
   }
 
-  if (!loaded && !error) {
-    return null;
-  }
   return (
     <Stack
       screenOptions={{
@@ -208,11 +193,9 @@ export default function RootLayout() {
           <PaperProvider theme={theme}>
             <BottomSheetModalProvider>
               <GlobalErrorBoundary>
-                <View style={{ flex: 1 }}>
                 <SplashScreenController>
                   <RootNavigator />
                 </SplashScreenController>
-                </View>
               </GlobalErrorBoundary>
             </BottomSheetModalProvider>
           </PaperProvider>

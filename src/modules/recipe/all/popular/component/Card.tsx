@@ -82,9 +82,6 @@ export function AllPopularRecipeCard({ recipe, onPress }: Props) {
               />
               <Text style={styles.popularityText}>인기 레시피</Text>
             </View>
-            <View style={styles.countContainer}>
-              <Text style={styles.countText}>{recipe.count}회 조회</Text>
-            </View>
           </View>
 
           <Pressable
@@ -119,7 +116,6 @@ const styles = StyleSheet.create({
     ...SHADOW,
   },
   cardContent: {
-    padding: 16,
   },
   thumbnailContainer: {
     position: "relative",
@@ -165,6 +161,8 @@ const styles = StyleSheet.create({
     fontWeight: "800",
   },
   infoContainer: {
+    paddingHorizontal: responsiveWidth(16),
+    paddingBottom: responsiveHeight(16),
     flex: 1,
   },
   title: {

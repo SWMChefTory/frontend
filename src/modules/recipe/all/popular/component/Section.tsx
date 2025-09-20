@@ -145,7 +145,6 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.background.white,
   },
   listContainer: {
-    paddingHorizontal: responsiveWidth(16),
     paddingTop: responsiveHeight(8),
   },
   itemContainer: {
