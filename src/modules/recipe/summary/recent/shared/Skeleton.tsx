@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
   },
   card: {
     width: 140,
-    backgroundColor: COLORS.priamry.main,
+    backgroundColor: COLORS.primary.main,
     borderRadius: 16,
     paddingBottom: 12,
     ...SKELETON_SHADOW,

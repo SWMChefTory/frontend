@@ -1,4 +1,5 @@
 import { client } from "@/src/modules/shared/api/client";
+import { RecipeStatus } from "@/src/modules/recipe/types/Recipe";
 
 export interface RecentAllRecipeApiResponse {
   viewed_at: string;
@@ -10,6 +11,7 @@ export interface RecentAllRecipeApiResponse {
   video_seconds: number;
   category: string;
   category_id: string;
+  recipe_status: RecipeStatus;
 }
 
 export interface RecentAllRecipesApiResponse {

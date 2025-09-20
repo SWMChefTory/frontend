@@ -1,10 +1,6 @@
 import { View, StyleSheet, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
-  BlockSpacing,
-  BlockSpacingType,
-} from "@/src/shared/components/spacings/Spacing";
-import {
   RadioButton,
   Text,
   TouchableRipple,
@@ -22,6 +18,10 @@ import {
 import SquareButton from "@/src/shared/components/textInputs/SquareButtonTemplate";
 import WriteCustomerFeedbackModal from "./WriteCustomerFeedbackModal";
 import { track } from "@/src/modules/shared/utils/analytics";
+import {
+  BlockSpacing,
+  BlockSpacingType,
+} from "@/src/shared/components/spacings/Spacing";
 
 const withdrawalReasons = {
   "1": "앱 사용법이 복잡해서",
@@ -40,20 +40,20 @@ export default function MemberShipWithdrawalPage({
 }) {
   const { deleteUser } = useDeleteUserViewModel();
   const [selectedItems, setSelectedItems] = useState<{ [key: string]: string }>(
-    {}
+    {},
   );
 
   const addItems = (
     key: string,
     selectedItems: { [key: string]: string },
-    items: { [key: string]: string }
+    items: { [key: string]: string },
   ) => {
     setSelectedItems({ ...selectedItems, [key]: items[key] });
   };
 
   const deleteItems = (
     key: string,
-    selectedItems: { [key: string]: string }
+    selectedItems: { [key: string]: string },
   ) => {
     const newSelectedItems = { ...selectedItems };
     delete newSelectedItems[key];
@@ -130,7 +130,7 @@ function RadioButtonItemGroup({
   addItems: (
     key: string,
     selectedItems: { [key: string]: string },
-    items: { [key: string]: string }
+    items: { [key: string]: string },
   ) => void;
   deleteItems: (key: string, selectedItems: { [key: string]: string }) => void;
   selectedItems: { [key: string]: string };
@@ -166,7 +166,7 @@ function RadioButtonItem({
   return (
     <View style={styles.radioButtonItem}>
       <TouchableRipple
-        style={{flex: 1}}
+        style={{ flex: 1 }}
         onPress={() => (isChecked ? deleteItems(item) : addItems(item))}
       >
         <View style={styles.radioButtonContainer}>
@@ -189,7 +189,7 @@ function RadioButtonItem({
           </Text>
         </View>
       </TouchableRipple>
-        <WriteButton label={item} isDisabled={!isChecked} />
+      <WriteButton label={item} isDisabled={!isChecked} />
     </View>
   );
 }

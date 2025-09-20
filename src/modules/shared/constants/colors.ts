@@ -1,5 +1,5 @@
 export const COLORS = {
-  priamry: {
+  primary: {
     main: "#FFF5F0",
     cook: "#FFFFFF",
   },

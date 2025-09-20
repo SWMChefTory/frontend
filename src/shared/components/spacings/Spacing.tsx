@@ -21,4 +21,4 @@ function BlockSpacing({ type }: { type: BlockSpacingType }) {
   return <View style={{ height: type }} />;
 }
 
-export { InputSpacing,InputSpacingType, BlockSpacing, BlockSpacingType };
+export { InputSpacing, InputSpacingType, BlockSpacing, BlockSpacingType };

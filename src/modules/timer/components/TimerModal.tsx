@@ -276,7 +276,7 @@ export default TimerModal;
 
 const styles = StyleSheet.create({
   sheetBackground: {
-    backgroundColor: COLORS.priamry.cook,
+    backgroundColor: COLORS.primary.cook,
   },
   handleIndicator: {
     backgroundColor: COLORS.border.lightGray,
