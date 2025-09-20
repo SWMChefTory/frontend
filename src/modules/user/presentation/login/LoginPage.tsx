@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: responsiveWidth(24),
-    backgroundColor: COLORS.priamry.main,
+    backgroundColor: COLORS.primary.main,
   },
   logoContainer: {
     width: responsiveWidth(150),

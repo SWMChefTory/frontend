@@ -126,6 +126,6 @@ export function SplashScreenController({
 const styles = StyleSheet.create({
   outerContainer: {
     flex: 1,
-    backgroundColor: COLORS.priamry.main,
+    backgroundColor: COLORS.primary.main,
   },
 });
