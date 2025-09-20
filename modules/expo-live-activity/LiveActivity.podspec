@@ -9,10 +9,15 @@ Pod::Spec.new do |s|
   s.source        = { :path => '.' }
   s.source_files  = 'ios/**/*.{h,m,mm,swift}'
   s.dependency    'ExpoModulesCore'
+
+  s.platform     = :ios, '16.1'
+  s.ios.deployment_target = '16.1'
+
   s.weak_frameworks = ['ActivityKit', 'WidgetKit', 'AppIntents', 'SwiftUI']
   
   s.pod_target_xcconfig = {
     'DEFINES_MODULE' => 'YES',
-    'SWIFT_COMPILATION_MODE' => 'wholemodule'
+    'SWIFT_COMPILATION_MODE' => 'wholemodule',
+    'IPHONEOS_DEPLOYMENT_TARGET' => '16.1'  
   }
 end

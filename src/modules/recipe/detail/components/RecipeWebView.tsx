@@ -2,13 +2,15 @@ import { TimerMessage } from "@/src/modules/recipe/detail/types/RecipeDetail";
 import { useRecipeDetailViewModel } from "@/src/modules/recipe/detail/viewmodels/useRecipeDetailViewModel";
 import { ApiErrorBoundary } from "@/src/modules/shared/components/error/ApiErrorBoundary";
 import { findAccessToken } from "@/src/modules/shared/storage/SecureStorage";
-import { useNavigation } from "expo-router";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { BackHandler, Platform, StyleSheet } from "react-native";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { WebView } from "react-native-webview";
 import { getUserAgent, getWebViewUrl } from "../constants/WebViewConfig";
 import { useWebViewMessage } from "../hooks/useWebViewMessage";
 import { RecipeWebViewFallback } from "./Fallback";
+import * as ScreenOrientation from "expo-screen-orientation";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { BackHandler, Platform, StyleSheet } from "react-native";
+import { useNavigation } from "expo-router";
 
 interface RecipeWebViewProps {
   recipeId: string;
@@ -30,7 +32,7 @@ export function RecipeWebViewContent({
   const webviewRef = useRef<WebView>(null);
   const [error, setError] = useState<Error | null>(null);
   const { accessToken, refetch } = useRecipeDetailViewModel();
-  const url = getWebViewUrl(recipeId);
+  const insets = useSafeAreaInsets();
   const navigation = useNavigation();
 
   const { handleMessage } = useWebViewMessage({
@@ -63,24 +65,51 @@ export function RecipeWebViewContent({
         console.log(`[Native] 액세스 토큰을 웹뷰로 전송: ${newToken}`);
       }
     },
+    orientation: {
+      lockToPortraitUp: async () => {
+        ScreenOrientation.lockAsync(
+          ScreenOrientation.OrientationLock.PORTRAIT_UP
+        );
+      },
+      lockToLandscapeLeft: async () => {
+        console.log("가로모드");
+        ScreenOrientation.lockAsync(
+          ScreenOrientation.OrientationLock.LANDSCAPE_LEFT
+        );
+      },
+      unlockOrientation: async () => {
+        ScreenOrientation.unlockAsync();
+      },
+    },
   });
   const handleError = useCallback((error: any) => {
     setError(
       new Error(
-        `WebView 에러: ${error.nativeEvent?.description || "Unknown error"}`,
-      ),
+        `WebView 에러: ${error.nativeEvent?.description || "Unknown error"}`
+      )
     );
   }, []);
 
   const handleHttpError = useCallback((error: any) => {
     setError(
       new Error(
-        `HTTP 오류: ${error.nativeEvent?.statusCode} - ${error.nativeEvent?.description}`,
-      ),
+        `HTTP 오류: ${error.nativeEvent?.statusCode} - ${error.nativeEvent?.description}`
+      )
     );
   }, []);
 
   const handleWebViewLoadEnd = useCallback(() => {
+    if (webviewRef.current) {
+      const payload = JSON.stringify({
+        type: "SAFE_AREA",
+        safe_area: insets,
+      });
+      webviewRef.current.injectJavaScript(`
+          window.postMessage(${payload}, '*'); true;
+        `);
+
+      console.log(`[Native] 안전 영역을 웹뷰로 전송: ${payload}`);
+    }
     if (webviewRef.current && accessToken) {
       const payload = JSON.stringify({
         type: "ACCESS_TOKEN",
@@ -88,10 +117,19 @@ export function RecipeWebViewContent({
       });
       const js = `window.postMessage(${payload}, '*'); true;`;
       webviewRef.current.injectJavaScript(js);
-    }
-  }, [accessToken]);
 
-  // Android 하드웨어 뒤로가기 버튼 처리: 웹뷰로 BACK_PRESSED 전송
+      console.log(`[Native] 액세스 토큰을 웹뷰로 전송: ${accessToken}`);
+    }
+    if (error) {
+      throw error;
+    }
+  }, [accessToken, error]);
+
+  const webviewUrl = useMemo(() => {
+    const baseUrl = getWebViewUrl(recipeId);
+    return baseUrl;
+  }, [recipeId]);
+
   useEffect(() => {
     const subscription = BackHandler.addEventListener(
       "hardwareBackPress",
@@ -103,7 +141,7 @@ export function RecipeWebViewContent({
           return true; // 기본 뒤로가기 동작 소모
         }
         return false;
-      },
+      }
     );
     return () => subscription.remove();
   }, []);
@@ -133,19 +171,20 @@ export function RecipeWebViewContent({
   return (
     <WebView
       injectedJavaScript={`
-      (function() {
-        const originalLog = console.log;
-        console.log = function(...args) {
-          window.ReactNativeWebView.postMessage(args.join(" "));
-          originalLog.apply(console, args);
-        };
-      })();
-      true;
-    `}
+        (function() {
+          const originalLog = console.log;
+          console.log = function(...args) {
+            window.ReactNativeWebView.postMessage(args.join(" "));
+            originalLog.apply(console, args);
+          };
+        })();
+        true;
+      `}
       ref={webviewRef}
-      source={{ uri: url }}
+      source={{ uri: webviewUrl }}
       style={styles.webview}
       onLoadEnd={handleWebViewLoadEnd}
+      // onLoadStart={handleWebViewLoadStart}
       userAgent={getUserAgent()}
       onMessage={handleMessage}
       onError={handleError}
@@ -161,11 +200,13 @@ export function RecipeWebViewContent({
       cacheEnabled={true}
       {...(Platform.OS === "ios" && {
         allowsLinkPreview: false,
-        automaticallyAdjustContentInsets: false,
+        // automaticallyAdjustContentInsets: false,
+        // contentInset: { top: 30, left: 0, bottom: 30, right: 0 },
         scrollEnabled: true,
         bounces: false,
         showsHorizontalScrollIndicator: false,
         showsVerticalScrollIndicator: false,
+        automaticallyAdjustScrollIndicatorInsets: false,
       })}
       {...(Platform.OS === "android" && {
         mixedContentMode: "compatibility",
@@ -176,11 +217,14 @@ export function RecipeWebViewContent({
       })}
     />
   );
+  // Android 하드웨어 뒤로가기 버튼 처리: 웹뷰로 BACK_PRESSED 전송
 }
 
 const styles = StyleSheet.create({
   webview: {
     flex: 1,
     backgroundColor: "white",
+    width: "100%", // 명시적으로 전체 너비 지정
+    height: "100%",
   },
 });

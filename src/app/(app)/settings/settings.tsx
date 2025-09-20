@@ -1,4 +1,4 @@
-import Settings from "@/src/modules/user/presentation/settings/Settings";
+import SettingsPage from "@/src/pages/settings/SettingsPage";
 import { Stack } from "expo-router";
 import { View, StyleSheet } from "react-native";
 import { COLORS } from "@/src/modules/shared/constants/colors";
@@ -6,7 +6,7 @@ import OnlyBackTemplate from "@/src/header/template/OnlyBackTemplate";
 import { useEffect } from "react";
 import { track } from "@/src/modules/shared/utils/analytics";
 
-export default function SettingsPage() {
+export default function Settings() {
   useEffect(() => {
     track.screen("Settings");
   }, []);
@@ -18,7 +18,7 @@ export default function SettingsPage() {
           // animation: 'fade',
         }}
       />
-      <Settings />
+      <SettingsPage />
     </View>
   );
 }

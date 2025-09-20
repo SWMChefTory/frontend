@@ -16,7 +16,7 @@ public struct LiveActivityAttributes: ActivityAttributes {
         }
 
         func getElapsedTimeInSeconds() -> TimeInterval {
-            let currentTime = pausedAt ?? Date()
+            let currentTime = pausedAt ?? Date()        
             let rawElapsed = currentTime.timeIntervalSince(startedAt)
             return max(0, rawElapsed - totalPausedTime)
         }

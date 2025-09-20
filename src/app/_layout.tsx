@@ -16,14 +16,14 @@ import { useEffect } from "react";
 import { useAuthBootstrap } from "../modules/user/authBootstrap";
 
 import * as Network from "expo-network";
-import { AppState, AppStateStatus, Platform } from "react-native";
+import { AppState, AppStateStatus, Platform, View } from "react-native";
 import { useDeepLinkHandler } from "@/src/useDeepLink";
-import * as Sentry from "@sentry/react-native";
 import {
   MD3LightTheme as DefaultTheme,
   PaperProvider,
   useTheme,
 } from "react-native-paper";
+
 
 import * as Notifications from "expo-notifications";
 import { useNotificationObserver } from "@/src/modules/notifications/useNotificationObserver";
@@ -32,16 +32,7 @@ import {
   SafeAreaProvider,
 } from "react-native-safe-area-context";
 import { checkAndApplyUpdates } from "../modules/shared/utils/codepush";
-
-Sentry.init({
-  dsn: "https://8efe9b2af11c71662ad73df4bea9cd61@o4509948359933952.ingest.us.sentry.io/4509948389163008",
-  tracesSampleRate: 1.0,
-  profilesSampleRate: 1.0,
-  replaysSessionSampleRate: 0.1,
-  replaysOnErrorSampleRate: 1.0,
-  environment: __DEV__ ? "development" : "production",
-  integrations: [Sentry.mobileReplayIntegration()],
-});
+import * as ScreenOrientation from "expo-screen-orientation";
 
 ExpoSplashScreen.preventAutoHideAsync();
 
@@ -105,6 +96,7 @@ function RootNavigator() {
   if (!loaded && !error) {
     return null;
   }
+
   return (
     <Stack
       screenOptions={{
@@ -137,6 +129,8 @@ const theme = {
     onPrimary: "#ffffff",
     primaryContainer: "#ffd54f",
     onPrimaryContainer: "#1a1a1a",
+    onPrimaryContainerDisabled: "#C7C7C7",
+    deEmphasized: "#1a1a1a",
     secondary: "#ff5722",
     surface: "#ffffff",
     background: "#ffffff",
@@ -182,6 +176,15 @@ export default function RootLayout() {
   useOnlineManager();
 
   useAppState(onAppStateChange);
+
+  useEffect(() =>  {
+    async function changeScreenOrientation() {
+      await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
+      console.log("ScreenOrientation locked");
+    }
+    changeScreenOrientation();
+
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>

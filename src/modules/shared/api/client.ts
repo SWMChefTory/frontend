@@ -7,7 +7,6 @@ import {
   storeRefreshToken,
 } from "@/src/modules/shared/storage/SecureStorage";
 import { reissueRefreshToken } from "@/src/modules/shared/api/refresh/reissueApi";
-import { useUserStore } from "@/src/modules/user/business/store/userStore";
 
 declare module "axios" {
   export interface AxiosRequestConfig {
@@ -48,6 +47,7 @@ class TokenRefreshManager {
   private async executeRefresh(): Promise<string> {
     try {
       const refreshToken = findRefreshToken();
+      console.log("token을 갱신하기 위해 refreshToken을 가져옵니다.", refreshToken);
       if (!refreshToken) throw new Error("No refresh token");
 
       const response = await reissueRefreshToken(refreshToken);
@@ -57,7 +57,7 @@ class TokenRefreshManager {
     } catch (error) {
       await removeAuthToken();
       throw error;
-    }
+    } 
   }
 }
 

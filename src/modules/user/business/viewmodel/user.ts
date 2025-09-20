@@ -3,14 +3,14 @@ import { Gender } from "@/src/modules/user/enums/Gender";
 import { userSchema } from "@/src/modules/user/business/validation/userSchema";
 
 export class User {
-  readonly gender: Gender|undefined | null;
+  readonly gender: Gender | null;
   readonly nickname: string;
-  readonly dateOfBirth: DateOnly|undefined | null;
+  readonly dateOfBirth: DateOnly| null;
   readonly isMarketingAgreed: boolean;
   readonly isPrivacyAgreed: boolean;
   readonly isTermsOfUseAgreed: boolean;
 
-  private constructor(gender: Gender|undefined | null, nickname: string, dateOfBirth: DateOnly|undefined | null, isMarketingAgreed: boolean, isPrivacyAgreed: boolean, isTermsOfUseAgreed: boolean) {
+  private constructor(gender: Gender | null, nickname: string, dateOfBirth: DateOnly | null, isMarketingAgreed: boolean, isPrivacyAgreed: boolean, isTermsOfUseAgreed: boolean) {
     this.gender = gender;
     this.nickname = nickname;
     this.dateOfBirth = dateOfBirth;
@@ -38,9 +38,9 @@ export class User {
 
     // 객체에서 개별 값을 추출해서 전달
     return new User(
-      validatedData.gender,
+      validatedData.gender || null,
       validatedData.nickname,
-      validatedData.dateOfBirth,
+      validatedData.dateOfBirth || null,
       validatedData.isMarketingAgreed,
       validatedData.isPrivacyAgreed,
       validatedData.isTermsOfUseAgreed,
@@ -58,7 +58,7 @@ export class User {
     });
   }
 
-  withDateOfBirth(dateOfBirth: DateOnly): User {
+  withDateOfBirth(dateOfBirth: DateOnly|null): User {
     return User.create({
       gender: this.gender,
       nickname: this.nickname,

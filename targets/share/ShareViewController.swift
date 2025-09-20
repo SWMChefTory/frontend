@@ -1,6 +1,7 @@
 import UIKit
 import SwiftUI
 import UniformTypeIdentifiers
+import Foundation
 
 final class ShareViewController: UIViewController, UIGestureRecognizerDelegate {
   private var tasksAfterPresented: [() -> Void] = []
@@ -44,7 +45,11 @@ final class ShareViewController: UIViewController, UIGestureRecognizerDelegate {
         self?.tasksAfterPresented.append { [weak self] in
           let encoded = text.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
           guard let videoId = self?.extractYouTubeVideoId(from: encoded) as? String else{
-            self?.hostErrorView(message: "Youtube URL만 지원합니다!", error:nil)
+            guard let url = URL(string: encoded) else {
+              return;
+            }
+            let path = url.path(percentEncoded: false)
+            self?.hostErrorView(message: path, error:nil)
             return;
           }
           self?.hostView(videoId:videoId)
@@ -71,7 +76,7 @@ final class ShareViewController: UIViewController, UIGestureRecognizerDelegate {
         self?.tasksAfterPresented.append { [weak self] in
           let encoded = text.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
           guard let videoId = self?.extractYouTubeVideoId(from: encoded) as? String else{
-            self?.hostErrorView(message: "Youtube URL만 지원합니다!", error:nil)
+            self?.hostErrorView(message: URL(string: encoded)?.path(percentEncoded: false) ?? "Invalid URL", error:nil)
             return;
           }
           self?.hostView(videoId:videoId)
@@ -94,7 +99,7 @@ final class ShareViewController: UIViewController, UIGestureRecognizerDelegate {
     ) { [weak self] _ in
       self?.close()
     }
-  }
+  } 
   
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
@@ -107,12 +112,7 @@ final class ShareViewController: UIViewController, UIGestureRecognizerDelegate {
       close: { [weak self] in
         self?.close()
       },
-      deepLink: { [weak self] in
-        guard let self = self else {
-          print("self가 nil")
-          return
-        }
-
+      deepLink: {
         guard let deepLinkUrl = URL(string: "cheftory://?video-id=\(videoId)&external=true") else {
             print("딥링크 URL 생성 실패")
             return
@@ -151,16 +151,23 @@ final class ShareViewController: UIViewController, UIGestureRecognizerDelegate {
   
   func extractYouTubeVideoId(from urlString: String) -> String? {
       guard let url = URL(string: urlString) else { return nil }
-      
       // youtu.be 형식
       if url.host?.contains("youtu.be") == true {
-          return String(url.path.dropFirst()) // '/' 제거
+        let components =  url.path.components(separatedBy: "/")
+        if(components[1]=="shorts"){
+          return components[2]
+        }
+        return String(url.path.dropFirst()) 
       }
       
       // youtube.com 형식
       if url.host?.contains("youtube.com") == true {
-          let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
-          return components?.queryItems?.first(where: { $0.name == "v" })?.value
+        let components =  url.path.components(separatedBy: "/")
+        if(components[1]=="shorts"){
+          return components[2]
+        }
+        let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false)
+        return urlComponents?.queryItems?.first(where: { $0.name == "v" })?.value
       }
       
       return nil

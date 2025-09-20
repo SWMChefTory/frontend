@@ -73,7 +73,6 @@ export function useDeepLinkHandler() {
 
     if (!parsedUrl.hostname) {
       if (queryParams?.["video-id"]) {
-        console.log("queryParams", queryParams);
         setDeepLinkAction({
           actionType: "create",
           params: {

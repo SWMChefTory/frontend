@@ -22,7 +22,7 @@ import { track } from "@/src/modules/shared/utils/analytics";
 export default function TabLayout() {
   const modalRef = useRef<BottomSheetModal>(null);
   console.log("TabLayout");
-  const { deepLinkAction} = deepLinkActionStore();
+  const {deepLinkAction} = deepLinkActionStore();
   const [modalData, setModalData] = useState<string | null>(null);
   const insets = useSafeAreaInsets();
 
@@ -32,7 +32,7 @@ export default function TabLayout() {
 
       return;
     }
-}, [deepLinkAction]);
+}, [deepLinkAction]);     
 
   const openBottomSheet = useCallback(
     ({ youtubeUrl = "" }: { youtubeUrl: string }) => {
@@ -72,6 +72,7 @@ export default function TabLayout() {
           animation: "fade",
         }}
       >
+        
         <Tabs.Screen
           name="index"
           options={{
