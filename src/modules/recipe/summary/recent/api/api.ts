@@ -23,3 +23,4 @@ export async function fetchRecentSummary(): Promise<RecentSummaryRecipesApiRespo
     await client.get<RecentSummaryRecipesApiResponse>(`/recipes/recent`);
   return response.data;
 }
+

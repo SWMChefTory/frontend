@@ -6,6 +6,7 @@ import { RecentAllRecipeApiResponse } from "../all/recent/api/api";
 export enum RecipeStatus {
   IN_PROGRESS = "IN_PROGRESS",
   SUCCESS = "SUCCESS",
+  FAILED = "FAILED",
 }
 
 export class PopularRecipe {

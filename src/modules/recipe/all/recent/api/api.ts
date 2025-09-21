@@ -31,3 +31,4 @@ export async function fetchRecentAll(params: {
   );
   return response.data;
 }
+
