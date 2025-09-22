@@ -19,6 +19,7 @@ interface UseWebViewMessageProps {
   orientation: {
     lockToPortraitUp: () => Promise<void>;
     lockToLandscapeLeft: () => Promise<void>;
+    lockToLandscapeRight: () => Promise<void>;
     unlockOrientation: () => Promise<void>;
   }
 }
@@ -87,8 +88,11 @@ export function useWebViewMessage({
             break;
 
           case WebViewMessageType.LOCK_TO_LANDSCAPE_LEFT:
-            console.log("가로모드");
             orientation.lockToLandscapeLeft();
+            break;
+
+          case WebViewMessageType.LOCK_TO_LANDSCAPE_RIGHT:
+            orientation.lockToLandscapeRight();
             break;
 
           case WebViewMessageType.UNLOCK_ORIENTATION:

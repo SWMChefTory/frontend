@@ -28,6 +28,7 @@ export enum WebViewMessageType {
   TIMER_SET = "TIMER_SET",
   LOCK_TO_PORTRAIT_UP = "LOCK_TO_PORTRAIT_UP",
   LOCK_TO_LANDSCAPE_LEFT = "LOCK_TO_LANDSCAPE_LEFT",
+  LOCK_TO_LANDSCAPE_RIGHT = "LOCK_TO_LANDSCAPE_RIGHT",
   UNLOCK_ORIENTATION = "UNLOCK_ORIENTATION",
 }
 
@@ -38,7 +39,7 @@ export interface RecipeDetailState {
 
 export type TimerMessage = {
 
-  
+
   type:
     | WebViewMessageType.TIMER_START
     | WebViewMessageType.TIMER_STOP

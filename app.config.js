@@ -19,7 +19,6 @@ export default {
         "com.apple.security.application-groups": [
           "group.com.cheftory.cheftory",
         ],
-        "requireFullScreen": true
       },
       googleServicesFile:
         process.env.GOOGLE_SERVICES_PLIST ||
