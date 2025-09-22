@@ -4,6 +4,7 @@ import { LoadingAnimation } from "./LoadingAnimation";
 import { ProgressSection } from "./Progress";
 import { StepInfoCard } from "./Card";
 import { TipSection } from "./TipSection";
+import { DetailSteps } from "./DetailSteps";
 import { STEP_ORDER, TIP_TEXT, RECIPE_CREATE_STEPS } from "../constants/Steps";
 import { useRecipeCreateStatusViewModel } from "../viewmodel/useStatusViewModel";
 import { useRecipeCreateAnimation } from "../hooks/useAnimation";
@@ -17,10 +18,10 @@ interface Props {
 }
 
 export function RecipeStepContent({ recipeId, onCompleted }: Props) {
-  const { status, progress } = useRecipeCreateStatusViewModel(recipeId);
+  const { status, progress, progresses } =
+    useRecipeCreateStatusViewModel(recipeId);
   const { spin, reverseSpin, bounce, scaleValue } = useRecipeCreateAnimation();
 
-  const currentStepIndex = STEP_ORDER.indexOf(status);
   const currentStepData = RECIPE_CREATE_STEPS[status];
 
   useEffect(() => {
@@ -46,14 +47,9 @@ export function RecipeStepContent({ recipeId, onCompleted }: Props) {
           colors={currentStepData.colors}
           scaleValue={scaleValue}
         />
+        {/*<StepInfoCard title={} description={} stepOrder={} currentStepIndex={} scaleValue={}*/}
 
-        <StepInfoCard
-          title={currentStepData.title}
-          description={currentStepData.description}
-          stepOrder={STEP_ORDER}
-          currentStepIndex={currentStepIndex}
-          scaleValue={scaleValue}
-        />
+        <DetailSteps progresses={progresses} scaleValue={scaleValue} />
 
         <TipSection tipText={TIP_TEXT} />
       </View>
@@ -64,7 +60,7 @@ export function RecipeStepContent({ recipeId, onCompleted }: Props) {
 const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
-    justifyContent: "center",
+    paddingTop: responsiveWidth(100),
     alignItems: "center",
     zIndex: 50,
   },
