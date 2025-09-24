@@ -66,7 +66,7 @@ public struct LiveActivityAttributes: ActivityAttributes {
             switch state {
             case .ACTIVE:
                 guard endAt != nil else { return 0 }
-                return max(0, endAt.timeIntervalSinceNow)
+                return max(0, endAt?.timeIntervalSinceNow ?? 0)
             case .PAUSED:
                 return remainingSeconds
             default:
@@ -96,8 +96,8 @@ public struct LiveActivityAttributes: ActivityAttributes {
                 return nil }
             return ContentState(
                 state: LiveActivityState.PAUSED,
-                endAt: nil,
                 totalSeconds: self.totalSeconds,
+                endAt: nil,
                 remainingSeconds: remainingSeconds,
             )
         }
@@ -112,8 +112,8 @@ public struct LiveActivityAttributes: ActivityAttributes {
 
             return ContentState(
                 state: LiveActivityState.ACTIVE,
-                endAt: endAt,
                 totalSeconds: self.totalSeconds,
+                endAt: endAt,
                 remainingSeconds: -1,
             )
         }
@@ -124,8 +124,8 @@ public struct LiveActivityAttributes: ActivityAttributes {
                 return nil }
             return ContentState(
                 state: LiveActivityState.END,
-                endAt: nil,
                 totalSeconds: self.totalSeconds,
+                endAt: nil,
                 remainingSeconds: -1,
             )
         }

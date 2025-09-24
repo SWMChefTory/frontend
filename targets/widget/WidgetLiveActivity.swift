@@ -130,8 +130,8 @@ struct StyledProgress: View {
         let timerState = state.getState();
         switch timerState {
         case .ACTIVE:
-            let endDate = state.endAt;
-            let adjustedStartDate = endDate.addingTimeInterval(-TimeInterval(state.totalSeconds))
+            guard let endDate = state.getEndAt() else { return EmptyView() }
+            let adjustedStartDate = endDate.addingTimeInterval(-TimeInterval(state.getTotalSeconds()))
             // 활성 상태 - 정상적인 프로그레스 바
             ProgressView(timerInterval: adjustedStartDate...endDate, countsDown: true) {
                 EmptyView()
@@ -146,7 +146,7 @@ struct StyledProgress: View {
             .clipShape(Capsule())
             
         case .PAUSED:
-            let progressRate = max(0, min(1, state.remainingSeconds / state.totalSeconds));
+            let progressRate = max(0, min(1, state.getRemainingSeconds() / state.getTotalSeconds()));
             // 일시정지 상태 - 다른 색상이나 효과
             ProgressView(value: progressRate) { EmptyView() } currentValueLabel: { EmptyView() }
             .tint(ChefTheme.primary)
@@ -173,34 +173,11 @@ struct StyledProgress: View {
     }
 }
 
-struct RealTimeProgressText: View {
-    let state: LiveActivityAttributes.ContentState
-    var body: some View {
-        if state.isRunning() {
-            TimelineView(.periodic(from: Date(), by: 1.0)) { ctx in
-                let p = progress(at: ctx.date)
-                Text("\(Int(p * 100))%")
-            }
-        } else {
-            let p = state.isCompleted() ? 100.0 : state.getProgress()
-            Text("\(Int(p))%")
-        }
-    }
-    private func progress(at date: Date) -> Double {
-        if state.isCompleted() { return 1 }
-        if state.isRunning() {
-            let s = state.startedAt.addingTimeInterval(state.totalPausedTime)
-            return min(1, max(0, date.timeIntervalSince(s) / state.duration))
-        }
-        return state.getProgress() / 100
-    }
-}
-
 struct TimerDisplay: View {
     let state: LiveActivityAttributes.ContentState
     let size: CGFloat
     var body: some View {
-        if state.isCompleted() {
+        if state.getState() == .FINISHED {
             HStack(spacing: 8) {
                 Image(systemName: "checkmark.circle.fill")
                     .foregroundColor(ChefTheme.mint)
@@ -210,8 +187,8 @@ struct TimerDisplay: View {
                     .font(.system(size: size, weight: .bold, design: .rounded))
             }
             .onAppear { autoEndActivity() }
-        } else if state.isRunning() {//카운트다운 모드
-            let endDate = state.endAt;
+        } else if state.getState() == .ACTIVE {//카운트다운 모드
+            guard let endDate = state.getEndAt() else { return EmptyView() }
             let adjustedStartDate = endDate.addingTimeInterval(-TimeInterval(state.totalSeconds))
             Text(timerInterval: adjustedStartDate...endDate, pauseTime: nil, countsDown: true, showsHours: false)
                 .foregroundColor(ChefTheme.onDark)
@@ -239,8 +216,8 @@ struct StatusChip: View {
     let state: LiveActivityAttributes.ContentState
     var body: some View {
         let (text, color): (String, Color) = {
-            if state.isCompleted() { return ("완료", ChefTheme.mint) }
-            if state.getCurrentState() == "paused" { return ("일시정지", ChefTheme.accent) }
+            if state.getState() == .FINISHED { return ("완료", ChefTheme.mint) }
+            if state.getState() == .PAUSED { return ("일시정지", ChefTheme.accent) }
             return ("진행중", ChefTheme.primary)
         }()
         return Text(text)
