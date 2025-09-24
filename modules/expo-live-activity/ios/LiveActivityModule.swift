@@ -2,7 +2,7 @@ import ExpoModulesCore
 import ActivityKit
 import Foundation
 
-public enum LiveActivityState {
+public enum LiveActivityState: Codable {
     case ACTIVE
     case PAUSED
     case END

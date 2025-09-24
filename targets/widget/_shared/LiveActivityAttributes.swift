@@ -1,7 +1,7 @@
 import Foundation
 import ActivityKit
 
-public enum LiveActivityState {
+public enum LiveActivityState: Codable {
     case ACTIVE
     case PAUSED
     case END
