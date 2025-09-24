@@ -1,52 +1,37 @@
-import ActivityKit
-import Foundation
+enum LiveActivityState {
+    case ACTIVE
+    case PAUSED
+    case END
+}
 
+@available(iOS 16.1, *)
 public struct LiveActivityAttributes: ActivityAttributes {
     public struct ContentState: Codable, Hashable {
-        public var startedAt: Date
-        public var pausedAt: Date?
-        public var duration: TimeInterval
-        public var totalPausedTime: TimeInterval
+        public var state: LiveActivityState
 
-        public init(startedAt: Date, pausedAt: Date?, duration: TimeInterval, totalPausedTime: TimeInterval = 0) {
-            self.startedAt = startedAt
-            self.pausedAt = pausedAt
-            self.duration = max(1, duration)
-            self.totalPausedTime = totalPausedTime
+        public var totalSeconds: TimeInterval
+        public var endAt: Date
+        public var remainingSeconds: TimeInterval
+        
+        //초 단위
+        public init(state: LiveActivityState, totalSeconds : TimeInterval, endAt: Date, remainingSeconds: TimeInterval) {
+            self.state = state
+            self.totalSeconds = totalSeconds
+            self.endAt = endAt
+            self.remainingSeconds = remainingSeconds
         }
 
-        func getElapsedTimeInSeconds() -> TimeInterval {
-            let currentTime = pausedAt ?? Date()        
-            let rawElapsed = currentTime.timeIntervalSince(startedAt)
-            return max(0, rawElapsed - totalPausedTime)
+        public static func createStartTimer(endAt: Date, totalSeconds: TimeInterval) -> ContentState {
+            return ContentState(
+                state: LiveActivityState.ACTIVE,
+                totalSeconds: totalSeconds,
+                endAt: endAt,
+                remainingSeconds: totalSeconds,
+            )
         }
 
-        func getRemainingTimeInSeconds() -> TimeInterval {
-            let elapsed = getElapsedTimeInSeconds()
-            return max(0, duration - elapsed)
-        }
-
-        public func getProgress() -> Double {
-            let elapsed = getElapsedTimeInSeconds()
-            return min(100.0, max(0.0, (elapsed / duration) * 100.0))
-        }
-
-        public func isCompleted() -> Bool {
-            return getElapsedTimeInSeconds() >= duration
-        }
-
-        public func isRunning() -> Bool {
-            return pausedAt == nil && !isCompleted()
-        }
-
-        public func getCurrentState() -> String {
-            if isCompleted() {
-                return "finished"
-            } else if pausedAt != nil {
-                return "paused"
-            } else {
-                return "active"
-            }
+        public func getState() -> LiveActivityState {
+          return self.state;
         }
 
         public func getFormattedRemainingTime() -> String {
@@ -54,7 +39,17 @@ public struct LiveActivityAttributes: ActivityAttributes {
             return formatTime(remaining)
         }
 
-        // 시간 포맷 헬퍼 함수
+        private func getRemainingTimeInSeconds() -> TimeInterval {
+            switch state {
+            case .ACTIVE:
+                return max(0, endAt.timeIntervalSinceNow)
+            case .PAUSED:
+                return remainingSeconds
+            default:
+                return 0
+            }
+        }
+
         private func formatTime(_ timeInterval: TimeInterval) -> String {
             let totalSeconds = Int(timeInterval)
             let hours = totalSeconds / 3600
@@ -68,30 +63,28 @@ public struct LiveActivityAttributes: ActivityAttributes {
             }
         }
 
-        public func getFutureDate() -> Date {
-            let remainingTime = getRemainingTimeInSeconds()
-            return Date().addingTimeInterval(remainingTime + 300)
-        }
-
-        public func pauseTimer() -> ContentState {
+        public func pauseTimer(remainingSeconds: TimeInterval) -> ContentState? {
+            if state != LiveActivityState.ACTIVE {
+                return nil;
+            }
             return ContentState(
-                startedAt: startedAt,
-                pausedAt: Date(),
-                duration: duration,
-                totalPausedTime: totalPausedTime
+                state: LiveActivityState.PAUSED,
+                endAt: nil,
+                totalSeconds: self.totalSeconds,
+                remainingSeconds: remainingSeconds,
             )
         }
 
-        // 일시정지 해제
-        public func resumeTimer() -> ContentState {
-            guard let pausedTime = pausedAt else { return self }
+        public func resumeTimer(endAt: Date) -> ContentState? {
+            if state != LiveActivityState.PAUSED {
+                return nil;
+            }
 
-            let pauseDuration = max(0, Date().timeIntervalSince(pausedTime))
             return ContentState(
-                startedAt: startedAt,
-                pausedAt: nil,
-                duration: duration,
-                totalPausedTime: totalPausedTime + pauseDuration
+                state: LiveActivityState.ACTIVE,
+                endAt: endAt,
+                totalSeconds: self.totalSeconds,
+                remainingSeconds: nil
             )
         }
     }

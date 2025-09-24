@@ -127,50 +127,49 @@ struct LockScreenLiveActivityView: View {
 struct StyledProgress: View {
     let state: LiveActivityAttributes.ContentState
     var body: some View {
-        let adjustedStartTime = state.startedAt.addingTimeInterval(state.totalPausedTime)
-        let endTime = adjustedStartTime.addingTimeInterval(state.duration)
-        ProgressView(timerInterval: adjustedStartTime...endTime, countsDown: true) { EmptyView() } currentValueLabel: { EmptyView() }
+        let timerState = state.getState();
+        switch timerState {
+        case .ACTIVE:
+            let endDate = state.endAt;
+            let adjustedStartDate = endDate.addingTimeInterval(-TimeInterval(state.totalSeconds))
+            // 활성 상태 - 정상적인 프로그레스 바
+            ProgressView(timerInterval: adjustedStartDate...endDate, countsDown: true) {
+                EmptyView()
+            } currentValueLabel: {
+                EmptyView()
+            }
             .tint(ChefTheme.primary)
             .frame(height: 6)
             .frame(maxWidth: .infinity)
             .padding(.vertical, 2)
             .background(Capsule().fill(Color.white.opacity(0.08)))
             .clipShape(Capsule())
-    }
-}
+            
+        case .PAUSED:
+            let progressRate = max(0, min(1, state.remainingSeconds / state.totalSeconds));
+            // 일시정지 상태 - 다른 색상이나 효과
+            ProgressView(value: progressRate) { EmptyView() } currentValueLabel: { EmptyView() }
+            .tint(ChefTheme.primary)
+            .frame(height: 6)
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 2)
+            .background(Capsule().fill(Color.white.opacity(0.08)))
+            .clipShape(Capsule())
+            
+        case .FINISHED:
+            // 완료 상태 - 채워진 바 또는 다른 표시
+            Capsule()
+                .fill(ChefTheme.primary)
+                .frame(height: 6)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 2)
+                .background(Capsule().fill(Color.white.opacity(0.08)))
+            
+        default:
+            // 기본 상태 또는 에러 상태
+            EmptyView()
+        }
 
-//멈춤 프로그레스바 표시
-struct PausedProgress: View {
-    let state: LiveActivityAttributes.ContentState
-    var body: some View {
-        let totalTime = state.totalTime; //실수임을 보장하는 코드 필요
-        let remainingTime = state.remainingTime; //실수임을 보장하는 코드 필요
-        let progressRate = max(0, min(1, remainingTime / totalTime));
-        
-        ProgressView(value: progressRate) { EmptyView() } currentValueLabel: { EmptyView() }
-            .tint(ChefTheme.primary)
-            .frame(height: 6)
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, 2)
-            .background(Capsule().fill(Color.white.opacity(0.08)))
-            .clipShape(Capsule())
-    }
-}
-
-//진행 프로그레스바 표시
-struct RunningProgress: View {
-    let state: LiveActivityAttributes.ContentState
-    var body: some View {
-        let endAt = state.pausedAt + state.remainingTime;
-        let startedAt = endAt - state.totalTime;
-        
-        ProgressView(timerInterval: state.startedAt...state.pausedAt, countsDown: true) { EmptyView() } currentValueLabel: { EmptyView() }
-            .tint(ChefTheme.primary)
-            .frame(height: 6)
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, 2)
-            .background(Capsule().fill(Color.white.opacity(0.08)))
-            .clipShape(Capsule())
     }
 }
 
@@ -212,11 +211,9 @@ struct TimerDisplay: View {
             }
             .onAppear { autoEndActivity() }
         } else if state.isRunning() {//카운트다운 모드
-//            let s = state.startedAt.addingTimeInterval(state.totalPausedTime)
-//            let e = s.addingTimeInterval(state.duration)
-            let e = state.endAt;
-            let s = e.addingTimeInterval(-state.totalTime);
-            Text(timerInterval: Date()...e, pauseTime: nil, countsDown: true, showsHours: false)
+            let endDate = state.endAt;
+            let adjustedStartDate = endDate.addingTimeInterval(-TimeInterval(state.totalSeconds))
+            Text(timerInterval: adjustedStartDate...endDate, pauseTime: nil, countsDown: true, showsHours: false)
                 .foregroundColor(ChefTheme.onDark)
                 .font(.system(size: size, weight: .medium, design: .rounded))
                 .monospacedDigit()
