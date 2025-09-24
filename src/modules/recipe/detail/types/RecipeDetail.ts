@@ -38,8 +38,7 @@ export interface RecipeDetailState {
 }
 
 export type TimerMessage = {
-
-
+  orientation: "portrait" | "landscape";
   type:
     | WebViewMessageType.TIMER_START
     | WebViewMessageType.TIMER_STOP

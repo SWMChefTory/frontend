@@ -34,11 +34,11 @@ extension Color {
 struct LiveActivityWidget: Widget {
     var body: some WidgetConfiguration {
         ActivityConfiguration(for: LiveActivityAttributes.self) { context in
-            LockScreenLiveActivityView(context: context)
+            LockScreenLiveActivityView(context: context) //잠금 화면
                 .activityBackgroundTint(.clear)
                 .activitySystemActionForegroundColor(ChefTheme.primary)
                 .widgetURL(URL(string: context.attributes.deepLink))
-        } dynamicIsland: { context in
+        } dynamicIsland: { context in 
             DynamicIsland {
                 DynamicIslandExpandedRegion(.bottom) {
                     VStack(alignment: .leading, spacing: 10) {
@@ -122,12 +122,49 @@ struct LockScreenLiveActivityView: View {
     }
 }
 
+//진행률 애니메이션 표시.
+//멈춤 명령있을 때 멈춰야 함. 이거는 항상 progress가 진행됨.
 struct StyledProgress: View {
     let state: LiveActivityAttributes.ContentState
     var body: some View {
         let adjustedStartTime = state.startedAt.addingTimeInterval(state.totalPausedTime)
         let endTime = adjustedStartTime.addingTimeInterval(state.duration)
         ProgressView(timerInterval: adjustedStartTime...endTime, countsDown: true) { EmptyView() } currentValueLabel: { EmptyView() }
+            .tint(ChefTheme.primary)
+            .frame(height: 6)
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 2)
+            .background(Capsule().fill(Color.white.opacity(0.08)))
+            .clipShape(Capsule())
+    }
+}
+
+//멈춤 프로그레스바 표시
+struct PausedProgress: View {
+    let state: LiveActivityAttributes.ContentState
+    var body: some View {
+        let totalTime = state.totalTime; //실수임을 보장하는 코드 필요
+        let remainingTime = state.remainingTime; //실수임을 보장하는 코드 필요
+        let progressRate = max(0, min(1, remainingTime / totalTime));
+        
+        ProgressView(value: progressRate) { EmptyView() } currentValueLabel: { EmptyView() }
+            .tint(ChefTheme.primary)
+            .frame(height: 6)
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 2)
+            .background(Capsule().fill(Color.white.opacity(0.08)))
+            .clipShape(Capsule())
+    }
+}
+
+//진행 프로그레스바 표시
+struct RunningProgress: View {
+    let state: LiveActivityAttributes.ContentState
+    var body: some View {
+        let endAt = state.pausedAt + state.remainingTime;
+        let startedAt = endAt - state.totalTime;
+        
+        ProgressView(timerInterval: state.startedAt...state.pausedAt, countsDown: true) { EmptyView() } currentValueLabel: { EmptyView() }
             .tint(ChefTheme.primary)
             .frame(height: 6)
             .frame(maxWidth: .infinity)
@@ -174,9 +211,11 @@ struct TimerDisplay: View {
                     .font(.system(size: size, weight: .bold, design: .rounded))
             }
             .onAppear { autoEndActivity() }
-        } else if state.isRunning() {
-            let s = state.startedAt.addingTimeInterval(state.totalPausedTime)
-            let e = s.addingTimeInterval(state.duration)
+        } else if state.isRunning() {//카운트다운 모드
+//            let s = state.startedAt.addingTimeInterval(state.totalPausedTime)
+//            let e = s.addingTimeInterval(state.duration)
+            let e = state.endAt;
+            let s = e.addingTimeInterval(-state.totalTime);
             Text(timerInterval: Date()...e, pauseTime: nil, countsDown: true, showsHours: false)
                 .foregroundColor(ChefTheme.onDark)
                 .font(.system(size: size, weight: .medium, design: .rounded))

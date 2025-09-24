@@ -5,26 +5,6 @@ import { Platform } from "react-native";
 const ANDROID_CHANNEL_ID = "timer-alarms";
 const TIMER_NOTIFICATION_ID = "timer-current";
 
-export async function ensureNotificationReady() {
-  if (Platform.OS === "android") {
-    await Notifications.setNotificationChannelAsync(ANDROID_CHANNEL_ID, {
-      name: "Timer Alarms",
-      importance: Notifications.AndroidImportance.HIGH,
-      vibrationPattern: [0, 250, 250, 250],
-      bypassDnd: false,
-      lockscreenVisibility: Notifications.AndroidNotificationVisibility.PUBLIC,
-    });
-  }
-
-  const settings = await Notifications.getPermissionsAsync();
-  if (!settings.granted) {
-    const req = await Notifications.requestPermissionsAsync();
-    if (!req.granted) {
-      throw new Error("알림 권한이 거부되었습니다.");
-    }
-  }
-}
-
 export async function cancelTimerAlarm(): Promise<void> {
   try {
     console.log("예약된 타이머 알림 취소 시도");

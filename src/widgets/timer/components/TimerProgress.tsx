@@ -9,83 +9,77 @@ import {
   cancelAnimation,
   runOnUI,
 } from "react-native-reanimated";
-import { TimerState } from "@/src/modules/timer/hooks/useTimerStore";
-import { useCountdownTimerState } from "@/src/modules/timer/hooks/useCountdownTimer";
-import { responsiveFontSize, responsiveHeight, responsiveWidth } from "../../shared/utils/responsiveUI";
+import {
+  responsiveFontSize,
+  responsiveHeight,
+  responsiveWidth,
+} from "@/src/modules/shared/utils/responsiveUI";
+import { TimerState } from "../hooks/store/useTimerSnapshotStore";
 
-export function TimerProgress() {
+/**
+ * remaining과 total을 비교해서 타이머 진행 상태를 표현해준다.
+ * @returns 타이머 진행 상태 표현
+ */
+export function TimerProgress({
+  state,
+  totalMicroSec,
+  remainingMicroSec,
+  onFinish,
+}: {
+  state: TimerState;
+  totalMicroSec: number;
+  remainingMicroSec: number;
+  isFromBackground: boolean;
+  onFinish: () => void;
+}) {
   const size = responsiveWidth(300);
   const stroke = responsiveWidth(10);
-  const r = (size - stroke) / 2;
-  const {
-    duration: total,
-    remainingTime: remaining,
-    state: timerState,
-  } = useCountdownTimerState();
+  const r = (size - stroke) / 2; //반지름
   const progress = useSharedValue(1); // 1에서 시작 (풀서클)
-  const wasRunningRef = useRef<boolean>(false);
-  const lastRemainingRef = useRef<number>(remaining);
-  const isRunning = timerState === TimerState.ACTIVE;
-  const expected = useMemo(() => {
-    if (!total || total <= 0) return 1;
-    return Math.min(1, Math.max(0, remaining / total));
-  }, [total, remaining]);
+
+  const expected = useMemo(()=>{
+    if(state === TimerState.FINISHED) return 0;
+    if(state === TimerState.IDLE) return 1;
+    return Math.min(1, Math.max(0, remainingMicroSec / totalMicroSec));
+  }, [state, totalMicroSec, remainingMicroSec]);
 
   useEffect(() => {
-    if (timerState === TimerState.FINISHED) {
+    if (state === TimerState.FINISHED) {
       cancelAnimation(progress);
       progress.value = 0;
       return;
     }
 
     // 아이들 상태면 풀서클로 리셋
-    if (timerState === TimerState.IDLE) {
+    if (state === TimerState.IDLE) {
       cancelAnimation(progress);
       progress.value = 1;
       return;
     }
 
-    const wasRunning = wasRunningRef.current;
-
-    if (isRunning && !wasRunning) {
-      cancelAnimation(progress);
-
-      if (Math.abs(progress.value - expected) > 0.01) {
-        progress.value = expected;
-      }
-
-      const durationMs = Math.max(0, Math.round(remaining * 1000));
-      progress.value = withTiming(0, {
-        // 0으로 줄어들도록
-        duration: durationMs,
-        easing: Easing.linear,
-      });
-    } else if (!isRunning && wasRunning) {
-      cancelAnimation(progress);
-    } else if (!isRunning && !wasRunning) {
+    if(state === TimerState.ACTIVE){
       cancelAnimation(progress);
       progress.value = expected;
-    } else if (isRunning && wasRunning) {
-      runOnUI(() => {
-        "worklet";
-        const delta = Math.abs(progress.value - expected);
-        if (delta > 0.05) {
-          cancelAnimation(progress);
-          progress.value = expected;
-          const durationMs = Math.max(0, Math.round(remaining * 1000));
-          progress.value = withTiming(0, {
-            // 0으로 줄어들도록
-            duration: durationMs,
-            easing: Easing.linear,
-          });
-        }
-      })();
+      return;
     }
 
-    wasRunningRef.current = isRunning;
-    lastRemainingRef.current = remaining;
-  }, [isRunning, expected, remaining, total, timerState]);
+    if(state === TimerState.PAUSED){
+      cancelAnimation(progress);
+      progress.value = expected;
+      progress.value = withTiming(0, {
+        // 0으로 줄어들도록
+        duration: remainingMicroSec,
+        easing: Easing.linear,
+      },(isFinished)=>{
+        if(isFinished){
+          onFinish();
+        }
+      });
+      return;
+    }
+  }, [state, expected, remainingMicroSec, totalMicroSec]);
 
+  //호의 모양과 크기
   const arc = useDerivedValue(() => {
     const sweep = 2 * Math.PI * progress.value;
     const path = Skia.Path.Make();
@@ -97,7 +91,7 @@ export function TimerProgress() {
         height: size - stroke,
       },
       -90, // 12시 방향에서 시작
-      (sweep * 180) / Math.PI,
+      (sweep * 180) / Math.PI
     );
     return path;
   }, [size, stroke]);
@@ -137,7 +131,7 @@ export function TimerProgress() {
             marginTop: size / 2 - responsiveHeight(20),
           }}
         >
-          {formatTime(remaining)}
+          {formatTime(remainingMicroSec/1000)}
         </Text>
       </View>
     </View>

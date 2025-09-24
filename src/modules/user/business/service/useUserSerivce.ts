@@ -1,10 +1,6 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
 import {
   getUser,
-  changeUserNickname,
-  changeUserDateOfBirth,
-  changeUserGender,
-  UserRequest,
   patchUser,
 } from "@/src/modules/user/business/service/api/api";
 import { useUserStore } from "@/src/modules/user/business/store/userStore";
@@ -67,7 +63,7 @@ export function useChangeUserViewModel() {
     },
     onSuccess: (data, variables, context) => {
       console.log("user", context?.userChanged);
-      setUser(context?.userChanged);
+      setUser(context?.userChanged||null);
     },
     onError: (error) => {
       Sentry.captureException(error);

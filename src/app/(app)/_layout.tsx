@@ -1,13 +1,7 @@
 import { Stack} from "expo-router";
+import { Platform } from "react-native";
 
 export default function AppLayout() {
-  
-
-  // useEffect(() => {
-  //   if(action==='create'){
-  //     router.push('/(app)/(tabs)/index?action=create&source=external&videoId='+youtubeUrl);
-  //   }
-  // }, [action, source, youtubeUrl]);
 
   return (
     <Stack>

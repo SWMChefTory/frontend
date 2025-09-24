@@ -12,8 +12,9 @@ import { HomeSectionHeader } from "@/src/modules/shared/components/layout/HomeSe
 import { RecentRecipeSection } from "@/src/modules/recipe/summary/recent/components/Section";
 import { PopularRecipeSection } from "@/src/modules/recipe/summary/popular/components/Secition";
 import { COLORS } from "@/src/modules/shared/constants/colors";
-import TimerModal from "@/src/modules/timer/components/TimerModal";
-import { useHasActiveTimer } from "@/src/modules/timer/hooks/useCountdownTimer";
+import TimerModal from "@/src/widgets/timer/components/TimerModal";
+// import { useHasActiveTimer } from "@/src/modules/timer/hooks/useCountdownTimer";
+import {  } from "@/src/widgets/timer/hooks/useTimer";
 import { SHADOW } from "@/src/modules/shared/constants/shadow";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
@@ -25,7 +26,7 @@ export default function HomeScreen() {
   const [refreshing, setRefreshing] = useState(false);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
 
-  const hasActiveTimer = useHasActiveTimer();
+  // const hasActiveTimer = useHasActiveTimer();
   const router = useRouter();
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
@@ -94,8 +95,7 @@ export default function HomeScreen() {
         </View>
       </Animated.ScrollView>
 
-      {hasActiveTimer && (
-        <TouchableOpacity
+      <TouchableOpacity
           style={styles.timerFloatingButton}
           onPress={handleTimerPress}
           activeOpacity={0.7}
@@ -106,7 +106,6 @@ export default function HomeScreen() {
             color={COLORS.background.white}
           />
         </TouchableOpacity>
-      )}
 
         <TimerModal
           bottomSheetModalRef={bottomSheetModalRef}

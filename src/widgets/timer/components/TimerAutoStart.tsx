@@ -14,73 +14,26 @@ import Animated, {
   interpolate,
 } from "react-native-reanimated";
 import { COLORS } from "@/src/modules/shared/constants/colors";
-import { responsiveHeight } from "../../shared/utils/responsiveUI";
-import { responsiveWidth } from "../../shared/utils/responsiveUI";
+import { responsiveHeight } from "../../../modules/shared/utils/responsiveUI";
+import { responsiveWidth } from "../../../modules/shared/utils/responsiveUI";
 
 interface TimerAutoStartProps {
-  duration?: number;
-  onStartNow: () => void;
+  timeLeft: number;
+  onChangeDelayTime: () => void;
   onCancel: () => void;
 }
 
 export const TimerAutoStart = ({
-  onStartNow,
+  timeLeft,
+  onChangeDelayTime,
   onCancel,
 }: TimerAutoStartProps) => {
-  const duration = 10;
-  const [secondsLeft, setSecondsLeft] = useState(duration);
-  const progress = useSharedValue(0);
-  const countdownScale = useSharedValue(1);
-
-  useEffect(() => {
-    setSecondsLeft(duration);
-
-    const interval = setInterval(() => {
-      setSecondsLeft((prev) => {
-        const next = prev - 1;
-        if (next <= 0) {
-          clearInterval(interval);
-          setTimeout(() => {
-            onStartNow();
-          }, 0);
-          return 0;
-        }
-        return next;
-      });
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [duration, onStartNow]);
-
-  useEffect(() => {
-    const progressValue = (duration - secondsLeft) / duration;
-    progress.value = withTiming(progressValue, {
-      duration: 800,
-      easing: Easing.out(Easing.cubic),
-    });
-  }, [secondsLeft, duration, progress]);
-
-  useEffect(() => {
-    countdownScale.value = withTiming(1.1, {
-      duration: 100,
-      easing: Easing.out(Easing.quad),
-    });
-
-    const timeout = setTimeout(() => {
-      countdownScale.value = withTiming(1, {
-        duration: 200,
-        easing: Easing.out(Easing.quad),
-      });
-    }, 100);
-
-    return () => clearTimeout(timeout);
-  }, [secondsLeft, countdownScale]);
 
   return (
     <View style={styles.container}>
       <View style={styles.contentContainer}>
         <Text style={styles.statusText}>
-          타이머가 {secondsLeft}초 후 자동 시작됩니다
+          타이머가 {timeLeft}초 후 자동 시작됩니다
         </Text>
       </View>
 
@@ -93,7 +46,7 @@ export const TimerAutoStart = ({
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.btn, styles.btnPrimary]}
-          onPress={onStartNow}
+          onPress={onChangeDelayTime}
         >
           <Text style={styles.btnPrimaryText}>지금 시작</Text>
         </TouchableOpacity>

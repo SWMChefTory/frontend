@@ -1,21 +1,17 @@
 import { requireNativeModule } from "expo-modules-core";
 import { Platform } from "react-native";
-import { LiveActivityPayload } from "@/src/modules/timer/hooks/useLiveActivity";
 
 type ExpoLiveActivityModule = {
   isLiveActivityAvailable: () => boolean;
   startActivity: (
     activityName: string,
-    duration: number,
+    endAt: Date,
+    totalMicroSec: number,
     deepLink: string,
   ) => Promise<string>;
-  pauseActivity: (activityId?: string) => Promise<boolean>;
-  resumeActivity: (activityId?: string) => Promise<boolean>;
-  endActivity: (activityId?: string) => Promise<boolean>;
-  updatePayload: (
-    activityId: string,
-    payload: LiveActivityPayload,
-  ) => Promise<boolean>;
+  pauseActivity: (activityId?: string, remainingSeconds?: number) => Promise<boolean>;
+  resumeActivity: (activityId?: string, endAt?: Date) => Promise<boolean>;
+  endActivity: (activityId?: string) => Promise<boolean>; 
 };
 
 let ExpoLiveActivity: ExpoLiveActivityModule | null = null;
@@ -25,6 +21,10 @@ if (Platform.OS === "ios") {
 }
 
 export type TimerState = "active" | "paused" | "finished";
+
+function convertMicroSecToSeconds(microSec: number): number {
+  return microSec / 1000;
+}
 
 export function isLiveActivityAvailable(): boolean {
   if (!ExpoLiveActivity) return false;
@@ -39,7 +39,8 @@ export function isLiveActivityAvailable(): boolean {
 
 export async function startLiveActivity(
   activityName: string,
-  duration: number,
+  endAt: Date,
+  totalMicroSec: number,
   deepLink: string,
 ): Promise<string> {
   if (!ExpoLiveActivity) {
@@ -48,9 +49,11 @@ export async function startLiveActivity(
   }
 
   try {
+    const totalSeconds = convertMicroSecToSeconds(totalMicroSec);
     return await ExpoLiveActivity.startActivity(
       activityName,
-      duration,
+      endAt,
+      totalSeconds,
       deepLink,
     );
   } catch (error) {
@@ -59,22 +62,22 @@ export async function startLiveActivity(
   }
 }
 
-export async function pauseLiveActivity(activityId: string): Promise<boolean> {
+export async function pauseLiveActivity(activityId: string, remainingMicroSec: number): Promise<boolean> {
   if (!ExpoLiveActivity) return false;
-
   try {
-    return await ExpoLiveActivity.pauseActivity(activityId);
+    const remainingSeconds = convertMicroSecToSeconds(remainingMicroSec);
+    return await ExpoLiveActivity.pauseActivity(activityId, remainingSeconds);
   } catch (error) {
     console.error("[LiveActivities] Error pausing activity:", error);
     return false;
   }
 }
 
-export async function resumeLiveActivity(activityId: string): Promise<boolean> {
+export async function resumeLiveActivity(activityId: string, endAt: Date): Promise<boolean> {
   if (!ExpoLiveActivity) return false;
 
   try {
-    return await ExpoLiveActivity.resumeActivity(activityId);
+    return await ExpoLiveActivity.resumeActivity(activityId, endAt);
   } catch (error) {
     console.error("[LiveActivities] Error resuming activity:", error);
     return false;
@@ -88,20 +91,6 @@ export async function endLiveActivity(activityId: string): Promise<boolean> {
     return await ExpoLiveActivity.endActivity(activityId);
   } catch (error) {
     console.error("[LiveActivities] Error ending activity:", error);
-    return false;
-  }
-}
-
-export async function updateLiveActivityPayload(
-  activityId: string,
-  payload: LiveActivityPayload,
-): Promise<boolean> {
-  if (!ExpoLiveActivity) return false;
-
-  try {
-    return await ExpoLiveActivity.updatePayload(activityId, payload);
-  } catch (error) {
-    console.error("[LiveActivities] Error updating activity payload:", error);
     return false;
   }
 }

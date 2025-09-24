@@ -26,7 +26,7 @@ import {
 
 
 import * as Notifications from "expo-notifications";
-import { useNotificationObserver } from "@/src/modules/notifications/useNotificationObserver";
+import { useNotificationObserver } from "@/src/app/(app)/_hooks/useNotificationObserver";
 import {
   initialWindowMetrics,
   SafeAreaProvider,

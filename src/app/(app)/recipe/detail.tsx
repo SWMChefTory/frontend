@@ -1,19 +1,20 @@
 import { StatusBar, StyleSheet, View } from "react-native";
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { RecipeCategoryBottomSheet } from "@/src/modules/recipe/category/categories/bottomsheet/BottomSheet";
 import { RecipeWebView } from "@/src/modules/recipe/detail/components/RecipeWebView";
 import { TimerMessage } from "@/src/modules/recipe/detail/types/RecipeDetail";
 import { track } from "@/src/modules/shared/utils/analytics";
-import TimerModal from "@/src/modules/timer/components/TimerModal";
+import TimerModal from "@/src/widgets/timer/components/TimerModal";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { Audio, InterruptionModeAndroid, InterruptionModeIOS } from "expo-av";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useCallback, useEffect, useRef, useState } from "react";
+// import LandscapTimerModal from "@/src/widgets/timer/components/LandscapeTimer";
+import LandscapTimerModal from "@/src/widgets/timer/components/LandScapeTimer";
 
 export default function RecipeDetailScreen() {
   const [timerMessage, setTimerMessage] = useState<TimerMessage | null>(null);
-  const insets = useSafeAreaInsets();
   const router = useRouter();
+  const [isLandscapeTimerOpen, setIsLandscapeTimerOpen] = useState(false);
   useEffect(() => {
     track.screen("RecipeDetail");
   }, []);
@@ -81,9 +82,14 @@ export default function RecipeDetailScreen() {
   }, []);
 
   const openTimerModal = useCallback((msg: TimerMessage) => {
+    if(msg.orientation === "landscape") {
+      setIsLandscapeTimerOpen(true);
+      return;
+    }
     setTimerMessage(msg);
     bottomSheetModalRef.current?.present();
   }, []);
+
 
   const closeTimerModal = useCallback(() => {
     setTimerMessage(null);
@@ -131,6 +137,7 @@ export default function RecipeDetailScreen() {
           recipeId={params.recipeId}
         />
       </View>
+      {isLandscapeTimerOpen && <LandscapTimerModal handleClose={() => setIsLandscapeTimerOpen(false)}   />}
     </>
   );
 }
@@ -139,9 +146,5 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "black",
-    
-    // width: "100%",
-    // height: "100%",
   },
-  // webview: {
 });

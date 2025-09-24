@@ -1,7 +1,7 @@
 import { COLORS } from "@/src/modules/shared/constants/colors";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { responsiveFontSize, responsiveHeight } from "../../shared/utils/responsiveUI";
-import { responsiveWidth } from "../../shared/utils/responsiveUI";
+import { responsiveFontSize, responsiveHeight } from "../../../modules/shared/utils/responsiveUI";
+import { responsiveWidth } from "../../../modules/shared/utils/responsiveUI";
 
 type TimerFinishedProps = {
   onEnd: () => void;

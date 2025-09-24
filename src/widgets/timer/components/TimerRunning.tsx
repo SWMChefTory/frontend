@@ -1,33 +1,37 @@
-import { COLORS } from "@/src/modules/shared/constants/colors";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { memo } from "react";
-import { responsiveFontSize, responsiveHeight, responsiveWidth } from "../../shared/utils/responsiveUI";
+import { COLORS } from "@/src/modules/shared/constants/colors";
+import { responsiveFontSize, responsiveHeight } from "../../../modules/shared/utils/responsiveUI";
+import { responsiveWidth } from "../../../modules/shared/utils/responsiveUI";
+import { useTimer } from "../hooks/useTimer";
 
-type TimerPauseProps = {
-  onResume: () => void;
+type TimerRunningProps = {
+  remaingMicroSec: number;
+  onPause: () => void;
   onEnd: () => void;
 };
 
-export const TimerPause = memo(({ onResume, onEnd }: TimerPauseProps) => {
+export const TimerRunning = ({ remaingMicroSec, onEnd, onPause }: TimerRunningProps) => {
+  const isNeared = remaingMicroSec < 1000;
   return (
     <View style={styles.container}>
       <View style={styles.contentContainer}>
-        <Text style={styles.statusText}>일시정지</Text>
+        <Text style={styles.statusText}>진행 중</Text>
       </View>
+
       <View style={styles.bottomButtonContainer}>
         <TouchableOpacity style={[styles.btn, styles.btnGhost]} onPress={onEnd}>
           <Text style={styles.btnGhostText}>중단</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.btn, styles.btnPrimary]}
-          onPress={onResume}
+          onPress={isNeared ? undefined : onPause}
         >
-          <Text style={styles.btnPrimaryText}>재개</Text>
+          <Text style={styles.btnPrimaryText}>일시정지</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
-});
+};
 
 const styles = StyleSheet.create({
   container: {

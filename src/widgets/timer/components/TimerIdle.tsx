@@ -1,8 +1,8 @@
 import { memo, useMemo, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { COLORS } from "@/src/modules/shared/constants/colors";
-import DurationSelector from "@/src/modules/timer/components/DurationSelector";
-import { responsiveFontSize, responsiveHeight, responsiveWidth } from "../../shared/utils/responsiveUI";
+import DurationSelector from "@/src/widgets/timer/components/DurationSelector";
+import { responsiveFontSize, responsiveHeight, responsiveWidth } from "../../../modules/shared/utils/responsiveUI";
 
 const DEFAULT_TIMER_PRESETS = [
   { label: "30초", seconds: 30, color: COLORS.orange.main },

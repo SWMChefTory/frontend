@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { Stack, useLocalSearchParams } from "expo-router";
 import OnlyBackTemplate from "@/src/header/template/OnlyBackTemplate";
 import { COLORS } from "@/src/modules/shared/constants/colors";

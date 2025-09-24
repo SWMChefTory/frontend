@@ -6,53 +6,72 @@ import Foundation
 import ActivityKit
 import Foundation
 
+enum LiveActivityState {
+    case IDLE
+    case ACTIVE
+    case PAUSED
+    case END
+}
+
 @available(iOS 16.1, *)
 public struct LiveActivityAttributes: ActivityAttributes {
     public struct ContentState: Codable, Hashable {
-        public var startedAt: Date
-        public var pausedAt: Date?
-        public var duration: TimeInterval
-        public var totalPausedTime: TimeInterval
+        // public var startedAt: Date
+        // public var pausedAt: Date?
+        // public var duration: TimeInterval
+        // public var totalPausedTime: TimeInterval
 
-        public init(startedAt: Date, pausedAt: Date?, duration: TimeInterval, totalPausedTime: TimeInterval = 0) {
-            self.startedAt = startedAt
-            self.pausedAt = pausedAt
-            self.duration = max(1, duration)
-            self.totalPausedTime = totalPausedTime
+        public var state: LiveActivityState
+
+        public var totalSeconds: TimeInterval
+        public var endAt: Date
+        public var remainingSeconds: TimeInterval
+
+        // public init(startedAt: Date, pausedAt: Date?, duration: TimeInterval, totalPausedTime: TimeInterval = 0) {
+        //     self.startedAt = startedAt
+        //     self.pausedAt = pausedAt
+        //     self.duration = max(1, duration)
+        //     self.totalPausedTime = totalPausedTime
+        // }
+        
+        //초 단위
+        public init(state: LiveActivityState, totalSeconds : TimeInterval, endAt: Date, remainingSeconds: TimeInterval) {
+            self.state = state
+            self.totalSeconds = totalSeconds
+            self.endAt = endAt
+            self.remainingSeconds = remainingSeconds
         }
 
-        func getElapsedTimeInSeconds() -> TimeInterval {
-            let currentTime = pausedAt ?? Date()
-            let rawElapsed = currentTime.timeIntervalSince(startedAt)
-            return max(0, rawElapsed - totalPausedTime)
+        public static func createStartTimer(endAt: Date, totalSeconds: TimeInterval) -> ContentState {
+            return ContentState(
+                state: LiveActivityState.ACTIVE,
+                endAt: endAt,
+                totalSeconds: totalSeconds,
+                remainingSeconds: nil,
+            )
         }
 
-        func getRemainingTimeInSeconds() -> TimeInterval {
-            let elapsed = getElapsedTimeInSeconds()
-            return max(0, duration - elapsed)
-        }
-
-        public func getProgress() -> Double {
-            let elapsed = getElapsedTimeInSeconds()
-            return min(100.0, max(0.0, (elapsed / duration) * 100.0))
-        }
-
-        public func isCompleted() -> Bool {
-            return getElapsedTimeInSeconds() >= duration
-        }
-
-        public func isRunning() -> Bool {
-            return pausedAt == nil && !isCompleted()
-        }
-
-        public func getCurrentState() -> String {
-            if isCompleted() {
-                return "finished"
-            } else if pausedAt != nil {
-                return "paused"
-            } else {
-                return "active"
+        //상태가 active일때만 반환
+        func getInterval() -> DateInterval {
+            if state == LiveActivityState.active {
+                return DateInterval(start: self.endAt, end: self.endAt.addingTimeInterval(remainingSeconds))
             }
+            return nil
+        }
+
+        func getElapsedSeconds(){
+          if state == LiveActivityState.paused {
+            return self.totalSeconds - self.remainingSeconds;
+          }
+          return nil
+        }
+
+        func getTotalSeconds(){
+          return self.totalSeconds;
+        }
+
+        func getState(){
+          return self.state;
         }
 
         public func getFormattedRemainingTime() -> String {
@@ -78,24 +97,30 @@ public struct LiveActivityAttributes: ActivityAttributes {
             return Date().addingTimeInterval(remainingTime + 300)
         }
 
-        public func pauseTimer() -> ContentState {
+
+        public func pauseTimer(remainingSeconds: TimeInterval) -> ContentState {
+            if state != LiveActivityState.ACTIVE {
+                return nil;
+            }
             return ContentState(
-                startedAt: startedAt,
-                pausedAt: Date(),
-                duration: duration,
-                totalPausedTime: totalPausedTime
+                state: LiveActivityState.PAUSED,
+                endAt: nil,
+                totalSeconds: self.totalSeconds,
+                remainingSeconds: remainingSeconds,
             )
         }
 
-        public func resumeTimer() -> ContentState {
-            guard let pausedTime = pausedAt else { return self }
+        public func resumeTimer(endAt: Date) -> ContentState {
+            if state != LiveActivityState.PAUSED {
+                return nil;
+            }
 
             let pauseDuration = max(0, Date().timeIntervalSince(pausedTime))
             return ContentState(
-                startedAt: startedAt,
-                pausedAt: nil,
-                duration: duration,
-                totalPausedTime: totalPausedTime + pauseDuration
+                state: LiveActivityState.ACTIVE,
+                endAt: endAt,
+                totalSeconds: self.totalSeconds,
+                remainingSeconds: nil
             )
         }
     }
@@ -125,7 +150,7 @@ public class LiveActivityModule: Module {
       }
     }
 
-    AsyncFunction("startActivity") { (activityName: String, duration: Double, deepLink: String) async throws -> String in
+    AsyncFunction("startActivity") { (activityName: String, endAt: Date, totalSeconds: TimeInterval, deepLink: String) async throws -> String in
       // ActivityContent, Activity.request는 16.2+
       guard #available(iOS 16.2, *) else {
         throw NSError(domain: "LiveActivity", code: 2,
@@ -137,32 +162,32 @@ public class LiveActivityModule: Module {
       }
 
       let attributes = LiveActivityAttributes(activityName: activityName, deepLink: deepLink)
-      let state = LiveActivityAttributes.ContentState(startedAt: Date(), pausedAt: nil, duration: duration, totalPausedTime: 0)
-      let content = ActivityContent(state: state, staleDate: state.getFutureDate())
-      let activity = try Activity<LiveActivityAttributes>.request(attributes: attributes, content: content, pushType: nil)
+      let state = LiveActivityAttributes.createStartTimer(endAt: endAt, totalSeconds: totalSeconds)
+      let content = ActivityContent(state: state, staleDate: nil) //activity 등록
+      let activity = try Activity<LiveActivityAttributes>.request(attributes: attributes, content: content, pushType: nil) //activity 시작
       return activity.id
     }
 
-    AsyncFunction("pauseActivity") { (activityId: String?) async -> Bool in
+    AsyncFunction("pauseActivity") { (activityId: String, remainingSeconds: TimeInterval) async -> Bool in
       guard #available(iOS 16.2, *) else { return false }
       guard let id = activityId,
             let activity = Activity<LiveActivityAttributes>.activities.first(where: { $0.id == id }) else { return false }
       let current = activity.content.state
       guard current.isRunning() else { return false }
-      let paused = current.pauseTimer()
-      let content = ActivityContent(state: paused, staleDate: paused.getFutureDate())
+      let paused = current.pauseTimer(remainingSeconds: remainingSeconds)
+      let content = ActivityContent(state: paused, staleDate: nil)
       await activity.update(content)
       return true
     }
 
-    AsyncFunction("resumeActivity") { (activityId: String?) async -> Bool in
+    AsyncFunction("resumeActivity") { (activityId: String, endAt: Date) async -> Bool in
       guard #available(iOS 16.2, *) else { return false }
       guard let id = activityId,
             let activity = Activity<LiveActivityAttributes>.activities.first(where: { $0.id == id }) else { return false }
       let current = activity.content.state
       guard !current.isRunning() && !current.isCompleted() else { return false }
-      let resumed = current.resumeTimer()
-      let content = ActivityContent(state: resumed, staleDate: resumed.getFutureDate())
+      let resumed = current.resumeTimer(endAt: endAt)
+      let content = ActivityContent(state: resumed, staleDate: nil)
       await activity.update(content)
       return true
     }
@@ -177,42 +202,42 @@ public class LiveActivityModule: Module {
       return true
     }
 
-    AsyncFunction("updatePayload") { (activityId: String, payload: [String: Any]) async -> Bool in
-      guard #available(iOS 16.2, *) else { return false }
-      guard let activity = Activity<LiveActivityAttributes>.activities.first(where: { $0.id == activityId }) else { return false }
+    // AsyncFunction("updatePayload") { (activityId: String, payload: [String: Any]) async -> Bool in
+    //   guard #available(iOS 16.2, *) else { return false }
+    //   guard let activity = Activity<LiveActivityAttributes>.activities.first(where: { $0.id == activityId }) else { return false }
 
-      func num(_ any: Any?) -> Double? {
-        if let d = any as? Double { return d }
-        if let i = any as? Int { return Double(i) }
-        if let n = any as? NSNumber { return n.doubleValue }
-        if let s = any as? String, let d = Double(s) { return d }
-        return nil
-      }
+    //   func num(_ any: Any?) -> Double? {
+    //     if let d = any as? Double { return d }
+    //     if let i = any as? Int { return Double(i) }
+    //     if let n = any as? NSNumber { return n.doubleValue }
+    //     if let s = any as? String, let d = Double(s) { return d }
+    //     return nil
+    //   }
 
-      guard let durationSec = num(payload["duration"]), durationSec > 0 else { return false }
-      guard let remainingSecRaw = num(payload["remainingTime"]) else { return false }
-      let remainingSec = max(0, min(durationSec, remainingSecRaw))
+    //   guard let durationSec = num(payload["duration"]), durationSec > 0 else { return false }
+    //   guard let remainingSecRaw = num(payload["remainingTime"]) else { return false }
+    //   let remainingSec = max(0, min(durationSec, remainingSecRaw))
 
-      let now = Date()
-      let pausedAtMs = num(payload["pausedAt"])
-      let pausedDate: Date? = pausedAtMs != nil ? Date(timeIntervalSince1970: (pausedAtMs! / 1000.0)) : nil
-      let reference: Date = pausedDate ?? now
+    //   let now = Date()
+    //   let pausedAtMs = num(payload["pausedAt"])
+    //   let pausedDate: Date? = pausedAtMs != nil ? Date(timeIntervalSince1970: (pausedAtMs! / 1000.0)) : nil
+    //   let reference: Date = pausedDate ?? now
 
-      let prev = activity.content.state
-      let extraPaused: TimeInterval = {
-        if let prevPaused = prev.pausedAt {
-          return max(0, reference.timeIntervalSince(prevPaused))
-        }
-        return 0
-      }()
-      let accumulatedPaused = max(0, prev.totalPausedTime + extraPaused)
-      let effectiveElapsed = max(0, min(durationSec, durationSec - remainingSec))
-      let startedDate = reference.addingTimeInterval(-(effectiveElapsed + accumulatedPaused))
+    //   let prev = activity.content.state
+    //   let extraPaused: TimeInterval = {
+    //     if let prevPaused = prev.pausedAt {
+    //       return max(0, reference.timeIntervalSince(prevPaused))
+    //     }
+    //     return 0
+    //   }()
+    //   let accumulatedPaused = max(0, prev.totalPausedTime + extraPaused)
+    //   let effectiveElapsed = max(0, min(durationSec, durationSec - remainingSec))
+    //   let startedDate = reference.addingTimeInterval(-(effectiveElapsed + accumulatedPaused))
 
-      let newState = LiveActivityAttributes.ContentState(startedAt: startedDate, pausedAt: pausedDate, duration: durationSec, totalPausedTime: accumulatedPaused)
-      let content = ActivityContent(state: newState, staleDate: newState.getFutureDate())
-      await activity.update(content)
-      return true
-    }
+    //   let newState = LiveActivityAttributes.ContentState(startedAt: startedDate, pausedAt: pausedDate, duration: durationSec, totalPausedTime: accumulatedPaused)
+    //   let content = ActivityContent(state: newState, staleDate: newState.getFutureDate())
+    //   await activity.update(content)
+    //   return true
+    // }
   }
 }
