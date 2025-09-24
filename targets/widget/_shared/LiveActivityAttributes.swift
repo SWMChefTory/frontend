@@ -1,37 +1,61 @@
-enum LiveActivityState {
+import Foundation
+import ActivityKit
+
+public enum LiveActivityState {
     case ACTIVE
     case PAUSED
     case END
 }
 
+//ActivityAttributes에서는 ContentState를 만들면 context에서 state로 호출해서 씀.
 @available(iOS 16.1, *)
 public struct LiveActivityAttributes: ActivityAttributes {
     public struct ContentState: Codable, Hashable {
         public var state: LiveActivityState
 
-        public var totalSeconds: TimeInterval
-        public var endAt: Date
-        public var remainingSeconds: TimeInterval
+        private var totalSeconds: TimeInterval
+        private var endAt: Date?
+        private var remainingSeconds: TimeInterval
         
         //초 단위
-        public init(state: LiveActivityState, totalSeconds : TimeInterval, endAt: Date, remainingSeconds: TimeInterval) {
+        private init(state: LiveActivityState, totalSeconds : TimeInterval, endAt: Date?, remainingSeconds: TimeInterval) {
             self.state = state
             self.totalSeconds = totalSeconds
             self.endAt = endAt
             self.remainingSeconds = remainingSeconds
         }
 
-        public static func createStartTimer(endAt: Date, totalSeconds: TimeInterval) -> ContentState {
+        public static func createStartTimer(endAt: Date?, totalSeconds: TimeInterval) -> ContentState? {
+            guard totalSeconds > 0  else { return nil }
+            guard endAt != nil else { return nil }
             return ContentState(
                 state: LiveActivityState.ACTIVE,
                 totalSeconds: totalSeconds,
                 endAt: endAt,
-                remainingSeconds: totalSeconds,
+                remainingSeconds: -1,
             )
         }
 
         public func getState() -> LiveActivityState {
           return self.state;
+        }
+
+        public func getTotalSeconds() -> TimeInterval {
+            return self.totalSeconds;
+        }
+
+        public func getEndAt() -> Date? {
+            guard state != LiveActivityState.ACTIVE else { 
+                print("ACTIVE가 아닌데 getEndAt 호출")
+                return nil }
+            return self.endAt;
+        }
+
+        public func getRemainingSeconds() -> TimeInterval {
+            guard state != LiveActivityState.PAUSED else { 
+                print("PAUSED가 아닌데 getRemainingSeconds 호출")
+                return 0 }
+            return self.remainingSeconds;
         }
 
         public func getFormattedRemainingTime() -> String {
@@ -42,6 +66,7 @@ public struct LiveActivityAttributes: ActivityAttributes {
         private func getRemainingTimeInSeconds() -> TimeInterval {
             switch state {
             case .ACTIVE:
+                guard endAt != nil else { return 0 }
                 return max(0, endAt.timeIntervalSinceNow)
             case .PAUSED:
                 return remainingSeconds
@@ -64,9 +89,12 @@ public struct LiveActivityAttributes: ActivityAttributes {
         }
 
         public func pauseTimer(remainingSeconds: TimeInterval) -> ContentState? {
-            if state != LiveActivityState.ACTIVE {
-                return nil;
-            }
+            guard state == LiveActivityState.ACTIVE else { 
+                print("ACTIVE 상태가 아닌데 pauseTimer 호출")
+                return nil }
+            guard remainingSeconds > 0 else {
+                print("0 이하인데 pauseTimer 호출") 
+                return nil }
             return ContentState(
                 state: LiveActivityState.PAUSED,
                 endAt: nil,
@@ -75,16 +103,31 @@ public struct LiveActivityAttributes: ActivityAttributes {
             )
         }
 
-        public func resumeTimer(endAt: Date) -> ContentState? {
-            if state != LiveActivityState.PAUSED {
-                return nil;
-            }
+        public func resumeTimer(endAt: Date?) -> ContentState? {
+            guard state == LiveActivityState.PAUSED else { 
+                print("PAUSED 상태가 아닌데 resumeTimer 호출")
+                return nil }
+            guard endAt != nil else {
+                print("endAt가 nil 상태로 resumeTimer 호출")
+                return nil }
 
             return ContentState(
                 state: LiveActivityState.ACTIVE,
                 endAt: endAt,
                 totalSeconds: self.totalSeconds,
-                remainingSeconds: nil
+                remainingSeconds: -1,
+            )
+        }
+
+        public func endTimer() -> ContentState? {
+            guard state == LiveActivityState.ACTIVE else { 
+                print("ACTIVE 상태가 아닌데 endTimer 호출")
+                return nil }
+            return ContentState(
+                state: LiveActivityState.END,
+                endAt: nil,
+                totalSeconds: self.totalSeconds,
+                remainingSeconds: -1,
             )
         }
     }
