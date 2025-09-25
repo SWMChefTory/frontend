@@ -127,27 +127,31 @@ struct LockScreenLiveActivityView: View {
 struct StyledProgress: View {
     let state: LiveActivityAttributes.ContentState
     var body: some View {
-        let timerState = state.getState();
-        switch timerState {
+        buildContent()
+    }
+
+    @ViewBuilder
+    private func buildContent() -> some View {
+        switch state.getState() {
         case LiveActivityState.ACTIVE:
-            guard let endDate = state.getEndAt() else { return EmptyView() }
-            let adjustedStartDate = endDate.addingTimeInterval(-TimeInterval(state.getTotalSeconds()))
-            // 활성 상태 - 정상적인 프로그레스 바
-            ProgressView(timerInterval: adjustedStartDate...endDate, countsDown: true) {
+            if let endDate = state.getEndAt() {
+                let adjustedStartDate = endDate.addingTimeInterval(-TimeInterval(state.getTotalSeconds()))
+                ProgressView(timerInterval: adjustedStartDate...endDate, countsDown: true) {
                 EmptyView()
-            } currentValueLabel: {
+                } currentValueLabel: {
+                    EmptyView()
+                }
+                .tint(ChefTheme.primary)
+                .frame(height: 6)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 2)
+                .background(Capsule().fill(Color.white.opacity(0.08)))
+                .clipShape(Capsule())
+            }else{
                 EmptyView()
             }
-            .tint(ChefTheme.primary)
-            .frame(height: 6)
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, 2)
-            .background(Capsule().fill(Color.white.opacity(0.08)))
-            .clipShape(Capsule())
-            
         case LiveActivityState.PAUSED:
             let progressRate = max(0, min(1, state.getRemainingSeconds() / state.getTotalSeconds()));
-            // 일시정지 상태 - 다른 색상이나 효과
             ProgressView(value: progressRate) { EmptyView() } currentValueLabel: { EmptyView() }
             .tint(ChefTheme.primary)
             .frame(height: 6)
@@ -155,52 +159,63 @@ struct StyledProgress: View {
             .padding(.vertical, 2)
             .background(Capsule().fill(Color.white.opacity(0.08)))
             .clipShape(Capsule())
-            
+        
         case LiveActivityState.END:
-            // 완료 상태 - 채워진 바 또는 다른 표시
             Capsule()
                 .fill(ChefTheme.primary)
                 .frame(height: 6)
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 2)
                 .background(Capsule().fill(Color.white.opacity(0.08)))
-            
+        
         default:
-            // 기본 상태 또는 에러 상태
             EmptyView()
         }
-
     }
-}
+}    
 
+//타이머의 시간을 텍스트로 표시
 struct TimerDisplay: View {
     let state: LiveActivityAttributes.ContentState
     let size: CGFloat
     var body: some View {
-        if state.getState() == LiveActivityState.END {
-            HStack(spacing: 8) {
-                Image(systemName: "checkmark.circle.fill")
-                    .foregroundColor(ChefTheme.mint)
-                    .font(.system(size: size * 0.6))
-                Text("완료")
-                    .foregroundColor(ChefTheme.mint)
-                    .font(.system(size: size, weight: .bold, design: .rounded))
-            }
-            .onAppear { autoEndActivity() }
-        } else if state.getState() == LiveActivityState.ACTIVE {//카운트다운 모드
-            guard let endDate = state.getEndAt() else { return EmptyView() }
-            let adjustedStartDate = endDate.addingTimeInterval(-TimeInterval(state.getTotalSeconds()))
-            Text(timerInterval: adjustedStartDate...endDate, pauseTime: nil, countsDown: true, showsHours: false)
-                .foregroundColor(ChefTheme.onDark)
-                .font(.system(size: size, weight: .medium, design: .rounded))
-                .monospacedDigit()
-        } else {
-            Text(state.getFormattedRemainingTime())
-                .foregroundColor(ChefTheme.onDark)
-                .font(.system(size: size, weight: .medium, design: .rounded))
-                .monospacedDigit()
-        }
+        buildContent()
     }
+
+    @ViewBuilder
+    private func buildContent() -> some View {
+        switch state.getState() {
+            case LiveActivityState.END:
+                HStack(spacing: 8) {
+                    Image(systemName: "checkmark.circle.fill")
+                        .foregroundColor(ChefTheme.mint)
+                        .font(.system(size: size * 0.6))
+                    Text("완료")
+                        .foregroundColor(ChefTheme.mint)
+                        .font(.system(size: size, weight: .bold, design: .rounded))
+                }
+                .onAppear { autoEndActivity() }
+            case LiveActivityState.ACTIVE:
+                if let endDate = state.getEndAt() {
+                    let adjustedStartDate = endDate.addingTimeInterval(-TimeInterval(state.getTotalSeconds()))
+                    Text(timerInterval: adjustedStartDate...endDate, pauseTime: nil, countsDown: true, showsHours: false)
+                        .foregroundColor(ChefTheme.onDark)
+                        .font(.system(size: size, weight: .medium, design: .rounded))
+                        .monospacedDigit()
+                }else{
+                    EmptyView()
+                }
+            case LiveActivityState.PAUSED:
+                Text(state.getFormattedRemainingTime())
+                .foregroundColor(ChefTheme.onDark)
+                .font(.system(size: size, weight: .medium, design: .rounded))
+                .monospacedDigit()
+            default:
+                EmptyView()
+        }
+        }
+    
+
     private func autoEndActivity() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             Task {

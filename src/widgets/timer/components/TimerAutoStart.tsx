@@ -14,8 +14,8 @@ import Animated, {
   interpolate,
 } from "react-native-reanimated";
 import { COLORS } from "@/src/modules/shared/constants/colors";
-import { responsiveHeight } from "../../../modules/shared/utils/responsiveUI";
-import { responsiveWidth } from "../../../modules/shared/utils/responsiveUI";
+import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
 
 interface TimerAutoStartProps {
   timeLeft: number;

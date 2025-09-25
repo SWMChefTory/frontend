@@ -2,7 +2,6 @@ import { useCallback, useMemo, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { BottomSheetBackdrop, BottomSheetModal } from "@gorhom/bottom-sheet";
 import { COLORS } from "@/src/modules/shared/constants/colors";
-import { WebViewMessageType } from "@/src/modules/recipe/detail/types/RecipeDetail";
 import { TimerHeader } from "@/src/widgets/timer/components/TimerHeader";
 import { TimerProgress } from "@/src/widgets/timer/components/TimerProgress";
 import { TimerIdle } from "@/src/widgets/timer/components/TimerIdle";
@@ -10,17 +9,17 @@ import { TimerRunning } from "@/src/widgets/timer/components/TimerRunning";
 import { TimerPause } from "@/src/widgets/timer/components/TimerPause";
 import { TimerFinish } from "@/src/widgets/timer/components/TimerFinish";
 import { TimerDifferent } from "@/src/widgets/timer/components/TimerDifference";
-import { responsiveWidth, responsiveHeight } from "../../../modules/shared/utils/responsiveUI";
+import { responsiveWidth, responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useTimer } from "../hooks/useTimer";
-import { ActiveTimeInfo, PausedTimeInfo, TimerState } from "../hooks/store/useTimerSnapshotStore";
+import { useTimer } from "@/src/widgets/timer/hooks/useTimer";
+import { ActiveTimeInfo, PausedTimeInfo, TimerState } from "@/src/widgets/timer/hooks/store/useTimerSnapshotStore";
 
 export type TimerModalProps = {
   onRequestClose: () => void;
   recipeId: string;
   recipeTitle: string;
-  timerIntentType?: WebViewMessageType;
-  timerAutoTime?: number;
+  // timerIntentType?: WebViewMessageType;
+  // timerAutoTime?: number;
   onNavigateToRecipe: (recipeId: string, recipeTitle: string) => void;
   bottomSheetModalRef: React.RefObject<BottomSheetModal | null>;
 };
@@ -65,6 +64,7 @@ const TimerModal = ({
     },
   } = useTimer();
 
+  //각 상태에 따라 객체로 만들면 어떨까?
   const remainingMicroSec = useMemo(()=>{
     if(state===TimerState.IDLE||state==TimerState.FINISHED){
       return null;
@@ -84,6 +84,10 @@ const TimerModal = ({
   }, [timeInfo, state]);
 
   const handleStart = () => {
+    if(state!==TimerState.IDLE && state!==TimerState.FINISHED){
+      console.warn("TimerModal handleStart 호출 시, state가 IDLE 또는 FINISHED가 아닙니다.");
+      return;
+    }
     if(totalMicroSecInputValue<=0) return;
     start({
       name: currentRecipeTitle,

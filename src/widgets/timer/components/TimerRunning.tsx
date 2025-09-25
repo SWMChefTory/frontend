@@ -1,8 +1,8 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { COLORS } from "@/src/modules/shared/constants/colors";
-import { responsiveFontSize, responsiveHeight } from "../../../modules/shared/utils/responsiveUI";
-import { responsiveWidth } from "../../../modules/shared/utils/responsiveUI";
-import { useTimer } from "../hooks/useTimer";
+import { responsiveFontSize, responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
+import { useTimer } from "@/src/widgets/timer/hooks/useTimer";
 
 type TimerRunningProps = {
   remaingMicroSec: number;

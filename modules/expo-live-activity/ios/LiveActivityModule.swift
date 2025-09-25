@@ -9,7 +9,6 @@ public enum LiveActivityState: Codable {
 }
 
 //ActivityAttributes에서는 ContentState를 만들면 context에서 state로 호출해서 씀.
-@available(iOS 16.1, *)
 public enum LiveActivityState: Codable {
     case ACTIVE
     case PAUSED
@@ -17,6 +16,7 @@ public enum LiveActivityState: Codable {
 }
 
 //ActivityAttributes에서는 ContentState를 만들면 context에서 state로 호출해서 씀.
+@available(iOS 16.1, *)
 public struct LiveActivityAttributes: ActivityAttributes {
     public struct ContentState: Codable, Hashable {
         public var state: LiveActivityState

@@ -1,8 +1,8 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { COLORS } from "@/src/modules/shared/constants/colors";
-import { responsiveFontSize, responsiveHeight } from "../../../modules/shared/utils/responsiveUI";
-import { responsiveWidth } from "../../../modules/shared/utils/responsiveUI";
+import { responsiveFontSize, responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
 
 type TimerDifferentProps = {
   onGoToRecipe: () => void;

@@ -14,7 +14,7 @@ import {
   NativeSyntheticEvent,
 } from "react-native";
 import { COLORS } from "@/src/modules/shared/constants/colors";
-import { responsiveFontSize, responsiveHeight, responsiveWidth } from "../../../modules/shared/utils/responsiveUI";
+import { responsiveFontSize, responsiveHeight, responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
 
 type Props = {
   hours?: number;

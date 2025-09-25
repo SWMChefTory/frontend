@@ -1,9 +1,9 @@
 import { COLORS } from "@/src/modules/shared/constants/colors";
 import { StyleSheet, Text, View } from "react-native";
 import { memo } from "react";
-import { responsiveFontSize } from "../../../modules/shared/utils/responsiveUI";
-import { responsiveWidth } from "../../../modules/shared/utils/responsiveUI";
-import { responsiveHeight } from "../../../modules/shared/utils/responsiveUI";
+import { responsiveFontSize } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
 
 type TimerHeaderProps = {
   recipeTitle: string;

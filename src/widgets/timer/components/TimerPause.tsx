@@ -1,7 +1,7 @@
 import { COLORS } from "@/src/modules/shared/constants/colors";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { memo } from "react";
-import { responsiveFontSize, responsiveHeight, responsiveWidth } from "../../../modules/shared/utils/responsiveUI";
+import { responsiveFontSize, responsiveHeight, responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
 
 type TimerPauseProps = {
   onResume: () => void;
