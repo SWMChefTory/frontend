@@ -129,7 +129,7 @@ struct StyledProgress: View {
     var body: some View {
         let timerState = state.getState();
         switch timerState {
-        case .ACTIVE:
+        case LiveActivityState.ACTIVE:
             guard let endDate = state.getEndAt() else { return EmptyView() }
             let adjustedStartDate = endDate.addingTimeInterval(-TimeInterval(state.getTotalSeconds()))
             // 활성 상태 - 정상적인 프로그레스 바
@@ -145,7 +145,7 @@ struct StyledProgress: View {
             .background(Capsule().fill(Color.white.opacity(0.08)))
             .clipShape(Capsule())
             
-        case .PAUSED:
+        case LiveActivityState.PAUSED:
             let progressRate = max(0, min(1, state.getRemainingSeconds() / state.getTotalSeconds()));
             // 일시정지 상태 - 다른 색상이나 효과
             ProgressView(value: progressRate) { EmptyView() } currentValueLabel: { EmptyView() }
@@ -156,7 +156,7 @@ struct StyledProgress: View {
             .background(Capsule().fill(Color.white.opacity(0.08)))
             .clipShape(Capsule())
             
-        case .FINISHED:
+        case LiveActivityState.END:
             // 완료 상태 - 채워진 바 또는 다른 표시
             Capsule()
                 .fill(ChefTheme.primary)
@@ -177,7 +177,7 @@ struct TimerDisplay: View {
     let state: LiveActivityAttributes.ContentState
     let size: CGFloat
     var body: some View {
-        if state.getState() == .FINISHED {
+        if state.getState() == LiveActivityState.END {
             HStack(spacing: 8) {
                 Image(systemName: "checkmark.circle.fill")
                     .foregroundColor(ChefTheme.mint)
@@ -187,9 +187,9 @@ struct TimerDisplay: View {
                     .font(.system(size: size, weight: .bold, design: .rounded))
             }
             .onAppear { autoEndActivity() }
-        } else if state.getState() == .ACTIVE {//카운트다운 모드
+        } else if state.getState() == LiveActivityState.ACTIVE {//카운트다운 모드
             guard let endDate = state.getEndAt() else { return EmptyView() }
-            let adjustedStartDate = endDate.addingTimeInterval(-TimeInterval(state.totalSeconds))
+            let adjustedStartDate = endDate.addingTimeInterval(-TimeInterval(state.getTotalSeconds()))
             Text(timerInterval: adjustedStartDate...endDate, pauseTime: nil, countsDown: true, showsHours: false)
                 .foregroundColor(ChefTheme.onDark)
                 .font(.system(size: size, weight: .medium, design: .rounded))
@@ -216,8 +216,8 @@ struct StatusChip: View {
     let state: LiveActivityAttributes.ContentState
     var body: some View {
         let (text, color): (String, Color) = {
-            if state.getState() == .FINISHED { return ("완료", ChefTheme.mint) }
-            if state.getState() == .PAUSED { return ("일시정지", ChefTheme.accent) }
+            if state.getState() == LiveActivityState.END { return ("완료", ChefTheme.mint) }
+            if state.getState() == LiveActivityState.PAUSED { return ("일시정지", ChefTheme.accent) }
             return ("진행중", ChefTheme.primary)
         }()
         return Text(text)
@@ -239,19 +239,22 @@ struct ActivityIcon: View {
     }
 }
 
-extension LiveActivityAttributes {
-    fileprivate static var cookPreview: LiveActivityAttributes { .init(activityName: "요리", deepLink: "cheftory://timer") }
-}
-extension LiveActivityAttributes.ContentState {
-    fileprivate static var runningState: Self { .init(startedAt: Date().addingTimeInterval(-300), pausedAt: nil, duration: 1500, totalPausedTime: 0) }
-    fileprivate static var pausedState: Self  { .init(startedAt: Date().addingTimeInterval(-600), pausedAt: Date().addingTimeInterval(-300), duration: 1500, totalPausedTime: 120) }
-    fileprivate static var almostDoneState: Self { .init(startedAt: Date().addingTimeInterval(-1440), pausedAt: nil, duration: 1500, totalPausedTime: 0) }
-    fileprivate static var completedState: Self { .init(startedAt: Date().addingTimeInterval(-1500), pausedAt: nil, duration: 1500, totalPausedTime: 0) }
-}
 
-#Preview("Running - Lock Screen", as: .content, using: LiveActivityAttributes.cookPreview, ) { LiveActivityWidget() } contentStates: { LiveActivityAttributes.ContentState.runningState }
-#Preview("Paused - Lock Screen",  as: .content, using: LiveActivityAttributes.cookPreview) { LiveActivityWidget() } contentStates: { LiveActivityAttributes.ContentState.pausedState }
-#Preview("Almost Done - Expanded",as: .dynamicIsland(.expanded), using: LiveActivityAttributes.cookPreview) { LiveActivityWidget() } contentStates: { LiveActivityAttributes.ContentState.almostDoneState }
-#Preview("Completed - Lock Screen",as: .content, using: LiveActivityAttributes.cookPreview) { LiveActivityWidget() } contentStates: { LiveActivityAttributes.ContentState.completedState }
-#Preview("Running - Compact",     as: .dynamicIsland(.compact), using: LiveActivityAttributes.cookPreview) { LiveActivityWidget() } contentStates: { LiveActivityAttributes.ContentState.runningState }
-#Preview("Minimal View",          as: .dynamicIsland(.minimal), using: LiveActivityAttributes.cookPreview) { LiveActivityWidget() } contentStates: { LiveActivityAttributes.ContentState.runningState }
+
+// TODO : preview 모드인데 이거 키면 버그 발생해서 만약 사용할거면 버그 수정하고 사용하기.
+// extension LiveActivityAttributes {
+//     fileprivate static var cookPreview: LiveActivityAttributes { .init(activityName: "요리", deepLink: "cheftory://timer") }
+// }
+// extension LiveActivityAttributes.ContentState {
+//     fileprivate static var runningState: Self { .init(startedAt: Date().addingTimeInterval(-300), pausedAt: nil, duration: 1500, totalPausedTime: 0) }
+//     fileprivate static var pausedState: Self  { .init(startedAt: Date().addingTimeInterval(-600), pausedAt: Date().addingTimeInterval(-300), duration: 1500, totalPausedTime: 120) }
+//     fileprivate static var almostDoneState: Self { .init(startedAt: Date().addingTimeInterval(-1440), pausedAt: nil, duration: 1500, totalPausedTime: 0) }
+//     fileprivate static var completedState: Self { .init(startedAt: Date().addingTimeInterval(-1500), pausedAt: nil, duration: 1500, totalPausedTime: 0) }
+// }
+
+// #Preview("Running - Lock Screen", as: .content, using: LiveActivityAttributes.cookPreview, ) { LiveActivityWidget() } contentStates: { LiveActivityAttributes.ContentState.runningState }
+// #Preview("Paused - Lock Screen",  as: .content, using: LiveActivityAttributes.cookPreview) { LiveActivityWidget() } contentStates: { LiveActivityAttributes.ContentState.pausedState }
+// #Preview("Almost Done - Expanded",as: .dynamicIsland(.expanded), using: LiveActivityAttributes.cookPreview) { LiveActivityWidget() } contentStates: { LiveActivityAttributes.ContentState.almostDoneState }
+// #Preview("Completed - Lock Screen",as: .content, using: LiveActivityAttributes.cookPreview) { LiveActivityWidget() } contentStates: { LiveActivityAttributes.ContentState.completedState }
+// #Preview("Running - Compact",     as: .dynamicIsland(.compact), using: LiveActivityAttributes.cookPreview) { LiveActivityWidget() } contentStates: { LiveActivityAttributes.ContentState.runningState }
+// #Preview("Minimal View",          as: .dynamicIsland(.minimal), using: LiveActivityAttributes.cookPreview) { LiveActivityWidget() } contentStates: { LiveActivityAttributes.ContentState.runningState }
