@@ -19,7 +19,7 @@ export function TimerFinish({ onEnd }: TimerFinishedProps) {
           style={[styles.btn, styles.btnPrimary]}
           onPress={onEnd}
         >
-          <Text style={styles.btnPrimaryText}>닫기</Text>
+          <Text style={styles.btnPrimaryText}>재설정</Text>
         </TouchableOpacity>
       </View>
     </View>

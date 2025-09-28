@@ -20,7 +20,7 @@ export interface ActiveTimeInfo {
  */
 export interface PausedTimeInfo {
   pausedAt: Date;
-  remainingMicroSec: number;
+  remainingMilliSec: number;
 }
 
 export type TimeInfo = ActiveTimeInfo | PausedTimeInfo;
@@ -31,13 +31,13 @@ export type TimeInfo = ActiveTimeInfo | PausedTimeInfo;
 interface TimerStartParams {
   name: string;
   recipeId: string;
-//   durationMicroSec: number;
-totalMicroSec: number;
+totalMilliSec: number;
   endAt: Date;
 }
 
 interface TimerPauseParams {
-  remainingMicroSec: number;
+  pausedAt: Date;
+  remainingMilliSec: number;
 }
 
 interface TimerResumeParams {
@@ -48,7 +48,7 @@ interface TimerStoreState {
   state: TimerState;
   recipeId: string | null;
   name: string | null;
-  totalMicroSec: number;
+  totalMilliSec: number;
   timeInfo: TimeInfo | null;
 
   capture: {
@@ -66,20 +66,21 @@ const useTimerSnapshotStore = create<TimerStoreState>()(
       state: TimerState.IDLE,
       recipeId: null,
       name: null,
-      totalMicroSec: 0,
+      totalMilliSec: 0,
       timeInfo: null,
 
       capture: {
-        start: ({ name, recipeId, totalMicroSec, endAt }: TimerStartParams) => {
+        start: ({ name, recipeId, totalMilliSec: totalMilliSec, endAt }: TimerStartParams) => {
           const { state } = get();
           //타이머가 활성 상태가 아니거나 종료 상태가 아니면 호출 불가
           if (state !== TimerState.IDLE && state !== TimerState.FINISHED)
-            return;
+            throw new Error("Timer is not idle or finished");
 
-          //TODO : 이거 필요한가?
+          console.log("[TimerSnapshotStore] start 호출 시, totalMilliSec:", totalMilliSec);
+          console.log("[TimerSnapshotStore] start 호출 시, endAt:", endAt);
           set({
             state: TimerState.ACTIVE,
-            totalMicroSec: totalMicroSec,
+            totalMilliSec,
             name,
             recipeId,
             timeInfo: {
@@ -88,14 +89,13 @@ const useTimerSnapshotStore = create<TimerStoreState>()(
           });
         },
 
-        pause: () => {
+        pause: ({ pausedAt, remainingMilliSec }: TimerPauseParams) => {
           const { state } = get();
           if (state !== TimerState.ACTIVE) return;
 
           const { timeInfo } = get();
-          const now = Date.now();
-          const remainingMicroSec = (timeInfo as ActiveTimeInfo).endAt.getTime() - now;
-          if (remainingMicroSec <= 0) {
+
+          if (remainingMilliSec <= 0) {
             get().capture.finish();
             console.warn("Timer is already finished");
             return;
@@ -103,21 +103,17 @@ const useTimerSnapshotStore = create<TimerStoreState>()(
           set({
             state: TimerState.PAUSED,
             timeInfo: {
-              pausedAt: new Date(now),
-              remainingMicroSec: remainingMicroSec,
+              pausedAt: pausedAt,
+              remainingMilliSec: remainingMilliSec,
             },
           });
         },
 
-        resume: () => {
+        resume: ({ endAt }: TimerResumeParams) => {
           const { state } = get();
           if (state !== TimerState.PAUSED) return;
 
-          const { timeInfo } = get() as { timeInfo: PausedTimeInfo };
-          const endMicroSec =
-            (timeInfo as PausedTimeInfo).pausedAt.getTime() +
-            (timeInfo as PausedTimeInfo).remainingMicroSec;
-          if (endMicroSec <= Date.now()) {
+          if (endAt.getTime() <= Date.now()) {
             get().capture.finish();
             console.warn("Timer is already finished");
             return;
@@ -125,7 +121,7 @@ const useTimerSnapshotStore = create<TimerStoreState>()(
           set({
             state: TimerState.ACTIVE,
             timeInfo: {
-              endAt: new Date(endMicroSec),
+              endAt: new Date(endAt),
             },
           });
         },

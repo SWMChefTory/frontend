@@ -22,30 +22,37 @@ export function useLiveActivity() {
   const start = useCallback(
     async (opts: {
       activityName: string;
-      endAt?: Date;
-      totalMicroSec?: number;
+      endAt: Date;
+      totalMilliSec?: number;
       deepLink: string;
     }) => {
+      console.log("[LiveActivity] start 호출 시, isLiveActivityAvailable:", isLiveActivityAvailable);
       if (!isLiveActivityAvailable) return null;
-      if(liveActivityId) return null;
+      if(liveActivityId) {
+        setLiveActivityId(null);
+        throw new Error("LiveActivity already started");
+      }
+      console.log("[LiveActivity] start 호출 시, liveActivityId:", liveActivityId);
       const id = await liveActivities.startLiveActivity(
         opts.activityName,
-        opts.endAt ?? new Date(),
-        opts.totalMicroSec ?? 0,
+        opts.endAt,
+        opts.totalMilliSec ?? 0,
         opts.deepLink,
       );
+      console.log("[LiveActivity] start 호출 시, id:", id);
       if (id) setLiveActivityId(id);
     },
-    [isLiveActivityAvailable],
+    [isLiveActivityAvailable, liveActivityId],
   );
 
   const pause = useCallback(
     async (
         // activityId: string,
-        remainingMicroSec: number,
+        pausedAt: Date,
+        remainingMilliSec: number,
     ) => {
       if (!isLiveActivityAvailable || !liveActivityId) return false;
-      await liveActivities.pauseLiveActivity(liveActivityId, remainingMicroSec);
+      await liveActivities.pauseLiveActivity(liveActivityId, pausedAt, remainingMilliSec);
     },
     [isLiveActivityAvailable, liveActivityId],
   );
@@ -61,10 +68,12 @@ export function useLiveActivity() {
   );
 
   const end = useCallback(async () => {
-    if (!isLiveActivityAvailable || !liveActivityId) return false;
-    const ok = await liveActivities.endLiveActivity(liveActivityId);
-    if (ok) setLiveActivityId(null);
-    return ok;
+    if (!isLiveActivityAvailable) return false;
+    if (liveActivityId){
+      setLiveActivityId(null);
+      return await liveActivities.endLiveActivity(liveActivityId);
+    }
+    return false;
   }, [isLiveActivityAvailable, liveActivityId]);
 
   return {

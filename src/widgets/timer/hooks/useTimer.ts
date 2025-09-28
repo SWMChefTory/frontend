@@ -18,28 +18,28 @@ export interface UseTimerReturn {
   name: string | null;
   recipeId: string | null;
   //유저가 수동으로 작동시킬 수 있는 액션
-  totalMicroSec: number;
-  // isTimerReserved: boolean;
-  timeInfo: TimeInfo | null;
+  totalMilliSec: number;
+  // isTimerReserved: boolean
+  remainingMilliSec: number | null;
   manualActions: {
     start: ({
       recipeId,
       name,
-      totalMicroSec,
+      totalMilliSec,
     }: {
       recipeId: string;
       name: string;
-      totalMicroSec: number;
+      totalMilliSec: number;
     }) => void;
     /**
      * autoStart는 타이머를 나중에 작동시킬 수 있는 액션.
      * @param name
      * @param recipeId
-     * @param totalMicroSec
+     * @param totalMilliSec
      * @param startDelay 액션 실행 전 대기 시간
      * @returns
      */
-    // reserveStart: (name: string, recipeId: string, totalMicroSec: number, startDelay: number) => void;
+    // reserveStart: (name: string, recipeId: string, totalMilliSec: number, startDelay: number) => void;
     // cancelReservation: () => void;
     pause: () => void;
     resume: () => void;
@@ -51,15 +51,15 @@ export interface UseTimerReturn {
   };
 }
 
-function convertMicroSecToSeconds(microSec: number): number {
-  return microSec / 1000;
+function convertMilliSecToSeconds(milliSec: number): number {
+  return milliSec / 1000;
 }
 
 export function useTimer(): UseTimerReturn {
   const {
     recipeId,
     name,
-    totalMicroSec,
+    totalMilliSec,
     state: snapshotState,
     timeInfo: snapshotTimeInfo,
     capture, //capture 함수는 타이머 상태를 변경하는 함수를 모아둔 객체
@@ -71,51 +71,54 @@ export function useTimer(): UseTimerReturn {
 
   // const [isTimerReserved, setIsStartReserved] = useState(false);
   //TODO : 추후 사용 예정
-  // const [reservationRemainingMicroSec, setReservationRemainingMicroSec] = useState(0);
+  // const [reservationRemainingMilliSec, setReservationRemainingMilliSec] = useState(0);
   // const timerReservationRef = useRef<number | null>(null);
 
   const start = useCallback(
     ({
       name,
       recipeId,
-      totalMicroSec,
+      totalMilliSec,
     }: {
       name: string;
       recipeId: string;
-      totalMicroSec: number;
+      totalMilliSec: number;
     }) => {
       if (snapshotState === TimerState.ACTIVE) return;
       // if(isTimerReserved) return;
-      const endAt = new Date(Date.now() + totalMicroSec);
-      capture.start({ name, recipeId, totalMicroSec, endAt });
+      console.log("[Timer] start 호출 시, totalMilliSec:", totalMilliSec);
+      const endAt = new Date(Date.now() + totalMilliSec);
+      console.log("[Timer] start 호출 시, endAt:", endAt);
+      capture.start({ name, recipeId, totalMilliSec: totalMilliSec, endAt });
+      console.log("[Timer] start 호출 시, activityActions.start 호출");
       activityActions.start({
         activityName: name,
-        deepLink: `cheiftory://recipe/detail?recipeId=${recipeId}&isTimer=true&title=${name}`,
+        deepLink: `cheftory://recipe/detail?recipeId=${recipeId}&isTimer=true&title=${name}`,
         endAt,
-        totalMicroSec,
+        totalMilliSec: totalMilliSec,
       });
       scheduleTimerAlarm(
         name,
         recipeId,
-        convertMicroSecToSeconds(totalMicroSec)
+        convertMilliSecToSeconds(totalMilliSec)
       );
     },
     [capture, activityActions, scheduleTimerAlarm]
   );
 
   //TODO : 추후 사용 예정
-  // const scheduleNextTick = (name: string, recipeId: string, totalMicroSec: number) => {
+  // const scheduleNextTick = (name: string, recipeId: string, totalMilliSec: number) => {
   //   timerReservationRef.current = setTimeout(() => {
-  //     setReservationRemainingMicroSec((prev) => {
+  //     setReservationRemainingMilliSec((prev) => {
   //       const newValue = prev - 1000;
 
   //       if (newValue <= 0) {
   //         setIsStartReserved(false);
-  //         start({name, recipeId, totalMicroSec});
+  //         start({name, recipeId, totalMilliSec});
   //         return 0;
   //       }
 
-  //       scheduleNextTick(name, recipeId, totalMicroSec); // 다음 실행 예약
+  //       scheduleNextTick(name, recipeId, totalMilliSec); // 다음 실행 예약
   //       return newValue;
   //     });
   //   }, 1000);
@@ -123,12 +126,12 @@ export function useTimer(): UseTimerReturn {
 
   //TODO : 추후 사용 예정
   // const reserveStart = useCallback(
-  //   (name: string, recipeId: string, totalMicroSec: number, startDelay: number) => {
+  //   (name: string, recipeId: string, totalMilliSec: number, startDelay: number) => {
   //     if(snapshotState !== TimerState.IDLE) return;
   //     setIsStartReserved(true);
-  //     scheduleNextTick(name, recipeId, totalMicroSec);
+  //     scheduleNextTick(name, recipeId, totalMilliSec);
   //   },
-  //   [start, name, recipeId, totalMicroSec]
+  //   [start, name, recipeId, totalMilliSec]
   // );
 
   //TODO : 추후 사용 예정
@@ -146,18 +149,21 @@ export function useTimer(): UseTimerReturn {
 
   const pause = useCallback(() => {
     if (snapshotState !== TimerState.ACTIVE) return;
-    const remainingMicroSec =
+    const pausedAt = new Date();
+    const remainingMilliSec =
       (snapshotTimeInfo as ActiveTimeInfo).endAt.getTime() - Date.now();
-    capture.pause({ remainingMicroSec });
-    activityActions.pause(remainingMicroSec);
+    capture.pause({ pausedAt, remainingMilliSec });
+    activityActions.pause(pausedAt, remainingMilliSec);
     cancelTimerAlarm();
-  }, [capture, activityActions, cancelTimerAlarm]);
+  }, [capture, activityActions, cancelTimerAlarm, snapshotState, snapshotTimeInfo]);
 
   const resume = useCallback(() => {
     if (snapshotState !== TimerState.PAUSED) return;
-    const remainingMicroSec = (snapshotTimeInfo as PausedTimeInfo)
-      .remainingMicroSec;
-    const endAt = new Date(Date.now() + remainingMicroSec);
+    const remainingMilliSec = (snapshotTimeInfo as PausedTimeInfo)
+      .remainingMilliSec;
+    const endAt = new Date(Date.now() + remainingMilliSec);
+    console.log("[Timer] resume 호출 시, remainingMilliSec:", remainingMilliSec);
+    console.log("[Timer] resume 호출 시, endAt:", endAt);
     capture.resume({ endAt });
     activityActions.resume(endAt);
     if (!name || !recipeId) {
@@ -166,9 +172,9 @@ export function useTimer(): UseTimerReturn {
     scheduleTimerAlarm(
       name,
       recipeId,
-      convertMicroSecToSeconds(remainingMicroSec)
+      convertMilliSecToSeconds(remainingMilliSec)
     );
-  }, [capture, activityActions, scheduleTimerAlarm]);
+  }, [capture, activityActions, scheduleTimerAlarm, snapshotState]);
 
   const finish = useCallback(() => {
     if (
@@ -177,8 +183,9 @@ export function useTimer(): UseTimerReturn {
     )
       return;
     capture.finish();
-    activityActions.end();
-  }, [capture, activityActions]);
+    const result = activityActions.end();
+    console.log("[Timer] finish 호출 시!!!!!!!!!!!!!!!!!!!!!!!!!!, activityActions.end 호출 결과:", result);
+  }, [capture, activityActions, snapshotState]);
 
   const reset = useCallback(() => {
     if (snapshotState === TimerState.IDLE) return;
@@ -187,7 +194,7 @@ export function useTimer(): UseTimerReturn {
     if (snapshotState === TimerState.FINISHED) return;
     activityActions.end();
     cancelTimerAlarm();
-  }, [capture, activityActions, cancelTimerAlarm]);
+  }, [capture, activityActions, cancelTimerAlarm, snapshotState]);
 
   useEffect(() => {
     if (snapshotState !== TimerState.ACTIVE) {
@@ -208,13 +215,31 @@ export function useTimer(): UseTimerReturn {
     capture,
   ]);
 
+  const remainingMilliSec = (() => {
+    if (snapshotState === TimerState.IDLE || snapshotState == TimerState.FINISHED) {
+      return null;
+    }
+    if (snapshotState === TimerState.ACTIVE) {
+      if (!snapshotTimeInfo) {
+        throw new Error("timeInfo is null");
+      }
+      return (snapshotTimeInfo as ActiveTimeInfo).endAt.getTime() - Date.now();
+    }
+    if (snapshotState === TimerState.PAUSED) {
+      if (!snapshotTimeInfo) {
+        throw new Error("timeInfo is null");
+      }
+      return (snapshotTimeInfo as PausedTimeInfo).remainingMilliSec;
+    }
+  })();
+
   return {
     state: snapshotState,
     name,
     recipeId,
-    totalMicroSec,
+    totalMilliSec: totalMilliSec,
     // isTimerReserved,
-    timeInfo: snapshotTimeInfo && null,
+    remainingMilliSec: remainingMilliSec || null,
     manualActions: {
       start,
       pause,

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useMemo } from "react";
+import React, { useEffect, useRef, useMemo, useState } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { Canvas, Circle, Path, Skia } from "@shopify/react-native-skia";
 import {
@@ -7,14 +7,15 @@ import {
   useDerivedValue,
   Easing,
   cancelAnimation,
-  runOnUI,
+  runOnJS,
+  useAnimatedReaction,
 } from "react-native-reanimated";
 import {
   responsiveFontSize,
-  responsiveHeight,
   responsiveWidth,
 } from "@/src/modules/shared/utils/responsiveUI";
 import { TimerState } from "../hooks/store/useTimerSnapshotStore";
+import { useTheme } from "react-native-paper";
 
 /**
  * remaining과 total을 비교해서 타이머 진행 상태를 표현해준다.
@@ -22,26 +23,31 @@ import { TimerState } from "../hooks/store/useTimerSnapshotStore";
  */
 export function TimerProgress({
   state,
-  totalMicroSec,
-  remainingMicroSec,
+  totalMilliSec,
+  remainingMilliSec: remainingMilliSec,
   onFinish,
+  size = responsiveWidth(300),
+  stroke = responsiveWidth(10),
+  fontSize = responsiveFontSize(12),
 }: {
   state: TimerState;
-  totalMicroSec: number;
-  remainingMicroSec: number;
+  totalMilliSec: number;
+  remainingMilliSec: number;
   isFromBackground: boolean;
   onFinish: () => void;
+  size?: number;
+  stroke?: number;
+  fontSize?: number;
 }) {
-  const size = responsiveWidth(300);
-  const stroke = responsiveWidth(10);
+  const theme = useTheme();
   const r = (size - stroke) / 2; //반지름
   const progress = useSharedValue(1); // 1에서 시작 (풀서클)
 
-  const expected = useMemo(()=>{
-    if(state === TimerState.FINISHED) return 0;
-    if(state === TimerState.IDLE) return 1;
-    return Math.min(1, Math.max(0, remainingMicroSec / totalMicroSec));
-  }, [state, totalMicroSec, remainingMicroSec]);
+  const expected = useMemo(() => {
+    if (state === TimerState.FINISHED) return 0;
+    if (state === TimerState.IDLE) return 1;
+    return Math.min(1, Math.max(0, remainingMilliSec / totalMilliSec));
+  }, [state, totalMilliSec, remainingMilliSec]);
 
   useEffect(() => {
     if (state === TimerState.FINISHED) {
@@ -57,27 +63,33 @@ export function TimerProgress({
       return;
     }
 
-    if(state === TimerState.ACTIVE){
+    if (state === TimerState.ACTIVE) {
       cancelAnimation(progress);
       progress.value = expected;
+      progress.value = withTiming(
+        0,
+        {
+          // 0으로 줄어들도록
+          duration: remainingMilliSec,
+          easing: Easing.linear,
+        },
+        (isFinished) => {
+          "worklet";
+          if (!isFinished) {
+            return;
+          }
+          runOnJS(onFinish)();
+        }
+      );
       return;
     }
 
-    if(state === TimerState.PAUSED){
+    if (state === TimerState.PAUSED) {
       cancelAnimation(progress);
       progress.value = expected;
-      progress.value = withTiming(0, {
-        // 0으로 줄어들도록
-        duration: remainingMicroSec,
-        easing: Easing.linear,
-      },(isFinished)=>{
-        if(isFinished){
-          onFinish();
-        }
-      });
       return;
     }
-  }, [state, expected, remainingMicroSec, totalMicroSec]);
+  }, [state, expected, remainingMilliSec, totalMilliSec]);
 
   //호의 모양과 크기
   const arc = useDerivedValue(() => {
@@ -91,10 +103,33 @@ export function TimerProgress({
         height: size - stroke,
       },
       -90, // 12시 방향에서 시작
-      (sweep * 180) / Math.PI
+      (-sweep * 180) / Math.PI
     );
     return path;
   }, [size, stroke]);
+
+  const secSV = useDerivedValue(() =>
+    Math.max(0, Math.floor((progress.value * totalMilliSec) / 1000))
+  );
+
+  const [label, setLabel] = React.useState("");
+
+  useAnimatedReaction(
+    () => secSV.value,
+    (s, prev) => {
+      if (s !== prev) {
+        const hh = Math.floor(s / 3600);
+        const mm = Math.floor((s % 3600) / 60);
+        const ss = s % 60;
+        runOnJS(setLabel)(
+          (hh > 0 ? `${hh}:` : "") +
+            `${mm}`.padStart(2, "0") +
+            ":" +
+            `${ss}`.padStart(2, "0")
+        );
+      }
+    }
+  );
 
   return (
     <View
@@ -116,35 +151,30 @@ export function TimerProgress({
         />
         <Path
           path={arc}
-          color="#FF4500"
+          // color={theme.colors.primary}
+          color="black"
           style="stroke"
           strokeWidth={stroke}
           strokeCap="round"
         />
       </Canvas>
-      <View style={StyleSheet.absoluteFillObject}>
+      <View
+        style={[
+          StyleSheet.absoluteFillObject,
+          { alignItems: "center", justifyContent: "center" },
+        ]}
+      >
         <Text
           style={{
-            fontSize: responsiveFontSize(40),
+            fontSize: fontSize,
             fontWeight: "bold",
             textAlign: "center",
-            marginTop: size / 2 - responsiveHeight(20),
+            alignSelf: "center",
           }}
         >
-          {formatTime(remainingMicroSec/1000)}
+          {label}
         </Text>
       </View>
     </View>
   );
-}
-
-function formatTime(sec: number) {
-  const m = Math.floor(sec / 60);
-  const s = Math.floor(sec % 60);
-  if (m >= 60) {
-    const h = Math.floor(m / 60);
-    const mm = (m % 60).toString().padStart(2, "0");
-    return `${h}:${mm}:${s.toString().padStart(2, "0")}`;
-  }
-  return `${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
 }

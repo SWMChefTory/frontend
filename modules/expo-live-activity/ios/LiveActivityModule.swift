@@ -2,12 +2,6 @@ import ExpoModulesCore
 import ActivityKit
 import Foundation
 
-public enum LiveActivityState: Codable {
-    case ACTIVE
-    case PAUSED
-    case END
-}
-
 //ActivityAttributes에서는 ContentState를 만들면 context에서 state로 호출해서 씀.
 public enum LiveActivityState: Codable {
     case ACTIVE
@@ -49,20 +43,23 @@ public struct LiveActivityAttributes: ActivityAttributes {
         }
 
         public func getTotalSeconds() -> TimeInterval {
+            print("getTotalSeconds 호출 시, totalSeconds:", self.totalSeconds)
             return self.totalSeconds;
         }
 
         public func getEndAt() -> Date? {
-            guard state != LiveActivityState.ACTIVE else { 
+            guard state == LiveActivityState.ACTIVE else { 
                 print("ACTIVE가 아닌데 getEndAt 호출")
                 return nil }
+            print("getEndAt 호출 시, endAt:", self.endAt)
             return self.endAt;
         }
 
         public func getRemainingSeconds() -> TimeInterval {
-            guard state != LiveActivityState.PAUSED else { 
+            guard state == LiveActivityState.PAUSED else { 
                 print("PAUSED가 아닌데 getRemainingSeconds 호출")
                 return 0 }
+            print("getRemainingSeconds 호출 시, remainingSeconds:", self.remainingSeconds)
             return self.remainingSeconds;
         }
 
@@ -74,8 +71,8 @@ public struct LiveActivityAttributes: ActivityAttributes {
         private func getRemainingTimeInSeconds() -> TimeInterval {
             switch state {
             case .ACTIVE:
-                guard endAt != nil else { return 0 }
-                return max(0, endAt?.timeIntervalSinceNow ?? 0)
+                print("ACTIVE 상태에서 호출하면 안됨.")
+                return 0
             case .PAUSED:
                 return remainingSeconds
             default:
@@ -96,7 +93,10 @@ public struct LiveActivityAttributes: ActivityAttributes {
             }
         }
 
-        public func pauseTimer(remainingSeconds: TimeInterval) -> ContentState? {
+        public func pauseTimer(pausedAt: Date?, remainingSeconds: TimeInterval) -> ContentState? {
+            guard pausedAt != nil else {
+                print("pausedAt가 nil 상태로 pauseTimer 호출")
+                return nil }
             guard state == LiveActivityState.ACTIVE else { 
                 print("ACTIVE 상태가 아닌데 pauseTimer 호출")
                 return nil }
@@ -128,9 +128,6 @@ public struct LiveActivityAttributes: ActivityAttributes {
         }
 
         public func endTimer() -> ContentState? {
-            guard state == LiveActivityState.ACTIVE else { 
-                print("ACTIVE 상태가 아닌데 endTimer 호출")
-                return nil }
             return ContentState(
                 state: LiveActivityState.END,
                 totalSeconds: self.totalSeconds,
@@ -165,7 +162,8 @@ public class LiveActivityModule: Module {
       }
     }
 
-    AsyncFunction("startActivity") { (activityName: String, endAt: Date, totalSeconds: TimeInterval, deepLink: String) async throws -> String in
+    //endAt에 Date타입으로 넣으면 매핑 안시켜주기 때문에 매개변수 타입 고정 필수
+    AsyncFunction("startActivity") { (activityName: String, endAtMilliSec: Double, totalSeconds: TimeInterval, deepLink: String) async throws -> String in
       // ActivityContent, Activity.request는 16.2+
       guard #available(iOS 16.2, *) else {
         throw NSError(domain: "LiveActivity", code: 2,
@@ -176,32 +174,41 @@ public class LiveActivityModule: Module {
                       userInfo: [NSLocalizedDescriptionKey: "Live Activities are not enabled"])
       }
 
+      let endAt = Date(timeIntervalSince1970: endAtMilliSec / 1000.0)
+      print("[LiveActivity] endAt: \(endAt)")
+
       let attributes = LiveActivityAttributes(activityName: activityName, deepLink: deepLink)
-      let state = LiveActivityAttributes.createStartTimer(endAt: endAt, totalSeconds: totalSeconds)
+      guard let state = LiveActivityAttributes.ContentState.createStartTimer(endAt: endAt, totalSeconds: totalSeconds) else { 
+        throw NSError(domain: "LiveActivity", code: 3,
+                      userInfo: [NSLocalizedDescriptionKey: "startActivity 실패. 매개변수 오류(현재 입력 매개변수 : endAt: \(endAt), totalSeconds: \(totalSeconds))로 추정됨."])
+      }
       let content = ActivityContent(state: state, staleDate: nil) //activity 등록
       let activity = try Activity<LiveActivityAttributes>.request(attributes: attributes, content: content, pushType: nil) //activity 시작
       return activity.id
     }
 
-    AsyncFunction("pauseActivity") { (activityId: String, remainingSeconds: TimeInterval) async -> Bool in
+    AsyncFunction("pauseActivity") { (activityId: String?, pausedAtMilliSec: Double, remainingSeconds: TimeInterval) async -> Bool in
       guard #available(iOS 16.2, *) else { return false }
       guard let id = activityId,
             let activity = Activity<LiveActivityAttributes>.activities.first(where: { $0.id == id }) else { return false }
       let current = activity.content.state
-      guard current.isRunning() else { return false }
-      let paused = current.pauseTimer(remainingSeconds: remainingSeconds)
+      guard current.getState() == LiveActivityState.ACTIVE else { return false }
+      let pausedAt = Date(timeIntervalSince1970: pausedAtMilliSec / 1000.0)
+      guard let paused = current.pauseTimer(pausedAt: pausedAt, remainingSeconds: remainingSeconds) else { return false }
       let content = ActivityContent(state: paused, staleDate: nil)
       await activity.update(content)
       return true
     }
 
-    AsyncFunction("resumeActivity") { (activityId: String, endAt: Date) async -> Bool in
+    //endAt에 Date타입으로 넣으면 매핑 안시켜주기 때문에 매개변수 타입 고정 필수
+    AsyncFunction("resumeActivity") { (activityId: String?, endAtMilliSec: Double) async -> Bool in
       guard #available(iOS 16.2, *) else { return false }
+      let endAt = Date(timeIntervalSince1970: endAtMilliSec / 1000.0)
       guard let id = activityId,
             let activity = Activity<LiveActivityAttributes>.activities.first(where: { $0.id == id }) else { return false }
       let current = activity.content.state
-      guard !current.isRunning() && !current.isCompleted() else { return false }
-      let resumed = current.resumeTimer(endAt: endAt)
+      guard current.getState() == LiveActivityState.PAUSED else { return false }
+      guard let resumed = current.resumeTimer(endAt: endAt) else { return false }
       let content = ActivityContent(state: resumed, staleDate: nil)
       await activity.update(content)
       return true

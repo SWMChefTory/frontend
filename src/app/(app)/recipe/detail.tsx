@@ -3,13 +3,13 @@ import { RecipeCategoryBottomSheet } from "@/src/modules/recipe/category/categor
 import { RecipeWebView } from "@/src/modules/recipe/detail/components/RecipeWebView";
 import { TimerMessage } from "@/src/modules/recipe/detail/types/RecipeDetail";
 import { track } from "@/src/modules/shared/utils/analytics";
-import TimerModal from "@/src/widgets/timer/components/TimerModal";
+import TimerModal from "@/src/widgets/timer/TimerModal";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { Audio, InterruptionModeAndroid, InterruptionModeIOS } from "expo-av";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useCallback, useEffect, useRef, useState } from "react";
 // import LandscapTimerModal from "@/src/widgets/timer/components/LandscapeTimer";
-import LandscapTimerModal from "@/src/widgets/timer/components/LandScapeTimer";
+import LandscapTimerModal from "@/src/widgets/timer/LandScapeTimer";
 
 export default function RecipeDetailScreen() {
   const [timerMessage, setTimerMessage] = useState<TimerMessage | null>(null);
@@ -127,8 +127,8 @@ export default function RecipeDetailScreen() {
           onRequestClose={closeTimerModal}
           recipeTitle={params.title || timerMessage?.recipe_title || ""}
           recipeId={params.recipeId || timerMessage?.recipe_id || ""}
-          timerAutoTime={timerMessage?.timer_time}
-          timerIntentType={timerMessage?.type}
+          // timerAutoTime={timerMessage?.timer_time}
+          // timerIntentType={timerMessage?.type}
           onNavigateToRecipe={navigateToRecipe}
           bottomSheetModalRef={bottomSheetModalRef}
         />

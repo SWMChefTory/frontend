@@ -8,11 +8,16 @@ import { TimerIdle } from "@/src/widgets/timer/components/TimerIdle";
 import { TimerRunning } from "@/src/widgets/timer/components/TimerRunning";
 import { TimerPause } from "@/src/widgets/timer/components/TimerPause";
 import { TimerFinish } from "@/src/widgets/timer/components/TimerFinish";
-import { TimerDifferent } from "@/src/widgets/timer/components/TimerDifference";
-import { responsiveWidth, responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
+import {
+  responsiveWidth,
+  responsiveHeight,
+  responsiveFontSize,
+} from "@/src/modules/shared/utils/responsiveUI";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTimer } from "@/src/widgets/timer/hooks/useTimer";
-import { ActiveTimeInfo, PausedTimeInfo, TimerState } from "@/src/widgets/timer/hooks/store/useTimerSnapshotStore";
+import {
+  TimerState,
+} from "@/src/widgets/timer/hooks/store/useTimerSnapshotStore";
 
 export type TimerModalProps = {
   onRequestClose: () => void;
@@ -25,15 +30,15 @@ export type TimerModalProps = {
 };
 
 /**
- * 
+ *
  * @param onRequestClose 모달 닫는 요청
- * @param recipeId 
- * @param recipeTitle 
+ * @param recipeId
+ * @param recipeTitle
  * @param timerIntentType 타이머가 메세지로 시작되었울 때, 사용되는 변수
  * @param timerAutoTime 타이머가 자동으로 시작되었을 때의 시간
- * @param onNavigateToRecipe 
- * @param bottomSheetModalRef 
- * @returns 
+ * @param onNavigateToRecipe
+ * @param bottomSheetModalRef
+ * @returns
  */
 const TimerModal = ({
   onRequestClose,
@@ -43,15 +48,15 @@ const TimerModal = ({
   bottomSheetModalRef,
 }: TimerModalProps) => {
   //유저가 설정한 시간(초)
-  const [totalMicroSecInputValue, setTotalMicroSecInputValue] = useState<number>(0); 
+
   const insets = useSafeAreaInsets();
 
   const {
     state,
-    totalMicroSec,
-    name : timerRecipeTitle,
-    recipeId : timerRecipeId,
-    timeInfo,
+    totalMilliSec,
+    name: timerRecipeTitle,
+    recipeId: timerRecipeId,
+    remainingMilliSec,
     manualActions: {
       start,
       // cancelReservation,
@@ -59,47 +64,29 @@ const TimerModal = ({
       resume,
       reset,
     },
-    autoActions: {
-      finish,
-    },
+    autoActions: { finish },
   } = useTimer();
 
-  //각 상태에 따라 객체로 만들면 어떨까?
-  const remainingMicroSec = useMemo(()=>{
-    if(state===TimerState.IDLE||state==TimerState.FINISHED){
-      return null;
-    }
-    if(state===TimerState.ACTIVE){
-      if(!timeInfo){
-        throw new Error("timeInfo is null");
-      }
-      return (timeInfo as ActiveTimeInfo).endAt.getTime() - Date.now();
-    }
-    if(state===TimerState.PAUSED){
-      if(!timeInfo){
-        throw new Error("timeInfo is null");
-      }
-      return (timeInfo as PausedTimeInfo).remainingMicroSec;
-    }
-  }, [timeInfo, state]);
-
-  const handleStart = () => {
-    if(state!==TimerState.IDLE && state!==TimerState.FINISHED){
-      console.warn("TimerModal handleStart 호출 시, state가 IDLE 또는 FINISHED가 아닙니다.");
+  const handleStart = (totalMilliSecInputVal: number) => {
+    console.log("[TimerModal] handleStart 호출 시, totalMilliSecInputVal:", totalMilliSecInputVal);
+    if (state !== TimerState.IDLE && state !== TimerState.FINISHED) {
+      console.warn(
+        "TimerModal handleStart 호출 시, state가 IDLE 또는 FINISHED가 아닙니다."
+      );
       return;
     }
-    if(totalMicroSecInputValue<=0) return;
+    if (totalMilliSecInputVal <= 0) {
+      console.warn(
+        "TimerModal handleStart 호출 시, totalMilliSecInputValue가 0보다 작습니다."
+      );
+      return;
+    }
     start({
       name: currentRecipeTitle,
       recipeId: currentRecipeId,
-      totalMicroSec: totalMicroSecInputValue,
+      totalMilliSec: totalMilliSecInputVal,
     });
   };
-
-  const handleTimeChange = (totalMicroSec: number) => {
-    setTotalMicroSecInputValue(totalMicroSec);
-  };
-
 
   const handleNavigate = () => {
     if (timerRecipeId && timerRecipeTitle) {
@@ -116,14 +103,14 @@ const TimerModal = ({
         opacity={0.45}
       />
     ),
-    [],
+    []
   );
 
   return (
-    <BottomSheetModal 
+    <BottomSheetModal
       ref={bottomSheetModalRef}
       index={0}
-      snapPoints={[responsiveHeight(600)]}
+      snapPoints={[responsiveHeight(432)]}
       onChange={(index) => index === -1 && onRequestClose()}
       enablePanDownToClose={true}
       enableOverDrag={false}
@@ -137,9 +124,9 @@ const TimerModal = ({
       enableHandlePanningGesture={true}
       enableContentPanningGesture={false}
     >
-      <View 
+      <View
         style={[
-          styles.contentContainer, 
+          styles.contentContainer,
           {
             paddingBottom: insets.bottom,
           },
@@ -147,11 +134,51 @@ const TimerModal = ({
       >
         <TimerHeader recipeTitle={timerRecipeTitle || currentRecipeTitle} />
 
-        {(state !== TimerState.IDLE ) && (
+        {state === TimerState.IDLE && (
+          <TimerIdle
+            initialSeconds={Math.ceil(totalMilliSec/1000)}
+            onStart={handleStart}
+            onClose={() => onRequestClose()}
+          />
+        )}
+
+        {state !== TimerState.IDLE && (
           <View style={styles.progressContainer}>
-            <TimerProgress state={state} totalMicroSec={totalMicroSec} remainingMicroSec={remainingMicroSec||0} isFromBackground={false} onFinish={() => {finish()}} />
+            <TimerProgress
+              state={state}
+              totalMilliSec={totalMilliSec}
+              remainingMilliSec={remainingMilliSec || 0}
+              isFromBackground={false}
+              onFinish={() => {
+                finish();
+              }}
+              size={responsiveHeight(216)}
+              stroke={responsiveHeight(10)}
+              fontSize={responsiveFontSize(40)}
+            />
           </View>
         )}
+
+        {state === TimerState.ACTIVE && (
+          <TimerRunning
+            onPause={pause}
+            onEnd={reset}
+            remaingMilliSec={remainingMilliSec || 0}
+          />
+        )}
+
+        {state === TimerState.PAUSED && (
+          <TimerPause onResume={resume} onEnd={reset} />
+        )}
+
+        {state === TimerState.FINISHED && <TimerFinish onEnd={reset} />}
+        {/* {state !== TimerState.IDLE &&
+          (
+            <TimerDifferent
+              onGoToRecipe={handleNavigate}
+              onClose={() => onRequestClose()}
+            />
+          )} */}
 
         {/* TODO : 어케할지 감이 안오네요.. */}
         {/* {state === TimerState.IDLE && isAutoStartActive && (
@@ -160,37 +187,6 @@ const TimerModal = ({
             onCancel={handleCancelAutoStart}
           />
         )} */}
-
-        {state === TimerState.IDLE && (
-            <TimerIdle
-              initialSeconds={totalMicroSecInputValue}
-              onTimeChange={handleTimeChange}
-              onStart={handleStart}
-              onClose={() => onRequestClose()}
-              isStartDisabled={totalMicroSecInputValue <= 0}
-            />
-          )}
-
-        {state === TimerState.ACTIVE &&
-          (
-            <TimerRunning onPause={pause} onEnd={reset} remaingMicroSec={remainingMicroSec||0} />
-          )}
-
-        {state === TimerState.PAUSED && (
-            <TimerPause onResume={resume} onEnd={reset} />
-          )}
-
-        {state === TimerState.FINISHED &&
-          (
-            <TimerFinish onEnd={reset} />
-          )}
-        {state !== TimerState.IDLE &&
-          (
-            <TimerDifferent
-              onGoToRecipe={handleNavigate}
-              onClose={() => onRequestClose()}
-            />
-          )}
       </View>
     </BottomSheetModal>
   );
@@ -212,6 +208,6 @@ const styles = StyleSheet.create({
   progressContainer: {
     alignItems: "center",
     justifyContent: "center",
-    paddingTop: responsiveHeight(40),
+    // paddingTop: responsiveHeight(40),
   },
 });

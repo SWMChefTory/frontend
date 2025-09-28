@@ -5,12 +5,12 @@ type ExpoLiveActivityModule = {
   isLiveActivityAvailable: () => boolean;
   startActivity: (
     activityName: string,
-    endAt: Date,
-    totalMicroSec: number,
+    endAtMilliSec: number,
+    totalMilliSec: number,
     deepLink: string,
   ) => Promise<string>;
-  pauseActivity: (activityId?: string, remainingSeconds?: number) => Promise<boolean>;
-  resumeActivity: (activityId?: string, endAt?: Date) => Promise<boolean>;
+  pauseActivity: (activityId?: string, pausedAtMilliSec?: number, remainingSeconds?: number) => Promise<boolean>;
+  resumeActivity: (activityId?: string, endAt?: number) => Promise<boolean>;
   endActivity: (activityId?: string) => Promise<boolean>; 
 };
 
@@ -22,8 +22,8 @@ if (Platform.OS === "ios") {
 
 export type TimerState = "active" | "paused" | "finished";
 
-function convertMicroSecToSeconds(microSec: number): number {
-  return microSec / 1000;
+function convertMilliSecToSeconds(milliSec: number): number {
+  return milliSec / 1000;
 }
 
 export function isLiveActivityAvailable(): boolean {
@@ -40,7 +40,7 @@ export function isLiveActivityAvailable(): boolean {
 export async function startLiveActivity(
   activityName: string,
   endAt: Date,
-  totalMicroSec: number,
+  totalMilliSec: number,
   deepLink: string,
 ): Promise<string> {
   if (!ExpoLiveActivity) {
@@ -48,11 +48,15 @@ export async function startLiveActivity(
     return "";
   }
 
+
+  console.log("[LiveActivities] Starting activity:", activityName, endAt, totalMilliSec, deepLink);
+  console.log("[LiveActivities] endAt:", endAt);
+
   try {
-    const totalSeconds = convertMicroSecToSeconds(totalMicroSec);
+    const totalSeconds = convertMilliSecToSeconds(totalMilliSec);
     return await ExpoLiveActivity.startActivity(
       activityName,
-      endAt,
+      endAt.getTime(),
       totalSeconds,
       deepLink,
     );
@@ -62,11 +66,11 @@ export async function startLiveActivity(
   }
 }
 
-export async function pauseLiveActivity(activityId: string, remainingMicroSec: number): Promise<boolean> {
+export async function pauseLiveActivity(activityId: string, pausedAt: Date, remainingMilliSec: number): Promise<boolean> {
   if (!ExpoLiveActivity) return false;
   try {
-    const remainingSeconds = convertMicroSecToSeconds(remainingMicroSec);
-    return await ExpoLiveActivity.pauseActivity(activityId, remainingSeconds);
+    const remainingSeconds = convertMilliSecToSeconds(remainingMilliSec);
+    return await ExpoLiveActivity.pauseActivity(activityId, pausedAt.getTime(), remainingSeconds);
   } catch (error) {
     console.error("[LiveActivities] Error pausing activity:", error);
     return false;
@@ -77,7 +81,7 @@ export async function resumeLiveActivity(activityId: string, endAt: Date): Promi
   if (!ExpoLiveActivity) return false;
 
   try {
-    return await ExpoLiveActivity.resumeActivity(activityId, endAt);
+    return await ExpoLiveActivity.resumeActivity(activityId, endAt.getTime());
   } catch (error) {
     console.error("[LiveActivities] Error resuming activity:", error);
     return false;

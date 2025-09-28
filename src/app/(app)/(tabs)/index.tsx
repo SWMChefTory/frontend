@@ -12,7 +12,7 @@ import { HomeSectionHeader } from "@/src/modules/shared/components/layout/HomeSe
 import { RecentRecipeSection } from "@/src/modules/recipe/summary/recent/components/Section";
 import { PopularRecipeSection } from "@/src/modules/recipe/summary/popular/components/Secition";
 import { COLORS } from "@/src/modules/shared/constants/colors";
-import TimerModal from "@/src/widgets/timer/components/TimerModal";
+import TimerModal from "@/src/widgets/timer/TimerModal";
 // import { useHasActiveTimer } from "@/src/modules/timer/hooks/useCountdownTimer";
 import {  } from "@/src/widgets/timer/hooks/useTimer";
 import { SHADOW } from "@/src/modules/shared/constants/shadow";
@@ -20,6 +20,7 @@ import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
 import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
 import { track } from "@/src/modules/shared/utils/analytics";
+import TimerButton from "@/src/widgets/timer/TimerButton";
 
 export default function HomeScreen() {
   const scrollY = useRef(new Animated.Value(0)).current;
@@ -29,6 +30,7 @@ export default function HomeScreen() {
   // const hasActiveTimer = useHasActiveTimer();
   const router = useRouter();
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+  const [isTimerButtonAppeared,setIsTimerButtonAppeared] = useState(true);
 
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
@@ -43,10 +45,12 @@ export default function HomeScreen() {
 
   const handleTimerPress = useCallback(() => {
     bottomSheetModalRef.current?.present();
+    setIsTimerButtonAppeared(false);
   }, []);
 
   const handleTimerModalClose = useCallback(() => {
     bottomSheetModalRef.current?.dismiss();
+    setIsTimerButtonAppeared(true);
   }, []);
 
   const navigateToRecipe = useCallback(
@@ -95,7 +99,7 @@ export default function HomeScreen() {
         </View>
       </Animated.ScrollView>
 
-      <TouchableOpacity
+      {/* <TouchableOpacity
           style={styles.timerFloatingButton}
           onPress={handleTimerPress}
           activeOpacity={0.7}
@@ -105,7 +109,11 @@ export default function HomeScreen() {
             size={24}
             color={COLORS.background.white}
           />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
+
+        {isTimerButtonAppeared && <View style={styles.timerFloatingButton}>
+          <TimerButton onPress={handleTimerPress} />
+        </View>}
 
         <TimerModal
           bottomSheetModalRef={bottomSheetModalRef}
@@ -142,7 +150,7 @@ const styles = StyleSheet.create({
     width: responsiveWidth(56),
     height: responsiveHeight(56),
     borderRadius: responsiveWidth(28),
-    backgroundColor: COLORS.orange.main,
+    // backgroundColor: COLORS.orange.main,
     justifyContent: "center",
     alignItems: "center",
     ...SHADOW,

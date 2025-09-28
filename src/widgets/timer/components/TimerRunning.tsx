@@ -3,22 +3,23 @@ import { COLORS } from "@/src/modules/shared/constants/colors";
 import { responsiveFontSize, responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
 import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
 import { useTimer } from "@/src/widgets/timer/hooks/useTimer";
+import { Button } from "react-native-paper";
 
 type TimerRunningProps = {
-  remaingMicroSec: number;
+  remaingMilliSec: number;
   onPause: () => void;
   onEnd: () => void;
 };
 
-export const TimerRunning = ({ remaingMicroSec, onEnd, onPause }: TimerRunningProps) => {
-  const isNeared = remaingMicroSec < 1000;
+export const TimerRunning = ({ remaingMilliSec: remaingMilliSec, onEnd, onPause }: TimerRunningProps) => {
+  const isNeared = remaingMilliSec < 1000;
   return (
     <View style={styles.container}>
-      <View style={styles.contentContainer}>
+      {/* <View style={styles.contentContainer}>
         <Text style={styles.statusText}>진행 중</Text>
-      </View>
+      </View> */}
 
-      <View style={styles.bottomButtonContainer}>
+      {/* <View style={styles.bottomButtonContainer}>
         <TouchableOpacity style={[styles.btn, styles.btnGhost]} onPress={onEnd}>
           <Text style={styles.btnGhostText}>중단</Text>
         </TouchableOpacity>
@@ -28,7 +29,26 @@ export const TimerRunning = ({ remaingMicroSec, onEnd, onPause }: TimerRunningPr
         >
           <Text style={styles.btnPrimaryText}>일시정지</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
+      <View style={[{ position: "absolute", bottom: 24, zIndex: 1, width: "92%" , alignItems: "center" }]}>
+            <View style={[{ height: responsiveHeight(1), backgroundColor: "black",width: "100%", opacity: 0.5 }]}/>
+            <View style={[{ height: responsiveHeight(16) }]}/>
+              <Button
+                mode="contained"
+                icon="pause"
+                style={{
+                  width: "92%",
+                  justifyContent: "center",
+                  flexDirection: "row-reverse",
+                  borderRadius: 8,
+                }}
+                onPress={() => onPause()}
+                disabled={false}
+              >
+                일시정지
+              </Button>
+            
+          </View>
     </View>
   );
 };
@@ -36,6 +56,7 @@ export const TimerRunning = ({ remaingMicroSec, onEnd, onPause }: TimerRunningPr
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: "center",
   },
   contentContainer: {
     flex: 1,
