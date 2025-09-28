@@ -49,7 +49,7 @@ export function AllRecentRecipeSectionContent() {
     isFetchingNextPage,
   } = useRecentAllViewModel();
   const router = useRouter();
-
+  
   const handleRecipeView = useRef(
     debounce(
       (recipe: RecentRecipe) => {

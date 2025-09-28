@@ -1,4 +1,5 @@
 import { client } from "@/src/modules/shared/api/client";
+import { RecipeStatus } from "@/src/modules/recipe/types/Recipe";
 
 export interface RecentSummaryRecipeApiResponse {
   viewed_at: string;
@@ -10,6 +11,7 @@ export interface RecentSummaryRecipeApiResponse {
   video_seconds: number;
   category: string;
   category_id: string;
+  recipe_status: RecipeStatus;
 }
 
 export interface RecentSummaryRecipesApiResponse {
@@ -19,6 +21,6 @@ export interface RecentSummaryRecipesApiResponse {
 export async function fetchRecentSummary(): Promise<RecentSummaryRecipesApiResponse> {
   const response =
     await client.get<RecentSummaryRecipesApiResponse>(`/recipes/recent`);
-  console.log(response.data);
   return response.data;
 }
+

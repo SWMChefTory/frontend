@@ -7,14 +7,42 @@ const isValidYouTubeUrl = (url: string): boolean => {
     /^https?:\/\/youtu\.be\/[\w-]+/,
     /^https?:\/\/(m\.)?youtube\.com\/watch\?v=[\w-]+/,
     /^https?:\/\/youtube\.com\/watch\?v=[\w-]+/,
+    /^https?:\/\/(www\.)?youtube\.com\/shorts\/[\w-]+/,
+    /^https?:\/\/(m\.)?youtube\.com\/shorts\/[\w-]+/,
   ];
 
   return youtubePatterns.some((pattern) => pattern.test(url.trim()));
 };
 
+const extractYouTubeVideoId = (url: string): string | null => {
+  const patterns = [
+    /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/,
+    /youtube\.com\/shorts\/([^"&?\/\s]{11})/,
+  ];
+
+  for (const pattern of patterns) {
+    const match = url.match(pattern);
+    if (match && match[1]) {
+      return match[1];
+    }
+  }
+
+  return null;
+};
+
+const convertToStandardYouTubeUrl = (url: string): string => {
+  const videoId = extractYouTubeVideoId(url);
+
+  if (!videoId) {
+    return url;
+  }
+
+  return `https://www.youtube.com/watch?v=${videoId}`;
+};
+
 export function useRecipeCreateViewModel() {
   const {
-    mutate: create,
+    mutate: createMutation,
     data,
     isPending: isLoading,
   } = useMutation({
@@ -33,6 +61,19 @@ export function useRecipeCreateViewModel() {
     }
 
     return null;
+  };
+
+  const create = (youtubeUrl: string) => {
+    const trimmedUrl = youtubeUrl.trim();
+
+    const validationError = validateUrl(trimmedUrl);
+    if (validationError) {
+      throw new Error(validationError);
+    }
+
+    const standardUrl = convertToStandardYouTubeUrl(trimmedUrl);
+
+    createMutation(standardUrl);
   };
 
   return {

@@ -19,6 +19,7 @@
     "@expo-google-fonts/do-hyeon": "^0.4.0",
     "@expo-google-fonts/inter": "^0.4.1",
     "@expo-google-fonts/noto-serif-kr": "^0.4.1",
+    "@expo/config-plugins": "^54.0.1",
     "@expo/vector-icons": "^14.1.0",
     "@gorhom/bottom-sheet": "^5.1.6",
     "@react-native-firebase/analytics": "^23.3.0",

@@ -18,23 +18,6 @@ export function ProgressSection({ progress, colors, scaleValue }: Props) {
         <Text style={styles.progressLabel}>진행률</Text>
         <Text style={styles.progressValue}>{progress.toFixed(2)}%</Text>
       </View>
-      <View style={styles.progressBarContainer}>
-        <View style={styles.progressBarBg}>
-          <LinearGradient
-            colors={colors}
-            style={[styles.progressBar, { width: `${progress}%` }]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-          >
-            <Animated.View
-              style={[
-                styles.progressShine,
-                { transform: [{ scaleX: scaleValue }] },
-              ]}
-            />
-          </LinearGradient>
-        </View>
-      </View>
     </View>
   );
 }
@@ -42,7 +25,8 @@ export function ProgressSection({ progress, colors, scaleValue }: Props) {
 const styles = StyleSheet.create({
   progressSection: {
     width: "100%",
-    margin: responsiveWidth(32),
+    marginHorizontal: responsiveWidth(32),
+    marginVertical: responsiveHeight(16),
   },
   progressHeader: {
     flexDirection: "row",

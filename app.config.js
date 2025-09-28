@@ -94,16 +94,17 @@ export default {
       "expo-secure-store",
       "expo-font",
       "expo-web-browser",
-      "expo-apple-authentication",  
+      "expo-apple-authentication",
       "@react-native-google-signin/google-signin",
       "@react-native-firebase/app",
+      "./plugins/android-share",
       [
         "expo-build-properties",
         {
           ios: {
             useFrameworks: "static",
             useModularHeaders: true,
-            deploymentTarget: "16.1"
+            deploymentTarget: "16.1",
           },
         },
       ],

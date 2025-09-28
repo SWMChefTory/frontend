@@ -4,7 +4,7 @@ import { User } from "@/src/modules/user/business/viewmodel/user";
 export type DeepLinkAction = {
   actionType: string;
   params: Record<string, string>;
-}
+};
 
 type DeepLinkActionStore = {
   deepLinkAction: DeepLinkAction | null;

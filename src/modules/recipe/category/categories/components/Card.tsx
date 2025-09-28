@@ -38,7 +38,6 @@ interface SuccessProps {
   category: Category;
 }
 
-// 공통 스타일
 const baseStyles = StyleSheet.create({
   container: {
     width: 120,
@@ -142,7 +141,7 @@ export function NormalCategoryCard({
               size={20}
               color={
                 categorySelectedState === CategorySelectedState.SELECTED
-                  ? COLORS.priamry.cook
+                  ? COLORS.primary.cook
                   : COLORS.orange.main
               }
             />

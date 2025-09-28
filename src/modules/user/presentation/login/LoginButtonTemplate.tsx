@@ -13,7 +13,7 @@ function LoginButtonTemplate({ description,logoPath,logoSize, handleSignIn }: {d
     <TouchableOpacity style={styles.button} onPress={handleSignIn}>
         <View style={styles.buttonContent}>
           <View style={styles.iconContainer}>
-            <Image source={logoPath} style={{ width: logoSize.width, height: logoSize.height }} />
+            <Image source={logoPath} style={{ height: logoSize.height, aspectRatio: 1, resizeMode: "contain" }} />
           </View>
           <Text style={styles.buttonText}>{description}</Text>
         </View>

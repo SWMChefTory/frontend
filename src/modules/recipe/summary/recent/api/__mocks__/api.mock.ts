@@ -1,4 +1,5 @@
 import { RecentSummaryRecipeApiResponse } from "../api";
+import { RecipeStatus } from "@/src/modules/recipe/types/Recipe";
 
 export const recentRecipesApiMock: Record<
   string,
@@ -14,6 +15,7 @@ export const recentRecipesApiMock: Record<
     video_seconds: 120,
     category: "한식",
     category_id: "1",
+    recipe_status: RecipeStatus.IN_PROGRESS,
   },
   "2": {
     recipe_id: "2",
@@ -25,6 +27,7 @@ export const recentRecipesApiMock: Record<
     video_seconds: 120,
     category: "한식",
     category_id: "1",
+    recipe_status: RecipeStatus.IN_PROGRESS,
   },
   "3": {
     recipe_id: "3",
@@ -36,6 +39,7 @@ export const recentRecipesApiMock: Record<
     video_seconds: 120,
     category: "한식",
     category_id: "1",
+    recipe_status: RecipeStatus.IN_PROGRESS,
   },
   "4": {
     recipe_id: "4",
@@ -47,6 +51,7 @@ export const recentRecipesApiMock: Record<
     video_seconds: 120,
     category: "미분류",
     category_id: "1",
+    recipe_status: RecipeStatus.IN_PROGRESS,
   },
   "5": {
     recipe_id: "5",
@@ -58,6 +63,7 @@ export const recentRecipesApiMock: Record<
     video_seconds: 120,
     category: "미분류",
     category_id: "1",
+    recipe_status: RecipeStatus.IN_PROGRESS,
   },
   "6": {
     recipe_id: "6",
@@ -69,6 +75,7 @@ export const recentRecipesApiMock: Record<
     video_seconds: 120,
     category: "미분류",
     category_id: "1",
+    recipe_status: RecipeStatus.IN_PROGRESS,
   },
 };
 

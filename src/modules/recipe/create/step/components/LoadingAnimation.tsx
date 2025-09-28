@@ -68,7 +68,7 @@ export function LoadingAnimation({
 
 const styles = StyleSheet.create({
   loadingContainer: {
-    paddingBottom: 32,
+    padding: 32,
   },
   loadingWrapper: {
     width: 168,

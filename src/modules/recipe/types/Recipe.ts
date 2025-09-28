@@ -3,6 +3,12 @@ import { AllPopularRecipeResponse } from "@/src/modules/recipe/all/popular/api/a
 import { RecentSummaryRecipeApiResponse } from "../summary/recent/api/api";
 import { RecentAllRecipeApiResponse } from "../all/recent/api/api";
 
+export enum RecipeStatus {
+  IN_PROGRESS = "IN_PROGRESS",
+  SUCCESS = "SUCCESS",
+  FAILED = "FAILED",
+}
+
 export class PopularRecipe {
   recipeId: string;
   title: string;
@@ -56,6 +62,7 @@ export class RecentRecipe {
   videoDuration: number;
   category: string;
   categoryId: string;
+  recipeStatus: RecipeStatus;
   private constructor(
     recipeId: string,
     title: string,
@@ -66,6 +73,7 @@ export class RecentRecipe {
     videoDuration: number,
     category: string,
     categoryId: string,
+    recipeStatus: RecipeStatus,
   ) {
     this.recipeId = recipeId;
     this.title = title;
@@ -76,6 +84,7 @@ export class RecentRecipe {
     this.videoDuration = videoDuration;
     this.category = category;
     this.categoryId = categoryId;
+    this.recipeStatus = recipeStatus;
   }
 
   static create(
@@ -91,6 +100,7 @@ export class RecentRecipe {
       apiResponse.video_seconds,
       apiResponse.category,
       apiResponse.category_id,
+      apiResponse.recipe_status,
     );
   }
 
