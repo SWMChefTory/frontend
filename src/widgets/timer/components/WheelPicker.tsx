@@ -1,5 +1,5 @@
 // WheelPicker.tsx
-import React, { useCallback, useEffect, useMemo, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import {
   View,
   StyleSheet,
@@ -38,18 +38,14 @@ export default function WheelPicker({
   rowHeight= 48,
   value,
   zeroPadding = false,
-  //   visibleCount = 3,
   onChange,
   presetRef,
 }: Props) {
   const visibleCount = 3;
   const listHeight = rowHeight * visibleCount;
-
   const scrollY = useSharedValue(0);
-
   const listRef = useRef<FlatList<number>>(null);
-
-  const repeats = 5;
+  const repeats =3;
 
   useEffect(()=>{
     const onScrollByPreset = (data: number)=>{
@@ -101,7 +97,7 @@ export default function WheelPicker({
         showsVerticalScrollIndicator={false}
         bounces={false}
         snapToInterval={rowHeight}
-        decelerationRate="fast"
+        decelerationRate="normal"
         onScroll={onScroll}
         scrollEventThrottle={16}
         initialScrollIndex={rowCount * Math.floor(repeats / 2) + value}

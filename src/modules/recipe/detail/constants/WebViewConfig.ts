@@ -16,8 +16,6 @@ export const getUserAgent = (): string => {
 };
 
 export const getWebViewUrl = (recipeId: string): string => {
-  // return `${WEBVIEW_CONFIG.BASE_URL}/#/recipes/${recipeId}`;
-  const temp = `http://localhost:3000/#/recipes/${recipeId}`
-  // const temp = `http://172.16.100.8:3000/#/recipes/${recipeId}`;
-  return temp;
+  console.log("WEBVIEW_CONFIG.BASE_URL!!!!!!!!!!!", WEBVIEW_CONFIG.BASE_URL);
+  return `${WEBVIEW_CONFIG.BASE_URL}/#/recipes/${recipeId}`;
 };

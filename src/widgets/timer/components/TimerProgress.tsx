@@ -145,14 +145,13 @@ export function TimerProgress({
           cx={size / 2}
           cy={size / 2}
           r={r}
-          color="#FFD9C7"
+          color={theme.colors.onPrimary}
           style="stroke"
           strokeWidth={stroke}
         />
         <Path
           path={arc}
-          // color={theme.colors.primary}
-          color="black"
+          color={theme.colors.primary}
           style="stroke"
           strokeWidth={stroke}
           strokeCap="round"

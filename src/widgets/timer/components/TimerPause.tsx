@@ -2,6 +2,7 @@ import { COLORS } from "@/src/modules/shared/constants/colors";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { memo } from "react";
 import { responsiveFontSize, responsiveHeight, responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
+import TimerControlSection from "@/src/widgets/timer/components/TimerControlSection";
 
 type TimerPauseProps = {
   onResume: () => void;
@@ -9,22 +10,16 @@ type TimerPauseProps = {
 };
 
 export const TimerPause = memo(({ onResume, onEnd }: TimerPauseProps) => {
+  const buttonsProps = [
+    { label: "중단", icon: "stop", onPress: onEnd, isEmphasis: false, disabled: false },
+    { label: "재개", icon: "play", onPress: onResume, isEmphasis: true, disabled: false },
+  ];
   return (
     <View style={styles.container}>
-      <View style={styles.contentContainer}>
-        <Text style={styles.statusText}>일시정지</Text>
-      </View>
-      <View style={styles.bottomButtonContainer}>
-        <TouchableOpacity style={[styles.btn, styles.btnGhost]} onPress={onEnd}>
-          <Text style={styles.btnGhostText}>중단</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.btn, styles.btnPrimary]}
-          onPress={onResume}
-        >
-          <Text style={styles.btnPrimaryText}>재개</Text>
-        </TouchableOpacity>
-      </View>
+      <TimerControlSection
+        buttonsProps={buttonsProps}
+        width={"92%"}
+      />
     </View>
   );
 });
@@ -32,6 +27,8 @@ export const TimerPause = memo(({ onResume, onEnd }: TimerPauseProps) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: "center",
+    width: "100%",
   },
   contentContainer: {
     flex: 1,

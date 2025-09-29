@@ -126,7 +126,7 @@ const theme = {
   colors: {
     ...DefaultTheme.colors,
     primary: "#f57c00",
-    onPrimary: "#ffffff",
+    onPrimary: "#E6E6E6",
     primaryContainer: "#ffd54f",
     onPrimaryContainer: "#1a1a1a",
     onPrimaryContainerDisabled: "#C7C7C7",

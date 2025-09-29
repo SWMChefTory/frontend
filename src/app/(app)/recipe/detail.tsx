@@ -8,12 +8,11 @@ import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { Audio, InterruptionModeAndroid, InterruptionModeIOS } from "expo-av";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useCallback, useEffect, useRef, useState } from "react";
-// import LandscapTimerModal from "@/src/widgets/timer/components/LandscapeTimer";
-import LandscapTimerModal from "@/src/widgets/timer/LandScapeTimer";
+import LandscapTimerModal from "@/src/widgets/timer/LandScapeTimerModal";
+import TimerButton from "@/src/widgets/timer/TimerButton";
 
 export default function RecipeDetailScreen() {
   const [timerMessage, setTimerMessage] = useState<TimerMessage | null>(null);
-  const router = useRouter();
   const [isLandscapeTimerOpen, setIsLandscapeTimerOpen] = useState(false);
   useEffect(() => {
     track.screen("RecipeDetail");
@@ -82,7 +81,7 @@ export default function RecipeDetailScreen() {
   }, []);
 
   const openTimerModal = useCallback((msg: TimerMessage) => {
-    if(msg.orientation === "landscape") {
+    if (msg.orientation === "landscape") {
       setIsLandscapeTimerOpen(true);
       return;
     }
@@ -90,25 +89,7 @@ export default function RecipeDetailScreen() {
     bottomSheetModalRef.current?.present();
   }, []);
 
-
-  const closeTimerModal = useCallback(() => {
-    setTimerMessage(null);
-    bottomSheetModalRef.current?.dismiss();
-  }, []);
-
-  const navigateToRecipe = useCallback(
-    (recipeId: string, recipeTitle: string) => {
-      router.replace({
-        pathname: "/recipe/detail",
-        params: {
-          recipeId: recipeId,
-          title: recipeTitle,
-          isTimer: "true",
-        },
-      } as any);
-    },
-    []
-  );
+  console.log("isLandscapeTimerOpen!!!!!!!!!", params.recipeId, params.title, timerMessage?.recipe_title);
 
   return (
     <>
@@ -117,19 +98,15 @@ export default function RecipeDetailScreen() {
         backgroundColor="white"
         translucent={false}
       />
-      <View style={[styles.container]} >
+      <View style={[styles.container]}>
         <Stack.Screen options={{ headerShown: false }} />
         <RecipeWebView
           recipeId={params.recipeId}
           onOpenTimer={openTimerModal}
         />
         <TimerModal
-          onRequestClose={closeTimerModal}
           recipeTitle={params.title || timerMessage?.recipe_title || ""}
           recipeId={params.recipeId || timerMessage?.recipe_id || ""}
-          // timerAutoTime={timerMessage?.timer_time}
-          // timerIntentType={timerMessage?.type}
-          onNavigateToRecipe={navigateToRecipe}
           bottomSheetModalRef={bottomSheetModalRef}
         />
         <RecipeCategoryBottomSheet
@@ -137,7 +114,19 @@ export default function RecipeDetailScreen() {
           recipeId={params.recipeId}
         />
       </View>
-      {isLandscapeTimerOpen && <LandscapTimerModal handleClose={() => setIsLandscapeTimerOpen(false)}   />}
+      <View style={{ position: "absolute", bottom: isLandscapeTimerOpen ? 0 : 22, left: isLandscapeTimerOpen ? 0 : 22, zIndex: 1000 }}>
+        <TimerButton onPress={() => { 
+          bottomSheetModalRef.current?.present();
+        }} />
+      </View>
+
+      {isLandscapeTimerOpen && (
+        <LandscapTimerModal
+          handleClose={() => setIsLandscapeTimerOpen(false)}
+          recipeId={params.recipeId}
+          recipeTitle={params.title || timerMessage?.recipe_title || ""}
+        />
+      )}
     </>
   );
 }

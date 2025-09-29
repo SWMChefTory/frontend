@@ -27,10 +27,7 @@ export default function HomeScreen() {
   const [refreshing, setRefreshing] = useState(false);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
 
-  // const hasActiveTimer = useHasActiveTimer();
-  const router = useRouter();
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-  const [isTimerButtonAppeared,setIsTimerButtonAppeared] = useState(true);
 
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
@@ -45,27 +42,8 @@ export default function HomeScreen() {
 
   const handleTimerPress = useCallback(() => {
     bottomSheetModalRef.current?.present();
-    setIsTimerButtonAppeared(false);
   }, []);
 
-  const handleTimerModalClose = useCallback(() => {
-    bottomSheetModalRef.current?.dismiss();
-    setIsTimerButtonAppeared(true);
-  }, []);
-
-  const navigateToRecipe = useCallback(
-    (recipeId: string, recipeTitle: string) => {
-      router.replace({
-        pathname: "/recipe/detail",
-        params: {
-          recipeId: recipeId,
-          title: recipeTitle,
-          isTimer: "true",
-        },
-      } as any);
-    },
-    [],
-  );
 
   return (
     <View style={styles.container}>
@@ -99,28 +77,14 @@ export default function HomeScreen() {
         </View>
       </Animated.ScrollView>
 
-      {/* <TouchableOpacity
-          style={styles.timerFloatingButton}
-          onPress={handleTimerPress}
-          activeOpacity={0.7}
-        >
-          <Ionicons
-            name="timer-outline"
-            size={24}
-            color={COLORS.background.white}
-          />
-        </TouchableOpacity> */}
-
-        {isTimerButtonAppeared && <View style={styles.timerFloatingButton}>
+        <View style={styles.timerFloatingButton}>
           <TimerButton onPress={handleTimerPress} />
-        </View>}
+        </View>
 
         <TimerModal
           bottomSheetModalRef={bottomSheetModalRef}
-            onRequestClose={handleTimerModalClose}
             recipeTitle={""}
             recipeId={""}
-            onNavigateToRecipe={navigateToRecipe}
           />
     </View>
   );
@@ -150,7 +114,6 @@ const styles = StyleSheet.create({
     width: responsiveWidth(56),
     height: responsiveHeight(56),
     borderRadius: responsiveWidth(28),
-    // backgroundColor: COLORS.orange.main,
     justifyContent: "center",
     alignItems: "center",
     ...SHADOW,
