@@ -47,6 +47,7 @@ export function useWebViewMessage({
         } catch {
           parsedMessage = { type: message };
         }
+        console.log("parsedMessage:", parsedMessage);
 
         switch (parsedMessage.type) {
           case WebViewMessageType.FINISH_COOKING:
@@ -86,13 +87,14 @@ export function useWebViewMessage({
             orientation.lockToPortraitUp();
             break;
 
-          case WebViewMessageType.LOCK_TO_LANDSCAPE_LEFT:
-            console.log("가로모드");
-            orientation.lockToLandscapeLeft();
-            break;
+          // case WebViewMessageType.LOCK_TO_LANDSCAPE_LEFT:
+          //   console.log("가로모드");
+          //   orientation.lockToLandscapeLeft();
+          //   break;
 
           case WebViewMessageType.UNLOCK_ORIENTATION:
             orientation.unlockOrientation();
+            console.log("orientation.unlockOrientation!!!!!!!!!!");
             break;
 
           default:

@@ -1,5 +1,6 @@
 import { Platform } from "react-native";
 
+
 export const WEBVIEW_CONFIG = {
   BASE_URL: process.env.EXPO_PUBLIC_WEBVIEW_URL,
   USER_AGENTS: {

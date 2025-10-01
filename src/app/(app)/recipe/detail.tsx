@@ -1,5 +1,8 @@
 import { StatusBar, StyleSheet, View } from "react-native";
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
 import { RecipeCategoryBottomSheet } from "@/src/modules/recipe/category/categories/bottomsheet/BottomSheet";
 import { RecipeWebView } from "@/src/modules/recipe/detail/components/RecipeWebView";
 import { TimerMessage } from "@/src/modules/recipe/detail/types/RecipeDetail";
@@ -105,13 +108,23 @@ export default function RecipeDetailScreen() {
   );
 
   return (
-    <>
+    <View
+      style={{
+        height: "100%",
+        width: "100%",
+        paddingTop: insets.top,
+        paddingBottom: insets.bottom,
+        paddingLeft: insets.left,
+        paddingRight: insets.right,
+        backgroundColor: "white",
+      }}
+    >
       <StatusBar
         barStyle="dark-content"
         backgroundColor="white"
         translucent={false}
       />
-      <View style={[styles.container]} >
+      <View style={[styles.container]}>
         <Stack.Screen options={{ headerShown: false }} />
         <RecipeWebView
           recipeId={params.recipeId}
@@ -131,7 +144,7 @@ export default function RecipeDetailScreen() {
           recipeId={params.recipeId}
         />
       </View>
-    </>
+    </View>
   );
 }
 
@@ -139,7 +152,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "black",
-    
+
     // width: "100%",
     // height: "100%",
   },

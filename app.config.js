@@ -108,7 +108,7 @@ export default {
           },
         },
       ],
-      ["expo-screen-orientation", { initialOrientation: "DEFAULT" }],
+      ["expo-screen-orientation", { initialOrientation: "PORTRAIT_UP" }],
     ],
     experiments: {
       typedRoutes: true,

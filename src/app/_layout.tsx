@@ -180,10 +180,8 @@ export default function RootLayout() {
   useEffect(() =>  {
     async function changeScreenOrientation() {
       await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
-      console.log("ScreenOrientation locked");
     }
     changeScreenOrientation();
-
   }, []);
 
   return (

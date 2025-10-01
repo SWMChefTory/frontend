@@ -72,7 +72,6 @@ export function RecipeWebViewContent({
         );
       },
       lockToLandscapeLeft: async () => {
-        console.log("가로모드");
         ScreenOrientation.lockAsync(
           ScreenOrientation.OrientationLock.LANDSCAPE_LEFT
         );
