@@ -11,13 +11,11 @@ import * as ExpoSplashScreen from "expo-splash-screen";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { GlobalErrorBoundary } from "../modules/shared/components/error/GlobalErrorBoundary";
 import { SplashScreenController } from "../modules/shared/splash/SplashScreenController";
-import { useFonts, DoHyeon_400Regular } from "@expo-google-fonts/do-hyeon";
 import { useEffect } from "react";
 import { useAuthBootstrap } from "../modules/user/authBootstrap";
 
 import * as Network from "expo-network";
 import { AppState, AppStateStatus, Platform, View } from "react-native";
-import { useDeepLinkHandler } from "@/src/useDeepLink";
 import {
   MD3LightTheme as DefaultTheme,
   PaperProvider,
@@ -33,6 +31,7 @@ import {
 } from "react-native-safe-area-context";
 import { checkAndApplyUpdates } from "../modules/shared/utils/codepush";
 import * as ScreenOrientation from "expo-screen-orientation";
+import { useWebViewStore } from "@/src/shared/webview/isLoadedStore";
 
 ExpoSplashScreen.preventAutoHideAsync();
 
@@ -82,20 +81,17 @@ function useOnlineManager() {
 
 function RootNavigator() {
   const { isLoggedIn, loading } = useAuthBootstrap();
-  const [loaded, error] = useFonts({
-    DoHyeon_400Regular,
-  });
   const theme = useTheme();
+  const { isWebviewLoaded } = useWebViewStore();
 
   useEffect(() => {
-    if ((loading && loaded) || error) {
-      checkAndApplyUpdates();
+    if (loading ) {
+      if(!isLoggedIn || isWebviewLoaded){
+        checkAndApplyUpdates();
+      }
     }
   }, []);
 
-  if (!loaded && !error) {
-    return null;
-  }
 
   return (
     <Stack
@@ -111,7 +107,7 @@ function RootNavigator() {
       }}
     >
       <Stack.Protected guard={isLoggedIn}>
-        <Stack.Screen name="(app)" options={{ headerShown: false }} />
+        <Stack.Screen name="(app)" options={{ headerShown: false }}/>
       </Stack.Protected>
 
       <Stack.Protected guard={!isLoggedIn}>
@@ -171,8 +167,7 @@ export default function RootLayout() {
 
   useAppState(onAppStateChange);
   useNotificationObserver();
-  useDeepLinkHandler();
-
+  
   useOnlineManager();
 
   useAppState(onAppStateChange);

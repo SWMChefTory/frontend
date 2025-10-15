@@ -1,17 +1,11 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
 import {
   getUser,
-  changeUserNickname,
-  changeUserDateOfBirth,
-  changeUserGender,
-  UserRequest,
   patchUser,
 } from "@/src/modules/user/business/service/api/api";
 import { useUserStore } from "@/src/modules/user/business/store/userStore";
 import { User } from "../viewmodel/user";
-import { DateOnly } from "@/src/modules/shared/utils/dateOnly";
 import { useEffect } from "react";
-import { Gender } from "../../enums/Gender";
 import * as Sentry from '@sentry/react-native';
 
 export function useUserViewModel() {
@@ -67,7 +61,7 @@ export function useChangeUserViewModel() {
     },
     onSuccess: (data, variables, context) => {
       console.log("user", context?.userChanged);
-      setUser(context?.userChanged);
+      setUser(context?.userChanged ?? null);
     },
     onError: (error) => {
       Sentry.captureException(error);
@@ -78,4 +72,3 @@ export function useChangeUserViewModel() {
 
   return { changeUser, isLoading };
 }
-
