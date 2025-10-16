@@ -49,21 +49,21 @@ export default function RecipeDetailScreen() {
   }, []);
 
   return (
-    <View
-      style={{
-        height: "100%",
-        width: "100%",
-        paddingTop: insets.top,
-        paddingBottom: insets.bottom,
-        paddingLeft: insets.left,
-        paddingRight: insets.right,
-        backgroundColor: "white",
-      }}
-    >
+    // <View
+    //   style={{
+    //     height: "100%",
+    //     width: "100%",
+    //     paddingTop: insets.top,
+    //     paddingBottom: insets.bottom,
+    //     paddingLeft: insets.left,
+    //     paddingRight: insets.right,
+    //     backgroundColor: "white",
+    //   }}
+    // >
       <View style={{ flex: 1, backgroundColor: "white" }}>
         <Stack.Screen options={{ headerShown: false }} />
         <RecipeWebView />
       </View>
-    </View>
+    // </View>
   );
 }

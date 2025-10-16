@@ -49,6 +49,13 @@ enum payloadType {
   CATEGORY_CREATION_INPUT = "CATEGORY_CREATION_INPUT",
 }
 
+class InvalidJsonError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "InvalidJsonError";
+  }
+}
+
 //webview에서 보낸 메세지를 처리하는 함수
 export function useHandleMessage({
   postMessage,
@@ -66,10 +73,15 @@ export function useHandleMessage({
 
   const handleMessage = async (event: any) => {
     try {
-      const req = JSON.parse(event.nativeEvent.data) as
+      const req =(()=>{
+        try{
+          return JSON.parse(event.nativeEvent.data) as
         | RequestMsgBlockingFromWebView
         | RequestMsgUnblockingFromWebView;
-        console.log("event.nativeEvent.data", JSON.stringify(req));
+        }catch(e){
+          throw new InvalidJsonError("Invalid JSON");
+        }
+      })();
 
       switch (req.mode) {
         case WebViewMessageType.BLOCKING: {
@@ -89,11 +101,11 @@ export function useHandleMessage({
         case WebViewMessageType.UNBLOCKING: {
           switch (req.type) {
             case payloadType.RECIPE_CREATION_INPUT: {
-              openCreatingRecipeView();
+              openCreatingRecipeView(); // creatingRecipeView 컴포넌트를 보여줌.
               break;
             }
             case payloadType.CATEGORY_CREATION_INPUT: {
-              openCreatingCategoryView();
+              openCreatingCategoryView(); // creatingCategoryView 컴포넌트를 보여줌.
               break;
             }
           }
@@ -101,14 +113,10 @@ export function useHandleMessage({
         }
       }
     } catch (e: any) {
-      // id를 못 읽을 수도 있으니 방어
-      try {
-        console.log("[Native] 에러메세지", e.message, event.nativeEvent.data);
-        const maybe = JSON.parse(event.nativeEvent.data);
-        if (maybe?.id) fail(maybe.id, e?.message ?? "Unhandled error");
-      } catch {
-        /* noop */
+      if (e instanceof InvalidJsonError) {
+        console.log("[Native] 메세지", event.nativeEvent.data);
       }
+      console.log("[Native] 에러메세지", e.message, event.nativeEvent.data);
     }
   };
   return {handleMessage};
