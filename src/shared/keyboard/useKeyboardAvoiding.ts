@@ -24,7 +24,7 @@ export const useKeyboardAvoidingAnimation = () => {
   const { height: keyboardHeight } = useGradualAnimation();
   const animatedStyle = useAnimatedStyle(() => {
     return {
-      transform: [{ translateY: -keyboardHeight.value + insets.bottom }],
+      transform: [{ translateY: -keyboardHeight.value }],
     };
   });
   return {

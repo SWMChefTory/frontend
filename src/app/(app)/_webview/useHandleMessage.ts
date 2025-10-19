@@ -115,6 +115,7 @@ export function useHandleMessage({
     } catch (e: any) {
       if (e instanceof InvalidJsonError) {
         console.log("[Native] 메세지", event.nativeEvent.data);
+        return;
       }
       console.log("[Native] 에러메세지", e.message, event.nativeEvent.data);
     }
