@@ -1,5 +1,4 @@
 import { View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { RecipeWebView } from "@/src/pages/webview/RecipeWebView";
 import { track } from "@/src/modules/shared/utils/analytics";
 import { Audio, InterruptionModeAndroid, InterruptionModeIOS } from "expo-av";
@@ -7,7 +6,6 @@ import { Stack } from "expo-router";
 import { useEffect } from "react";
 
 export default function RecipeDetailScreen() {
-  const insets = useSafeAreaInsets();
   useEffect(() => {
     track.screen("RecipeDetail");
   }, []);
@@ -49,21 +47,9 @@ export default function RecipeDetailScreen() {
   }, []);
 
   return (
-    // <View
-    //   style={{
-    //     height: "100%",
-    //     width: "100%",
-    //     paddingTop: insets.top,
-    //     paddingBottom: insets.bottom,
-    //     paddingLeft: insets.left,
-    //     paddingRight: insets.right,
-    //     backgroundColor: "white",
-    //   }}
-    // >
       <View style={{ flex: 1, backgroundColor: "white" }}>
         <Stack.Screen options={{ headerShown: false }} />
         <RecipeWebView />
       </View>
-    // </View>
   );
 }

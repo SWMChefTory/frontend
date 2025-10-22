@@ -5,7 +5,7 @@ export const publishOpenCreatingView = ({ videoId }: { videoId: string }) => {
 };
 
 export const subcribeOpenCreatingView = () => {
-  const eventPublished = { url: event?.url };
+  const eventPublished = { url: event?.url || "" };
   event = null;
   return eventPublished;
 };

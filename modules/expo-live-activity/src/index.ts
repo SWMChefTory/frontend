@@ -97,7 +97,7 @@ export async function updateLiveActivityPayload(
   payload: LiveActivityPayload,
 ): Promise<boolean> {
   if (!ExpoLiveActivity) return false;
-
+  console.log("updateLiveActivityPayload", activityId, JSON.stringify(payload));
   try {
     return await ExpoLiveActivity.updatePayload(activityId, payload);
   } catch (error) {

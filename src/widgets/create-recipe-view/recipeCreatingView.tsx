@@ -4,7 +4,7 @@ import {
   Keyboard,
   TouchableOpacity,
   View,
-  ScrollView,
+  AppState,
 } from "react-native";
 import {subcribeOpenCreatingView} from "@/src/widgets/create-recipe-view/event/videoUrlDeepLinkEvent";
 import { useKeyboardAvoidingAnimation } from "@/src/shared/keyboard/useKeyboardAvoiding";
@@ -34,13 +34,22 @@ export const RecipeCreatingView = () => {
 
 const CREATE_MESSAGE = "RECIPE_CREATE";
 
-const RecipeCreatingViewReady = ({}: {}) => {
+const RecipeCreatingViewReady = () => {
   const { closeCreatingView } = useCreatingRecipeViewStore();
   const [url, setUrl] = useState(()=>{
-    return subcribeOpenCreatingView().url || ""
+    return subcribeOpenCreatingView().url
   });
   const [hasEverTyped, setHasEverTyped] = useState(false);
   const { animatedStyle } = useKeyboardAvoidingAnimation();
+
+  AppState.addEventListener("change", (state) => {
+    if(state === "active"){
+      if(url){
+        return;
+      }
+      setUrl(subcribeOpenCreatingView().url);
+    }
+  });
 
   function isError() {
     return !isValidYouTubeUrl(url) && hasEverTyped;

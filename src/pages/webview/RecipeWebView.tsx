@@ -3,24 +3,10 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { WebView } from "react-native-webview";
 import { getUserAgent, getWebViewUrl } from "./WebViewConfig";
 import { RecipeWebViewFallback } from "./Fallback";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import {
-  Keyboard,
-  Platform,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-} from "react-native";
-import { useKeyboardHandler } from "react-native-keyboard-controller";
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-} from "react-native-reanimated";
-import { View } from "react-native";
-import { Button, TextInput } from "react-native-paper";
+import { Platform, StyleSheet } from "react-native";
 import { RecipeCreatingView } from "@/src/widgets/create-recipe-view/recipeCreatingView";
-import { useHandleMessage } from "@/src/app/(app)/_webview/useHandleMessage";
-import { subscribeMessage } from "@/src/shared/webview/sendMessage";  
+import { useHandleMessage } from "@/src/pages/webview/message/useHandleMessage";
+import { subscribeMessage } from "@/src/shared/webview/sendMessage";
 import { CategoryCreatingView } from "@/src/widgets/create-category-view/categoryCreatingView";
 
 export function RecipeWebView() {
@@ -31,16 +17,9 @@ export function RecipeWebView() {
   );
 }
 
-interface Category {
-  name: string;
-  id: string;
-}
-
 export function RecipeWebViewContent() {
   const webviewRef = useRef<WebView>(null);
   const [error, setError] = useState<Error | null>(null);
-  const insets = useSafeAreaInsets();
-  const [categories, setCategories] = useState<Category[]>([]);
   const { handleMessage } = useHandleMessage({
     postMessage: ({ message }) => {
       webviewRef.current?.postMessage(message);
@@ -48,11 +27,10 @@ export function RecipeWebViewContent() {
   });
 
   useEffect(() => {
-      subscribeMessage((message) => {
-        webviewRef.current?.postMessage(message);
-      });
+    subscribeMessage((message) => {
+      webviewRef.current?.postMessage(message);
+    });
   }, []);
-
 
   const handleError = useCallback((error: any) => {
     setError(
@@ -69,7 +47,6 @@ export function RecipeWebViewContent() {
       )
     );
   }, []);
-
 
   const webviewUrl = getWebViewUrl();
 
@@ -123,23 +100,6 @@ export function RecipeWebViewContent() {
       />
       <RecipeCreatingView />
       <CategoryCreatingView />
-      {/* {isCategoryCreatingOpened && (
-        <CategoryCreatingView
-          onClose={() => setIsCategoryCreatingOpened(false)}
-          onSubmit={(categoryName: string) => {
-            const req: RequestMsgUnblockingFromNative = {
-              intended: true,
-              action: Action.REQUEST,
-              mode: WebViewMessageType.UNBLOCKING,
-              type: "CATEGORY_CREATE",
-              payload: {
-                categoryName,
-              },
-            };
-            webviewRef.current?.postMessage(JSON.stringify(req));
-          }}
-        />
-      )} */}
     </>
   );
   // Android 하드웨어 뒤로가기 버튼 처리: 웹뷰로 BACK_PRESSED 전송
@@ -153,23 +113,6 @@ const styles = StyleSheet.create({
     height: "100%",
   },
 });
-
-const useGradualAnimation = () => {
-  const height = useSharedValue(0);
-  useKeyboardHandler(
-    {
-      onMove: (event) => {
-        "worklet";
-        height.value = Math.max(event.height, 0);
-      },
-    },
-    []
-  );
-  return {
-    height,
-  };
-};
-
 
 // const { handleMessage } = useWebViewMessage({
 //   webviewRef,
