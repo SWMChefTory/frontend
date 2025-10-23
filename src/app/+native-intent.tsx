@@ -2,6 +2,7 @@ import * as Linking from "expo-linking";
 import { publishOpenCreatingView } from "@/src/widgets/create-recipe-view/event/videoUrlDeepLinkEvent";
 import { useCreatingRecipeViewStore } from "@/src/widgets/create-recipe-view/store/creatingRecipeViewStore";
 import { sendMessage } from "@/src/shared/webview/sendMessage";
+import { enrollPath } from "../pages/webview/WebViewConfig";
 
 export function redirectSystemPath({
   path,
@@ -12,7 +13,7 @@ export function redirectSystemPath({
 }) {
   console.log("redirectSystemPath", path);
   try {
-    handleExternalDeepLink(path);
+    handleExternalDeepLink(path, initial);
     if (initial) {
       return "/";
     }
@@ -24,9 +25,8 @@ export function redirectSystemPath({
   }
 }
 
-const handleExternalDeepLink = (url: string) => {
+const handleExternalDeepLink = (url: string, initial: boolean) => {
   const parsedUrl = Linking.parse(url);
-  const path = parsedUrl.path;
   const queryParams = parsedUrl.queryParams;
   if (
     url.includes("expo-development-client") ||
@@ -47,14 +47,17 @@ const handleExternalDeepLink = (url: string) => {
     if (queryParams?.["video-id"]) {
       publishOpenCreatingView({ videoId: queryParams?.["video-id"] as string });
       useCreatingRecipeViewStore.setState({ isCreatingOpened: true });
+      return;
     }
-    
-    if (path) {
-      const match = path.match(/^\/recipe\/detail\/([^\/]+)$/);
-      if (match) {
-        const recipeId = match[1];
-        sendMessage({ type: "ROUTE", data: { recipeId } });
+    if(queryParams?.["recipeId"]){
+      if(!initial){
+        sendMessage({
+          type: "ROUTE",
+          data: { route: "/recipe/" + queryParams?.["recipeId"]+"/detail" },
+        });
+        return;
       }
+      enrollPath("/recipe/"+queryParams?.["recipeId"]+"/detail");
     }
   }
 };

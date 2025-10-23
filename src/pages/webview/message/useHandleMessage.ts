@@ -103,7 +103,7 @@ export function useHandleMessage({
           throw new InvalidJsonError("Invalid JSON");
         }
       })();
-      console.log("!!",JSON.stringify(req, null, 2));
+      console.log("[받은 메세지]",JSON.stringify(req, null, 2));
 
       switch (req.mode) {
         case WebViewMessageType.BLOCKING: {

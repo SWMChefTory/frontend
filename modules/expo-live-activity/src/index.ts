@@ -47,6 +47,8 @@ export async function startLiveActivity(
     return "";
   }
 
+  console.log("startLiveActivity!!  ", deepLink);
+
   try {
     return await ExpoLiveActivity.startActivity(
       activityName,

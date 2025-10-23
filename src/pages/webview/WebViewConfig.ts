@@ -16,8 +16,19 @@ export const getUserAgent = (): string => {
     : WEBVIEW_CONFIG.USER_AGENTS.ANDROID;
 };
 
+let path = "";
+
+export const enrollPath = (newPath: string) => {
+  console.log("enrollPath!!!", newPath);
+  path = newPath;
+};
+
+export const getEnrolledPath = (): string => {
+  
+  console.log("getEnrolledPath!!!", path);
+  return path;
+};
+
 export const getWebViewUrl = (): string => {
-  // return `${WEBVIEW_CONFIG.BASE_URL}/#/recipes/${recipeId}`;
-  // return `http://localhost:3000/#/recipes/${recipeId}`;
-  return `http://localhost:3000/`;
+  return `http://localhost:3000`;
 };

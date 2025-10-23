@@ -1,12 +1,15 @@
 import { ApiErrorBoundary } from "@/src/modules/shared/components/error/ApiErrorBoundary";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { WebView } from "react-native-webview";
-import { getUserAgent, getWebViewUrl } from "./WebViewConfig";
+import { getEnrolledPath, getUserAgent, getWebViewUrl } from "./WebViewConfig";
 import { RecipeWebViewFallback } from "./Fallback";
 import { Platform, StyleSheet } from "react-native";
 import { RecipeCreatingView } from "@/src/widgets/create-recipe-view/recipeCreatingView";
 import { useHandleMessage } from "@/src/pages/webview/message/useHandleMessage";
-import { subscribeMessage } from "@/src/shared/webview/sendMessage";
+import {
+  sendMessage,
+  subscribeMessage,
+} from "@/src/shared/webview/sendMessage";
 import { CategoryCreatingView } from "@/src/widgets/create-category-view/categoryCreatingView";
 
 export function RecipeWebView() {
@@ -25,6 +28,7 @@ export function RecipeWebViewContent() {
       webviewRef.current?.postMessage(message);
     },
   });
+  console.log("페이지 리로드");
 
   useEffect(() => {
     subscribeMessage((message) => {
@@ -82,6 +86,10 @@ export function RecipeWebViewContent() {
         javaScriptEnabled={true}
         domStorageEnabled={true}
         startInLoadingState={false}
+        onLoadEnd={() => {
+          // const enrolledPath = getEnrolledPath();
+          console.log("[onLoadEnd] 로드되었어요!");
+        }}
         cacheEnabled={true}
         {...(Platform.OS === "ios" && {
           allowsLinkPreview: false,

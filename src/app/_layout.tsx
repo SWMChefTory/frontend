@@ -24,7 +24,7 @@ import {
 
 
 import * as Notifications from "expo-notifications";
-import { useNotificationObserver } from "@/src/modules/notifications/useNotificationObserver";
+import { useNotificationObserver } from "@/src/pages/webview/timer/notifications/useNotificationObserver";
 import {
   initialWindowMetrics,
   SafeAreaProvider,

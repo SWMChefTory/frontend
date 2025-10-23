@@ -46,7 +46,7 @@ export async function scheduleTimerAlarm(
       sound: true,
       data: {
         type: "timer",
-        url: `cheiftory://recipe/detail?recipeId=${recipeId}&isTimer=true&title=${recipeTitle}`,
+        url: `cheftory://?${"recipeId=" + recipeId}`,
         scheduledAt: Date.now(),
         duration: Math.max(1, remainingSeconds),
       },

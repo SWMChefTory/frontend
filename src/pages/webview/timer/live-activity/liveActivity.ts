@@ -83,6 +83,9 @@ const startActivity = async (opts: {
   validTimerIds?: string[];
 }) => {
   const duration = Math.ceil((opts.endAt - Date.now()) / 1000);
+
+  const deepLinkUrl = `cheftory://?recipeId=${opts.recipeId}`;
+
   if (!isLiveActivityAvailable) return null;
   if (duration <= 0) throw new Error("Duration은 0보다 커야 합니다.");
   if (opts.validTimerIds)
@@ -90,7 +93,7 @@ const startActivity = async (opts: {
   const id = await liveActivities.startLiveActivity(
     opts.activityName,
     duration,
-    `cheftory://recipe/detail?${"recipeId=" + opts.recipeId}`
+    deepLinkUrl
   );
   if (id) liveActivityStore.getState().addLiveActivityId(opts.timerId, id);
   return id;
