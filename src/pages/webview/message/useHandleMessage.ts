@@ -10,7 +10,12 @@ import {
   scheduleTimerAlarm,
   cancelTimerAlarm,
 } from "@/src/pages/webview/timer/notifications/timerNotifications";
-import { startActivity, pauseActivity, resumeActivity, endActivity } from "@/src/pages/webview/timer/live-activity/liveActivity";
+import {
+  startActivity,
+  pauseActivity,
+  resumeActivity,
+  endActivity,
+} from "@/src/pages/webview/timer/live-activity/liveActivity";
 
 //webview입장에서 요청
 type RequestMsgBlockingFromWebView = {
@@ -31,6 +36,17 @@ type RequestMsgUnblockingFromWebView = {
 };
 
 const createReplyResponse = <T>(id: string, result: T) => {
+  console.log(
+    "Q:",
+    JSON.stringify({
+      intended: true,
+      action: Action.RESPONSE,
+      id,
+      ok: true,
+      result,
+      mode: WebViewMessageType.BLOCKING,
+    })
+  );
   return {
     intended: true,
     action: Action.RESPONSE,
@@ -103,7 +119,7 @@ export function useHandleMessage({
           throw new InvalidJsonError("Invalid JSON");
         }
       })();
-      console.log("[받은 메세지]",JSON.stringify(req, null, 2));
+      console.log("[받은 메세지]", JSON.stringify(req, null, 2));
 
       switch (req.mode) {
         case WebViewMessageType.BLOCKING: {
@@ -111,6 +127,7 @@ export function useHandleMessage({
             case payloadType.REFRESH_TOKEN: {
               try {
                 const newToken = await refreshToken();
+                console.log("[refreshToken] newToken", req.id, newToken);
                 reply(req.id, { token: newToken });
               } catch (e: any) {
                 fail(req.id, e?.message ?? "Unhandled error");
@@ -139,8 +156,14 @@ export function useHandleMessage({
               break;
             }
             case payloadType.SCHEDULE_TIMER_NOTIFICATION: {
-              const { timerId, recipeId, remainingSeconds, recipeTitle } = req.payload;
-              await scheduleTimerAlarm(timerId, recipeId, recipeTitle, remainingSeconds);
+              const { timerId, recipeId, remainingSeconds, recipeTitle } =
+                req.payload;
+              await scheduleTimerAlarm(
+                timerId,
+                recipeId,
+                recipeTitle,
+                remainingSeconds
+              );
               break;
             }
             case payloadType.CANCEL_TIMER_NOTIFICATION: {
@@ -154,8 +177,15 @@ export function useHandleMessage({
               break;
             }
             case payloadType.PAUSE_LIVE_ACTIVITY: {
-              const { timerId, startedAt, pausedAt, duration, remainingTime } = req.payload;
-              await pauseActivity({ timerId, startedAt, pausedAt, duration, remainingTime });
+              const { timerId, startedAt, pausedAt, duration, remainingTime } =
+                req.payload;
+              await pauseActivity({
+                timerId,
+                startedAt,
+                pausedAt,
+                duration,
+                remainingTime,
+              });
               break;
             }
             case payloadType.RESUME_LIVE_ACTIVITY: {
@@ -173,7 +203,7 @@ export function useHandleMessage({
         }
       }
     } catch (e: any) {
-      console.log("!!",JSON.stringify(e, null, 2));
+      console.log("!!", JSON.stringify(e, null, 2));
       if (e instanceof InvalidJsonError) {
         console.log("[Native] 메세지", event.nativeEvent.data);
         return;

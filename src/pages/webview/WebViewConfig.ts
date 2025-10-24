@@ -24,11 +24,11 @@ export const enrollPath = (newPath: string) => {
 };
 
 export const getEnrolledPath = (): string => {
-  
   console.log("getEnrolledPath!!!", path);
   return path;
 };
 
 export const getWebViewUrl = (): string => {
   return `http://localhost:3000`;
+  // return `https://chefchef.surge.sh`;
 };
