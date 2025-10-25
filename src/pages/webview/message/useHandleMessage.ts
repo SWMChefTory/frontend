@@ -16,6 +16,9 @@ import {
   resumeActivity,
   endActivity,
 } from "@/src/pages/webview/timer/live-activity/liveActivity";
+import { useUserStore } from "@/src/modules/user/business/store/userStore";
+import { Alert } from "react-native";
+import { useLoadStore } from "@/src/pages/webview/load/loadStore";
 
 //webview입장에서 요청
 type RequestMsgBlockingFromWebView = {
@@ -36,17 +39,6 @@ type RequestMsgUnblockingFromWebView = {
 };
 
 const createReplyResponse = <T>(id: string, result: T) => {
-  console.log(
-    "Q:",
-    JSON.stringify({
-      intended: true,
-      action: Action.RESPONSE,
-      id,
-      ok: true,
-      result,
-      mode: WebViewMessageType.BLOCKING,
-    })
-  );
   return {
     intended: true,
     action: Action.RESPONSE,
@@ -69,6 +61,8 @@ const createFailResponse = (id: string, error: string) => {
 };
 
 enum payloadType {
+  LOAD_START = "LOAD_START",
+  LOAD_END = "LOAD_END",
   REFRESH_TOKEN = "REFRESH_TOKEN",
   RECIPE_CREATION_INPUT = "RECIPE_CREATION_INPUT",
   CATEGORY_CREATION_INPUT = "CATEGORY_CREATION_INPUT",
@@ -99,8 +93,10 @@ export function useHandleMessage({
     useCreatingRecipeViewStore();
   const { openCreatingView: openCreatingCategoryView } =
     useCreatingCategoryViewStore();
+  const { setIsLoading } = useLoadStore();
   const { logout } = useLogoutViewModel();
   const { deleteUser } = useDeleteUserViewModel();
+  const { removeUser } = useUserStore();
   const reply = <T>(id: string, result: T) => {
     postMessage({ message: JSON.stringify(createReplyResponse(id, result)) });
   };
@@ -119,7 +115,6 @@ export function useHandleMessage({
           throw new InvalidJsonError("Invalid JSON");
         }
       })();
-      console.log("[받은 메세지]", JSON.stringify(req, null, 2));
 
       switch (req.mode) {
         case WebViewMessageType.BLOCKING: {
@@ -130,6 +125,8 @@ export function useHandleMessage({
                 console.log("[refreshToken] newToken", req.id, newToken);
                 reply(req.id, { token: newToken });
               } catch (e: any) {
+                removeUser();
+                Alert.alert("로그아웃 되었습니다.");
                 fail(req.id, e?.message ?? "Unhandled error");
               }
               break;
@@ -139,6 +136,15 @@ export function useHandleMessage({
         }
         case WebViewMessageType.UNBLOCKING: {
           switch (req.type) {
+            case payloadType.LOAD_START: {
+              setIsLoading(true);
+              break;
+            }
+            case payloadType.LOAD_END: {
+              console.log("LOAD_END!!!!!!!!!!!");
+              setIsLoading(false);
+              break;
+            }
             case payloadType.RECIPE_CREATION_INPUT: {
               openCreatingRecipeView(); // creatingRecipeView 컴포넌트를 보여줌.
               break;

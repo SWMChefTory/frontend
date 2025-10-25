@@ -10,6 +10,8 @@ import {
   subscribeMessage,
 } from "@/src/shared/webview/sendMessage";
 import { CategoryCreatingView } from "@/src/widgets/create-category-view/categoryCreatingView";
+import { WebviewLoadingView } from "@/src/pages/webview/load/LoadingView";
+import { useLoadStore } from "./load/loadStore";
 
 export function RecipeWebView() {
   return (
@@ -22,6 +24,7 @@ export function RecipeWebView() {
 export function RecipeWebViewContent() {
   const webviewRef = useRef<WebView>(null);
   const [error, setError] = useState<Error | null>(null);
+  const { isLoading } = useLoadStore();
   const { handleMessage } = useHandleMessage({
     postMessage: ({ message }) => {
       webviewRef.current?.postMessage(message);
@@ -58,6 +61,7 @@ export function RecipeWebViewContent() {
 
   return (
     <>
+    
       <WebView
         injectedJavaScript={`
         (function() {
@@ -84,10 +88,6 @@ export function RecipeWebViewContent() {
         javaScriptEnabled={true}
         domStorageEnabled={true}
         startInLoadingState={false}
-        // onLoadEnd={() => {
-          
-        //   console.log("[onLoadEnd] 로드되었어요!");
-        // }}
         cacheEnabled={true}
         {...(Platform.OS === "ios" && {
           allowsLinkPreview: false,
@@ -106,6 +106,7 @@ export function RecipeWebViewContent() {
       />
       <RecipeCreatingView />
       <CategoryCreatingView />
+      {isLoading && <WebviewLoadingView />}
     </>
   );
   // Android 하드웨어 뒤로가기 버튼 처리: 웹뷰로 BACK_PRESSED 전송

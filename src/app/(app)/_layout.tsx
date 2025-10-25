@@ -8,7 +8,7 @@ export default function AppLayout() {
 
   return (
     <KeyboardProvider statusBarTranslucent navigationBarTranslucent>
-      <SafeAreaView style={{ flex: 1 }}>
+      <SafeAreaSpecificToPlatform>
         <Stack>
           <Stack.Screen
             name="index"
@@ -18,7 +18,7 @@ export default function AppLayout() {
           <Stack.Screen name="settings/settings" />
           <Stack.Screen name="recipe/create" />
         </Stack>
-      </SafeAreaView>
+        </SafeAreaSpecificToPlatform>
     </KeyboardProvider>
   );
 }
@@ -33,9 +33,7 @@ function SafeAreaSpecificToPlatform({
   }
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <Stack>
-        <Stack.Screen name="index" options={{ headerShown: false }} />
-      </Stack>
+      {children}
     </SafeAreaView>
   );
 }
