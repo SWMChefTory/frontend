@@ -27,6 +27,8 @@ export const getEnrolledPath = (): string => {
 };
 
 export const getWebViewUrl = (): string => {
-  return `http://localhost:3000`;
-  // return `https://chefchef.surge.sh`;
+  // return `http://localhost:3000`;
+  // // return `https://chefchef.surge.sh`;
+  // return "https://dev.app.cheftories.com";
+  return `https://app.cheftories.com/`;
 };

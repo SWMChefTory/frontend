@@ -10,6 +10,10 @@ import { WebviewLoadingView } from "@/src/pages/webview/load/LoadingView";
 import { useLoadStore } from "./load/loadStore";
 import { useKeyboardAvoidingAnimation } from "@/src/shared/keyboard/useKeyboardAvoiding";
 import Animated from "react-native-reanimated";
+import {
+  findRefreshToken,
+  findAccessToken,
+} from "@/src/modules/shared/storage/SecureStorage";
 
 export function RecipeWebView() {
   return <RecipeWebViewContent />;
@@ -24,7 +28,9 @@ export function RecipeWebViewContent() {
       webviewRef.current?.postMessage(message);
     },
   });
+
   const { animatedStyle } = useKeyboardAvoidingAnimation();
+
   useEffect(() => {
     subscribeMessage((message) => {
       webviewRef.current?.postMessage(message);
@@ -63,6 +69,8 @@ export function RecipeWebViewContent() {
           console.log = function(...args) {
             window.ReactNativeWebView.postMessage(args.join(" "));
             originalLog.apply(console, args);
+             localStorage.setItem('MAIN_ACCESS_TOKEN', '${findAccessToken() || ""}');
+             localStorage.setItem('REFRESH_TOKEN', '${findRefreshToken() || ""}');
           };
         })();
         true;
@@ -112,50 +120,3 @@ const styles = StyleSheet.create({
     width: "100%", // 명시적으로 전체 너비 지정
   },
 });
-
-// const { handleMessage } = useWebViewMessage({
-//   webviewRef,
-//   timerCallbacks: {
-//     onTimerStart: (data) => {
-//       onOpenTimer(data);
-//     },
-//     onTimerStop: (data) => {
-//       onOpenTimer(data);
-//     },
-//     onTimerCheck: (data) => {
-//       onOpenTimer(data);
-//     },
-//     onTimerSet: (data) => {
-//       onOpenTimer(data);
-//     },
-//   },
-//   refreshTokenCallback: async () => {
-//     console.log("[Native] 웹뷰에서 토큰 재발급 요청 받음");
-//     await refetch();
-//     const newToken = await findAccessToken();
-//     if (webviewRef.current && newToken) {
-//       const payload = JSON.stringify({
-//         type: "ACCESS_TOKEN",
-//         token: newToken,
-//       });
-//       const js = `window.postMessage(${payload}, '*'); true;`;
-//       webviewRef.current.injectJavaScript(js);
-//       console.log(`[Native] 액세스 토큰을 웹뷰로 전송: ${newToken}`);
-//     }
-//   },
-//   orientation: {
-//     lockToPortraitUp: async () => {
-//       ScreenOrientation.lockAsync(
-//         ScreenOrientation.OrientationLock.PORTRAIT_UP
-//       );
-//     },
-//     lockToLandscapeLeft: async () => {
-//       ScreenOrientation.lockAsync(
-//         ScreenOrientation.OrientationLock.LANDSCAPE_LEFT
-//       );
-//     },
-//     unlockOrientation: async () => {
-//       ScreenOrientation.unlockAsync();
-//     },
-//   },
-// });
