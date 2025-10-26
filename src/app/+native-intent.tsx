@@ -1,7 +1,5 @@
 import * as Linking from "expo-linking";
-import { publishOpenCreatingView } from "@/src/widgets/create-recipe-view/event/videoUrlDeepLinkEvent";
-import { useCreatingRecipeViewStore } from "@/src/widgets/create-recipe-view/store/creatingRecipeViewStore";
-import { sendMessage } from "@/src/shared/webview/sendMessage";
+import { reserveMessage, sendMessage } from "@/src/shared/webview/sendMessage";
 import { enrollPath } from "../pages/webview/WebViewConfig";
 
 export function redirectSystemPath({
@@ -26,6 +24,7 @@ export function redirectSystemPath({
 }
 
 const handleExternalDeepLink = (url: string, initial: boolean) => {
+  console.log("handleExternalDeepLink", url);
   const parsedUrl = Linking.parse(url);
   const queryParams = parsedUrl.queryParams;
   if (
@@ -45,8 +44,17 @@ const handleExternalDeepLink = (url: string, initial: boolean) => {
 
   if (!parsedUrl.hostname) {
     if (queryParams?.["video-id"]) {
-      publishOpenCreatingView({ videoId: queryParams?.["video-id"] as string });
-      useCreatingRecipeViewStore.setState({ isCreatingOpened: true });
+      if(!initial){
+        sendMessage({
+          type: "OPEN_CREATING_VIEW",
+          data: { videoUrl: "https://www.youtube.com/watch?v=" + queryParams?.["video-id"] },
+        });
+        return;
+      }
+      reserveMessage({
+        type: "OPEN_CREATING_VIEW",
+        data: { videoUrl: "https://www.youtube.com/watch?v=" + queryParams?.["video-id"] },
+      });
       return;
     }
     if(queryParams?.["recipeId"]){
@@ -57,7 +65,10 @@ const handleExternalDeepLink = (url: string, initial: boolean) => {
         });
         return;
       }
-      enrollPath("/recipe/"+queryParams?.["recipeId"]+"/detail");
+      reserveMessage({
+        type: "ROUTE",
+        data: { route: "/recipe/" + queryParams?.["recipeId"]+"/detail" },
+      });
     }
   }
 };

@@ -3,15 +3,13 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { WebView } from "react-native-webview";
 import { getUserAgent, getWebViewUrl } from "./WebViewConfig";
 import { RecipeWebViewFallback } from "./Fallback";
-import { Platform, StyleSheet } from "react-native";
-import { RecipeCreatingView } from "@/src/widgets/create-recipe-view/recipeCreatingView";
+import { Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useHandleMessage } from "@/src/pages/webview/message/useHandleMessage";
-import {
-  subscribeMessage,
-} from "@/src/shared/webview/sendMessage";
-import { CategoryCreatingView } from "@/src/widgets/create-category-view/categoryCreatingView";
+import { subscribeMessage } from "@/src/shared/webview/sendMessage";
 import { WebviewLoadingView } from "@/src/pages/webview/load/LoadingView";
 import { useLoadStore } from "./load/loadStore";
+import { useKeyboardAvoidingAnimation } from "@/src/shared/keyboard/useKeyboardAvoiding";
+import Animated from "react-native-reanimated";
 
 export function RecipeWebView() {
   return (
@@ -30,7 +28,7 @@ export function RecipeWebViewContent() {
       webviewRef.current?.postMessage(message);
     },
   });
-
+  const { animatedStyle } = useKeyboardAvoidingAnimation();
   useEffect(() => {
     subscribeMessage((message) => {
       webviewRef.current?.postMessage(message);
@@ -61,7 +59,7 @@ export function RecipeWebViewContent() {
 
   return (
     <>
-    
+    <Animated.View style={[animatedStyle, { flex: 1 }]}>
       <WebView
         injectedJavaScript={`
         (function() {
@@ -75,7 +73,7 @@ export function RecipeWebViewContent() {
       `}
         ref={webviewRef}
         source={{ uri: webviewUrl }}
-        style={styles.webview}
+        style={[styles.webview]}
         userAgent={getUserAgent()}
         onMessage={handleMessage}
         onError={handleError}
@@ -104,9 +102,8 @@ export function RecipeWebViewContent() {
           setSupportMultipleWindows: false,
         })}
       />
-      <RecipeCreatingView />
-      <CategoryCreatingView />
       {isLoading && <WebviewLoadingView />}
+    </Animated.View>
     </>
   );
   // Android 하드웨어 뒤로가기 버튼 처리: 웹뷰로 BACK_PRESSED 전송
@@ -117,7 +114,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white",
     width: "100%", // 명시적으로 전체 너비 지정
-    height: "100%",
   },
 });
 

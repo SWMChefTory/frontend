@@ -1,6 +1,5 @@
 import { refreshToken } from "@/src/modules/shared/api/client";
 import { Action, WebViewMessageType } from "@/src/shared/webview/messageType";
-import { useCreatingRecipeViewStore } from "@/src/widgets/create-recipe-view/store/creatingRecipeViewStore";
 import { useCreatingCategoryViewStore } from "@/src/widgets/create-category-view/store/creatingCategoryView";
 import {
   useLogoutViewModel,
@@ -19,6 +18,7 @@ import {
 import { useUserStore } from "@/src/modules/user/business/store/userStore";
 import { Alert } from "react-native";
 import { useLoadStore } from "@/src/pages/webview/load/loadStore";
+import { comsumeReservedMessage } from "@/src/shared/webview/sendMessage";
 
 //webview입장에서 요청
 type RequestMsgBlockingFromWebView = {
@@ -61,6 +61,7 @@ const createFailResponse = (id: string, error: string) => {
 };
 
 enum payloadType {
+  CONSUME_INITIAL_DATA = "CONSUME_INITIAL_DATA",
   LOAD_START = "LOAD_START",
   LOAD_END = "LOAD_END",
   REFRESH_TOKEN = "REFRESH_TOKEN",
@@ -89,8 +90,6 @@ export function useHandleMessage({
 }: {
   postMessage: ({ message }: { message: string }) => void;
 }) {
-  const { openCreatingView: openCreatingRecipeView } =
-    useCreatingRecipeViewStore();
   const { openCreatingView: openCreatingCategoryView } =
     useCreatingCategoryViewStore();
   const { setIsLoading } = useLoadStore();
@@ -131,6 +130,16 @@ export function useHandleMessage({
               }
               break;
             }
+            case payloadType.CONSUME_INITIAL_DATA:{
+              try{
+                const messagesConsumed = comsumeReservedMessage();
+                reply(req.id, { messagesConsumed: messagesConsumed });
+                console.log("messagesConsumed", JSON.stringify(messagesConsumed));
+              } catch (e: any) {
+                fail(req.id, e?.message ?? "Unhandled error");
+              }
+              break;
+            }
           }
           break;
         }
@@ -141,12 +150,7 @@ export function useHandleMessage({
               break;
             }
             case payloadType.LOAD_END: {
-              console.log("LOAD_END!!!!!!!!!!!");
               setIsLoading(false);
-              break;
-            }
-            case payloadType.RECIPE_CREATION_INPUT: {
-              openCreatingRecipeView(); // creatingRecipeView 컴포넌트를 보여줌.
               break;
             }
             case payloadType.CATEGORY_CREATION_INPUT: {
