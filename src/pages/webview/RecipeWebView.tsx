@@ -3,7 +3,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { WebView } from "react-native-webview";
 import { getUserAgent, getWebViewUrl } from "./WebViewConfig";
 import { RecipeWebViewFallback } from "./Fallback";
-import { Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 import { useHandleMessage } from "@/src/pages/webview/message/useHandleMessage";
 import { subscribeMessage } from "@/src/shared/webview/sendMessage";
 import { WebviewLoadingView } from "@/src/pages/webview/load/LoadingView";
@@ -12,11 +12,7 @@ import { useKeyboardAvoidingAnimation } from "@/src/shared/keyboard/useKeyboardA
 import Animated from "react-native-reanimated";
 
 export function RecipeWebView() {
-  return (
-    <ApiErrorBoundary fallbackComponent={RecipeWebViewFallback}>
-      <RecipeWebViewContent />
-    </ApiErrorBoundary>
-  );
+  return <RecipeWebViewContent />;
 }
 
 export function RecipeWebViewContent() {
@@ -59,9 +55,9 @@ export function RecipeWebViewContent() {
 
   return (
     <>
-    <Animated.View style={[animatedStyle, { flex: 1 }]}>
-      <WebView
-        injectedJavaScript={`
+      <Animated.View style={[animatedStyle, { flex: 1 }]}>
+        <WebView
+          injectedJavaScript={`
         (function() {
           const originalLog = console.log;
           console.log = function(...args) {
@@ -71,39 +67,39 @@ export function RecipeWebViewContent() {
         })();
         true;
       `}
-        ref={webviewRef}
-        source={{ uri: webviewUrl }}
-        style={[styles.webview]}
-        userAgent={getUserAgent()}
-        onMessage={handleMessage}
-        onError={handleError}
-        onHttpError={handleHttpError}
-        mediaPlaybackRequiresUserAction={false}
-        allowsInlineMediaPlayback={true}
-        mediaCapturePermissionGrantType="grant"
-        allowsFullscreenVideo={true}
-        allowsBackForwardNavigationGestures={true}
-        javaScriptEnabled={true}
-        domStorageEnabled={true}
-        startInLoadingState={false}
-        cacheEnabled={true}
-        {...(Platform.OS === "ios" && {
-          allowsLinkPreview: false,
-          bounces: false,
-          showsHorizontalScrollIndicator: false,
-          showsVerticalScrollIndicator: false,
-          automaticallyAdjustScrollIndicatorInsets: false,
-        })}
-        {...(Platform.OS === "android" && {
-          mixedContentMode: "compatibility",
-          thirdPartyCookiesEnabled: true,
-          allowFileAccess: true,
-          allowUniversalAccessFromFileURLs: true,
-          setSupportMultipleWindows: false,
-        })}
-      />
-      {isLoading && <WebviewLoadingView />}
-    </Animated.View>
+          ref={webviewRef}
+          source={{ uri: webviewUrl }}
+          style={[styles.webview]}
+          userAgent={getUserAgent()}
+          onMessage={handleMessage}
+          onError={handleError}
+          onHttpError={handleHttpError}
+          mediaPlaybackRequiresUserAction={false}
+          allowsInlineMediaPlayback={true}
+          mediaCapturePermissionGrantType="grant"
+          allowsFullscreenVideo={true}
+          allowsBackForwardNavigationGestures={true}
+          javaScriptEnabled={true}
+          domStorageEnabled={true}
+          startInLoadingState={false}
+          cacheEnabled={true}
+          {...(Platform.OS === "ios" && {
+            allowsLinkPreview: false,
+            bounces: false,
+            showsHorizontalScrollIndicator: false,
+            showsVerticalScrollIndicator: false,
+            automaticallyAdjustScrollIndicatorInsets: false,
+          })}
+          {...(Platform.OS === "android" && {
+            mixedContentMode: "compatibility",
+            thirdPartyCookiesEnabled: true,
+            allowFileAccess: true,
+            allowUniversalAccessFromFileURLs: true,
+            setSupportMultipleWindows: false,
+          })}
+        />
+        {isLoading && <WebviewLoadingView />}
+      </Animated.View>
     </>
   );
   // Android 하드웨어 뒤로가기 버튼 처리: 웹뷰로 BACK_PRESSED 전송

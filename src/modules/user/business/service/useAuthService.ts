@@ -7,6 +7,7 @@ import {
 } from "@/src/modules/shared/api/apiWithoutAuth";
 import { useUserStore } from "@/src/modules/user/business/store/userStore";
 import {
+  findAccessToken,
   findRefreshToken,
   removeAuthToken,
   storeAuthToken,
@@ -17,7 +18,8 @@ import { Alert } from "react-native";
 import { useRouter } from "expo-router";
 import { User } from "@/src/modules/user/business/viewmodel/user";
 import { DateOnly } from "@/src/modules/shared/utils/dateOnly";
-import * as Sentry from '@sentry/react-native';
+import * as Sentry from '@sentry/react-native'; 
+
 
 
 export function useLoginViewModel() {
@@ -46,10 +48,14 @@ export function useLoginViewModel() {
       };
     },
     onSuccess: (data) => {
+      console.log("login success", data);
+      console.log("user", JSON.stringify(data.user));
       setUser(
         data.user
       );
       storeAuthToken(data.access_token, data.refresh_token);
+      console.log("access_token", findAccessToken());
+      console.log("refresh_token", findRefreshToken());
     },
     onError: (error, variables) => {
       if (error instanceof AxiosError) {
@@ -68,7 +74,6 @@ export function useLoginViewModel() {
         });
         return;
       }
-      Alert.alert("로그인 중 문제가 발생했습니다.");
       Sentry.captureException(error);
     },
     throwOnError: false,
@@ -119,6 +124,10 @@ export function useLogoutViewModel() {
       }
     },
     onSuccess: () => {
+      removeAuthToken();
+      removeUser();
+    },
+    onError: (error) => {
       removeAuthToken();
       removeUser();
     },

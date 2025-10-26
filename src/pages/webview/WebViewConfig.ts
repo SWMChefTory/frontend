@@ -19,12 +19,10 @@ export const getUserAgent = (): string => {
 let path = "";
 
 export const enrollPath = (newPath: string) => {
-  console.log("enrollPath!!!", newPath);
   path = newPath;
 };
 
 export const getEnrolledPath = (): string => {
-  console.log("getEnrolledPath!!!", path);
   return path;
 };
 

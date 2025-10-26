@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Alert } from "react-native";
 import GoogleLoginButton from "@/src/modules/user/presentation/google/components/GoogleLoginButton";
 import { AppleLoginButton } from "@/src/modules/user/presentation/apple/components/AppleLoginButton";
 import { Image } from "expo-image";
@@ -15,7 +15,18 @@ Image.prefetch("@/assets/images/voiceNear.png", "disk");
 Image.prefetch("@/assets/images/voiceFar.png", "disk");
 Image.prefetch("@/assets/images/mainText.png", "disk");
 
+import { useEffect } from "react";
+import { client } from "@/src/modules/shared/api/client";
+
 export default function LoginPage({ isReal }: { isReal: boolean }) {
+  useEffect(() => {
+    client.get("/server-message").then((res) => {
+      Alert.alert(res.data.message);
+    }).catch((err) => {
+      // nothing
+    });
+  }, []);
+
   const banner = (
     <View
       style={{

@@ -19,6 +19,7 @@ import { useUserStore } from "@/src/modules/user/business/store/userStore";
 import { Alert } from "react-native";
 import { useLoadStore } from "@/src/pages/webview/load/loadStore";
 import { comsumeReservedMessage } from "@/src/shared/webview/sendMessage";
+import * as ScreenOrientation from "expo-screen-orientation";
 
 //webview입장에서 요청
 type RequestMsgBlockingFromWebView = {
@@ -75,6 +76,8 @@ enum payloadType {
   PAUSE_LIVE_ACTIVITY = "PAUSE_LIVE_ACTIVITY",
   RESUME_LIVE_ACTIVITY = "RESUME_LIVE_ACTIVITY",
   END_LIVE_ACTIVITY = "END_LIVE_ACTIVITY",
+  LOCK_ORIENTATION = "LOCK_ORIENTATION",
+  UNLOCK_ORIENTATION = "UNLOCK_ORIENTATION",
 }
 
 class InvalidJsonError extends Error {
@@ -114,6 +117,7 @@ export function useHandleMessage({
           throw new InvalidJsonError("Invalid JSON");
         }
       })();
+      console.log("req!!!!", JSON.stringify(req));
 
       switch (req.mode) {
         case WebViewMessageType.BLOCKING: {
@@ -130,11 +134,14 @@ export function useHandleMessage({
               }
               break;
             }
-            case payloadType.CONSUME_INITIAL_DATA:{
-              try{
+            case payloadType.CONSUME_INITIAL_DATA: {
+              try {
                 const messagesConsumed = comsumeReservedMessage();
                 reply(req.id, { messagesConsumed: messagesConsumed });
-                console.log("messagesConsumed", JSON.stringify(messagesConsumed));
+                console.log(
+                  "messagesConsumed",
+                  JSON.stringify(messagesConsumed)
+                );
               } catch (e: any) {
                 fail(req.id, e?.message ?? "Unhandled error");
               }
@@ -208,13 +215,25 @@ export function useHandleMessage({
               await endActivity({ timerId });
               break;
             }
+            case payloadType.LOCK_ORIENTATION: {
+              await ScreenOrientation.lockAsync(
+                ScreenOrientation.OrientationLock.PORTRAIT_UP
+              );
+              break;
+            }
+            case payloadType.UNLOCK_ORIENTATION: {
+              await ScreenOrientation.unlockAsync();
+              break;
+            }
           }
           break;
         }
       }
     } catch (e: any) {
-      console.log("!!", JSON.stringify(e, null, 2));
       if (e instanceof InvalidJsonError) {
+        if (event.nativeEvent.data.event === "infoDelivery") {
+          return; // 무시
+        }
         console.log("[Native] 메세지", event.nativeEvent.data);
         return;
       }

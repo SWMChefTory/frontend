@@ -26,6 +26,8 @@ export const storeAuthToken = async (
 ) => {
   await storeAccessToken(accessToken);
   await storeRefreshToken(refreshToken);
+  console.log("access_token", findAccessToken());
+  console.log("refresh_token", findRefreshToken());
 };
 
 export const removeAuthToken = async () => {

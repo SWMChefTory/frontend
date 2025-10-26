@@ -1,6 +1,14 @@
 import { requireNativeModule } from "expo-modules-core";
 import { Platform } from "react-native";
-import { LiveActivityPayload } from "@/src/modules/timer/hooks/useLiveActivity";
+
+
+type LiveActivityPayload = {
+  startedAt: number | null;
+  pausedAt: number | null;
+  duration: number;
+  remainingTime: number;
+};
+
 
 type ExpoLiveActivityModule = {
   isLiveActivityAvailable: () => boolean;
@@ -46,8 +54,6 @@ export async function startLiveActivity(
     console.warn("[LiveActivities] Module not available.");
     return "";
   }
-
-  console.log("startLiveActivity!!  ", deepLink);
 
   try {
     return await ExpoLiveActivity.startActivity(

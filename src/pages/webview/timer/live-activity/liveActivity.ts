@@ -1,7 +1,7 @@
 // hooks/useLiveActivity.ts (슬림)
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-import { secureZustandStorage } from "@/src/modules/timer/store/secureZustand";
+import { secureZustandStorage } from "@/src/pages/webview/timer/live-activity/secureStorage";
 import { Platform } from "react-native";
 import * as liveActivities from "@/modules/expo-live-activity";
 
