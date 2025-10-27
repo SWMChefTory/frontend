@@ -33,7 +33,6 @@ export default function SignupButton({
         if (isFocused) {
           bottomSheetModalRef.current?.present();
         } else {
-          console.log("dismiss!!!!!!!");
           bottomSheetModalRef.current?.forceClose();
         }
       }, [isFocused]);

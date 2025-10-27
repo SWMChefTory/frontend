@@ -54,8 +54,6 @@ export function useLoginViewModel() {
         data.user
       );
       storeAuthToken(data.access_token, data.refresh_token);
-      console.log("access_token", findAccessToken());
-      console.log("refresh_token", findRefreshToken());
     },
     onError: (error, variables) => {
       if (error instanceof AxiosError) {

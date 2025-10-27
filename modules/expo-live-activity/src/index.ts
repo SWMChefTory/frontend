@@ -34,7 +34,7 @@ if (Platform.OS === "ios") {
 
 export type TimerState = "active" | "paused" | "finished";
 
-export function isLiveActivityAvailable(): boolean {
+export function isLiveActivityAvailable(): boolean {  
   if (!ExpoLiveActivity) return false;
 
   try {

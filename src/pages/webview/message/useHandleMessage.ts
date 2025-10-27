@@ -117,7 +117,6 @@ export function useHandleMessage({
           throw new InvalidJsonError("Invalid JSON");
         }
       })();
-      console.log("req!!!!", JSON.stringify(req));
 
       switch (req.mode) {
         case WebViewMessageType.BLOCKING: {
@@ -231,9 +230,6 @@ export function useHandleMessage({
       }
     } catch (e: any) {
       if (e instanceof InvalidJsonError) {
-        if (event.nativeEvent.data.event === "infoDelivery") {
-          return; // 무시
-        }
         console.log("[Native] 메세지", event.nativeEvent.data);
         return;
       }

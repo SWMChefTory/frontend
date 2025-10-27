@@ -5,7 +5,7 @@ import { Audio, InterruptionModeAndroid, InterruptionModeIOS } from "expo-av";
 import { Stack } from "expo-router";
 import { useEffect } from "react";
 
-export default function RecipeDetailScreen() {
+export default function WebViewScreen() {
   useEffect(() => {
     track.screen("RecipeDetail");
   }, []);

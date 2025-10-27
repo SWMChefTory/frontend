@@ -59,7 +59,7 @@ export default function LoginPage({ isReal }: { isReal: boolean }) {
       <View style={styles.container}>
         <View style={styles.titleContainer}>
           <Text style={styles.subTitle}>
-            지금 셰프토리와 요리를 시작해보세요
+            지금 쉐프토리와 요리를 시작해보세요
           </Text>
         </View>
         <View style={styles.buttonCotainer}>
