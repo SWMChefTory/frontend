@@ -28,8 +28,8 @@ export const getEnrolledPath = (): string => {
 
 export const getWebViewUrl = (): string => {
   // return `https://app.cheftories.com/`;
-  return `https://dev.app.cheftories.com/`;
+  // return `https://dev.app.cheftories.com/`;
   // return "https://webview-v2-theta.vercel.app/";
   // return `https://chefchef.surge.sh`;
-  // return `http://localhost:3000`;
+  return `http://localhost:3000`;
 };

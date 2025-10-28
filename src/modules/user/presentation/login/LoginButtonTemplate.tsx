@@ -1,11 +1,13 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Image } from "expo-image";
 import { ImageSource } from "expo-image";
-import { responsiveHeight } from "../../../shared/utils/responsiveUI";
-import { responsiveWidth } from "../../../shared/utils/responsiveUI";
-import { responsiveFontSize } from "../../../shared/utils/responsiveUI";
-import { COLORS } from "../../../shared/constants/colors";
+import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
+import { responsiveFontSize } from "@/src/modules/shared/utils/responsiveUI";
+import { COLORS } from "@/src/modules/shared/constants/colors";
 import { SHADOW } from "@/src/modules/shared/constants/shadow";
+
+
   
 
 function LoginButtonTemplate({ description,logoPath,logoSize, handleSignIn }: {description: string, logoPath:ImageSource, logoSize:{width:number, height:number}, handleSignIn: () => void }) {

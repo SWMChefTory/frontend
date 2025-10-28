@@ -80,7 +80,7 @@ export default {
       [
         "expo-splash-screen",
         {
-          image: "./assets/images/splashLogo.jpg",
+          image: "./assets/images/splashLogo.png",
           backgroundColor: "#FFF5F0",
         },
       ],

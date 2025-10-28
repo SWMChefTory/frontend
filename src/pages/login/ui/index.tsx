@@ -1,6 +1,5 @@
 import { View, Text, StyleSheet, Alert } from "react-native";
-import GoogleLoginButton from "@/src/modules/user/presentation/google/components/GoogleLoginButton";
-import { AppleLoginButton } from "@/src/modules/user/presentation/apple/components/AppleLoginButton";
+import { GoogleLoginButton, AppleLoginButton } from "@/src/pages/login/ui/button";
 import { Image } from "expo-image";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 import logoStyle from "@/src/modules/shared/splash/logo/style/logostyle";
@@ -9,6 +8,7 @@ import {
   responsiveHeight,
   responsiveFontSize,
 } from "@/src/modules/shared/utils/responsiveUI";
+import {TermsAndConditionsModal} from "@/src/pages/login/ui/button";
 
 Image.prefetch("@/assets/images/mainCharacter.png", "disk");
 Image.prefetch("@/assets/images/voiceNear.png", "disk");
@@ -18,7 +18,7 @@ Image.prefetch("@/assets/images/mainText.png", "disk");
 import { useEffect } from "react";
 import { client } from "@/src/modules/shared/api/client";
 
-export default function LoginPage({ isReal }: { isReal: boolean }) {
+export function LoginPage() {
   useEffect(() => {
     client.get("/server-message").then((res) => {
       Alert.alert(res.data.message);
@@ -63,10 +63,11 @@ export default function LoginPage({ isReal }: { isReal: boolean }) {
           </Text>
         </View>
         <View style={styles.buttonCotainer}>
-          <GoogleLoginButton isReal={isReal} />
+          <GoogleLoginButton/>
         </View>
-        <AppleLoginButton isReal={isReal} />
+        <AppleLoginButton/>
       </View>
+      <TermsAndConditionsModal />
     </View>
   );
 }
