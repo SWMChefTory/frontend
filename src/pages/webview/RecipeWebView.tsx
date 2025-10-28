@@ -1,9 +1,7 @@
-import { ApiErrorBoundary } from "@/src/modules/shared/components/error/ApiErrorBoundary";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { WebView } from "react-native-webview";
 import { getUserAgent, getWebViewUrl } from "./WebViewConfig";
-import { RecipeWebViewFallback } from "./Fallback";
-import { Platform, StyleSheet } from "react-native";
+import { Platform, StyleSheet, View } from "react-native";
 import { useHandleMessage } from "@/src/pages/webview/message/useHandleMessage";
 import { subscribeMessage } from "@/src/shared/webview/sendMessage";
 import { WebviewLoadingView } from "@/src/pages/webview/load/LoadingView";
@@ -14,20 +12,43 @@ import {
   findRefreshToken,
   findAccessToken,
 } from "@/src/modules/shared/storage/SecureStorage";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export function RecipeWebView() {
   return <RecipeWebViewContent />;
 }
 
+export type SafeAreaProps = {
+  isEixsts: boolean;
+  color: string;
+};
+
+export type SafeArea = {
+  left: SafeAreaProps;
+  right: SafeAreaProps;
+  top: SafeAreaProps;
+  bottom: SafeAreaProps;
+};
+
 export function RecipeWebViewContent() {
   const webviewRef = useRef<WebView>(null);
   const [error, setError] = useState<Error | null>(null);
   const { isLoading } = useLoadStore();
+
+  const [safeArea, setSafeArea] = useState<SafeArea>({
+    left: { isEixsts: false, color: "#FFFFFF" },
+    right: { isEixsts: false, color: "#FFFFFF" },
+    top: { isEixsts: false, color: "#FFFFFF" },
+    bottom: { isEixsts: false, color: "#FFFFFF" },
+  });
+
   const { handleMessage } = useHandleMessage({
     postMessage: ({ message }) => {
       webviewRef.current?.postMessage(message);
     },
+    setSafeArea,
   });
+  const insets = useSafeAreaInsets();
 
   const { animatedStyle } = useKeyboardAvoidingAnimation();
 
@@ -45,14 +66,6 @@ export function RecipeWebViewContent() {
     );
   }, []);
 
-  // const handleHttpError = useCallback((error: any) => {
-  //   setError(
-  //     new Error(
-  //       `HTTP 오류: ${error.nativeEvent?.statusCode} - ${error.nativeEvent?.description}`
-  //     )
-  //   );
-  // }, []);
-
   const webviewUrl = getWebViewUrl();
 
   if (error) {
@@ -60,10 +73,13 @@ export function RecipeWebViewContent() {
   }
 
   return (
-    <>
-      <Animated.View style={[animatedStyle, { flex: 1 }]}>
-        <WebView
-          injectedJavaScript={`
+    <View style={{ flex: 1 }}>
+      <View style={{ height: safeArea.top.isEixsts ? insets.top : 0, backgroundColor: safeArea.top.color }} />
+      <View style={{ flex: 1, flexDirection: "row" }}>
+        <View style={{ width: safeArea.left.isEixsts ? insets.left : 0,backgroundColor: safeArea.left.color }} />
+        <Animated.View style={[animatedStyle, { flex: 1 }]}>
+          <WebView
+            injectedJavaScript={`
         (function() {
           const originalLog = console.log;
           console.log = function(...args) {
@@ -75,40 +91,43 @@ export function RecipeWebViewContent() {
         })();
         true;
       `}
-          ref={webviewRef}
-          source={{ uri: webviewUrl }}
-          style={[styles.webview]}
-          userAgent={getUserAgent()}
-          onMessage={handleMessage}
-          onError={handleError}
-          // onHttpError={handleHttpError}
-          mediaPlaybackRequiresUserAction={false}
-          allowsInlineMediaPlayback={true}
-          mediaCapturePermissionGrantType="grant"
-          allowsFullscreenVideo={true}
-          allowsBackForwardNavigationGestures={true}
-          javaScriptEnabled={true}
-          domStorageEnabled={true}
-          startInLoadingState={false}
-          cacheEnabled={true}
-          {...(Platform.OS === "ios" && {
-            allowsLinkPreview: false,
-            bounces: false,
-            showsHorizontalScrollIndicator: false,
-            showsVerticalScrollIndicator: false,
-            automaticallyAdjustScrollIndicatorInsets: false,
-          })}
-          {...(Platform.OS === "android" && {
-            mixedContentMode: "compatibility",
-            thirdPartyCookiesEnabled: true,
-            allowFileAccess: true,
-            allowUniversalAccessFromFileURLs: true,
-            setSupportMultipleWindows: false,
-          })}
-        />
-        {isLoading && <WebviewLoadingView />}
-      </Animated.View>
-    </>
+            ref={webviewRef}
+            source={{ uri: webviewUrl }}
+            style={[styles.webview]}
+            userAgent={getUserAgent()}
+            onMessage={handleMessage}
+            onError={handleError}
+            // onHttpError={handleHttpError}
+            mediaPlaybackRequiresUserAction={false}
+            allowsInlineMediaPlayback={true}
+            mediaCapturePermissionGrantType="grant"
+            allowsFullscreenVideo={true}
+            allowsBackForwardNavigationGestures={true}
+            javaScriptEnabled={true}
+            domStorageEnabled={true}
+            startInLoadingState={false}
+            cacheEnabled={true}
+            {...(Platform.OS === "ios" && {
+              allowsLinkPreview: false,
+              bounces: false,
+              showsHorizontalScrollIndicator: false,
+              showsVerticalScrollIndicator: false,
+              automaticallyAdjustScrollIndicatorInsets: false,
+            })}
+            {...(Platform.OS === "android" && {
+              mixedContentMode: "compatibility",
+              thirdPartyCookiesEnabled: true,
+              allowFileAccess: true,
+              allowUniversalAccessFromFileURLs: true,
+              setSupportMultipleWindows: false,
+            })}
+          />
+          {isLoading && <WebviewLoadingView />}
+        </Animated.View>
+        <View style={{ width: safeArea.right.isEixsts ? insets.right : 0,backgroundColor: safeArea.right.color }} />
+      </View>
+      <View style={{ height: safeArea.bottom.isEixsts ? insets.bottom : 0,backgroundColor: safeArea.bottom.color }} />
+    </View>
   );
   // Android 하드웨어 뒤로가기 버튼 처리: 웹뷰로 BACK_PRESSED 전송
 }
