@@ -3,7 +3,6 @@ import { Stack } from "expo-router";
 import { useTheme } from "react-native-paper";
 
 export default function AuthLayout() {
-  console.log("AuthLayout");
   const theme = useTheme();
   return (
     <Stack

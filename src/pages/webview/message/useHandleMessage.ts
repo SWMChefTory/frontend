@@ -20,6 +20,7 @@ import { Alert, Linking, Platform } from "react-native";
 import { useLoadStore } from "@/src/pages/webview/load/loadStore";
 import { comsumeReservedMessage } from "@/src/shared/webview/sendMessage";
 import * as ScreenOrientation from "expo-screen-orientation";
+import { SafeArea } from "../RecipeWebView";
 
 //webview입장에서 요청
 type RequestMsgBlockingFromWebView = {
@@ -79,6 +80,7 @@ enum payloadType {
   LOCK_ORIENTATION = "LOCK_ORIENTATION",
   UNLOCK_ORIENTATION = "UNLOCK_ORIENTATION",
   OPEN_YOUTUBE = "OPEN_YOUTUBE",
+  SAFE_AREA = "SAFE_AREA",
 }
 
 class InvalidJsonError extends Error {
@@ -88,11 +90,20 @@ class InvalidJsonError extends Error {
   }
 }
 
+// type SafeArea = {
+//   left: SafeAreaProps;
+//   right: SafeAreaProps;
+//   top: SafeAreaProps;
+//   bottom: SafeAreaProps;
+// };
+
 //webview에서 보낸 메세지를 처리하는 함수
 export function useHandleMessage({
   postMessage,
+  setSafeArea,
 }: {
   postMessage: ({ message }: { message: string }) => void;
+  setSafeArea: (safeArea: SafeArea) => void;
 }) {
   const { openCreatingView: openCreatingCategoryView } =
     useCreatingCategoryViewStore();
@@ -243,6 +254,28 @@ export function useHandleMessage({
             }
             case payloadType.UNLOCK_ORIENTATION: {
               await ScreenOrientation.unlockAsync();
+              break;
+            }
+            case payloadType.SAFE_AREA: {
+              const { left, right, top, bottom } = req.payload;
+              console.log("[SAFE_AREA] left", JSON.stringify(left));
+              console.log("[SAFE_AREA] right", JSON.stringify(right));
+              console.log("[SAFE_AREA] top", JSON.stringify(top));
+              console.log("[SAFE_AREA] bottom", JSON.stringify(bottom));
+              setSafeArea({
+                left: left
+                  ? { isEixsts: left.isExists, color: left.color }
+                  : { isEixsts: true, color: "#FFFFFF" },
+                right: right
+                  ? { isEixsts: right.isExists, color: right.color }
+                  : { isEixsts: true, color: "#FFFFFF" },
+                top: top
+                  ? { isEixsts: top.isExists, color: top.color }
+                  : { isEixsts: true, color: "#FFFFFF" },
+                bottom: bottom
+                  ? { isEixsts: bottom.isExists, color: bottom.color }
+                  : { isEixsts: true, color: "#FFFFFF" },
+              });
               break;
             }
           }

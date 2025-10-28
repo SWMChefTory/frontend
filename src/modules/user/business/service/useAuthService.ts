@@ -19,13 +19,12 @@ import { useRouter } from "expo-router";
 import { User } from "@/src/modules/user/business/viewmodel/user";
 import { DateOnly } from "@/src/modules/shared/utils/dateOnly";
 import * as Sentry from '@sentry/react-native'; 
+import { useSignupModalStore } from "@/src/pages/login/ui/button";
 
 
 
 export function useLoginViewModel() {
   const { setUser } = useUserStore();
-  const router = useRouter();
-
   const {
     mutate: login,
     isPending: isLoading,
@@ -55,25 +54,6 @@ export function useLoginViewModel() {
       );
       storeAuthToken(data.access_token, data.refresh_token);
     },
-    onError: (error, variables) => {
-      if (error instanceof AxiosError) {
-        console.log(error.response?.data);
-      }
-      if (
-        error instanceof AxiosError &&
-        error.response?.data?.errorCode === "USER_001"
-      ) {
-        router.push({
-          pathname: "/(auth)/signup",
-          params: {
-            token: variables.id_token,
-            provider: variables.provider,
-          },
-        });
-        return;
-      }
-      Sentry.captureException(error);
-    },
     throwOnError: false,
   });
 
@@ -82,6 +62,7 @@ export function useLoginViewModel() {
 
 export function useSignupViewModel() {
   const { setUser } = useUserStore();
+  const { closeModal } = useSignupModalStore();
   const {
     mutate: signup,
     isPending: isLoading,
@@ -105,6 +86,7 @@ export function useSignupViewModel() {
     },
     onError: (error) => {
       console.log("signup error", error);
+      closeModal();
     },
     throwOnError: true,
   });

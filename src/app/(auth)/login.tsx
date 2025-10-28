@@ -1,4 +1,4 @@
-import LoginPage from "@/src/modules/user/presentation/login/LoginPage";
+import { LoginPage } from "@/src/pages/login/index";
 import { useEffect } from "react";
 import { track } from "@/src/modules/shared/utils/analytics";
 
@@ -7,6 +7,6 @@ export default function LoginScreen() {
     track.screen("Login");
   }, []);
   return (
-    <LoginPage isReal={true} />
+    <LoginPage />
   );
 }

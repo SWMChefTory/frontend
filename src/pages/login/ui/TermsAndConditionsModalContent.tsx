@@ -4,6 +4,9 @@ import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import SquareButton from "@/src/shared/components/textInputs/SquareButtonTemplate";
+import { useSignupModalStore } from "@/src/pages/login/ui/button";
+import { useSignupViewModel } from "@/src/modules/user/business/service/useAuthService";
+import  useRandomName  from "@/src/pages/login/model/useRandomName";
 
 export interface AgreeValue {
   isServiceAgree: boolean;
@@ -19,14 +22,12 @@ const localColor = {
   },
 };
 
-export default function TermsAndConditionsModalContent({
-  handleSignupPress,
-  toBlur,
-}: {
-  handleSignupPress: (agreeValue: AgreeValue) => void;
-  toBlur: () => void;
-}) {
-  const router = useRouter();  
+export default function TermsAndConditionsModalContent() {
+  const { idToken, provider, closeModal } = useSignupModalStore();
+  const { signup } = useSignupViewModel();
+  const { nickname } = useRandomName();
+
+  const router = useRouter();
   const [agreeValue, setAgreeValue] = useState<AgreeValue>({
     isServiceAgree: false,
     isPrivacyAgree: false,
@@ -36,6 +37,22 @@ export default function TermsAndConditionsModalContent({
   const isServiceAgree = agreeValue.isServiceAgree;
   const isPrivacyAgree = agreeValue.isPrivacyAgree;
   const isMarketingAgree = agreeValue.isMarketingAgree;
+
+  const handleSignupPress = () => {
+    if (!idToken || !provider || !nickname || !isPrivacyAgree || !isServiceAgree) {
+      return;
+    }
+    signup({
+      id_token: idToken,
+      provider: provider,
+      nickname: nickname,
+      gender: null,
+      date_of_birth: null,
+      is_marketing_agreed: isMarketingAgree,
+      is_privacy_agreed: isPrivacyAgree,
+      is_terms_of_use_agreed: isServiceAgree,
+    });
+  };
 
   return (
     <BottomSheetView style={styles.container}>
@@ -72,13 +89,11 @@ export default function TermsAndConditionsModalContent({
             ]}
           >
             {" "}
-            전체 동의하기   
+            전체 동의하기
           </Text>
         </TouchableOpacity>
-        
-        
       </View>
-      <View style ={{ height:16 }}/>
+      <View style={{ height: 16 }} />
       {/* <View style = {{backgroundColor: "grey", height: 1, width: "88%"}}></View> */}
       {/* <View style ={{ height:15 }}/> */}
       <View style={styles.detailContainer}>
@@ -115,9 +130,10 @@ export default function TermsAndConditionsModalContent({
         <TouchableOpacity
           style={styles.detailRightContainer}
           onPress={() => {
+            closeModal();
             router.push({
-                pathname: "/agreement/ServiceTermsAndConditions",
-              });
+              pathname: "/agreement/ServiceTermsAndConditions",
+            });
           }}
         >
           <Ionicons
@@ -127,7 +143,7 @@ export default function TermsAndConditionsModalContent({
           />
         </TouchableOpacity>
       </View>
-      <View style ={{ height:8 }}/>
+      <View style={{ height: 8 }} />
 
       <View style={styles.detailContainer}>
         <TouchableOpacity
@@ -163,9 +179,10 @@ export default function TermsAndConditionsModalContent({
         <TouchableOpacity
           style={styles.detailRightContainer}
           onPress={() => {
+            closeModal();
             router.push({
-                pathname: "/agreement/PrivacyTermsAndConditions",
-              });
+              pathname: "/agreement/PrivacyTermsAndConditions",
+            });
           }}
         >
           <Ionicons
@@ -176,7 +193,7 @@ export default function TermsAndConditionsModalContent({
         </TouchableOpacity>
       </View>
 
-      <View style ={{ height:8 }}/>
+      <View style={{ height: 8 }} />
 
       <View style={styles.detailContainer}>
         <TouchableOpacity
@@ -210,13 +227,13 @@ export default function TermsAndConditionsModalContent({
           </Text>
         </TouchableOpacity>
       </View>
-      <View style ={{ height:32 }}/>
+      <View style={{ height: 32 }} />
 
       <View style={styles.buttonSection}>
         <View style={styles.buttonContainer}>
           <SquareButton
             disabled={!isServiceAgree || !isPrivacyAgree}
-            onPress={() => handleSignupPress(agreeValue)}
+            onPress={() => handleSignupPress()}
             label="회원가입"
           />
         </View>

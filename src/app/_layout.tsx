@@ -43,10 +43,14 @@ Notifications.setNotificationHandler({
     shouldSetBadge: false,
   }),
 });
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      throwOnError: true,
+      throwOnError: false,
+    },
+    mutations: {
+      throwOnError: false,
     },
   },
 });
