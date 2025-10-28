@@ -7,31 +7,34 @@ export default function AuthLayout() {
   const theme = useTheme();
   return (
     <Stack
-    screenOptions={{
-      contentStyle: {
-        backgroundColor: theme.colors.background, // 배경색 추가
-      },
-    }}>
+      screenOptions={{
+        contentStyle: {
+          backgroundColor: theme.colors.background, // 배경색 추가
+        },
+      }}
+    >
       <Stack.Screen
         name="login"
-        options={{ headerShown: false, headerBackTitle: "",  animation: "none" }}
+        options={{ headerShown: false, headerBackTitle: "", animation: "none" }}
       />
       <Stack.Screen
         name="signup"
         options={{
-          header : () => <OnlyBackTemplate  title="" />,  
+          header: () => <OnlyBackTemplate title="" />,
           animation: "none",
         }}
       />
       <Stack.Screen
         name="agreement/ServiceTermsAndConditions"
-        options={{header: () => <OnlyBackTemplate  title="" />,
+        options={{
+          header: () => <OnlyBackTemplate title="" />,
           animation: "none",
         }}
       />
       <Stack.Screen
         name="agreement/PrivacyTermsAndConditions"
-        options={{header: () => <OnlyBackTemplate  title="" />,
+        options={{
+          header: () => <OnlyBackTemplate title="" />,
           animation: "none",
         }}
       />

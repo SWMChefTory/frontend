@@ -6,9 +6,7 @@ function ServiceTermsAndConditions() {
   useEffect(() => {
     track.screen("AgreementServiceTermsAndConditions");
   }, []);
-    return (
-      <PrivacyTermsAndConditionsPage />
-  );
+  return <PrivacyTermsAndConditionsPage />;
 }
 
 export default ServiceTermsAndConditions;
