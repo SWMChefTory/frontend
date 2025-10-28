@@ -7,9 +7,6 @@ import { responsiveFontSize } from "@/src/modules/shared/utils/responsiveUI";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 import { SHADOW } from "@/src/modules/shared/constants/shadow";
 
-
-  
-
 function LoginButtonTemplate({ description,logoPath,logoSize, handleSignIn }: {description: string, logoPath:ImageSource, logoSize:{width:number, height:number}, handleSignIn: () => void }) {
   return (
     <TouchableOpacity style={styles.button} onPress={handleSignIn}>
@@ -22,6 +19,7 @@ function LoginButtonTemplate({ description,logoPath,logoSize, handleSignIn }: {d
       </TouchableOpacity>
   );
 }
+
 const styles = StyleSheet.create({
     button: {
       width: responsiveWidth(250),

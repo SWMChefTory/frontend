@@ -7,15 +7,11 @@ import {
   storeAuthToken,
 } from "@/src/modules/shared/storage/SecureStorage";
 import { LoginInfo } from "@/src/modules/shared/types/auth";
-import { AxiosError } from "axios";
-import { useRouter } from "expo-router";
 import { User } from "@/src/modules/user/business/viewmodel/user";
 import { DateOnly } from "@/src/modules/shared/utils/dateOnly";
-import * as Sentry from '@sentry/react-native'; 
 
 export function useLoginViewModel() {
   const { setUser } = useUserStore();
-  const router = useRouter();
 
   const {
     mutate: login,
@@ -44,26 +40,26 @@ export function useLoginViewModel() {
       );
       storeAuthToken(data.access_token, data.refresh_token);
     },
-    onError: (error, variables) => {
-      if (error instanceof AxiosError) {
-        console.log(error.response?.data);
-      }
-      if (
-        error instanceof AxiosError &&
-        error.response?.data?.errorCode === "USER_001"
-      ) {
-        router.push({
-          pathname: "/(auth)/signup",
-          params: {
-            token: variables.id_token,
-            provider: variables.provider,
-          },
-        });
-        return;
-      }
-      Sentry.captureException(error);
-    },
-    throwOnError: false,
+    // onError: (error, variables) => {
+    //   if (error instanceof AxiosError) {
+    //     console.log(error.response?.data);
+    //   }
+    //   if (
+    //     error instanceof AxiosError &&
+    //     error.response?.data?.errorCode === "USER_001"
+    //   ) {
+    //     router.push({
+    //       pathname: "/(auth)/signup",
+    //       params: {
+    //         token: variables.id_token,
+    //         provider: variables.provider,
+    //       },
+    //     });
+    //     return;
+    //   }
+    //   Sentry.captureException(error);
+    // },
+    throwOnError: true,
   });
 
   return { login, isLoading, error };

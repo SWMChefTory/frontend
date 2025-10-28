@@ -270,14 +270,11 @@ const styles = StyleSheet.create({
 export function TermsAndConditionsModal() {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const { idToken, provider, closeModal } = useSignupModalStore();
+  
   useEffect(() => {
-    console.log("idToken!!!!!!!!!!!!!!!!!", JSON.stringify(idToken));
     if (idToken && provider) {
-      console.log("present!!!!!!!!!!!!!!!!!", JSON.stringify(idToken));
-
       bottomSheetModalRef.current?.present();
     } else {
-      console.log("forceClose!!!!!!!!!!!!!!!!!", JSON.stringify(idToken));
       bottomSheetModalRef.current?.forceClose();
     }
   }, [idToken, provider]);
