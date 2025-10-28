@@ -9,11 +9,6 @@ export default {
     userInterfaceStyle: "automatic",
     newArchEnabled: true,
     owner: "cheftory",
-    splash: {
-      image: "./assets/images/splashscreen_logo.png",
-      resizeMode: "contain",
-      backgroundColor: "#FFFFFF",
-    },
     ios: {
       entitlements: {
         "com.apple.security.application-groups": [
@@ -85,9 +80,7 @@ export default {
       [
         "expo-splash-screen",
         {
-          image: "./assets/images/mainCharacter.png",
-          imageWidth: 180,
-          resizeMode: "contain",
+          image: "./assets/images/splashLogo.jpg",
           backgroundColor: "#FFF5F0",
         },
       ],

@@ -45,13 +45,13 @@ export function RecipeWebViewContent() {
     );
   }, []);
 
-  const handleHttpError = useCallback((error: any) => {
-    setError(
-      new Error(
-        `HTTP 오류: ${error.nativeEvent?.statusCode} - ${error.nativeEvent?.description}`
-      )
-    );
-  }, []);
+  // const handleHttpError = useCallback((error: any) => {
+  //   setError(
+  //     new Error(
+  //       `HTTP 오류: ${error.nativeEvent?.statusCode} - ${error.nativeEvent?.description}`
+  //     )
+  //   );
+  // }, []);
 
   const webviewUrl = getWebViewUrl();
 
@@ -81,7 +81,7 @@ export function RecipeWebViewContent() {
           userAgent={getUserAgent()}
           onMessage={handleMessage}
           onError={handleError}
-          onHttpError={handleHttpError}
+          // onHttpError={handleHttpError}
           mediaPlaybackRequiresUserAction={false}
           allowsInlineMediaPlayback={true}
           mediaCapturePermissionGrantType="grant"

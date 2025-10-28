@@ -17,7 +17,7 @@ function isNetworkError(error: unknown): boolean {
 
 clientWithoutAuth.interceptors.response.use(
   async (res) => {
-    console.log("response", res.data);
+    console.log("response!!!", JSON.stringify(res));
     return res;
   },
   async (error) => {
