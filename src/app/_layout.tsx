@@ -84,17 +84,22 @@ function useOnlineManager() {
 }
 
 function RootNavigator() {
-  const { isLoggedIn, loading } = useAuthBootstrap();
+  const { isLoggedIn } = useAuthBootstrap();
   const theme = useTheme();
-  const { isWebviewLoaded } = useWebViewStore();
 
-  useEffect(() => {
-    if (loading ) {
-      if(!isLoggedIn || isWebviewLoaded){
-        checkAndApplyUpdates();
-      }
-    }
-  }, []);
+  //TODO: 왜 있는거?
+  // const { isWebviewLoaded } = useWebViewStore();
+
+  //TODO: 업데이트 체크 로직 추가
+  // useEffect(() => {
+  //   if (loading ) {
+  //     if(!isLoggedIn || isWebviewLoaded){
+  //       checkAndApplyUpdates();
+  //     }
+  //   }
+  // }, []);
+
+  console.log("isLoggedIn!!!!!",isLoggedIn);
 
 
   return (

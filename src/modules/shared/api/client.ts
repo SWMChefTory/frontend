@@ -72,7 +72,6 @@ function isNetworkError(error: unknown): boolean {
 
 client.interceptors.request.use(
   async (config) => {
-    console.log("request!!!", JSON.stringify(config));
     if (config.skipAuth) {
       return config;
     }

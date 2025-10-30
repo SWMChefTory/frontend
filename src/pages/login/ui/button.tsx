@@ -33,6 +33,8 @@ export function GoogleLoginButton() {
   const { handleSignInGoogle, isLoading } = useLoginWithGoogle();
   const description = "Google로 시작하기";
 
+  console.log("isLoading!!!", isLoading);
+
   return (
     <>
       {isLoading && <FullScreenLoader />}
@@ -52,7 +54,7 @@ export function AppleLoginButton() {
 
   return (
     <>
-      {isLoading && <FullScreenLoader />}
+      {/* {isLoading && <FullScreenLoader />} */}
       <LoginButtonTemplate
         logoPath={require("@/assets/images/appleLogo.png")}
         logoSize={{ width: responsiveWidth(20), height: responsiveHeight(24) }}
@@ -64,7 +66,9 @@ export function AppleLoginButton() {
 }
 
 function useLoginWithGoogle() {
-  const { login, isLoading , error} = useLoginViewModel();
+  const { login, isLoading, error } = useLoginViewModel();
+  console.log("isLoading!!", isLoading);
+  console.log("error!!", error);
   const { openModal } = useSignupModalStore();
   const [idToken, setIdToken] = useState<string | null>(null);
   async function handleSignInGoogle() {
@@ -93,10 +97,11 @@ function useLoginWithGoogle() {
 
   useEffect(() => {
     if (isNotUserError(error) && idToken) {
-        setTimeout(() => {
-          openModal({ idToken: idToken, provider: OauthProvider.GOOGLE });
-        }, 500);
-      }
+      setTimeout(() => {
+        console.log("open modal!!", idToken);
+        openModal({ idToken: idToken, provider: OauthProvider.GOOGLE });
+      }, 500);
+    }
   }, [error, idToken]);
 
   return { handleSignInGoogle, isLoading };
@@ -147,8 +152,7 @@ function isNotUserError(error: any) {
 }
 
 function useLoginWithApple() {
-  const { login, isLoading , error} = useLoginViewModel();
-  const [idToken, setIdToken] = useState<string | null>(null);
+  const { login, isLoading, error } = useLoginViewModel();
   const { openModal } = useSignupModalStore();
 
   async function handleSignInApple() {
@@ -198,12 +202,6 @@ function useLoginWithApple() {
       }
       return;
     }
-
-    useEffect(() => {
-      if (isNotUserError(error) && appleAuthRequestResponse.identityToken) {
-        openModal({ idToken: appleAuthRequestResponse.identityToken, provider: OauthProvider.APPLE });
-      }
-    }, [error, appleAuthRequestResponse.identityToken]);
 
     Alert.alert("오류", "Apple 로그인에 실패했습니다.");
   }
@@ -270,12 +268,12 @@ const styles = StyleSheet.create({
 export function TermsAndConditionsModal() {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const { idToken, provider, closeModal } = useSignupModalStore();
-  
+
   useEffect(() => {
     if (idToken && provider) {
       bottomSheetModalRef.current?.present();
     } else {
-      bottomSheetModalRef.current?.forceClose();
+      bottomSheetModalRef.current?.dismiss();
     }
   }, [idToken, provider]);
 

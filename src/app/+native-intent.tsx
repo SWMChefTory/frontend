@@ -9,7 +9,7 @@ export function redirectSystemPath({
   path: string;
   initial: boolean;
 }) {
-  console.log("redirectSystemPath", path);
+  // console.log("redirectSystemPath", path); TODO
   try {
     handleExternalDeepLink(path, initial);
     if (initial) {
@@ -17,8 +17,6 @@ export function redirectSystemPath({
     }
     return "/";
   } catch {
-    // Do not crash inside this function! Instead you should redirect users
-    // to a custom route to handle unexpected errors, where they are able to report the incident
     return "/unexpected-error";
   }
 }
@@ -45,6 +43,7 @@ const handleExternalDeepLink = (url: string, initial: boolean) => {
   if (!parsedUrl.hostname) {
     if (queryParams?.["video-id"]) {
       if(!initial){
+        //TODO : 서버에는 주석이 많으면 좋은데, 배포할 때는 주석 없애주는 프로그램 사용하기
         sendMessage({
           type: "OPEN_CREATING_VIEW",
           data: { videoUrl: "https://www.youtube.com/watch?v=" + queryParams?.["video-id"] },

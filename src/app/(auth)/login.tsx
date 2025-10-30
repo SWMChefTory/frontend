@@ -6,6 +6,8 @@ export default function LoginScreen() {
   useEffect(() => {
     track.screen("Login");
   }, []);
+
+  console.log("LoginScreen!!!!");
   return (
     <LoginPage />
   );
