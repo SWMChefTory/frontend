@@ -16,7 +16,7 @@ import {
   endActivity,
 } from "@/src/pages/webview/timer/live-activity/liveActivity";
 import { useUserStore } from "@/src/modules/user/business/store/userStore";
-import { Alert } from "react-native";
+import { Alert, Linking, Platform } from "react-native";
 import { useLoadStore } from "@/src/pages/webview/load/loadStore";
 import { comsumeReservedMessage } from "@/src/shared/webview/sendMessage";
 import * as ScreenOrientation from "expo-screen-orientation";
@@ -79,6 +79,7 @@ enum payloadType {
   END_LIVE_ACTIVITY = "END_LIVE_ACTIVITY",
   LOCK_ORIENTATION = "LOCK_ORIENTATION",
   UNLOCK_ORIENTATION = "UNLOCK_ORIENTATION",
+  OPEN_YOUTUBE = "OPEN_YOUTUBE",
   SAFE_AREA = "SAFE_AREA",
 }
 
@@ -150,7 +151,7 @@ export function useHandleMessage({
                 reply(req.id, { messagesConsumed: messagesConsumed });
                 console.log(
                   "messagesConsumed",
-                  JSON.stringify(messagesConsumed)
+                  JSON.stringify(messagesConsumed),
                 );
               } catch (e: any) {
                 fail(req.id, e?.message ?? "Unhandled error");
@@ -182,6 +183,26 @@ export function useHandleMessage({
               deleteUser();
               break;
             }
+            case payloadType.OPEN_YOUTUBE: {
+              const youtubeAppUrl = Platform.select({
+                ios: "youtube://",
+                android: "vnd.youtube://",
+              }) as string;
+
+              console.log(youtubeAppUrl);
+              try {
+                const canOpen = await Linking.canOpenURL(youtubeAppUrl);
+                if (canOpen) {
+                  await Linking.openURL(youtubeAppUrl);
+                } else {
+                  await Linking.openURL("https://www.youtube.com");
+                }
+              } catch (error) {
+                await Linking.openURL("https://www.youtube.com");
+              }
+              break;
+            }
+
             case payloadType.SCHEDULE_TIMER_NOTIFICATION: {
               const { timerId, recipeId, remainingSeconds, recipeTitle } =
                 req.payload;
@@ -189,7 +210,7 @@ export function useHandleMessage({
                 timerId,
                 recipeId,
                 recipeTitle,
-                remainingSeconds
+                remainingSeconds,
               );
               break;
             }
@@ -227,7 +248,7 @@ export function useHandleMessage({
             }
             case payloadType.LOCK_ORIENTATION: {
               await ScreenOrientation.lockAsync(
-                ScreenOrientation.OrientationLock.PORTRAIT_UP
+                ScreenOrientation.OrientationLock.PORTRAIT_UP,
               );
               break;
             }
