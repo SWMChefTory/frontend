@@ -150,8 +150,9 @@ function isNotUserError(error: any) {
 }
 
 function useLoginWithApple() {
-  const { login, isLoading } = useLoginViewModel();
+  const { login, isLoading, error } = useLoginViewModel();
   const { openModal } = useSignupModalStore();
+  const [idToken, setIdToken] = useState<string | null>(null);
 
   async function handleSignInApple() {
     const available = await AppleAuthentication.isAvailableAsync();
@@ -184,24 +185,24 @@ function useLoginWithApple() {
         AppleAuthentication.AppleAuthenticationCredentialState.TRANSFERRED
     ) {
       console.log("AppleLoginButton 로그인 성공");
-      try {
-        login({
-          id_token: appleAuthRequestResponse.identityToken,
-          provider: OauthProvider.APPLE,
-        });
-      } catch (err) {
-        if (isNotUserError(err) && appleAuthRequestResponse.identityToken) {
-          openModal({
-            idToken: appleAuthRequestResponse.identityToken,
-            provider: OauthProvider.APPLE,
-          });
-          return;
-        }
-      }
+      login({
+        id_token: appleAuthRequestResponse.identityToken,
+        provider: OauthProvider.APPLE,
+      });
+      setIdToken(appleAuthRequestResponse.identityToken);
       return;
     }
     Alert.alert("오류", "Apple 로그인에 실패했습니다.");
   }
+
+  useEffect(() => {
+    if (isNotUserError(error) && idToken) {
+      openModal({
+        idToken: idToken,
+        provider: OauthProvider.APPLE,
+      });
+    }
+  }, [error, idToken]);
 
   return { handleSignInApple, isLoading };
 }
