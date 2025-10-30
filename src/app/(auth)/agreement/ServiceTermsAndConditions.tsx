@@ -1,4 +1,4 @@
-import ServiceTermsAndConditionsPage from "@/src/pages/service-terms-and-condition/ServiceTermsAndConditionsPage";
+import ServiceTermsAndConditionsPage from "@/src/pages/service-terms-and-condition/ServiceTermsAndCondition";
 import { useEffect } from "react";
 import { track } from "@/src/modules/shared/utils/analytics";
 

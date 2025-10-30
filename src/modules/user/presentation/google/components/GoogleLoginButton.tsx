@@ -23,6 +23,7 @@ export default function GoogleLoginButton({ isReal }: { isReal: boolean }) {
     try {
       await GoogleSignin.hasPlayServices();
       const response = await GoogleSignin.signIn();
+      console.log("response!!", JSON.stringify(response));
       if (response.type === "success") {
         const { idToken } = response.data;
         if (!idToken) {

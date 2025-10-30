@@ -9,11 +9,6 @@ export default {
     userInterfaceStyle: "automatic",
     newArchEnabled: true,
     owner: "cheftory",
-    splash: {
-      image: "./assets/images/splashscreen_logo.png",
-      resizeMode: "contain",
-      backgroundColor: "#FFFFFF",
-    },
     ios: {
       entitlements: {
         "com.apple.security.application-groups": [
@@ -38,7 +33,7 @@ export default {
         NSFaceIDUsageDescription:
           "안전한 로그인과 인증을 위해 Face ID를 사용합니다.",
         NSMicrophoneUsageDescription:
-          "셰프토리는 음성으로 레시피를 제어하기 위해 마이크 접근 권한이 필요합니다.",
+          "쉐프토리는 음성으로 레시피를 제어하기 위해 마이크 접근 권한이 필요합니다.",
         NSAppTransportSecurity: {
           NSAllowsArbitraryLoads: true,
         },
@@ -85,9 +80,7 @@ export default {
       [
         "expo-splash-screen",
         {
-          image: "./assets/images/mainCharacter.png",
-          imageWidth: 180,
-          resizeMode: "contain",
+          image: "./assets/images/splashLogo.png",
           backgroundColor: "#FFF5F0",
         },
       ],

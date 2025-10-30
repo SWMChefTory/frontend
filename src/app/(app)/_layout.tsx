@@ -1,19 +1,20 @@
-import { Stack} from "expo-router";
+import { Stack, useLocalSearchParams } from "expo-router";
+import { KeyboardProvider } from "react-native-keyboard-controller";
 
 export default function AppLayout() {
-  
-
-  // useEffect(() => {
-  //   if(action==='create'){
-  //     router.push('/(app)/(tabs)/index?action=create&source=external&videoId='+youtubeUrl);
-  //   }
-  // }, [action, source, youtubeUrl]);
+  const { setIsWebviewLoaded } = useLocalSearchParams();
 
   return (
-    <Stack>
-      <Stack.Screen name="(tabs)" options={{ headerShown: false, animation: "none" }} />
-      <Stack.Screen name="settings/settings" />
-      <Stack.Screen name="recipe/create" />
-    </Stack>
+    <KeyboardProvider statusBarTranslucent navigationBarTranslucent>
+      <Stack>
+        <Stack.Screen
+          name="index"
+          options={{ headerShown: false }}
+          initialParams={{ setIsWebviewLoaded }}
+        />
+        <Stack.Screen name="settings/settings" />
+        <Stack.Screen name="recipe/create" />
+      </Stack>
+    </KeyboardProvider>
   );
 }

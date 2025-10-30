@@ -7,6 +7,7 @@ import {
   storeRefreshToken,
 } from "@/src/modules/shared/storage/SecureStorage";
 import { reissueRefreshToken } from "@/src/modules/shared/api/refresh/reissueApi";
+// import 
 
 declare module "axios" {
   export interface AxiosRequestConfig {
@@ -48,7 +49,9 @@ class TokenRefreshManager {
     try {
       const refreshToken = findRefreshToken();
       console.log("token을 갱신하기 위해 refreshToken을 가져옵니다.", refreshToken);
-      if (!refreshToken) throw new Error("No refresh token");
+      if (!refreshToken) {
+        throw new Error("No refresh token");
+      };
 
       const response = await reissueRefreshToken(refreshToken);
       await storeAccessToken(response.access_token);

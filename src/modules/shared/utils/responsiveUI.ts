@@ -20,7 +20,7 @@ export function responsiveHeight(baseDesignElementSize: number): number {
 export function responsiveFontSize(baseDesignElementSize: number): number {  
   const screenRatio = width / baseDesignScreenSize;
   
-  let calculatedSize = baseDesignElementSize * screenRatio;
+  let calculatedSize = baseDesignElementSize * screenRatio  ;
   
   if (Platform.OS === 'android') {
     calculatedSize *= 0.8;

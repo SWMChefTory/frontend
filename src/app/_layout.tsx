@@ -11,13 +11,11 @@ import * as ExpoSplashScreen from "expo-splash-screen";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { GlobalErrorBoundary } from "../modules/shared/components/error/GlobalErrorBoundary";
 import { SplashScreenController } from "../modules/shared/splash/SplashScreenController";
-import { useFonts, DoHyeon_400Regular } from "@expo-google-fonts/do-hyeon";
 import { useEffect } from "react";
 import { useAuthBootstrap } from "../modules/user/authBootstrap";
 
 import * as Network from "expo-network";
 import { AppState, AppStateStatus, Platform, View } from "react-native";
-import { useDeepLinkHandler } from "@/src/useDeepLink";
 import {
   MD3LightTheme as DefaultTheme,
   PaperProvider,
@@ -26,13 +24,14 @@ import {
 
 
 import * as Notifications from "expo-notifications";
-import { useNotificationObserver } from "@/src/modules/notifications/useNotificationObserver";
+import { useNotificationObserver } from "@/src/pages/webview/timer/notifications/useNotificationObserver";
 import {
   initialWindowMetrics,
   SafeAreaProvider,
 } from "react-native-safe-area-context";
 import { checkAndApplyUpdates } from "../modules/shared/utils/codepush";
 import * as ScreenOrientation from "expo-screen-orientation";
+import { useWebViewStore } from "@/src/shared/webview/isLoadedStore";
 
 ExpoSplashScreen.preventAutoHideAsync();
 
@@ -44,10 +43,14 @@ Notifications.setNotificationHandler({
     shouldSetBadge: false,
   }),
 });
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      throwOnError: true,
+      throwOnError: false,
+    },
+    mutations: {
+      throwOnError: false,
     },
   },
 });
@@ -81,21 +84,23 @@ function useOnlineManager() {
 }
 
 function RootNavigator() {
-  const { isLoggedIn, loading } = useAuthBootstrap();
-  const [loaded, error] = useFonts({
-    DoHyeon_400Regular,
-  });
+  const { isLoggedIn } = useAuthBootstrap();
   const theme = useTheme();
 
-  useEffect(() => {
-    if ((loading && loaded) || error) {
-      checkAndApplyUpdates();
-    }
-  }, []);
+  //TODO: 왜 있는거?
+  // const { isWebviewLoaded } = useWebViewStore();
 
-  if (!loaded && !error) {
-    return null;
-  }
+  //TODO: 업데이트 체크 로직 추가
+  // useEffect(() => {
+  //   if (loading ) {
+  //     if(!isLoggedIn || isWebviewLoaded){
+  //       checkAndApplyUpdates();
+  //     }
+  //   }
+  // }, []);
+
+  console.log("isLoggedIn!!!!!",isLoggedIn);
+
 
   return (
     <Stack
@@ -111,7 +116,7 @@ function RootNavigator() {
       }}
     >
       <Stack.Protected guard={isLoggedIn}>
-        <Stack.Screen name="(app)" options={{ headerShown: false }} />
+        <Stack.Screen name="(app)" options={{ headerShown: false }}/>
       </Stack.Protected>
 
       <Stack.Protected guard={!isLoggedIn}>
@@ -171,8 +176,7 @@ export default function RootLayout() {
 
   useAppState(onAppStateChange);
   useNotificationObserver();
-  useDeepLinkHandler();
-
+  
   useOnlineManager();
 
   useAppState(onAppStateChange);
