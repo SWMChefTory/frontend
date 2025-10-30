@@ -97,7 +97,6 @@ export async function loginUser(
 export async function signupUser(
   signupData: SignupData,
 ): Promise<AuthorizationTokenResponse> {
-  console.log("signupData", signupData);
   const signupRequest: SignupRequest = {
     id_token: signupData.id_token,
     provider: signupData.provider,
@@ -108,7 +107,9 @@ export async function signupUser(
     is_privacy_agreed: signupData.is_privacy_agreed,
     is_terms_of_use_agreed: signupData.is_terms_of_use_agreed,
   };
-  console.log("signupRequest", signupRequest);
+  if (!signupData.is_privacy_agreed|| !signupData.is_terms_of_use_agreed) {
+    throw new Error("Privacy and terms of use must be agreed");
+  }
   const response = await clientWithoutAuth.post(
     "/account/signup/oauth",
     signupRequest,
