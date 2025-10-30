@@ -37,7 +37,6 @@ export function GoogleLoginButton() {
 
   return (
     <>
-      {isLoading && <FullScreenLoader />}
       <LoginButtonTemplate
         logoPath={require("@/assets/images/googleLogo.png")}
         logoSize={{ width: 22, height: 24 }}
@@ -54,7 +53,6 @@ export function AppleLoginButton() {
 
   return (
     <>
-      {/* {isLoading && <FullScreenLoader />} */}
       <LoginButtonTemplate
         logoPath={require("@/assets/images/appleLogo.png")}
         logoSize={{ width: responsiveWidth(20), height: responsiveHeight(24) }}
