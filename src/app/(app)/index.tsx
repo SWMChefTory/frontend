@@ -9,6 +9,7 @@ export default function WebViewScreen() {
   useEffect(() => {
     track.screen("RecipeDetail");
   }, []);
+  console.log("WebViewScreen!!!!");
 
   useEffect(() => {
     (async () => {

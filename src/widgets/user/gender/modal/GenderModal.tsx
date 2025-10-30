@@ -40,7 +40,9 @@ export default function GenderModal({
         snapPoints={["40%"]}
         enableHandlePanningGesture={false}
         enableContentPanningGesture={false}
+        enablePanDownToClose={false}
         enableDynamicSizing={false}
+        animateOnMount={false}
       >
         <GenderModalContent gender={gender} onClickNextButton={onClickNextButton} />
       </BottomSheetModal>

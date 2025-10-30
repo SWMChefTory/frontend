@@ -1,3 +1,4 @@
+//TODO :제거
 import { View } from "react-native";
 
 enum InputSpacingType {

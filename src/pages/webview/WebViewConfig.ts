@@ -1,6 +1,5 @@
 import { Platform } from "react-native";
 
-
 export const WEBVIEW_CONFIG = {
   BASE_URL: process.env.EXPO_PUBLIC_WEBVIEW_URL,
   USER_AGENTS: {
@@ -22,14 +21,6 @@ export const enrollPath = (newPath: string) => {
   path = newPath;
 };
 
-export const getEnrolledPath = (): string => {
-  return path;
-};
-
-export const getWebViewUrl = (): string => {
-  // return `https://app.cheftories.com/`;
-  return process.env.EXPO_PUBLIC_WEBVIEW_URL || "";
-  // return "https://webview-v2-theta.vercel.app/";
-  // return `https://chefchef.surge.sh`;
-  // return `http://localhost:3000`;
-};
+export function getWebViewUrl(): string {
+  return (WEBVIEW_CONFIG.BASE_URL || "");
+}
