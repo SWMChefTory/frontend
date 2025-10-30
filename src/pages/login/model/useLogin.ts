@@ -40,25 +40,6 @@ export function useLoginViewModel() {
       );
       storeAuthToken(data.access_token, data.refresh_token);
     },
-    // onError: (error, variables) => {
-    //   if (error instanceof AxiosError) {
-    //     console.log(error.response?.data);
-    //   }
-    //   if (
-    //     error instanceof AxiosError &&
-    //     error.response?.data?.errorCode === "USER_001"
-    //   ) {
-    //     router.push({
-    //       pathname: "/(auth)/signup",
-    //       params: {
-    //         token: variables.id_token,
-    //         provider: variables.provider,
-    //       },
-    //     });
-    //     return;
-    //   }
-    //   Sentry.captureException(error);
-    // },
     throwOnError: true,
   });
 

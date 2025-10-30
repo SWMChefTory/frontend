@@ -152,7 +152,7 @@ function isNotUserError(error: any) {
 }
 
 function useLoginWithApple() {
-  const { login, isLoading, error } = useLoginViewModel();
+  const { login, isLoading } = useLoginViewModel();
   const { openModal } = useSignupModalStore();
 
   async function handleSignInApple() {
@@ -195,14 +195,13 @@ function useLoginWithApple() {
         if (isNotUserError(err) && appleAuthRequestResponse.identityToken) {
           openModal({
             idToken: appleAuthRequestResponse.identityToken,
-            provider: OauthProvider.GOOGLE,
+            provider: OauthProvider.APPLE,
           });
           return;
         }
       }
       return;
     }
-
     Alert.alert("오류", "Apple 로그인에 실패했습니다.");
   }
 
