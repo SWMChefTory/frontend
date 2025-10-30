@@ -22,7 +22,7 @@ export const enrollPath = (newPath: string) => {
 };
 
 export function getWebViewUrl(): string {
-  // return (WEBVIEW_CONFIG.BASE_URL || "");
+  return (WEBVIEW_CONFIG.BASE_URL || "");
   // return "http://localhost:3000";
-  return "https://webview-v2-git-feature-tory-325-front-faa4fa-cheftorys-projects.vercel.app";
+  // return "https://webview-v2-git-feature-tory-325-front-faa4fa-cheftorys-projects.vercel.app";
 }
