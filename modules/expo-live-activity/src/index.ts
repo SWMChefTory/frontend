@@ -1,14 +1,12 @@
 import { requireNativeModule } from "expo-modules-core";
 import { Platform } from "react-native";
 
-
 type LiveActivityPayload = {
   startedAt: number | null;
   pausedAt: number | null;
   duration: number;
   remainingTime: number;
 };
-
 
 type ExpoLiveActivityModule = {
   isLiveActivityAvailable: () => boolean;
@@ -34,7 +32,7 @@ if (Platform.OS === "ios") {
 
 export type TimerState = "active" | "paused" | "finished";
 
-export function isLiveActivityAvailable(): boolean {  
+export function isLiveActivityAvailable(): boolean {
   if (!ExpoLiveActivity) return false;
 
   try {

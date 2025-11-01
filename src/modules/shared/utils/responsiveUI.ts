@@ -17,16 +17,16 @@ export function responsiveHeight(baseDesignElementSize: number): number {
   return baseDesignElementSize * screenRatio;
 }
 
-export function responsiveFontSize(baseDesignElementSize: number): number {  
+export function responsiveFontSize(baseDesignElementSize: number): number {
   const screenRatio = width / baseDesignScreenSize;
-  
-  let calculatedSize = baseDesignElementSize * screenRatio  ;
-  
-  if (Platform.OS === 'android') {
+
+  let calculatedSize = baseDesignElementSize * screenRatio;
+
+  if (Platform.OS === "android") {
     calculatedSize *= 0.8;
-  } else if (Platform.OS === 'ios') {
+  } else if (Platform.OS === "ios") {
     calculatedSize *= 0.9;
   }
-  
+
   return calculatedSize;
 }

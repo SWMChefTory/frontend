@@ -1,7 +1,7 @@
 import * as AppleAuthentication from "expo-apple-authentication";
 import { useLoginViewModel } from "@/src/modules/user/business/service/useAuthService";
 import { OauthProvider } from "@/src/modules/user/enums/OauthProvider";
-import { Alert, Image, Text, TouchableOpacity } from "react-native";
+import { Alert } from "react-native";
 import { FullScreenLoader } from "@/src/modules/shared/splash/loading/lottieview/FullScreenLoader";
 import LoginButtonTemplate from "../../login/LoginButtonTemplate";
 import {

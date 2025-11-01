@@ -9,7 +9,7 @@ interface RawReissueTokenRequest {
 }
 
 export async function reissueRefreshToken(
-  refreshToken: string
+  refreshToken: string,
 ): Promise<ReissueTokenResponse> {
   const rawRefreshTokenRequest: RawReissueTokenRequest = {
     refresh_token: refreshToken,

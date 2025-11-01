@@ -48,9 +48,9 @@ export default function WebViewScreen() {
   }, []);
 
   return (
-      <View style={{ flex: 1, backgroundColor: "white" }}>
-        <Stack.Screen options={{ headerShown: false }} />
-        <RecipeWebView />
-      </View>
+    <View style={{ flex: 1, backgroundColor: "white" }}>
+      <Stack.Screen options={{ headerShown: false }} />
+      <RecipeWebView />
+    </View>
   );
 }

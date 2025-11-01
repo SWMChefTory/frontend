@@ -13,15 +13,9 @@ import {
   storeAuthToken,
 } from "@/src/modules/shared/storage/SecureStorage";
 import { LoginInfo, SignupData } from "@/src/modules/shared/types/auth";
-import { AxiosError } from "axios";
-import { Alert } from "react-native";
-import { useRouter } from "expo-router";
 import { User } from "@/src/modules/user/business/viewmodel/user";
 import { DateOnly } from "@/src/modules/shared/utils/dateOnly";
-import * as Sentry from '@sentry/react-native'; 
 import { useSignupModalStore } from "@/src/pages/login/ui/button";
-
-
 
 export function useLoginViewModel() {
   const { setUser } = useUserStore();
@@ -35,7 +29,9 @@ export function useLoginViewModel() {
       const user = User.create({
         gender: data.user_info.gender,
         nickname: data.user_info.nickname,
-        dateOfBirth: data.user_info.date_of_birth ? DateOnly.create(data.user_info.date_of_birth) : null,
+        dateOfBirth: data.user_info.date_of_birth
+          ? DateOnly.create(data.user_info.date_of_birth)
+          : null,
         isMarketingAgreed: data.user_info.is_marketing_agreed,
         isPrivacyAgreed: data.user_info.is_privacy_agreed,
         isTermsOfUseAgreed: data.user_info.is_terms_of_use_agreed,
@@ -49,9 +45,7 @@ export function useLoginViewModel() {
     onSuccess: (data) => {
       console.log("login success", data);
       console.log("user", JSON.stringify(data.user));
-      setUser(
-        data.user
-      );
+      setUser(data.user);
       storeAuthToken(data.access_token, data.refresh_token);
     },
     throwOnError: false,
@@ -77,7 +71,9 @@ export function useSignupViewModel() {
         User.create({
           gender: data.user_info.gender,
           nickname: data.user_info.nickname,
-          dateOfBirth: data.user_info.date_of_birth ? DateOnly.create(data.user_info.date_of_birth) : null,
+          dateOfBirth: data.user_info.date_of_birth
+            ? DateOnly.create(data.user_info.date_of_birth)
+            : null,
           isMarketingAgreed: data.user_info.is_marketing_agreed,
           isPrivacyAgreed: data.user_info.is_privacy_agreed,
           isTermsOfUseAgreed: data.user_info.is_terms_of_use_agreed,
@@ -119,7 +115,11 @@ export function useLogoutViewModel() {
 export function useDeleteUserViewModel() {
   const { removeUser } = useUserStore();
 
-  const { mutate: deleteUser, isPending: isLoading, error } = useMutation({
+  const {
+    mutate: deleteUser,
+    isPending: isLoading,
+    error,
+  } = useMutation({
     mutationFn: async () => {
       const refreshToken = findRefreshToken();
       if (refreshToken) {

@@ -1,15 +1,15 @@
 import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
-import { Image } from "expo-image";
-import { ImageSource } from "expo-image";
-import { responsiveHeight } from "@/src/modules/shared/utils/responsiveUI";
-import { responsiveWidth } from "@/src/modules/shared/utils/responsiveUI";
-import { responsiveFontSize } from "@/src/modules/shared/utils/responsiveUI";
+import { Image, ImageSource } from "expo-image";
+import {
+  responsiveHeight,
+  responsiveWidth,
+  responsiveFontSize,
+} from "@/src/modules/shared/utils/responsiveUI";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 import { SHADOW } from "@/src/modules/shared/constants/shadow";
 import { useLoginViewModel } from "@/src/modules/user/business/service/useAuthService";
 import * as AppleAuthentication from "expo-apple-authentication";
 import { OauthProvider } from "@/src/modules/user/enums/OauthProvider";
-import { FullScreenLoader } from "@/src/modules/shared/splash/loading/lottieview/FullScreenLoader";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { AxiosError } from "axios";
 import { create } from "zustand";
@@ -48,7 +48,7 @@ export function GoogleLoginButton() {
 }
 
 export function AppleLoginButton() {
-  const { handleSignInApple, isLoading } = useLoginWithApple();
+  const { handleSignInApple } = useLoginWithApple();
   const description = "Apple로 시작하기";
 
   return (
@@ -175,7 +175,7 @@ function useLoginWithApple() {
     }
 
     const credentialState = await AppleAuthentication.getCredentialStateAsync(
-      appleAuthRequestResponse.user
+      appleAuthRequestResponse.user,
     );
     // use credentialState response to ensure the user is authenticated
     if (

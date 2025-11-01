@@ -8,20 +8,18 @@ import {
 } from "@tanstack/react-query";
 import { Stack } from "expo-router";
 import * as ExpoSplashScreen from "expo-splash-screen";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { GlobalErrorBoundary } from "../modules/shared/components/error/GlobalErrorBoundary";
 import { SplashScreenController } from "../modules/shared/splash/SplashScreenController";
 import { useEffect } from "react";
 import { useAuthBootstrap } from "../modules/user/authBootstrap";
 
 import * as Network from "expo-network";
-import { AppState, AppStateStatus, Platform, View } from "react-native";
+import { AppState, AppStateStatus, Platform } from "react-native";
 import {
   MD3LightTheme as DefaultTheme,
   PaperProvider,
   useTheme,
 } from "react-native-paper";
-
 
 import * as Notifications from "expo-notifications";
 import { useNotificationObserver } from "@/src/pages/webview/timer/notifications/useNotificationObserver";
@@ -29,9 +27,7 @@ import {
   initialWindowMetrics,
   SafeAreaProvider,
 } from "react-native-safe-area-context";
-import { checkAndApplyUpdates } from "../modules/shared/utils/codepush";
 import * as ScreenOrientation from "expo-screen-orientation";
-import { useWebViewStore } from "@/src/shared/webview/isLoadedStore";
 
 ExpoSplashScreen.preventAutoHideAsync();
 
@@ -87,20 +83,7 @@ function RootNavigator() {
   const { isLoggedIn } = useAuthBootstrap();
   const theme = useTheme();
 
-  //TODO: 왜 있는거?
-  // const { isWebviewLoaded } = useWebViewStore();
-
-  //TODO: 업데이트 체크 로직 추가
-  // useEffect(() => {
-  //   if (loading ) {
-  //     if(!isLoggedIn || isWebviewLoaded){
-  //       checkAndApplyUpdates();
-  //     }
-  //   }
-  // }, []);
-
-  console.log("isLoggedIn!!!!!",isLoggedIn);
-
+  console.log("isLoggedIn!!!!!", isLoggedIn);
 
   return (
     <Stack
@@ -116,7 +99,7 @@ function RootNavigator() {
       }}
     >
       <Stack.Protected guard={isLoggedIn}>
-        <Stack.Screen name="(app)" options={{ headerShown: false }}/>
+        <Stack.Screen name="(app)" options={{ headerShown: false }} />
       </Stack.Protected>
 
       <Stack.Protected guard={!isLoggedIn}>
@@ -176,33 +159,33 @@ export default function RootLayout() {
 
   useAppState(onAppStateChange);
   useNotificationObserver();
-  
+
   useOnlineManager();
 
   useAppState(onAppStateChange);
 
-  useEffect(() =>  {
+  useEffect(() => {
     async function changeScreenOrientation() {
-      await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
+      await ScreenOrientation.lockAsync(
+        ScreenOrientation.OrientationLock.PORTRAIT_UP,
+      );
     }
     changeScreenOrientation();
   }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <SafeAreaProvider initialMetrics={initialWindowMetrics}>
-          <PaperProvider theme={theme}>
-            <BottomSheetModalProvider>
-              <GlobalErrorBoundary>
-                <SplashScreenController>
-                  <RootNavigator />
-                </SplashScreenController>
-              </GlobalErrorBoundary>
-            </BottomSheetModalProvider>
-          </PaperProvider>
-        </SafeAreaProvider>
-      </GestureHandlerRootView>
+      <SafeAreaProvider initialMetrics={initialWindowMetrics}>
+        <PaperProvider theme={theme}>
+          <BottomSheetModalProvider>
+            <GlobalErrorBoundary>
+              <SplashScreenController>
+                <RootNavigator />
+              </SplashScreenController>
+            </GlobalErrorBoundary>
+          </BottomSheetModalProvider>
+        </PaperProvider>
+      </SafeAreaProvider>
     </QueryClientProvider>
   );
 }

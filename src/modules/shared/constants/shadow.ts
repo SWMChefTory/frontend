@@ -20,11 +20,11 @@ export const SHADOW = {
 export const SKELETON_SHADOW = {
   ...(Platform.OS === "ios"
     ? {
-      shadowColor: COLORS.shadow.orange,
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.1,
-      shadowRadius: 6,
-      elevation: 4,
+        shadowColor: COLORS.shadow.orange,
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 6,
+        elevation: 4,
       }
     : {
         borderWidth: 2,

@@ -9,22 +9,24 @@ import {
   responsiveHeight,
   responsiveFontSize,
 } from "@/src/modules/shared/utils/responsiveUI";
+import { useEffect } from "react";
+import { client } from "@/src/modules/shared/api/client";
 
 Image.prefetch("@/assets/images/mainCharacter.png", "disk");
 Image.prefetch("@/assets/images/voiceNear.png", "disk");
 Image.prefetch("@/assets/images/voiceFar.png", "disk");
 Image.prefetch("@/assets/images/mainText.png", "disk");
 
-import { useEffect } from "react";
-import { client } from "@/src/modules/shared/api/client";
-
 export default function LoginPage({ isReal }: { isReal: boolean }) {
   useEffect(() => {
-    client.get("/server-message").then((res) => {
-      Alert.alert(res.data.message);
-    }).catch((err) => {
-      // nothing
-    });
+    client
+      .get("/server-message")
+      .then((res) => {
+        Alert.alert(res.data.message);
+      })
+      .catch((err) => {
+        // nothing
+      });
   }, []);
 
   const banner = (
