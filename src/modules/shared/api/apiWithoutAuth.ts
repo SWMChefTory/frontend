@@ -16,7 +16,7 @@ export interface RawAuthorizationTokenResponse {
 }
 
 interface RawUserResponse {
-  gender: Gender|null;
+  gender: Gender | null;
   nickname: string;
   date_of_birth: string | null;
   terms_of_use_agreed_at: DateOnly | null;
@@ -24,27 +24,35 @@ interface RawUserResponse {
   marketing_agreed_at: DateOnly | null;
 }
 
-function fromRaw(rawAuthorizationTokenResponse: RawAuthorizationTokenResponse): AuthorizationTokenResponse {
+function fromRaw(
+  rawAuthorizationTokenResponse: RawAuthorizationTokenResponse,
+): AuthorizationTokenResponse {
   return {
     access_token: rawAuthorizationTokenResponse.access_token,
     refresh_token: rawAuthorizationTokenResponse.refresh_token,
-    user_info: convertRawUserResponseToUserResponse(rawAuthorizationTokenResponse.user_info),
+    user_info: convertRawUserResponseToUserResponse(
+      rawAuthorizationTokenResponse.user_info,
+    ),
   };
 }
 
-function convertRawUserResponseToUserResponse(rawUserResponse: RawUserResponse): UserResponse {
+function convertRawUserResponseToUserResponse(
+  rawUserResponse: RawUserResponse,
+): UserResponse {
   return {
     gender: rawUserResponse.gender,
     nickname: rawUserResponse.nickname,
     date_of_birth: rawUserResponse.date_of_birth,
     is_marketing_agreed: rawUserResponse.marketing_agreed_at ? true : false,
     is_privacy_agreed: rawUserResponse.privacy_agreed_at ? true : false,
-    is_terms_of_use_agreed: rawUserResponse.terms_of_use_agreed_at ? true : false,
+    is_terms_of_use_agreed: rawUserResponse.terms_of_use_agreed_at
+      ? true
+      : false,
   };
 }
 
 export interface UserResponse {
-  gender: Gender|null;
+  gender: Gender | null;
   nickname: string;
   date_of_birth: string | null;
   is_marketing_agreed: boolean;
@@ -107,7 +115,7 @@ export async function signupUser(
     is_privacy_agreed: signupData.is_privacy_agreed,
     is_terms_of_use_agreed: signupData.is_terms_of_use_agreed,
   };
-  if (!signupData.is_privacy_agreed|| !signupData.is_terms_of_use_agreed) {
+  if (!signupData.is_privacy_agreed || !signupData.is_terms_of_use_agreed) {
     throw new Error("Privacy and terms of use must be agreed");
   }
   const response = await clientWithoutAuth.post(
@@ -122,12 +130,9 @@ export async function deleteAccount(refreshToken: string): Promise<void> {
   const deleteAccountRequest: DeleteAccountRequest = {
     refresh_token: refreshToken,
   };
-  const response = await clientWithoutAuth.delete(
-    "/account",
-    {
-      data : deleteAccountRequest
-    }
-  );
+  const response = await clientWithoutAuth.delete("/account", {
+    data: deleteAccountRequest,
+  });
   return response.data;
 }
 

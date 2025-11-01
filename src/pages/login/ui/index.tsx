@@ -1,5 +1,9 @@
 import { View, Text, StyleSheet, Alert } from "react-native";
-import { GoogleLoginButton, AppleLoginButton, useSignupModalStore } from "@/src/pages/login/ui/button";
+import {
+  GoogleLoginButton,
+  AppleLoginButton,
+  TermsAndConditionsModal,
+} from "@/src/pages/login/ui/button";
 import { Image } from "expo-image";
 import { COLORS } from "@/src/modules/shared/constants/colors";
 import logoStyle from "@/src/modules/shared/splash/logo/style/logostyle";
@@ -8,25 +12,25 @@ import {
   responsiveHeight,
   responsiveFontSize,
 } from "@/src/modules/shared/utils/responsiveUI";
-import {TermsAndConditionsModal} from "@/src/pages/login/ui/button";
-// import { useSignupModalStore } from "@/src/pages/login/store/signupModalStore";
+
+import { useEffect } from "react";
+import { client } from "@/src/modules/shared/api/client";
 
 Image.prefetch("@/assets/images/mainCharacter.png", "disk");
 Image.prefetch("@/assets/images/voiceNear.png", "disk");
 Image.prefetch("@/assets/images/voiceFar.png", "disk");
 Image.prefetch("@/assets/images/mainText.png", "disk");
 
-import { useEffect } from "react";
-import { client } from "@/src/modules/shared/api/client";
-import TermsAndConditionsModalContent from "./TermsAndConditionsModalContent";
-
 export function LoginPage() {
   useEffect(() => {
-    client.get("/server-message").then((res) => {
-      Alert.alert(res.data.message);
-    }).catch((err) => {
-      // nothing
-    });
+    client
+      .get("/server-message")
+      .then((res) => {
+        Alert.alert(res.data.message);
+      })
+      .catch((err) => {
+        // nothing
+      });
   }, []);
 
   const banner = (
@@ -65,9 +69,9 @@ export function LoginPage() {
           </Text>
         </View>
         <View style={styles.buttonCotainer}>
-          <GoogleLoginButton/>
+          <GoogleLoginButton />
         </View>
-        <AppleLoginButton/>
+        <AppleLoginButton />
       </View>
       <TermsAndConditionsModal />
     </View>

@@ -44,7 +44,9 @@ function generateKoreanNickname() {
 }
 
 export default function useNickname() {
-  const [nickname, setNickname] = useState<string>(()=>generateKoreanNickname());
+  const [nickname, setNickname] = useState<string>(() =>
+    generateKoreanNickname(),
+  );
 
   return { nickname, setNickname };
 }

@@ -6,7 +6,7 @@ import { useState } from "react";
 import SquareButton from "@/src/shared/components/textInputs/SquareButtonTemplate";
 import { useSignupModalStore } from "@/src/pages/login/ui/button";
 import { useSignupViewModel } from "@/src/modules/user/business/service/useAuthService";
-import  useRandomName  from "@/src/pages/login/model/useRandomName";
+import useRandomName from "@/src/pages/login/model/useRandomName";
 
 export interface AgreeValue {
   isServiceAgree: boolean;
@@ -39,7 +39,13 @@ export default function TermsAndConditionsModalContent() {
   const isMarketingAgree = agreeValue.isMarketingAgree;
 
   const handleSignupPress = () => {
-    if (!idToken || !provider || !nickname || !isPrivacyAgree || !isServiceAgree) {
+    if (
+      !idToken ||
+      !provider ||
+      !nickname ||
+      !isPrivacyAgree ||
+      !isServiceAgree
+    ) {
       return;
     }
     signup({
@@ -95,8 +101,6 @@ export default function TermsAndConditionsModalContent() {
         </TouchableOpacity>
       </View>
       <View style={{ height: 16 }} />
-      {/* <View style = {{backgroundColor: "grey", height: 1, width: "88%"}}></View> */}
-      {/* <View style ={{ height:15 }}/> */}
       <View style={styles.detailContainer}>
         <TouchableOpacity
           style={styles.detailLeftContainer}

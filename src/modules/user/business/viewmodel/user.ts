@@ -5,12 +5,19 @@ import { userSchema } from "@/src/modules/user/business/validation/userSchema";
 export class User {
   readonly gender: Gender | null;
   readonly nickname: string;
-  readonly dateOfBirth: DateOnly| null;
+  readonly dateOfBirth: DateOnly | null;
   readonly isMarketingAgreed: boolean;
   readonly isPrivacyAgreed: boolean;
   readonly isTermsOfUseAgreed: boolean;
 
-  private constructor(gender: Gender | null, nickname: string, dateOfBirth: DateOnly | null, isMarketingAgreed: boolean, isPrivacyAgreed: boolean, isTermsOfUseAgreed: boolean) {
+  private constructor(
+    gender: Gender | null,
+    nickname: string,
+    dateOfBirth: DateOnly | null,
+    isMarketingAgreed: boolean,
+    isPrivacyAgreed: boolean,
+    isTermsOfUseAgreed: boolean,
+  ) {
     this.gender = gender;
     this.nickname = nickname;
     this.dateOfBirth = dateOfBirth;
@@ -45,38 +52,5 @@ export class User {
       validatedData.isPrivacyAgreed,
       validatedData.isTermsOfUseAgreed,
     );
-  }
-
-  withNickname(nickname: string): User {
-    return User.create({
-      gender: this.gender,
-      nickname,
-      dateOfBirth: this.dateOfBirth,
-      isMarketingAgreed: this.isMarketingAgreed,
-      isPrivacyAgreed: this.isPrivacyAgreed,
-      isTermsOfUseAgreed: this.isTermsOfUseAgreed,
-    });
-  }
-
-  withDateOfBirth(dateOfBirth: DateOnly|null): User {
-    return User.create({
-      gender: this.gender,
-      nickname: this.nickname,
-      dateOfBirth,
-      isMarketingAgreed: this.isMarketingAgreed,
-      isPrivacyAgreed: this.isPrivacyAgreed,
-      isTermsOfUseAgreed: this.isTermsOfUseAgreed,
-    });
-  }
-
-  withGender(gender: Gender|null): User {
-    return User.create({
-      gender,
-      nickname: this.nickname,
-      dateOfBirth: this.dateOfBirth,
-      isMarketingAgreed: this.isMarketingAgreed,
-      isPrivacyAgreed: this.isPrivacyAgreed,
-      isTermsOfUseAgreed: this.isTermsOfUseAgreed,
-    });
   }
 }

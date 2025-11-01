@@ -61,8 +61,8 @@ export function RecipeWebViewContent() {
   const handleError = useCallback((error: any) => {
     setError(
       new Error(
-        `WebView 에러: ${error.nativeEvent?.description || "Unknown error"}`
-      )
+        `WebView 에러: ${error.nativeEvent?.description || "Unknown error"}`,
+      ),
     );
   }, []);
 
@@ -74,9 +74,19 @@ export function RecipeWebViewContent() {
 
   return (
     <View style={{ flex: 1 }}>
-      <View style={{ height: safeArea.top.isEixsts ? insets.top : 0, backgroundColor: safeArea.top.color }} />
+      <View
+        style={{
+          height: safeArea.top.isEixsts ? insets.top : 0,
+          backgroundColor: safeArea.top.color,
+        }}
+      />
       <View style={{ flex: 1, flexDirection: "row" }}>
-        <View style={{ width: safeArea.left.isEixsts ? insets.left : 0,backgroundColor: safeArea.left.color }} />
+        <View
+          style={{
+            width: safeArea.left.isEixsts ? insets.left : 0,
+            backgroundColor: safeArea.left.color,
+          }}
+        />
         <Animated.View style={[animatedStyle, { flex: 1 }]}>
           <WebView
             injectedJavaScript={`
@@ -108,6 +118,7 @@ export function RecipeWebViewContent() {
             startInLoadingState={false}
             cacheEnabled={true}
             {...(Platform.OS === "ios" && {
+              hideKeyboardAccessoryView: true,
               allowsLinkPreview: false,
               bounces: false,
               showsHorizontalScrollIndicator: false,
@@ -124,9 +135,19 @@ export function RecipeWebViewContent() {
           />
           {isLoading && <WebviewLoadingView />}
         </Animated.View>
-        <View style={{ width: safeArea.right.isEixsts ? insets.right : 0,backgroundColor: safeArea.right.color }} />
+        <View
+          style={{
+            width: safeArea.right.isEixsts ? insets.right : 0,
+            backgroundColor: safeArea.right.color,
+          }}
+        />
       </View>
-      <View style={{ height: safeArea.bottom.isEixsts ? insets.bottom : 0,backgroundColor: safeArea.bottom.color }} />
+      <View
+        style={{
+          height: safeArea.bottom.isEixsts ? insets.bottom : 0,
+          backgroundColor: safeArea.bottom.color,
+        }}
+      />
     </View>
   );
   // Android 하드웨어 뒤로가기 버튼 처리: 웹뷰로 BACK_PRESSED 전송

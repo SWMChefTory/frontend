@@ -1,6 +1,5 @@
-import { View, StyleSheet, Dimensions, Modal } from "react-native";
+import { View, StyleSheet, Dimensions } from "react-native";
 import LottieView from "lottie-react-native";
-import { useEffect } from "react";
 
 export const FullScreenLoader = () => {
   return (

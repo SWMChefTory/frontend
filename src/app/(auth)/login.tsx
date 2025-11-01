@@ -8,7 +8,5 @@ export default function LoginScreen() {
   }, []);
 
   console.log("LoginScreen!!!!");
-  return (
-    <LoginPage />
-  );
+  return <LoginPage />;
 }

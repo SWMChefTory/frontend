@@ -9,8 +9,12 @@ const useGradualAnimation = () => {
         "worklet";
         height.value = Math.max(event.height, 0);
       },
+      onEnd: (event) => {
+        "worklet";
+        height.value = event.height;
+      },
     },
-    []
+    [],
   );
   return {
     height,
@@ -19,6 +23,7 @@ const useGradualAnimation = () => {
 
 export const useKeyboardAvoidingAnimation = () => {
   const { height: keyboardHeight } = useGradualAnimation();
+  console.log("useKeyboardAvoidingAnimation", keyboardHeight);
   const animatedStyle = useAnimatedStyle(() => {
     return {
       paddingBottom: keyboardHeight.value,

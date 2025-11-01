@@ -2,7 +2,7 @@ export default {
   expo: {
     name: "쉐프토리",
     slug: "cheftory",
-    version: "1.0.3",
+    version: "1.0.8",
     orientation: "portrait",
     icon: "./assets/images/mainCharacter.png",
     scheme: "cheftory",
@@ -26,7 +26,7 @@ export default {
       infoPlist: {
         CFBundleDevelopmentRegion: "ko",
         ITSAppUsesNonExemptEncryption: false,
-        UIBackgroundModes: ["fetch", "remote-notification", "audio"],
+        UIBackgroundModes: ["fetch", "remote-notification"],
         NSUserNotificationUsageDescription:
           "타이머 종료 시 알림을 보내기 위해 필요합니다.",
         NSSupportsLiveActivities: true,
@@ -81,6 +81,7 @@ export default {
         "expo-splash-screen",
         {
           image: "./assets/images/splashLogo.png",
+          resizeMode: "contain",
           backgroundColor: "#FFF5F0",
         },
       ],

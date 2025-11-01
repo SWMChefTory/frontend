@@ -1,6 +1,5 @@
 import * as Linking from "expo-linking";
 import { reserveMessage, sendMessage } from "@/src/shared/webview/sendMessage";
-import { enrollPath } from "../pages/webview/WebViewConfig";
 
 export function redirectSystemPath({
   path,
@@ -9,7 +8,6 @@ export function redirectSystemPath({
   path: string;
   initial: boolean;
 }) {
-  // console.log("redirectSystemPath", path); TODO
   try {
     handleExternalDeepLink(path, initial);
     if (initial) {
@@ -42,31 +40,37 @@ const handleExternalDeepLink = (url: string, initial: boolean) => {
 
   if (!parsedUrl.hostname) {
     if (queryParams?.["video-id"]) {
-      if(!initial){
+      if (!initial) {
         //TODO : 서버에는 주석이 많으면 좋은데, 배포할 때는 주석 없애주는 프로그램 사용하기
         sendMessage({
           type: "OPEN_CREATING_VIEW",
-          data: { videoUrl: "https://www.youtube.com/watch?v=" + queryParams?.["video-id"] },
+          data: {
+            videoUrl:
+              "https://www.youtube.com/watch?v=" + queryParams?.["video-id"],
+          },
         });
         return;
       }
       reserveMessage({
         type: "OPEN_CREATING_VIEW",
-        data: { videoUrl: "https://www.youtube.com/watch?v=" + queryParams?.["video-id"] },
+        data: {
+          videoUrl:
+            "https://www.youtube.com/watch?v=" + queryParams?.["video-id"],
+        },
       });
       return;
     }
-    if(queryParams?.["recipeId"]){
-      if(!initial){
+    if (queryParams?.["recipeId"]) {
+      if (!initial) {
         sendMessage({
           type: "ROUTE",
-          data: { route: "/recipe/" + queryParams?.["recipeId"]+"/detail" },
+          data: { route: "/recipe/" + queryParams?.["recipeId"] + "/detail" },
         });
         return;
       }
       reserveMessage({
         type: "ROUTE",
-        data: { route: "/recipe/" + queryParams?.["recipeId"]+"/detail" },
+        data: { route: "/recipe/" + queryParams?.["recipeId"] + "/detail" },
       });
     }
   }

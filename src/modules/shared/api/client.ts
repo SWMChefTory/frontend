@@ -7,7 +7,6 @@ import {
   storeRefreshToken,
 } from "@/src/modules/shared/storage/SecureStorage";
 import { reissueRefreshToken } from "@/src/modules/shared/api/refresh/reissueApi";
-// import 
 
 declare module "axios" {
   export interface AxiosRequestConfig {
@@ -24,7 +23,6 @@ const client = axios.create({
 class TokenRefreshManager {
   private refreshPromise: Promise<string> | null = null;
   private isRefreshing = false;
-
 
   //토큰 재발급
   async refreshToken(): Promise<string> {
@@ -48,10 +46,13 @@ class TokenRefreshManager {
   private async executeRefresh(): Promise<string> {
     try {
       const refreshToken = findRefreshToken();
-      console.log("token을 갱신하기 위해 refreshToken을 가져옵니다.", refreshToken);
+      console.log(
+        "token을 갱신하기 위해 refreshToken을 가져옵니다.",
+        refreshToken,
+      );
       if (!refreshToken) {
         throw new Error("No refresh token");
-      };
+      }
 
       const response = await reissueRefreshToken(refreshToken);
       await storeAccessToken(response.access_token);
@@ -60,7 +61,7 @@ class TokenRefreshManager {
     } catch (error) {
       await removeAuthToken();
       throw error;
-    } 
+    }
   }
 }
 
@@ -68,7 +69,7 @@ const tokenRefreshManager = new TokenRefreshManager();
 
 function isNetworkError(error: unknown): boolean {
   return isAxiosError(error) && !error.response && Boolean(error.request);
-} 
+}
 
 client.interceptors.request.use(
   async (config) => {

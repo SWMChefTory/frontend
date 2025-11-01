@@ -1,25 +1,24 @@
 import { Dimensions, Image, StyleSheet } from "react-native";
 
-const src = Image.resolveAssetSource(require("@/assets/images/mainCharacter.png"));
+const src = Image.resolveAssetSource(
+  require("@/assets/images/mainCharacter.png"),
+);
 const { height, width } = Dimensions.get("window");
 
 const LOGO_W = 180; // 스플래시와 동일
 const LOGO_H = LOGO_W * (src.height / src.width);
 
-
-
 // 로그인 단계에서 위로 올릴 거리
 const HEIGHT_DIFF = -60;
 
 // 📌 로고(앵커) 위치: 세로 40% 지점 + 가로 중앙
-const logoMainTop = (height- LOGO_H) / 2;
+const logoMainTop = (height - LOGO_H) / 2;
 const logoMainLeft = (width - LOGO_W) / 2;
-
 
 const OFFSETS = {
   voiceNear: { dx: 160, dy: 30 },
-  voiceFar:  { dx: 170, dy: 50 },
-  cheftory:  { dx: 0, dy: 160 },
+  voiceFar: { dx: 170, dy: 50 },
+  cheftory: { dx: 0, dy: 160 },
 };
 
 const styles = StyleSheet.create({

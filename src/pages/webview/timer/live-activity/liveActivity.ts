@@ -31,7 +31,7 @@ const liveActivityStore = create<LiveActivityStore>()(
             ...get()
               .timerIdActivityIdMap.entries()
               .filter(([timerId, activityId]) =>
-                validTimerIds.includes(timerId)
+                validTimerIds.includes(timerId),
               ),
           ]),
         });
@@ -56,14 +56,14 @@ const liveActivityStore = create<LiveActivityStore>()(
       onRehydrateStorage: () => (state) => {
         if (state && Array.isArray(state.timerIdActivityIdMap)) {
           state.timerIdActivityIdMap = new Map(
-            state.timerIdActivityIdMap as [string, string][]
+            state.timerIdActivityIdMap as [string, string][],
           );
         } else {
           console.log("복구 실패");
         }
       },
-    }
-  )
+    },
+  ),
 );
 
 const isIOS = Platform.OS === "ios";
@@ -93,7 +93,7 @@ const startActivity = async (opts: {
   const id = await liveActivities.startLiveActivity(
     opts.activityName,
     duration,
-    deepLinkUrl
+    deepLinkUrl,
   );
   if (id) liveActivityStore.getState().addLiveActivityId(opts.timerId, id);
   return id;
@@ -114,7 +114,7 @@ const pauseActivity = async (payload: {
   await liveActivities.pauseLiveActivity(liveActivityId);
   return await liveActivities.updateLiveActivityPayload(
     liveActivityId,
-    payload
+    payload,
   );
 };
 

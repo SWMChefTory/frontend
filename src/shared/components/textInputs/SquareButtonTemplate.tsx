@@ -3,7 +3,7 @@ import { Button, useTheme } from "react-native-paper";
 export default function SquareButton({
   label,
   onPress,
-  disabled=false,
+  disabled = false,
 }: {
   label: string;
   onPress: () => void; //버튼을 눌렀을 때
@@ -16,9 +16,9 @@ export default function SquareButton({
       style={{
         height: 48,
         borderRadius: 4,
-        backgroundColor: disabled 
-      ? theme.colors.surfaceDisabled 
-      : theme.colors.primary,
+        backgroundColor: disabled
+          ? theme.colors.surfaceDisabled
+          : theme.colors.primary,
       }}
       contentStyle={{
         height: 48,

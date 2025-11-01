@@ -10,7 +10,7 @@ type Props = {
 export default function OnlyBackHeader({ title }: Props) {
   const insets = useSafeAreaInsets();
   return (
-    <View style={[styles.container,{ paddingTop: insets.top }]}>
+    <View style={[styles.container, { paddingTop: insets.top }]}>
       <View style={styles.headerContent}>
         <View style={styles.leftSection}>
           <CustomBackButton />
@@ -18,8 +18,7 @@ export default function OnlyBackHeader({ title }: Props) {
         <View style={styles.centerSection}>
           <Text style={styles.title}>{title}</Text>
         </View>
-        <View style={styles.rightSection}>
-        </View>
+        <View style={styles.rightSection}></View>
       </View>
     </View>
   );

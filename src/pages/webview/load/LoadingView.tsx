@@ -1,10 +1,10 @@
-import { View,  Modal } from "react-native";
+import { View, Modal } from "react-native";
 import LottieView from "lottie-react-native";
 
 export const WebviewLoadingView = () => {
   return (
     <Modal visible transparent animationType="none">
-      <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <LottieView
           style={{
             width: 140,
