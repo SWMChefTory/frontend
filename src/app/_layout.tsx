@@ -28,6 +28,7 @@ import {
   SafeAreaProvider,
 } from "react-native-safe-area-context";
 import * as ScreenOrientation from "expo-screen-orientation";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 ExpoSplashScreen.preventAutoHideAsync();
 
@@ -174,18 +175,20 @@ export default function RootLayout() {
   }, []);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <SafeAreaProvider initialMetrics={initialWindowMetrics}>
-        <PaperProvider theme={theme}>
-          <BottomSheetModalProvider>
-            <GlobalErrorBoundary>
-              <SplashScreenController>
-                <RootNavigator />
-              </SplashScreenController>
-            </GlobalErrorBoundary>
-          </BottomSheetModalProvider>
-        </PaperProvider>
-      </SafeAreaProvider>
-    </QueryClientProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <QueryClientProvider client={queryClient}>
+        <SafeAreaProvider initialMetrics={initialWindowMetrics}>
+          <PaperProvider theme={theme}>
+            <BottomSheetModalProvider>
+              <GlobalErrorBoundary>
+                <SplashScreenController>
+                  <RootNavigator />
+                </SplashScreenController>
+              </GlobalErrorBoundary>
+            </BottomSheetModalProvider>
+          </PaperProvider>
+        </SafeAreaProvider>
+      </QueryClientProvider>
+    </GestureHandlerRootView>
   );
 }
