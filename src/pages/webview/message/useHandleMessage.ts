@@ -17,11 +17,10 @@ import {
 } from "@/src/pages/webview/timer/live-activity/liveActivity";
 import { useUserStore } from "@/src/modules/user/business/store/userStore";
 import { Alert, Linking, Platform } from "react-native";
-import { useLoadStore } from "@/src/pages/webview/load/loadStore";
+import { useLoadStore } from "../load/loadStore";
 import { comsumeReservedMessage } from "@/src/shared/webview/sendMessage";
 import * as ScreenOrientation from "expo-screen-orientation";
 import { SafeArea } from "../RecipeWebView";
-
 //webview입장에서 요청
 type RequestMsgBlockingFromWebView = {
   intended: true;
@@ -81,6 +80,7 @@ enum payloadType {
   UNLOCK_ORIENTATION = "UNLOCK_ORIENTATION",
   OPEN_YOUTUBE = "OPEN_YOUTUBE",
   SAFE_AREA = "SAFE_AREA",
+  SYSTEM_VOLUME = "SYSTEM_VOLUME",
 }
 
 class InvalidJsonError extends Error {
