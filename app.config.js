@@ -64,7 +64,7 @@ export default {
       ],
       adaptiveIcon: {
         foregroundImage: "./assets/images/adaptive-icon-foreground.png",
-        backgroundColor: "#FFF5F0",
+        backgroundColor: "#FFFFFF",
       },
       edgeToEdgeEnabled: true,
       package: "com.cheftory.cheftory",
