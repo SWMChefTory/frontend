@@ -291,10 +291,11 @@ export function TermsAndConditionsModal() {
     <BottomSheetModal
       ref={bottomSheetModalRef}
       backdropComponent={renderBackdrop}
-      snapPoints={["50%"]}
+      keyboardBehavior="extend"
+      // snapPoints={["70%"]}
       enableHandlePanningGesture={false}
       enableContentPanningGesture={false}
-      enableDynamicSizing={false}
+      enableDynamicSizing={true}
       animateOnMount={false}
     >
       <TermsAndConditionsModalContent />

@@ -7,6 +7,7 @@ import SquareButton from "@/src/shared/components/textInputs/SquareButtonTemplat
 import { useSignupModalStore } from "@/src/pages/login/ui/button";
 import { useSignupViewModel } from "@/src/modules/user/business/service/useAuthService";
 import useRandomName from "@/src/pages/login/model/useRandomName";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export interface AgreeValue {
   isServiceAgree: boolean;
@@ -26,6 +27,7 @@ export default function TermsAndConditionsModalContent() {
   const { idToken, provider, closeModal } = useSignupModalStore();
   const { signup } = useSignupViewModel();
   const { nickname } = useRandomName();
+  const insets = useSafeAreaInsets();
 
   const router = useRouter();
   const [agreeValue, setAgreeValue] = useState<AgreeValue>({
@@ -62,7 +64,7 @@ export default function TermsAndConditionsModalContent() {
   };
 
   return (
-    <BottomSheetView style={styles.container}>
+    <BottomSheetView style={[styles.container,{paddingBottom: insets.bottom}]}>
       <View style={styles.AllAgreeBottonContainer}>
         <TouchableOpacity
           style={styles.allAgreeBotton}
@@ -249,16 +251,11 @@ export default function TermsAndConditionsModalContent() {
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
     flexDirection: "column",
     alignItems: "center",
     marginTop: 16,
-    // justifyContent: "center",
-    // alignSelf: "stretch",
   },
   AllAgreeBottonContainer: {
-    // marginVertical: 12,
-    // alignItems: "center",
     width: "90%",
   },
   allAgreeBotton: {
@@ -287,36 +284,24 @@ const styles = StyleSheet.create({
   detailRightContainer: {
     flexDirection: "row",
     alignItems: "center",
-    // paddingRight: 4,
     height: 48,
-    // width: 48,
   },
   detailText: {
     color: localColor.text.gray,
     fontSize: 16,
   },
   buttonSection: {
-    // marginTop: 16,
-    // marginHorizontal: 20,
-    // height: 48,
-    // alignSelf: "stretch",
     alignItems: "center",
     width: "90%",
     flexDirection: "row",
-    // justifyContent: "center",
+    paddingBottom: 32,
   },
-
   buttonContainer: {
     flex: 1,
-
-    // width: "80%",
     alignSelf: "stretch",
-    // paddingHorizontal: 10,
   },
 
   button: {
-    // width: 120,
-    // height: 40,
     alignSelf: "stretch",
   },
 });
