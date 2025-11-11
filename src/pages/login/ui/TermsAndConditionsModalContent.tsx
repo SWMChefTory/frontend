@@ -64,7 +64,9 @@ export default function TermsAndConditionsModalContent() {
   };
 
   return (
-    <BottomSheetView style={[styles.container,{paddingBottom: insets.bottom}]}>
+    <BottomSheetView
+      style={[styles.container, { paddingBottom: insets.bottom }]}
+    >
       <View style={styles.AllAgreeBottonContainer}>
         <TouchableOpacity
           style={styles.allAgreeBotton}

@@ -20,6 +20,7 @@ import {
 } from "@gorhom/bottom-sheet";
 import TermsAndConditionsModalContent from "@/src/pages/login/ui/TermsAndConditionsModalContent";
 import { useEffect, useRef, useState } from "react";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 GoogleSignin.configure({
   webClientId: process.env.EXPO_PUBLIC_WEB_ID,
