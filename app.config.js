@@ -63,7 +63,7 @@ export default {
         "android.permission.MODIFY_AUDIO_SETTINGS",
       ],
       adaptiveIcon: {
-        foregroundImage: "./assets/images/mainCharacter.png",
+        foregroundImage: "./assets/adaptive-icon-foreground.png",
         backgroundColor: "#FFF5F0",
       },
       edgeToEdgeEnabled: true,
