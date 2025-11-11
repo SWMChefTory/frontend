@@ -10,18 +10,34 @@ export async function cancelTimerAlarm({
   timerId: string;
 }): Promise<void> {
   try {
+    console.log("취소!!!!!!!!!!!!!!!!!!!!!!!!!!");
     await Notifications.cancelScheduledNotificationAsync(timerId);
   } catch (error) {
     console.warn("예약된 타이머 알림 취소 실패:", error);
   }
 }
 
+export async function tryGrantPermission() {
+  const { status } = await Notifications.getPermissionsAsync();
+  if (status === "granted") {
+    return true;
+  }
+  const result = await Notifications.requestPermissionsAsync();
+  if (result.status == "granted") {
+    return true;
+  }
+  return false;
+}
+
 export async function scheduleTimerAlarm(
   timerId: string,
   recipeId: string,
   recipeTitle: string,
-  remainingSeconds: number,
+  remainingSeconds: number
 ) {
+  if (!tryGrantPermission()) {
+    return;
+  }
   return await Notifications.scheduleNotificationAsync({
     identifier: timerId,
     content: {

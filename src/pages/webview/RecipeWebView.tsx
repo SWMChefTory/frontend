@@ -4,7 +4,6 @@ import { getUserAgent, getWebViewUrl } from "./WebViewConfig";
 import { BackHandler, Platform, StyleSheet, View } from "react-native";
 import { useHandleMessage } from "@/src/pages/webview/message/useHandleMessage";
 import { subscribeMessage } from "@/src/shared/webview/sendMessage";
-import { useLoadStore } from "@/src/pages/webview/load/loadStore";
 import { useKeyboardAvoidingAnimation } from "@/src/shared/keyboard/useKeyboardAvoiding";
 import Animated from "react-native-reanimated";
 import {
@@ -13,6 +12,7 @@ import {
 } from "@/src/modules/shared/storage/SecureStorage";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useFocusEffect } from "@react-navigation/native";
+import { tryGrantPermission } from "./timer/notifications/timerNotifications";
 
 
 export function RecipeWebView() {
@@ -34,15 +34,9 @@ export type SafeArea = {
 export function RecipeWebViewContent() {
   const webviewRef = useRef<WebView>(null);
   const [error, setError] = useState<Error | null>(null);
-  // const { isLoading } = useLoadStore();
-  // const [canGoBack, setCanGoBack] = useState(false);
-  // useFocusEffect(useCallback(() => {
-  //   const sub = BackHandler.addEventListener("hardwareBackPress", () => {
-  //     if (canGoBack) { webviewRef.current?.goBack(); return true; } // ← 앱 종료 막고 웹 뒤로
-  //     return false; // 뒤로갈 데 없으면 기본(종료) 또는 여기서 confirm
-  //   });
-  //   return () => sub.remove();
-  // }, [canGoBack]));
+  useEffect(()=>{
+    tryGrantPermission();
+  },[]);
   const [canGoBack, setCanGoBack] = useState(false);
 
   const [safeArea, setSafeArea] = useState<SafeArea>({
