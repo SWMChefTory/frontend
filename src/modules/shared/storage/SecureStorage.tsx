@@ -34,3 +34,14 @@ export const removeAuthToken = async () => {
   await SecureStore.deleteItemAsync(ACCESS_TOKEN_KEY);
   await SecureStore.deleteItemAsync(REFRESH_TOKEN_KEY);
 };
+
+// Amplitude UUID 관리
+const AMPLITUDE_USER_ID_KEY = "amplitude_user_id";
+
+export const findAmplitudeUserId = (): string | null => {
+  return SecureStore.getItem(AMPLITUDE_USER_ID_KEY);
+};
+
+export const storeAmplitudeUserId = async (userId: string) => {
+  await SecureStore.setItemAsync(AMPLITUDE_USER_ID_KEY, userId);
+};
