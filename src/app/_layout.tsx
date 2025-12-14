@@ -30,6 +30,7 @@ import {
 import * as ScreenOrientation from "expo-screen-orientation";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { initAmplitude, trackNative } from "../modules/shared/analytics";
+import { AmplitudeEvent } from "../modules/shared/analytics/amplitudeEvents";
 
 ExpoSplashScreen.preventAutoHideAsync();
 
@@ -175,12 +176,11 @@ export default function RootLayout() {
     changeScreenOrientation();
   }, []);
 
-  // Amplitude 초기화 + 테스트 이벤트
+  // Amplitude 초기화 + 앱 실행 이벤트
   useEffect(() => {
     const setupAmplitude = async () => {
       await initAmplitude();
-      // 테스트 이벤트 전송 (확인 후 삭제)
-      trackNative("app_launched", { test: true });
+      trackNative(AmplitudeEvent.APP_LAUNCHED);
     };
     setupAmplitude();
   }, []);
