@@ -15,6 +15,7 @@ import {
   resumeActivity,
   endActivity,
 } from "@/src/pages/webview/timer/live-activity/liveActivity";
+import { trackFromWebView } from "@/src/modules/shared/analytics";
 import { useUserStore } from "@/src/modules/user/business/store/userStore";
 import { Alert, Linking, Platform } from "react-native";
 import { comsumeReservedMessage } from "@/src/shared/webview/sendMessage";
@@ -80,6 +81,7 @@ enum payloadType {
   OPEN_YOUTUBE = "OPEN_YOUTUBE",
   SAFE_AREA = "SAFE_AREA",
   SYSTEM_VOLUME = "SYSTEM_VOLUME",
+  TRACK_AMPLITUDE = "TRACK_AMPLITUDE",
 }
 
 class InvalidJsonError extends Error {
@@ -266,6 +268,11 @@ export function useHandleMessage({
                   ? { isEixsts: bottom.isExists, color: bottom.color }
                   : { isEixsts: true, color: "#FFFFFF" },
               });
+              break;
+            }
+            case payloadType.TRACK_AMPLITUDE: {
+              const { eventName, properties } = req.payload;
+              trackFromWebView(eventName, properties);
               break;
             }
           }
