@@ -3,10 +3,11 @@
 ## 개요
 
 Cheftory 앱의 Amplitude 이벤트 최종 목록입니다.
-퍼널 분석과 핵심 지표 측정을 고려하여 64개 → 38개로 최적화했습니다.
+퍼널 분석과 핵심 지표 측정을 고려하여 64개 → 48개로 최적화했습니다.
 
-> **최종 업데이트**: 2024-12-14
+> **최종 업데이트**: 2024-12-15
 >
+> - 레시피 상세 이벤트 2개 → 7개 (영상 추적 및 집계 이벤트 추가)
 > - 쿠팡 이벤트 4개 → 3개 (product_view 제거)
 > - 조리 모드 이벤트 속성 상세화
 > - 음성 명령 이벤트 속성 상세화
@@ -36,35 +37,129 @@ Cheftory 앱의 Amplitude 이벤트 최종 목록입니다.
 
 ---
 
-## 이벤트 목록 (총 38개)
+## 이벤트 목록 (총 47개)
 
-### 1. 레시피 생성 (4개)
+### 1. 레시피 생성 (8개)
+
+레시피 생성은 **두 가지 경로**로 나뉘며, 분석 목적이 다르므로 이벤트를 분리합니다:
+
+- **카드 경로 (`_card`)**: 앱 내 기존 레시피 카드 클릭 → 다이얼로그 → 생성
+- **URL 경로 (`_url`)**: 외부 공유 또는 플로팅 버튼 → URL 입력 모달 → 생성
+
+#### 1-1. 카드 경로 (4개) - 앱 내 기존 레시피 선택
 
 | # | 이벤트명 | 설명 | 주요 속성 |
 |---|---------|------|----------|
-| 1 | `recipe_create_start` | 레시피 생성 시작 | `source`: youtube/direct |
-| 2 | `recipe_create_submit` | 레시피 생성 제출 | `source`, `has_url` |
-| 3 | `recipe_create_success` | 레시피 생성 완료 | `source`, `has_category`, `recipe_id` |
-| 4 | `recipe_create_fail` | 레시피 생성 실패 | `source`, `error_type` |
+| 1 | `recipe_create_start_card` | 레시피 카드 클릭하여 다이얼로그 열림 | `source`, `video_type`, `category_type` |
+| 2 | `recipe_create_submit_card` | 다이얼로그에서 "생성" 버튼 클릭 | `source`, `video_type` |
+| 3 | `recipe_create_success_card` | 레시피 생성 성공 | `source`, `video_type`, `recipe_id`, `duration_ms` |
+| 4 | `recipe_create_fail_card` | 레시피 생성 실패 | `source`, `error_type`, `duration_ms` |
 
-**통합된 항목:**
+**`source` 값 (카드 경로):**
 
-- ~~`recipe_create_source_selected`~~ → `recipe_create_start`의 `source` 속성
-- ~~`recipe_create_url_pasted`~~ → `recipe_create_submit`의 `has_url` 속성
+| source 값 | 화면 위치 | 설명 |
+|-----------|----------|------|
+| `popular_normal` | 홈 > 인기 레시피 | 일반 영상 (VideoType.NORMAL) |
+| `popular_shorts` | 홈 > 인기 쇼츠 | 쇼츠 영상 (VideoType.SHORTS) |
+| `theme_chef` | 홈 > 셰프 추천 | 테마 섹션 - 셰프 추천 |
+| `theme_trend` | 홈 > 트렌드 | 테마 섹션 - 급상승 |
+| `search_trend` | 검색창 > 급상승 레시피 | 검색 화면 내 트렌드 |
+| `search_result` | 검색 결과 | 검색어로 검색 후 결과 |
+| `category_cuisine` | 카테고리 > 한식/중식 등 | CuisineType (KOREAN, CHINESE 등) |
+| `category_recommend` | 카테고리 > 셰프/급상승 | RecommendType (CHEF, TRENDING) |
+
+#### 1-2. URL 경로 (4개) - 직접 URL 입력
+
+| # | 이벤트명 | 설명 | 주요 속성 |
+|---|---------|------|----------|
+| 5 | `recipe_create_start_url` | URL 입력 모달 열림 | `entry_point`, `has_prefilled_url` |
+| 6 | `recipe_create_submit_url` | 모달에서 "완료" 버튼 클릭 | `entry_point`, `has_target_category` |
+| 7 | `recipe_create_success_url` | 레시피 생성 성공 | `entry_point`, `recipe_id`, `has_target_category`, `duration_ms` |
+| 8 | `recipe_create_fail_url` | 레시피 생성 실패 | `entry_point`, `error_type`, `duration_ms` |
+
+**`entry_point` 값 (URL 경로):**
+
+| entry_point 값 | 진입 방식 | 설명 |
+|----------------|----------|------|
+| `external_share` | 유튜브 앱 → 공유 → Cheftory | URL이 미리 채워져 있음 |
+| `floating_button` | 홈 플로팅 버튼(+) 클릭 | URL 직접 입력 필요 |
+
+**분석 포인트:**
+
+- 앱 제공 레시피 vs 직접 탐색 비율: `success_card` vs `success_url` 카운트 비교
+- 경로별 전환율: 각각 `start → submit → success` 퍼널 분석
+- 인기 레시피 발견 경로: `source` 분포 분석
+- 외부 공유 기능 효과: `entry_point = 'external_share'` 추이
 
 ---
 
-### 2. 레시피 상세 (2개)
+### 2. 레시피 상세 (7개)
 
 | # | 이벤트명 | 설명 | 주요 속성 |
 |---|---------|------|----------|
-| 5 | `recipe_detail_view` | 레시피 상세 조회 | `recipe_id` |
-| 6 | `recipe_detail_tab_view` | 탭 전환 | `recipe_id`, `tab_name` |
+| 9 | `recipe_detail_view` | 레시피 상세 페이지 진입 | `recipe_id`, `source`, `video_type` |
+| 10 | `recipe_detail_exit` | 레시피 상세 페이지 이탈 (집계 이벤트) | `recipe_id`, `view_duration`, `tabs_visited[]`, `tab_click_count`, `video_played`, `video_watch_time`, `reached_cooking_start` |
+| 11 | `recipe_detail_tab_click` | 탭 전환 클릭 | `recipe_id`, `tab_name`, `from_tab` |
+| 12 | `recipe_detail_video_first_interact` | 영상 최초 조작 (사용자가 직접 YouTube UI 클릭) | `recipe_id`, `first_action`, `time_to_interact`, `video_time` |
+| 13 | `recipe_detail_video_seek` | 스텝 클릭으로 영상 이동 | `recipe_id`, `step_order`, `step_title`, `video_time` |
+| 14 | `recipe_detail_feature_click` | 부가기능 클릭 (타이머, 계량법) | `recipe_id`, `feature_type`, `current_tab` |
+| 15 | `recipe_detail_cooking_start` | "요리시작" 버튼 클릭 | `recipe_id`, `total_steps`, `time_on_page` |
+
+**속성 상세:**
+
+**`recipe_detail_view`:**
+- `source`: 진입 경로 (`home`, `search`, `category` 등)
+- `video_type`: 영상 유형 (`NORMAL`, `SHORTS`)
+
+**`recipe_detail_exit` (집계 이벤트):**
+- `view_duration`: 페이지 체류 시간 (초)
+- `tabs_visited[]`: 방문한 탭 목록 (예: `["steps", "ingredients"]`)
+- `tab_click_count`: 총 탭 클릭 횟수
+- `video_played`: 영상 재생 여부 (boolean)
+- `video_watch_time`: 총 영상 시청 시간 (초)
+- `reached_cooking_start`: 요리시작 버튼 도달 여부 (boolean)
+
+**`recipe_detail_tab_click`:**
+- `tab_name`: 클릭한 탭 (`steps`, `ingredients`, `info`)
+- `from_tab`: 이전 탭
+
+**`recipe_detail_video_first_interact`:**
+- `first_action`: 최초 조작 유형 (`play`, `pause`, `seek`)
+- `time_to_interact`: 페이지 진입 후 조작까지 시간 (초)
+- `video_time`: 조작 시점의 영상 재생 시간 (초)
+- ※ 스텝 클릭으로 인한 프로그래밍적 이동은 포함 안 됨
+
+**`recipe_detail_video_seek`:**
+- `step_order`: 클릭한 스텝 순서 (0부터 시작)
+- `step_title`: 스텝 제목
+- `video_time`: 이동할 영상 시간 (초)
+
+**`recipe_detail_feature_click`:**
+- `feature_type`: 기능 유형 (`timer`, `measurement`)
+- `current_tab`: 클릭 시점의 현재 탭
+
+**`recipe_detail_cooking_start`:**
+- `total_steps`: 총 스텝 개수
+- `time_on_page`: 페이지 진입 후 클릭까지 시간 (초)
 
 **제거된 항목:**
 
-- ~~`recipe_detail_cooking_clicked`~~ → `cooking_start`로 추적 가능
 - ~~`recipe_detail_share_click`~~ → 코드에 공유 기능 없음
+- ~~`recipe_detail_ingredient_select`~~ → 세부 상호작용은 집계 이벤트로 충분
+- ~~`recipe_detail_step_expand`~~ → 세부 상호작용은 집계 이벤트로 충분
+- ~~영상 재생/일시정지 개별 이벤트~~ → exit 이벤트의 `video_played`, `video_watch_time`으로 집계
+
+**구현 참고:**
+- 상세 구현 가이드: `/frontend/docs/2.recipe_detail/amplitude-recipe-detail-implementation.md`
+- 구현 위치: `webview-v2/src/views/recipe-detail/ui/index.tsx`
+
+**분석 포인트:**
+- 영상 시청률 = `video_played: true` 비율
+- 평균 영상 시청 시간 = `video_watch_time` 평균
+- 탭별 관심도 = `tabs_visited[]` 집계
+- 요리 시작 전환율 = `reached_cooking_start: true` 비율
+- 영상 인터랙션율 = `video_first_interact` 발생 비율
+- 스텝 활용도 = `video_seek` 발생 빈도
 
 ---
 
@@ -72,9 +167,9 @@ Cheftory 앱의 Amplitude 이벤트 최종 목록입니다.
 
 | # | 이벤트명 | 설명 | 주요 속성 |
 |---|---------|------|----------|
-| 7 | `coupang_modal_open` | 쿠팡 모달 열림 | `recipe_id`, `ingredient_count`, `source` |
-| 8 | `coupang_product_click` | 쿠팡 상품 클릭 (쿠팡앱 이동) | `recipe_id`, `ingredient_name`, `product_id`, `product_name`, `price`, `is_rocket`, `position` |
-| 9 | `coupang_modal_close` | 쿠팡 모달 닫힘 | `recipe_id`, `products_displayed`, `products_clicked`, `clicked_products[]`, `duration_seconds` |
+| 16 | `coupang_modal_open` | 쿠팡 모달 열림 | `recipe_id`, `ingredient_count`, `source` |
+| 17 | `coupang_product_click` | 쿠팡 상품 클릭 (쿠팡앱 이동) | `recipe_id`, `ingredient_name`, `product_id`, `product_name`, `price`, `is_rocket`, `position` |
+| 18 | `coupang_modal_close` | 쿠팡 모달 닫힘 | `recipe_id`, `products_displayed`, `products_clicked`, `clicked_products[]`, `duration_seconds` |
 
 **제거된 항목:**
 
@@ -92,10 +187,10 @@ Cheftory 앱의 Amplitude 이벤트 최종 목록입니다.
 
 | # | 이벤트명 | 설명 | 주요 속성 |
 |---|---------|------|----------|
-| 10 | `cooking_start` | 조리 시작 | `recipe_id`, `total_steps` |
-| 11 | `cooking_complete` | 조리 완료 | 아래 상세 참조 |
-| 12 | `cooking_exit` | 조리 중단 (완료 조건 미충족) | 아래 상세 참조 |
-| 13 | `step_navigate` | 단계 이동 | `recipe_id`, `from_step`, `to_step`, `method` |
+| 19 | `cooking_start` | 조리 시작 | `recipe_id`, `total_steps` |
+| 20 | `cooking_complete` | 조리 완료 | 아래 상세 참조 |
+| 21 | `cooking_exit` | 조리 중단 (완료 조건 미충족) | 아래 상세 참조 |
+| 22 | `step_navigate` | 단계 이동 | `recipe_id`, `from_step`, `to_step`, `method` |
 
 **`cooking_complete` / `cooking_exit` 공통 속성:**
 
@@ -137,8 +232,8 @@ Cheftory 앱의 Amplitude 이벤트 최종 목록입니다.
 
 | # | 이벤트명 | 설명 | 주요 속성 |
 |---|---------|------|----------|
-| 14 | `timer_start` | 타이머 시작 | `recipe_id`, `step_number`, `duration_seconds` |
-| 15 | `timer_complete` | 타이머 완료 | `recipe_id`, `timer_id` |
+| 23 | `timer_start` | 타이머 시작 | `recipe_id`, `step_number`, `duration_seconds` |
+| 24 | `timer_complete` | 타이머 완료 | `recipe_id`, `timer_id` |
 
 **통합된 항목:**
 
@@ -152,7 +247,7 @@ Cheftory 앱의 Amplitude 이벤트 최종 목록입니다.
 
 | # | 이벤트명 | 설명 | 주요 속성 |
 |---|---------|------|----------|
-| 16 | `voice_command` | 음성 명령 실행 | 아래 상세 참조 |
+| 25 | `voice_command` | 음성 명령 실행 | 아래 상세 참조 |
 
 **`voice_command` 속성:**
 
@@ -207,8 +302,8 @@ Cheftory 앱의 Amplitude 이벤트 최종 목록입니다.
 
 | # | 이벤트명 | 설명 | 주요 속성 |
 |---|---------|------|----------|
-| 17 | `video_play` | 비디오 재생 | `recipe_id`, `trigger` |
-| 18 | `video_seek` | 비디오 구간 이동 | `recipe_id`, `from_time`, `to_time`, `trigger` |
+| 26 | `video_play` | 비디오 재생 | `recipe_id`, `trigger` |
+| 27 | `video_seek` | 비디오 구간 이동 | `recipe_id`, `from_time`, `to_time`, `trigger` |
 
 **제거된 항목:**
 
@@ -220,8 +315,8 @@ Cheftory 앱의 Amplitude 이벤트 최종 목록입니다.
 
 | # | 이벤트명 | 설명 | 주요 속성 |
 |---|---------|------|----------|
-| 19 | `search_submit` | 검색 실행 | `keyword`, `result_count` |
-| 20 | `search_result_click` | 검색 결과 클릭 | `keyword`, `recipe_id`, `position`, `result_type` |
+| 28 | `search_submit` | 검색 실행 | `keyword`, `result_count` |
+| 29 | `search_result_click` | 검색 결과 클릭 | `keyword`, `recipe_id`, `position`, `result_type` |
 
 **통합/제거된 항목:**
 
@@ -235,8 +330,8 @@ Cheftory 앱의 Amplitude 이벤트 최종 목록입니다.
 
 | # | 이벤트명 | 설명 | 주요 속성 |
 |---|---------|------|----------|
-| 21 | `home_view` | 홈 화면 조회 | - |
-| 22 | `popular_recipe_click` | 홈 레시피 클릭 | `recipe_id`, `position` |
+| 30 | `home_view` | 홈 화면 조회 | - |
+| 31 | `popular_recipe_click` | 홈 레시피 클릭 | `recipe_id`, `position` |
 
 ---
 
@@ -244,9 +339,9 @@ Cheftory 앱의 Amplitude 이벤트 최종 목록입니다.
 
 | # | 이벤트명 | 설명 | 주요 속성 |
 |---|---------|------|----------|
-| 23 | `category_select` | 카테고리 선택 | `category_id`, `category_name` |
-| 24 | `category_action` | 카테고리 관리 | `action`: create/delete, `category_name` |
-| 25 | `recipe_category_change` | 레시피 카테고리 변경 | `recipe_id`, `from_category`, `to_category` |
+| 32 | `category_select` | 카테고리 선택 | `category_id`, `category_name` |
+| 33 | `category_action` | 카테고리 관리 | `action`: create/delete, `category_name` |
+| 34 | `recipe_category_change` | 레시피 카테고리 변경 | `recipe_id`, `from_category`, `to_category` |
 
 **통합된 항목:**
 
@@ -255,20 +350,31 @@ Cheftory 앱의 Amplitude 이벤트 최종 목록입니다.
 
 ---
 
-### 11. 온보딩/튜토리얼 (7개)
+### 11. 온보딩/튜토리얼 (8개)
 
 | # | 이벤트명 | 설명 | 주요 속성 |
 |---|---------|------|----------|
-| 26 | `tutorial_share_view` | 공유 튜토리얼 모달 표시 | `device_type` |
-| 27 | `tutorial_share_youtube_click` | "생성하러 가기" 클릭 | - |
-| 28 | `tutorial_share_direct_click` | "직접 입력하기" 클릭 | - |
-| 29 | `tutorial_share_dismiss` | "다시 보지 않기" 클릭 | - |
-| 30 | `tutorial_step_start` | 핸즈프리 튜토리얼 시작 | `recipe_id` |
-| 31 | `tutorial_step_complete` | 핸즈프리 튜토리얼 완료 | `recipe_id` |
-| 32 | `floating_tooltip_view` | 플로팅 버튼 툴팁 표시 | - |
+| 35 | `tutorial_share_view` | 공유 튜토리얼 모달 표시 | - |
+| 36 | `tutorial_share_youtube_click` | "생성하러 가기" 클릭 | - |
+| 37 | `tutorial_share_direct_click` | "직접 입력하기" 클릭 | - |
+| 38 | `tutorial_share_dismiss` | "다시 보지 않기" 클릭 | - |
+| 39 | `tutorial_handsfree_view` | 핸즈프리 시작 모달 표시 ("음성으로 요리해볼까요?") | `recipe_id` |
+| 40 | `tutorial_handsfree_skip` | 핸즈프리 튜토리얼 건너뛰기 ("괜찮아요" 클릭) | `recipe_id` |
+| 41 | `tutorial_handsfree_step_start` | 핸즈프리 튜토리얼 시작 ("볼게요" 클릭) | `recipe_id` |
+| 42 | `tutorial_handsfree_step_end` | 핸즈프리 튜토리얼 종료 (완료 또는 중도 이탈) | `recipe_id`, `completed_steps`, `total_steps`, `is_completed` |
+
+**분석 포인트:**
+
+- 공유 튜토리얼 전환율 = (`tutorial_share_youtube_click` + `tutorial_share_direct_click`) / `tutorial_share_view`
+- 공유 튜토리얼 거부율 = `tutorial_share_dismiss` / `tutorial_share_view`
+- 핸즈프리 튜토리얼 시작율 = `tutorial_handsfree_step_start` / `tutorial_handsfree_view`
+- 핸즈프리 튜토리얼 거부율 = `tutorial_handsfree_skip` / `tutorial_handsfree_view`
+- 핸즈프리 튜토리얼 완료율 = `tutorial_handsfree_step_end (is_completed: true)` / `tutorial_handsfree_step_start`
+- 단계별 이탈 분포 = `tutorial_handsfree_step_end`의 `completed_steps` 값별 집계
 
 **제거된 항목:**
 
+- ~~`floating_tooltip_view`~~ → 튜토리얼이 아닌 UI 힌트, 분석 가치 낮음
 - ~~`onboarding_complete`~~ → 코드에 온보딩 화면 없음
 - ~~`onboarding_skip`~~ → 코드에 온보딩 화면 없음
 - ~~`onboarding_started`~~ → 앱 첫 실행으로 대체
@@ -282,9 +388,9 @@ Cheftory 앱의 Amplitude 이벤트 최종 목록입니다.
 
 | # | 이벤트명 | 설명 | 주요 속성 |
 |---|---------|------|----------|
-| 33 | `withdrawal_start` | 회원 탈퇴 시작 | - |
-| 34 | `withdrawal_feedback_submit` | 탈퇴 피드백 제출 | `feedback_type`, `has_custom_text` |
-| 35 | `account_delete` | 계정 삭제 완료 | - |
+| 43 | `withdrawal_start` | 회원 탈퇴 시작 | - |
+| 44 | `withdrawal_feedback_submit` | 탈퇴 피드백 제출 | `feedback_type`, `has_custom_text` |
+| 45 | `account_delete` | 계정 삭제 완료 | - |
 
 **제거된 항목:**
 
@@ -297,8 +403,8 @@ Cheftory 앱의 Amplitude 이벤트 최종 목록입니다.
 
 | # | 이벤트명 | 설명 | 주요 속성 |
 |---|---------|------|----------|
-| 36 | `login_success` | OAuth 인증 성공 (자동 로그인 제외) | `provider`, `is_new_user` |
-| 37 | `logout` | 로그아웃 | - |
+| 46 | `login_success` | OAuth 인증 성공 (자동 로그인 제외) | `provider`, `is_new_user` |
+| 47 | `logout` | 로그아웃 | - |
 
 **`login_success` 발생 시점:**
 
@@ -322,7 +428,7 @@ Cheftory 앱의 Amplitude 이벤트 최종 목록입니다.
 
 | # | 이벤트명 | 설명 | 주요 속성 |
 |---|---------|------|----------|
-| 39 | `app_launched` | 앱 실행 | - |
+| 48 | `app_launched` | 앱 실행 | - |
 
 **제거된 항목:**
 
@@ -337,8 +443,8 @@ Cheftory 앱의 Amplitude 이벤트 최종 목록입니다.
 
 | 카테고리 | 기존 | 최종 | 변경 |
 |---------|-----|-----|------|
-| 레시피 생성 | 6 | 4 | -2 |
-| 레시피 상세 | 4 | 2 | -2 |
+| 레시피 생성 | 6 | 8 | +2 |
+| 레시피 상세 | 4 | 7 | +3 |
 | 쿠팡 | 4 | 3 | -1 |
 | 조리 모드 | 5 | 4 | -1 |
 | 타이머 | 5 | 2 | -3 |
@@ -347,31 +453,36 @@ Cheftory 앱의 Amplitude 이벤트 최종 목록입니다.
 | 검색 | 5 | 2 | -3 |
 | 홈 | 2 | 2 | 0 |
 | 카테고리 | 4 | 3 | -1 |
-| 온보딩/튜토리얼 | 13 | 7 | -6 |
+| 온보딩/튜토리얼 | 13 | 8 | -5 |
 | 설정/계정 | 5 | 3 | -2 |
 | 인증 | 3 | 2 | -1 |
 | 앱 라이프사이클 | 3 | 1 | -2 |
-| **합계** | **64** | **38** | **-26** |
+| **합계** | **64** | **48** | **-16** |
 
 ### 구현 위치
 
 | 구분 | 이벤트 수 |
 |-----|---------|
 | Native (React Native) | 3개 |
-| WebView | 35개 |
+| WebView | 45개 |
 
 ---
 
 ## 우선순위
 
-### 🔴 1순위 - 핵심 퍼널 (11개)
+### 🔴 1순위 - 핵심 퍼널 (16개)
 
 | 이벤트 | 측정 목적 |
 |-------|----------|
-| `recipe_create_start` | 레시피 생성 퍼널 시작 |
-| `recipe_create_submit` | 레시피 생성 시도 |
-| `recipe_create_success` | 레시피 생성 완료 |
-| `recipe_create_fail` | 레시피 생성 실패 |
+| `recipe_create_start_card` | 카드 경로 레시피 생성 시작 |
+| `recipe_create_submit_card` | 카드 경로 레시피 생성 시도 |
+| `recipe_create_success_card` | 카드 경로 레시피 생성 완료 |
+| `recipe_create_fail_card` | 카드 경로 레시피 생성 실패 |
+| `recipe_create_start_url` | URL 경로 레시피 생성 시작 |
+| `recipe_create_submit_url` | URL 경로 레시피 생성 시도 |
+| `recipe_create_success_url` | URL 경로 레시피 생성 완료 |
+| `recipe_create_fail_url` | URL 경로 레시피 생성 실패 |
+| `recipe_detail_cooking_start` | 조리 퍼널 진입점 (상세→조리) |
 | `cooking_start` | 조리 퍼널 시작 |
 | `cooking_complete` | 조리 완료 |
 | `cooking_exit` | 조리 이탈 |
@@ -380,12 +491,16 @@ Cheftory 앱의 Amplitude 이벤트 최종 목록입니다.
 | `tutorial_share_youtube_click` | 유튜브 경로 |
 | `tutorial_share_direct_click` | 직접 입력 경로 |
 
-### 🟡 2순위 - 기능 사용율 (13개)
+### 🟡 2순위 - 기능 사용율 (19개)
 
 | 이벤트 | 측정 목적 |
 |-------|----------|
 | `recipe_detail_view` | 상세 조회 |
-| `recipe_detail_tab_view` | 탭별 관심도 |
+| `recipe_detail_exit` | 상세 페이지 이탈 및 집계 데이터 |
+| `recipe_detail_tab_click` | 탭별 관심도 |
+| `recipe_detail_video_first_interact` | 영상 인터랙션율 |
+| `recipe_detail_video_seek` | 스텝 클릭으로 영상 이동 활용도 |
+| `recipe_detail_feature_click` | 부가기능 사용율 |
 | `coupang_modal_close` | 쿠팡 이탈 분석 |
 | `timer_start` | 타이머 사용율 |
 | `timer_complete` | 타이머 완료율 |
@@ -395,8 +510,8 @@ Cheftory 앱의 Amplitude 이벤트 최종 목록입니다.
 | `video_seek` | 영상 탐색 |
 | `search_submit` | 검색 사용 |
 | `search_result_click` | 검색 품질 |
-| `tutorial_step_start` | 핸즈프리 튜토리얼 |
-| `tutorial_step_complete` | 튜토리얼 완료율 |
+| `tutorial_handsfree_step_start` | 핸즈프리 튜토리얼 |
+| `tutorial_handsfree_step_end` | 튜토리얼 완료율/이탈 분석 |
 
 ### 🟢 3순위 - 탐색 & 보조 (15개)
 
@@ -408,12 +523,31 @@ Cheftory 앱의 Amplitude 이벤트 최종 목록입니다.
 
 ### 레시피 생성 퍼널
 
+**카드 경로 (앱 내 레시피 선택):**
+
 ```text
-recipe_create_start (100%)
+recipe_create_start_card (100%)
     ↓
-recipe_create_submit (70%)
+recipe_create_submit_card (80%)
     ↓
-recipe_create_success (60%) / recipe_create_fail (10%)
+recipe_create_success_card (75%) / recipe_create_fail_card (5%)
+```
+
+**URL 경로 (직접 입력 / 외부 공유):**
+
+```text
+recipe_create_start_url (100%)
+    ↓
+recipe_create_submit_url (60%)
+    ↓
+recipe_create_success_url (50%) / recipe_create_fail_url (10%)
+```
+
+**경로 비교 분석:**
+
+```text
+앱 제공 레시피 사용 비율 = success_card / (success_card + success_url)
+직접 탐색 레시피 비율 = success_url / (success_card + success_url)
 ```
 
 ### 조리 퍼널
@@ -448,7 +582,11 @@ coupang_modal_close [products_clicked > 0] (5%)
 
 | 지표 | 계산 방법 |
 |-----|----------|
-| 인당 레시피 생성율 | `recipe_create_success` / unique users |
+| 인당 레시피 생성율 | (`recipe_create_success_card` + `recipe_create_success_url`) / unique users |
+| 앱 제공 레시피 선택 비율 | `recipe_create_success_card` / 전체 success |
+| 직접 탐색 레시피 비율 | `recipe_create_success_url` / 전체 success |
+| 카드 경로 전환율 | `recipe_create_success_card` / `recipe_create_start_card` |
+| URL 경로 전환율 | `recipe_create_success_url` / `recipe_create_start_url` |
 | 조리 시작률 | `cooking_start` / `recipe_detail_view` |
 | 조리 완료율 | `cooking_complete` / `cooking_start` |
 | 쿠팡 전환율 | `coupang_product_click` / `coupang_modal_open` |
@@ -496,7 +634,9 @@ coupang_modal_close [products_clicked > 0] (5%)
 
 | 이벤트 카테고리 | 파일 위치 |
 |---------------|----------|
-| 레시피 생성 | `webview-v2/src/widgets/recipe-creating-view/recipeCreatingView.tsx` |
+| 레시피 생성 (카드) | `webview-v2/src/widgets/recipe-create-dialog/recipeCardWrapper.tsx` (인기/테마), `webview-v2/src/views/search-recipe/ui/index.tsx` (검색 트렌드), `webview-v2/src/views/search-results/ui/index.tsx` (검색 결과), `webview-v2/src/views/category-results/ui/index.tsx` (카테고리) |
+| 레시피 생성 (URL) | `webview-v2/src/widgets/recipe-creating-view/recipeCreatingView.tsx` |
+| 레시피 생성 (성공/실패) | `webview-v2/src/entities/user_recipe/model/useUserRecipe.ts` |
 | 레시피 상세 | `webview-v2/src/views/recipe-detail/ui/index.tsx` |
 | 쿠팡 | `webview-v2/src/views/recipe-detail/ui/IngredientPurchaseModal.tsx` |
 | 조리 모드 | `webview-v2/src/views/recipe-step/ui/index.tsx` |
