@@ -6,11 +6,22 @@ import Foundation
 final class ShareViewController: UIViewController, UIGestureRecognizerDelegate {
   private var tasksAfterPresented: [() -> Void] = []
   private weak var contentView: UIView? // 추가된 프로퍼티
+
+  override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+    super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    view.backgroundColor = .clear
+  }
+  
+  required init?(coder: NSCoder) {
+    super.init(coder: coder)
+    view.backgroundColor = .clear
+  }
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    setSheetHeight(ratio: 0.0)
-    view.backgroundColor = .lightGray.withAlphaComponent(0.0)
+    // setSheetHeight(ratio: 0.0)
+    // view.backgroundColor = .lightGray.withAlphaComponent(0.0)
+    view.backgroundColor = .clear 
   }
   
   override func viewDidLoad() {
@@ -103,6 +114,21 @@ final class ShareViewController: UIViewController, UIGestureRecognizerDelegate {
   
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
+
+    setSheetHeight(ratio: 0.0)
+
+    if #available(iOS 26.0, *) {
+    view.superview?.backgroundColor = .clear
+    view.superview?.superview?.backgroundColor = .clear
+    
+    // Window hierarchy 전체를 투명하게
+    var currentView = view.superview
+    while currentView != nil {
+      currentView?.backgroundColor = .clear
+      currentView = currentView?.superview
+    }
+  }
+  
     tasksAfterPresented.forEach { $0() }
     tasksAfterPresented.removeAll()
   }
@@ -211,7 +237,13 @@ final class ShareViewController: UIViewController, UIGestureRecognizerDelegate {
       sheet.selectedDetentIdentifier = id
       sheet.prefersGrabberVisible = false
       sheet.prefersScrollingExpandsWhenScrolledToEdge = false
-      sheet.largestUndimmedDetentIdentifier = nil
+      // sheet.largestUndimmedDetentIdentifier = nil
+
+      sheet.largestUndimmedDetentIdentifier = id
+    
+    if #available(iOS 26.0, *) {
+      sheet.preferredCornerRadius = 0 
+    }
     }
   }
   

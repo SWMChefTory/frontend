@@ -17,7 +17,6 @@ import {
 } from "@/src/pages/webview/timer/live-activity/liveActivity";
 import { useUserStore } from "@/src/modules/user/business/store/userStore";
 import { Alert, Linking, Platform } from "react-native";
-import { useLoadStore } from "../load/loadStore";
 import { comsumeReservedMessage } from "@/src/shared/webview/sendMessage";
 import * as ScreenOrientation from "expo-screen-orientation";
 import { SafeArea } from "../RecipeWebView";
@@ -107,7 +106,6 @@ export function useHandleMessage({
 }) {
   const { openCreatingView: openCreatingCategoryView } =
     useCreatingCategoryViewStore();
-  const { setIsLoading } = useLoadStore();
   const { logout } = useLogoutViewModel();
   const { deleteUser } = useDeleteUserViewModel();
   const { removeUser } = useUserStore();
@@ -163,14 +161,6 @@ export function useHandleMessage({
         }
         case WebViewMessageType.UNBLOCKING: {
           switch (req.type) {
-            case payloadType.LOAD_START: {
-              setIsLoading(true);
-              break;
-            }
-            case payloadType.LOAD_END: {
-              setIsLoading(false);
-              break;
-            }
             case payloadType.CATEGORY_CREATION_INPUT: {
               openCreatingCategoryView(); // creatingCategoryView 컴포넌트를 보여줌.
               break;

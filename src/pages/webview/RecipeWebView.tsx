@@ -13,7 +13,6 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useFocusEffect } from "@react-navigation/native";
 import { tryGrantPermission } from "./timer/notifications/timerNotifications";
-import { useLoadStore } from "./load/loadStore";
 import { WebviewLoadingView } from "./load/LoadingView";
 
 
@@ -21,7 +20,7 @@ export function RecipeWebView() {
   return <RecipeWebViewContent />;
 }
 
-export type SafeAreaProps = {
+export type SafeAreaProps = { 
   isEixsts: boolean;
   color: string;
 };
@@ -36,7 +35,7 @@ export type SafeArea = {
 export function RecipeWebViewContent() {
   const webviewRef = useRef<WebView>(null);
   const [error, setError] = useState<Error | null>(null);
-  const { isLoading } = useLoadStore();
+  const [isLoading, setIsLoading] = useState(true);
   const [canGoBack, setCanGoBack] = useState(false);
   useFocusEffect(useCallback(() => {
     const sub = BackHandler.addEventListener("hardwareBackPress", () => {
@@ -131,10 +130,11 @@ export function RecipeWebViewContent() {
             userAgent={getUserAgent()}
             onMessage={handleMessage}
             onError={handleError}
-            // onHttpError={handleHttpError}
             onRenderProcessGone={(e) => {
-              // e.nativeEvent.didCrash: boolean
               webviewRef.current?.reload();
+            }}
+            onLoadEnd={()=>{
+              setIsLoading(false);
             }}
             onContentProcessDidTerminate={() => {
               webviewRef.current?.reload();
@@ -149,6 +149,7 @@ export function RecipeWebViewContent() {
             domStorageEnabled={true}
             startInLoadingState={false}
             cacheEnabled={true}
+            webviewDebuggingEnabled={true}
             {...(Platform.OS === "ios" && {
               hideKeyboardAccessoryView: true,
               allowsLinkPreview: false,
@@ -165,7 +166,7 @@ export function RecipeWebViewContent() {
               setSupportMultipleWindows: false,
             })}
           />
-          {/* {isLoading && <WebviewLoadingView />} */}
+          {isLoading && <WebviewLoadingView />}
         </Animated.View>
         <View
           style={{
@@ -180,11 +181,12 @@ export function RecipeWebViewContent() {
           backgroundColor: safeArea.bottom.color,
         }}
       />
-      {isLoading && <WebviewLoadingView/>}
     </View>
   );
   // Android 하드웨어 뒤로가기 버튼 처리: 웹뷰로 BACK_PRESSED 전송
 }
+
+// {isLoading && <WebviewLoadingView/>}
 
 const styles = StyleSheet.create({
   webview: {
