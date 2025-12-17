@@ -26,24 +26,23 @@
 ### 이벤트 설계 원칙
 
 - ✅ **핵심 행동만 추적**: 불필요한 세부사항 제거
-- ✅ **구현 단순성**: Exit 이벤트에 영상 데이터 집계로 복잡도 최소화
-- ✅ **의미 있는 지표**: 재생/일시정지 횟수보다 실제 시청 시간에 집중
+- ✅ **구현 가능성 우선**: YouTube API 제약사항을 고려한 현실적 추적
+- ✅ **신뢰할 수 있는 데이터**: 부정확한 데이터보다 정확한 핵심 지표에 집중
 
 ---
 
 ## 이벤트 목록
 
-총 **7개 이벤트**로 레시피 상세 페이지 사용자 여정을 추적합니다.
+총 **6개 이벤트**로 레시피 상세 페이지 사용자 여정을 추적합니다.
 
 | 순번 | 이벤트 이름 | 설명 | 우선순위 |
 |------|------------|------|---------|
 | 1 | `recipe_detail_view` | 페이지 진입 | 🔴 High |
-| 2 | `recipe_detail_exit` | 페이지 이탈 (영상 데이터 포함) | 🔴 High |
+| 2 | `recipe_detail_exit` | 페이지 이탈 | 🔴 High |
 | 3 | `recipe_detail_tab_click` | 탭 클릭 | 🔴 High |
-| 4 | `recipe_detail_video_first_interact` | 영상 최초 조작 | 🟡 Medium |
-| 5 | `recipe_detail_video_seek` | 스텝으로 영상 이동 | 🟡 Medium |
-| 6 | `recipe_detail_feature_click` | 부가 기능 클릭 | 🟢 Low |
-| 7 | `recipe_detail_cooking_start` | 요리 시작 | 🔴 High |
+| 4 | `recipe_detail_video_seek` | 스텝으로 영상 이동 | 🟡 Medium |
+| 5 | `recipe_detail_feature_click` | 부가 기능 클릭 | 🟢 Low |
+| 6 | `recipe_detail_cooking_start` | 요리 시작 | 🔴 High |
 
 ---
 
@@ -58,24 +57,40 @@
 {
   recipe_id: string;              // 레시피 ID
   recipe_title: string;           // 레시피 제목
-  entry_source?: string;          // 진입 경로 (referrer URL)
+  is_first_view: boolean;         // 첫 진입 여부 (1시간 내 재진입 시 false)
   total_steps: number;            // 전체 스텝 수
   total_ingredients: number;      // 전체 재료 수
   has_video: boolean;             // 영상 존재 여부
-  video_duration?: number;        // 영상 길이 (초)
 }
 ```
 
 **측정 목적**:
 - 레시피별 조회 수
-- 진입 경로 분석 (홈/검색/카테고리)
+- 순수 신규 조회 vs 재진입(요리모드 뒤로가기 등) 구분
 - 레시피 규모별 인기도
 
 **구현 위치**: `webview-v2/src/views/recipe-detail/ui/index.tsx`
 
+**`is_first_view` 속성 설명**:
+
+앱 웹뷰 환경에서 요리모드 → 뒤로가기 시 컴포넌트가 리마운트되어 view 이벤트가 중복 발생합니다.
+이를 구분하기 위해 sessionStorage에 마지막 조회 시간을 저장하고, 1시간 이내 재진입 시 `false`로 표시합니다.
+
+| 상황 | is_first_view | 설명 |
+|------|---------------|------|
+| 홈/검색에서 첫 진입 | `true` | 신규 조회 |
+| 요리모드 → 뒤로가기 (30분) | `false` | 1시간 이내 재진입 |
+| 요리모드 → 뒤로가기 (2시간) | `true` | 1시간 초과로 신규 취급 |
+| 다른 레시피 진입 | `true` | 레시피별로 별도 관리 |
+
+**분석 시 활용**:
+
+- 순수 페이지뷰 = `is_first_view: true` 필터링
+- 전체 페이지뷰 (재진입 포함) = 필터 없이 집계
+
 ---
 
-### 2️⃣ `recipe_detail_exit` - 페이지 이탈 ⭐
+### 2️⃣ `recipe_detail_exit` - 페이지 이탈
 
 **발생 시점**: 페이지 언마운트 시 (useEffect cleanup)
 
@@ -83,30 +98,24 @@
 ```typescript
 {
   recipe_id: string;
-  view_duration: number;          // 페이지 체류 시간 (초)
-  tabs_visited: string[];         // 방문한 탭 목록 ["summary", "recipe"]
-  tab_click_count: number;        // 총 탭 클릭 횟수
-
-  // ⭐ 영상 관련
-  video_played: boolean;          // 영상을 1회 이상 재생했는지
-  video_watch_time: number;       // 실제 시청한 시간 (초)
-
-  // 기타
+  stay_duration: number;          // 페이지 체류 시간 (초)
+  tab_switch_count: number;       // 탭 전환 횟수
+  final_tab: string;              // 마지막 본 탭 ("summary" | "recipe" | "ingredients")
   reached_cooking_start: boolean; // 요리 시작까지 도달했는지
 }
 ```
 
 **측정 목적**:
 - 페이지 체류 시간 분석
-- 영상 vs 텍스트 레시피 선호도
-- 영상 시청 시간 측정
-- 이탈 지점 분석
+- 탭 전환 빈도 측정
+- 이탈 지점 분석 (어느 탭에서 이탈하는지)
+- 요리 시작 전환율 계산
 
 **구현 위치**: `webview-v2/src/views/recipe-detail/ui/index.tsx`
 
 **중요 사항**:
-- 영상 재생/일시정지 횟수는 추적하지 않음 (복잡도 증가, 분석 가치 낮음)
-- `video_watch_time`만으로 충분한 인사이트 확보 가능
+- ⚠️ **영상 시청 데이터 제외**: YouTube IFrame Player API의 한계로 인해 사용자의 직접 조작과 프로그래밍적 조작을 구분할 수 없어 정확한 측정 불가능
+- ✅ **영상 탐색은 별도 추적**: `recipe_detail_video_seek` 이벤트로 사용자의 능동적 스텝 탐색 추적
 
 ---
 
@@ -134,43 +143,7 @@
 
 ---
 
-### 4️⃣ `recipe_detail_video_first_interact` - 영상 최초 조작 ⭐
-
-**발생 시점**: 사용자가 YouTube 플레이어를 **처음으로 직접 조작**할 때 (페이지당 최대 1회)
-
-**속성**:
-```typescript
-{
-  recipe_id: string;
-  first_action: "play" | "pause" | "seek";  // 최초 조작 유형
-  time_to_interact: number;      // 페이지 진입부터 최초 조작까지 시간 (초)
-  video_time: number;             // 조작 시점의 영상 시간 (초)
-}
-```
-
-**발생 조건** (OR 조건 중 하나):
-1. ✅ YouTube 플레이어의 **재생 버튼**을 직접 클릭
-2. ✅ YouTube 플레이어의 **일시정지 버튼**을 직접 클릭
-3. ✅ YouTube 플레이어의 **진행바**를 직접 드래그/클릭
-
-**발생하지 않는 경우**:
-- ❌ 스텝 클릭으로 인한 프로그래밍적 재생 (우리 코드가 `player.playVideo()` 호출)
-- ❌ 스텝 클릭으로 인한 시간 이동 (우리 코드가 `player.seekTo()` 호출)
-
-**측정 목적**:
-- 영상 콘텐츠 자체에 대한 관심도
-- 최초 조작까지 걸리는 시간
-- 재생으로 시작하는지 탐색으로 시작하는지
-
-**구현 위치**: `webview-v2/src/views/recipe-detail/ui/index.tsx` (StickyVideo 컴포넌트)
-
-**핵심 구분점**:
-- **사용자가 YouTube UI를 직접 터치/클릭** → `video_first_interact` 발생
-- **우리 코드가 YouTube API를 호출** → `video_seek` 발생
-
----
-
-### 5️⃣ `recipe_detail_video_seek` - 스텝으로 영상 이동
+### 4️⃣ `recipe_detail_video_seek` - 스텝으로 영상 이동
 
 **발생 시점**: 레시피 탭에서 스텝 세부 항목 클릭 시
 
@@ -192,7 +165,7 @@
 
 ---
 
-### 6️⃣ `recipe_detail_feature_click` - 부가 기능 클릭
+### 5️⃣ `recipe_detail_feature_click` - 부가 기능 클릭
 
 **발생 시점**: 타이머 또는 계량법 버튼 클릭 시
 
@@ -215,7 +188,7 @@
 
 ---
 
-### 7️⃣ `recipe_detail_cooking_start` - 요리 시작
+### 6️⃣ `recipe_detail_cooking_start` - 요리 시작
 
 **발생 시점**: "요리 시작" 버튼 클릭 시 (`/recipe/{id}/step` 페이지로 이동)
 
@@ -224,16 +197,15 @@
 {
   recipe_id: string;
   time_to_start: number;          // 페이지 진입부터 요리 시작까지 시간 (초)
-  tabs_visited: string[];         // 방문한 탭 목록
-  tab_visit_count: number;        // 탭 클릭 총 횟수
-  video_watched: boolean;         // 영상을 봤는지
+  tab_switch_count: number;       // 탭 전환 횟수
+  ingredient_prepared_count: number; // 준비 완료한 재료 개수
 }
 ```
 
 **측정 목적**:
 - **최종 전환율** (가장 중요)
 - 요리 시작까지 걸리는 시간
-- 어떤 준비를 한 사용자가 요리를 시작하는지
+- 재료 준비 정도와 전환율의 상관관계
 
 **구현 위치**: `webview-v2/src/views/recipe-detail/ui/index.tsx` (RecipeBottomSheet - "요리 시작" 버튼)
 
@@ -241,57 +213,124 @@
 
 ## 구현 방법
 
-### 페이지 레벨 State 관리
+### 컴포넌트 구조 및 데이터 흐름
+
+현재 레시피 상세 페이지는 다음과 같은 구조입니다:
+
+```
+RecipeDetailPageReady (부모)
+├── Header
+│   └── TimerButton (타이머 버튼)
+├── StickyVideo (영상 플레이어)
+└── RecipeBottomSheet (자식)
+    ├── 탭 버튼 (요약/레시피/재료)
+    ├── 스텝 목록 (레시피 탭)
+    ├── 계량법 버튼 (재료 탭)
+    └── 요리 시작 버튼
+```
+
+**핵심 이슈**: Amplitude 추적에 필요한 state/ref는 `RecipeDetailPageReady`에 있어야 하지만,
+실제 사용자 인터랙션은 `RecipeBottomSheet`에서 발생합니다. 이를 해결하기 위해 **콜백 props 패턴**을 사용합니다.
+
+---
+
+### RecipeBottomSheet Props 인터페이스 확장
+
+기존 props에 Amplitude 추적용 콜백을 추가합니다:
 
 ```typescript
-// RecipeDetailPageReady 컴포넌트
-const RecipeDetailPageReady = ({ id }: { id: string }) => {
-  const { data } = useFetchRecipe(id);
+// RecipeBottomSheet props 타입
+type RecipeBottomSheetProps = {
+  // 기존 props
+  steps: RecipeStep[];
+  ingredients: Ingredient[];
+  onTimeClick: (time: number) => void;
+  handleRouteToStep: () => void;
+  recipe_summary: RecipeMeta;
+  tags?: RecipeTag[];
+  briefings?: RecipeBriefing[];
+  collapsedTopPx: number;
+  expandedTopPx: number;
 
-  // 페이지 진입 시간
-  const pageStartTime = useRef(Date.now());
-
-  // 탭 관련
-  const tabsVisited = useRef<Set<string>>(new Set(["summary"])); // 기본 탭
-  const tabClickCount = useRef(0);
-  const currentTab = useRef("summary");
-
-  // 영상 관련
-  const [hasUserInteracted, setHasUserInteracted] = useState(false);
-  const videoPlayed = useRef(false);
-  const videoWatchTime = useRef(0);
-  const lastVideoTime = useRef(0);
-  const isPlayingRef = useRef(false);
-  const playStartTime = useRef<number | null>(null);
-
-  // 스텝 클릭 플래그 (video_first_interact와 구분)
-  const isSeekingByStep = useRef(false);
-
-  // 요리 시작 여부
-  const reachedCookingStart = useRef(false);
-
-  // ...
+  // 🆕 Amplitude 추적용 콜백 props
+  onTabClick?: (tabName: "summary" | "recipe" | "ingredients") => void;
+  onStepClick?: (stepOrder: number, stepTitle: string, videoTime: number) => void;
+  onMeasurementClick?: () => void;
+  onCookingStart?: (selectedIngredientCount: number) => void;
 };
 ```
 
+---
+
+### 페이지 레벨 State 관리 (RecipeDetailPageReady)
+
+```typescript
+// webview-v2/src/views/recipe-detail/ui/index.tsx
+
+export const RecipeDetailPageReady = ({ id }: { id: string }) => {
+  const { data } = useFetchRecipe(id);
+  const router = useRouter();
+
+  // 기존 데이터 추출
+  const videoInfo = data?.videoInfo ?? {};
+  const ingredients = data?.ingredients ?? [];
+  const steps = data?.steps ?? [];
+
+  // 🆕 Amplitude 추적용 refs
+  const pageStartTime = useRef(Date.now());
+  const tabSwitchCount = useRef(0);
+  const currentTab = useRef<"summary" | "recipe" | "ingredients">("summary");
+  const reachedCookingStart = useRef(false);
+
+  // YouTube 플레이어 ref (기존)
+  const playerRef = useRef<YT.Player | null>(null);
+
+  // ... 기존 코드 ...
+};
+```
+
+---
+
 ### 1. View 이벤트 (페이지 진입)
+
+**구현 위치**: `RecipeDetailPageReady` 컴포넌트 내부
 
 ```typescript
 useEffect(() => {
-  // 페이지 진입 시 view 이벤트
+  // is_first_view 판단 로직 (1시간 기준)
+  const key = `recipe_${id}_last_view`;
+  const lastView = sessionStorage.getItem(key);
+
+  let isFirstView = true;
+
+  if (lastView) {
+    const elapsed = Date.now() - Number(lastView);
+    const ONE_HOUR = 60 * 60 * 1000;
+    isFirstView = elapsed > ONE_HOUR;
+  }
+
+  // timestamp 갱신
+  sessionStorage.setItem(key, Date.now().toString());
+
+  // 페이지 진입 이벤트
   track(AMPLITUDE_EVENT.RECIPE_DETAIL_VIEW, {
     recipe_id: id,
-    recipe_title: data?.videoInfo?.videoTitle || "",
-    entry_source: document.referrer || undefined,
+    recipe_title: videoInfo?.videoTitle || "",
+    is_first_view: isFirstView,
     total_steps: steps.length,
     total_ingredients: ingredients.length,
     has_video: !!videoInfo?.id,
-    video_duration: videoInfo?.duration || undefined,
   });
 }, []);
 ```
 
+**참고**: `video_duration` 속성은 현재 데이터에 해당 필드가 없으므로 제외합니다.
+
+---
+
 ### 2. Exit 이벤트 (페이지 이탈)
+
+**구현 위치**: `RecipeDetailPageReady` 컴포넌트 내부
 
 ```typescript
 useEffect(() => {
@@ -299,139 +338,180 @@ useEffect(() => {
     // 페이지 이탈 시 exit 이벤트
     track(AMPLITUDE_EVENT.RECIPE_DETAIL_EXIT, {
       recipe_id: id,
-      view_duration: (Date.now() - pageStartTime.current) / 1000,
-      tabs_visited: Array.from(tabsVisited.current),
-      tab_click_count: tabClickCount.current,
-      video_played: videoPlayed.current,
-      video_watch_time: videoWatchTime.current,
+      stay_duration: Math.round((Date.now() - pageStartTime.current) / 1000),
+      tab_switch_count: tabSwitchCount.current,
+      final_tab: currentTab.current,
       reached_cooking_start: reachedCookingStart.current,
     });
   };
 }, []);
 ```
 
-### 3. 영상 시청 시간 추적
+---
 
-```typescript
-// YouTube Player 이벤트 핸들러
-const handleVideoStateChange = (event: YT.PlayerEvent) => {
-  const player = event.target;
-  const currentTime = player.getCurrentTime();
-  const state = event.data;
+### 3. Tab Click 이벤트
 
-  // 재생 시작
-  if (state === YT.PlayerState.PLAYING) {
-    isPlayingRef.current = true;
-    playStartTime.current = Date.now();
-    videoPlayed.current = true;
-  }
+**구현 위치**: 핸들러는 `RecipeDetailPageReady`에서 정의, `RecipeBottomSheet`에 콜백으로 전달
 
-  // 일시정지 또는 종료
-  if (state === YT.PlayerState.PAUSED || state === YT.PlayerState.ENDED) {
-    if (isPlayingRef.current && playStartTime.current) {
-      const watchDuration = (Date.now() - playStartTime.current) / 1000;
-      videoWatchTime.current += watchDuration;
-      isPlayingRef.current = false;
-      playStartTime.current = null;
-    }
-  }
-
-  lastVideoTime.current = currentTime;
-};
-```
-
-### 4. Video First Interact 이벤트
-
-```typescript
-const handleVideoFirstInteract = (action: "play" | "pause" | "seek", videoTime: number) => {
-  if (!hasUserInteracted && !isSeekingByStep.current) {
-    track(AMPLITUDE_EVENT.RECIPE_DETAIL_VIDEO_FIRST_INTERACT, {
-      recipe_id: id,
-      first_action: action,
-      time_to_interact: (Date.now() - pageStartTime.current) / 1000,
-      video_time: videoTime,
-    });
-    setHasUserInteracted(true);
-  }
-};
-
-// YouTube Player 이벤트
-<ReactYouTube
-  onPlay={(event) => {
-    handleVideoFirstInteract("play", event.target.getCurrentTime());
-    handleVideoStateChange(event);
-  }}
-  onPause={(event) => {
-    handleVideoFirstInteract("pause", event.target.getCurrentTime());
-    handleVideoStateChange(event);
-  }}
-  onStateChange={(event) => {
-    // 진행바 드래그 감지
-    const currentTime = event.target.getCurrentTime();
-    const timeDiff = Math.abs(currentTime - lastVideoTime.current);
-
-    if (timeDiff > 1 && !isSeekingByStep.current) {
-      handleVideoFirstInteract("seek", currentTime);
-    }
-
-    handleVideoStateChange(event);
-  }}
-/>
-```
-
-### 5. Tab Click 이벤트
-
+**부모 컴포넌트 (RecipeDetailPageReady)**:
 ```typescript
 const handleTabClick = (tabName: "summary" | "recipe" | "ingredients") => {
-  tabsVisited.current.add(tabName);
-  tabClickCount.current++;
+  // 다른 탭으로 전환할 때만 카운트
+  if (currentTab.current !== tabName) {
+    tabSwitchCount.current++;
+  }
   currentTab.current = tabName;
 
   track(AMPLITUDE_EVENT.RECIPE_DETAIL_TAB_CLICK, {
     recipe_id: id,
     tab_name: tabName,
-    time_since_view: (Date.now() - pageStartTime.current) / 1000,
+    time_since_view: Math.round((Date.now() - pageStartTime.current) / 1000),
   });
 };
 
-// RecipeBottomSheet에서 탭 클릭 시
-<button onClick={() => handleTabClick("recipe")}>
-  레시피
+// RecipeBottomSheet에 전달
+<RecipeBottomSheet
+  // ... 기존 props
+  onTabClick={handleTabClick}
+/>
+```
+
+**자식 컴포넌트 (RecipeBottomSheet)**:
+```typescript
+// 탭 버튼 onClick 수정
+<button
+  onClick={() => {
+    setActiveTab(tab);
+    contentRef.current?.scrollTo({ top: 0, behavior: "auto" });
+    if (tab === "recipe") {
+      setExpanded(new Set(steps.map((_, idx) => idx)));
+    }
+    // 🆕 Amplitude 추적 콜백 호출
+    onTabClick?.(tab);
+  }}
+>
+  {messages.tabs[tab]}
 </button>
 ```
 
-### 6. Video Seek 이벤트 (스텝 클릭)
+---
 
+### 4. Video Seek 이벤트 (스텝 클릭)
+
+**구현 위치**: 핸들러는 `RecipeDetailPageReady`에서 정의, `RecipeBottomSheet`에 콜백으로 전달
+
+**부모 컴포넌트 (RecipeDetailPageReady)**:
 ```typescript
-const handleStepClick = (sec: number, stepOrder: number, stepTitle: string) => {
-  // 스텝 클릭 플래그 설정
-  isSeekingByStep.current = true;
-
+const handleStepClick = (stepOrder: number, stepTitle: string, videoTime: number) => {
   track(AMPLITUDE_EVENT.RECIPE_DETAIL_VIDEO_SEEK, {
     recipe_id: id,
     step_order: stepOrder,
     step_title: stepTitle,
-    video_time: sec,
+    video_time: videoTime,
   });
+};
 
-  // 영상 이동
-  const player = playerRef.current;
-  if (player) {
-    player.seekTo(sec - 1.5, true);
-    player.playVideo();
-  }
+// 기존 handleTimeClick과 함께 전달
+<RecipeBottomSheet
+  // ... 기존 props
+  onTimeClick={handleTimeClick}
+  onStepClick={handleStepClick}
+/>
+```
 
-  // 0.5초 후 플래그 해제
-  setTimeout(() => {
-    isSeekingByStep.current = false;
-  }, 500);
+**자식 컴포넌트 (RecipeBottomSheet)**:
+```typescript
+// 스텝 detail 버튼 onClick 수정
+{step.details.map((d, di) => (
+  <button
+    key={di}
+    onClick={() => {
+      onTimeClick(d.start);
+      setTopPx(minCollapseTop);
+      // 🆕 Amplitude 추적 콜백 호출
+      onStepClick?.(idx, step.subtitle, d.start);
+    }}
+  >
+    {/* ... */}
+  </button>
+))}
+```
+
+**참고**: `step_order`는 스텝의 인덱스(idx)를 사용합니다 (0부터 시작).
+
+---
+
+### 5. Feature Click 이벤트
+
+#### 5-1. 타이머 버튼
+
+**구현 위치**: `webview-v2/src/views/recipe-detail/ui/timerButton.tsx`
+
+> **⚠️ 중요**: 상세페이지의 `TimerButton`은 `recipe-detail/ui/timerButton.tsx`에 있고,
+> 요리모드의 `TimerButton`은 `features/timer/ui/timerButton.tsx`에 있습니다.
+> **서로 다른 컴포넌트**이므로 상세페이지 전용 컴포넌트만 수정하면 됩니다.
+
+**현재 구조 분석**:
+
+```text
+TimerButton (recipe-detail/ui/timerButton.tsx)
+└── TimerBottomSheet (widgets/timer/timerBottomSheet.tsx)
+    └── <div onClick={handleOpenTemporarily}>  ← 실제 클릭 처리
+        └── {trigger} = TimerButtonDefault
+```
+
+`TimerBottomSheet` 내부에서 trigger를 감싸는 div가 클릭을 처리합니다.
+따라서 `TimerButton`에서 wrapper div로 클릭을 캡처해야 합니다.
+
+```typescript
+// webview-v2/src/views/recipe-detail/ui/timerButton.tsx
+
+export const TimerButton = ({
+  recipeId,
+  recipeName,
+  onTimerClick,  // 🆕 추가
+}: {
+  recipeId: string;
+  recipeName: string;
+  onTimerClick?: () => void;  // 🆕 추가
+}) => {
+  const timers = useTimers(recipeId, recipeName);
+  const timerActveCount = Array.from(
+    timers.entries().filter(([_, timer]) => timer.state === TimerState.ACTIVE)
+  ).length;
+
+  return (
+    // 🆕 wrapper div로 클릭 캡처 (이벤트 버블링 활용)
+    <div onClick={() => onTimerClick?.()}>
+      <TimerBottomSheet
+        trigger={
+          <TimerButtonDefault waitingCount={timerActveCount} />
+        }
+        recipeId={recipeId}
+        recipeName={recipeName}
+      />
+    </div>
+  );
+};
+
+// TimerButtonDefault는 수정 불필요 (기존 유지)
+const TimerButtonDefault = ({
+  waitingCount = 0,
+}: {
+  waitingCount?: number;
+}) => {
+  return (
+    <HeaderIconButtonTemplate
+      icon={/* ... */}
+      onClick={() => {}}  // 기존 유지 (실제 클릭은 TimerBottomSheet에서 처리)
+    />
+  );
 };
 ```
 
-### 7. Feature Click 이벤트
+**부모 컴포넌트 (RecipeDetailPageReady)**:
 
 ```typescript
-// 타이머 버튼
 const handleTimerClick = () => {
   track(AMPLITUDE_EVENT.RECIPE_DETAIL_FEATURE_CLICK, {
     recipe_id: id,
@@ -440,7 +520,34 @@ const handleTimerClick = () => {
   });
 };
 
-// 계량법 버튼
+// Header에서 TimerButton에 전달
+<TimerButton
+  recipeId={id}
+  recipeName={videoInfo?.videoTitle}
+  onTimerClick={handleTimerClick}  // 🆕 추가
+/>
+```
+
+**동작 원리**:
+
+1. 사용자가 타이머 아이콘 클릭
+2. 이벤트 버블링으로 wrapper div의 `onClick` 실행 → `onTimerClick()` → Amplitude 이벤트 발생
+3. 이벤트가 계속 전파되어 `TimerBottomSheet` 내부 div의 `onClick`도 실행 → 바텀시트 열림
+
+**중복 방지**:
+
+| 상황 | 이벤트 발생 |
+|------|------------|
+| 상세페이지 타이머 버튼 클릭 | ✅ 1회만 발생 |
+| 요리모드 타이머 | ❌ 다른 컴포넌트 사용 (영향 없음) |
+| 바텀시트 내부 조작 | ❌ wrapper 클릭이 아니므로 발생 안 함 |
+
+#### 5-2. 계량법 버튼
+
+**구현 위치**: 핸들러는 `RecipeDetailPageReady`에서 정의, `RecipeBottomSheet`에 콜백으로 전달
+
+**부모 컴포넌트 (RecipeDetailPageReady)**:
+```typescript
 const handleMeasurementClick = () => {
   track(AMPLITUDE_EVENT.RECIPE_DETAIL_FEATURE_CLICK, {
     recipe_id: id,
@@ -448,25 +555,71 @@ const handleMeasurementClick = () => {
     current_tab: currentTab.current,
   });
 };
+
+<RecipeBottomSheet
+  // ... 기존 props
+  onMeasurementClick={handleMeasurementClick}
+/>
 ```
 
-### 8. Cooking Start 이벤트
-
+**자식 컴포넌트 (RecipeBottomSheet)**:
 ```typescript
-const handleCookingStart = () => {
+// 계량법 버튼 onClick 수정
+<button
+  onClick={() => {
+    setMeasurementOpen(true);
+    // 🆕 Amplitude 추적 콜백 호출
+    onMeasurementClick?.();
+  }}
+>
+  <span>{messages.ingredients.measure}</span>
+</button>
+```
+
+---
+
+### 6. Cooking Start 이벤트
+
+**구현 위치**: 핸들러는 `RecipeDetailPageReady`에서 정의, `RecipeBottomSheet`에 콜백으로 전달
+
+**부모 컴포넌트 (RecipeDetailPageReady)**:
+```typescript
+const handleCookingStart = (selectedIngredientCount: number) => {
   reachedCookingStart.current = true;
 
   track(AMPLITUDE_EVENT.RECIPE_DETAIL_COOKING_START, {
     recipe_id: id,
-    time_to_start: (Date.now() - pageStartTime.current) / 1000,
-    tabs_visited: Array.from(tabsVisited.current),
-    tab_visit_count: tabClickCount.current,
-    video_watched: videoPlayed.current,
+    time_to_start: Math.round((Date.now() - pageStartTime.current) / 1000),
+    tab_switch_count: tabSwitchCount.current,
+    ingredient_prepared_count: selectedIngredientCount,
   });
 
   router.push(`/recipe/${id}/step`);
 };
+
+// 기존 handleRouteToStep 대신 사용
+<RecipeBottomSheet
+  // ... 기존 props
+  // handleRouteToStep={() => router.push(`/recipe/${id}/step`)}  // 제거
+  onCookingStart={handleCookingStart}  // 🆕 추가
+/>
 ```
+
+**자식 컴포넌트 (RecipeBottomSheet)**:
+```typescript
+// "요리 시작" 버튼 onClick 수정
+<button
+  onClick={() => {
+    // 🆕 selected.size를 포함하여 콜백 호출
+    onCookingStart?.(selected.size);
+  }}
+>
+  {messages.ingredients.start}
+</button>
+```
+
+**참고**: `handleRouteToStep` prop은 `onCookingStart`로 대체됩니다.
+`onCookingStart` 핸들러 내부에서 `router.push()`를 호출합니다.
 
 ---
 
@@ -477,46 +630,33 @@ const handleCookingStart = () => {
 | 지표 | 계산 방식 | 의미 |
 |------|----------|------|
 | **페이지 조회 수** | `recipe_detail_view` 카운트 | 레시피별 인기도 |
-| **평균 체류 시간** | `recipe_detail_exit.view_duration` 평균 | 콘텐츠 품질 |
+| **평균 체류 시간** | `recipe_detail_exit.stay_duration` 평균 | 콘텐츠 품질 |
 | **요리 시작 전환율** | (cooking_start / view) × 100 | 최종 목표 달성률 |
-| **즉시 이탈률** | (exit.view_duration < 10초) / view × 100 | 초기 이탈 |
+| **즉시 이탈률** | (exit.stay_duration < 10초) / view × 100 | 초기 이탈 |
 
 ### 2. 탭 참여도
 
 | 지표 | 계산 방식 | 의미 |
 |------|----------|------|
-| **탭 클릭률** | (tab_click / view) × 100 | 사용자 참여도 |
-| **평균 탭 클릭 수** | `exit.tab_click_count` 평균 | 적극적 탐색 정도 |
-| **탭별 방문률** | 각 탭 포함된 `tabs_visited` 비율 | 정보 선호도 |
+| **탭 전환율** | (tab_click 발생 / view) × 100 | 사용자 참여도 |
+| **평균 탭 전환 수** | `exit.tab_switch_count` 평균 | 적극적 탐색 정도 |
+| **탭별 클릭률** | 각 탭의 `tab_click` 발생 비율 | 정보 선호도 |
+| **이탈 탭 분포** | `exit.final_tab` 분포 | 어느 탭에서 이탈하는지 |
 
-### 3. 영상 관련 지표
+### 3. 영상 탐색 지표
 
 | 지표 | 계산 방식 | 의미 |
 |------|----------|------|
-| **영상 재생률** | (exit.video_played = true) / view × 100 | 영상 활용도 |
-| **평균 시청 시간** | `exit.video_watch_time` 평균 | 실제 시청량 |
-| **최초 조작 시간** | `video_first_interact.time_to_interact` 평균 | 영상 관심도 |
-| **영상 이동 기능 사용률** | (video_seek 발생) / view × 100 | 기능 활용도 |
+| **스텝 탐색 사용률** | (video_seek 발생) / view × 100 | 스텝-영상 연동 기능 활용도 |
+| **평균 스텝 탐색 횟수** | 사용자당 `video_seek` 발생 평균 | 영상 활용 적극성 |
+| **많이 탐색된 스텝** | `video_seek.step_order` 분포 | 사용자 관심 구간 |
 
-### 4. 사용자 유형 분류
+### 4. 재료 준비와 전환율
 
-```typescript
-// 영상 중심 사용자
-video_first_interact 있음 && video_seek 없음
-→ 비율: 25%
-
-// 기능 활용 사용자
-video_first_interact 없음 && video_seek 있음
-→ 비율: 15%
-
-// 파워유저
-video_first_interact 있음 && video_seek 있음
-→ 비율: 20%
-
-// 텍스트만 사용자
-둘 다 없음
-→ 비율: 40%
-```
+| 지표 | 계산 방식 | 의미 |
+|------|----------|------|
+| **재료 준비율** | `cooking_start.ingredient_prepared_count` / 전체 재료 수 | 준비 완료 정도 |
+| **준비율별 전환율** | 준비율 구간별 요리 시작률 | 준비 정도와 전환율 상관관계 |
 
 ### 5. 전환 퍼널
 
@@ -525,103 +665,57 @@ video_first_interact 있음 && video_seek 있음
   ↓
  65% - 탭 클릭 (tab_click)
   ↓
- 45% - 영상 재생 (video_played = true)
-  ↓
  30% - 요리 시작 (cooking_start)
 ```
+
+> **참고**: 영상 재생 단계는 YouTube API 제약으로 정확한 측정이 불가하여 퍼널에서 제외되었습니다.
+> 대신 `recipe_detail_video_seek` 이벤트로 스텝-영상 연동 기능 활용도를 측정합니다.
 
 ---
 
 ## 활용 시나리오
 
-### 시나리오 1: 영상 vs 텍스트 선호도
-
-**질문**: 사용자들이 영상을 보고 요리하는가, 텍스트만 보는가?
-
-**분석**:
-```
-영상 재생률: 45%
-평균 시청 시간: 52초
-영상 시청자 요리 시작률: 38%
-비시청자 요리 시작률: 24%
-```
-
-**인사이트**:
-- 영상 시청자가 전환율 14%p 높음
-- 영상이 요리 시작 의사결정에 긍정적 영향
-- 영상 품질 개선 시 전환율 향상 기대
-
----
-
-### 시나리오 2: 최초 영상 조작 패턴
-
-**질문**: 사용자들이 영상을 어떻게 시작하는가?
-
-**분석**:
-```
-first_action 분포:
-- "play" (재생): 70%
-- "seek" (탐색): 25%
-- "pause" (일시정지): 5%
-
-평균 time_to_interact: 18초
-```
-
-**인사이트**:
-- 대부분(70%)은 처음부터 재생
-- 25%는 필요한 부분을 찾아봄 (능동적)
-- 페이지 진입 후 18초 만에 영상에 관심
-
----
-
-### 시나리오 3: 스텝-영상 연동 효과
+### 시나리오 1: 스텝-영상 연동 효과
 
 **질문**: 스텝 클릭으로 영상 이동하는 기능이 유용한가?
 
 **분석**:
 ```
 기능 사용률: 18%
-기능 사용자 평균 시청 시간: 78초
-기능 미사용자 평균 시청 시간: 38초
 기능 사용자 요리 시작률: 42%
 기능 미사용자 요리 시작률: 28%
 ```
 
 **인사이트**:
-- 기능 사용자가 2배 더 오래 시청
-- 전환율도 14%p 높음
+- 기능 사용자가 전환율 14%p 높음
 - 하지만 사용률 18%로 낮음
 - **개선 방향**: 기능 발견성(Discoverability) 개선 필요
 
 ---
 
-### 시나리오 4: 탐색 패턴별 전환율
+### 시나리오 2: 탐색 패턴별 전환율
 
 **질문**: 어떤 탐색 패턴이 요리 시작률이 높은가?
 
 **분석**:
 ```
-패턴 A: 순차적 탐색 (요약 → 레시피 → 재료)
+탭 전환 0회 (기본 탭만 봄)
+- 비율: 45%
+- 요리 시작률: 15%
+
+탭 전환 1-2회 (일부 탐색)
 - 비율: 35%
-- 요리 시작률: 45%
-
-패턴 B: 레시피만 (레시피 탭만)
-- 비율: 25%
-- 요리 시작률: 38%
-
-패턴 C: 재료 확인형 (재료 → 요약)
-- 비율: 20%
 - 요리 시작률: 32%
 
-패턴 D: 빠른 스캔 (탭 클릭 < 2)
+탭 전환 3회 이상 (적극적 탐색)
 - 비율: 20%
-- 요리 시작률: 15%
+- 요리 시작률: 48%
 ```
 
 **인사이트**:
-- 순차적으로 충분히 탐색한 사용자가 전환율 가장 높음
-- 빠르게 훑어본 사용자는 전환율 낮음
-- **개선 방향**: 탭 전환 유도 UX 개선
+- 적극적으로 탐색한 사용자가 전환율 가장 높음 (48%)
+- 기본 탭만 본 사용자는 전환율 매우 낮음 (15%)
+- **개선 방향**: 탭 전환 유도 UX 개선, 온보딩 추가
 
 ---
 
@@ -629,17 +723,15 @@ first_action 분포:
 
 ### Phase 1: 기본 추적 (High Priority)
 - [ ] `recipe_detail_view` - 페이지 진입
-- [ ] `recipe_detail_exit` - 페이지 이탈 (영상 시청 시간 포함)
+- [ ] `recipe_detail_exit` - 페이지 이탈
 - [ ] `recipe_detail_cooking_start` - 요리 시작
 
 ### Phase 2: 참여도 추적 (High Priority)
 - [ ] `recipe_detail_tab_click` - 탭 클릭
-- [ ] 영상 시청 시간 계산 로직 구현
+- [ ] 탭 전환 카운트 로직 구현
 
-### Phase 3: 영상 인터랙션 (Medium Priority)
-- [ ] `recipe_detail_video_first_interact` - 영상 최초 조작
+### Phase 3: 영상 탐색 (Medium Priority)
 - [ ] `recipe_detail_video_seek` - 스텝으로 영상 이동
-- [ ] 스텝 클릭 플래그 (`isSeekingByStep`) 구현
 
 ### Phase 4: 부가 기능 (Low Priority)
 - [ ] `recipe_detail_feature_click` - 타이머/계량법 클릭
@@ -647,50 +739,39 @@ first_action 분포:
 ### 검증
 - [ ] 모든 이벤트가 올바른 시점에 발생하는지 확인
 - [ ] 속성 값이 정확히 전달되는지 확인
-- [ ] 중복 이벤트가 발생하지 않는지 확인 (특히 `video_first_interact`)
-- [ ] Exit 시 영상 시청 시간이 정확히 계산되는지 확인
+- [ ] Exit 이벤트가 페이지 이탈 시 정확히 발생하는지 확인
+- [ ] 탭 전환 카운트가 정확히 계산되는지 확인
 
 ---
 
 ## 주의사항
 
-### 1. 영상 시청 시간 계산
+### 1. 영상 데이터 추적 제외 이유
 
-- ✅ **올바른 방법**: 재생 시작 시간을 기록하고, 일시정지/종료 시 경과 시간 계산
-- ❌ **잘못된 방법**: getCurrentTime()을 사용하면 부정확 (사용자가 건너뛸 수 있음)
+⚠️ **YouTube IFrame Player API의 근본적 한계**:
+- YouTube Player의 `onStateChange` 이벤트는 상태 변화만 알려주며, **누가 상태를 변경했는지 구분 불가능**
+- 사용자의 직접 클릭과 프로그래밍적 API 호출(`player.playVideo()`, `player.seekTo()`)을 구분할 수 없음
+- 현재 구현에서 스텝 클릭 시 자동으로 `seekTo()` + `playVideo()`를 호출하므로 정확한 측정 불가능
+- **부정확한 데이터는 잘못된 분석으로 이어지므로 완전 제외**
 
-### 2. Video First Interact vs Video Seek 구분
+### 2. Video Seek 이벤트의 의미
 
-- `video_first_interact`: 사용자가 YouTube UI를 **직접** 조작
-- `video_seek`: 우리 코드가 스텝 클릭으로 **프로그래밍적** 이동
-- `isSeekingByStep` 플래그로 명확히 구분 필요
+- `recipe_detail_video_seek`: 사용자가 **능동적으로** 스텝을 클릭하여 영상을 탐색
+- 이 이벤트만으로도 충분한 인사이트:
+  - 스텝-영상 연동 기능 활용도
+  - 많이 참조되는 스텝 구간
+  - 영상 탐색 사용자 vs 텍스트만 사용자 구분
 
 ### 3. Exit 이벤트 발송 시점
 
 - 페이지 언마운트 시 `useEffect cleanup`에서 발송
-- 이 시점에 모든 집계 데이터 (탭 방문, 영상 시청 등) 포함
+- 이 시점에 모든 집계 데이터 (탭 전환, 최종 탭, 체류 시간) 포함
 
-### 4. 영상 재생 중 페이지 이탈
+### 4. 탭 전환 카운트
 
-- 페이지 이탈 시 재생 중이었다면 마지막 재생 시간까지 포함
-- `useEffect cleanup`에서 `isPlayingRef`를 확인하여 처리
-
-```typescript
-useEffect(() => {
-  return () => {
-    // 재생 중이었다면 마지막 시청 시간 추가
-    if (isPlayingRef.current && playStartTime.current) {
-      const lastWatch = (Date.now() - playStartTime.current) / 1000;
-      videoWatchTime.current += lastWatch;
-    }
-
-    // Exit 이벤트 발송
-    track(AMPLITUDE_EVENT.RECIPE_DETAIL_EXIT, {
-      // ...
-    });
-  };
-}, []);
-```
+- 탭 전환은 **다른 탭으로 이동할 때만** 카운트
+- 같은 탭을 여러 번 클릭해도 카운트하지 않음
+- `currentTab.current !== tabName` 체크로 구현
 
 ---
 

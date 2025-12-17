@@ -15,18 +15,18 @@
 
 ## 레시피 생성 경로 분석
 
-### 카드 경로 (8가지 source)
+### 카드 경로 (6가지 source)
 
 | source 값 | 화면 위치 | 파일 | 컴포넌트 |
 |-----------|----------|------|----------|
 | `popular_normal` | 홈 > 인기 레시피 | `popularRecipes.tsx` | `RecipeCardWrapper` |
 | `popular_shorts` | 홈 > 인기 쇼츠 | `popularShortsRecipes.tsx` | `RecipeCardWrapper` |
-| `theme_chef` | 홈 > 셰프 추천 | `themeRecipeSection.tsx` | `RecipeCardWrapper` |
-| `theme_trend` | 홈 > 트렌드 | `themeRecipeSection.tsx` | `RecipeCardWrapper` |
-| `search_trend` | 검색창 > 급상승 레시피 | `search-recipe/ui/index.tsx` | `TrendRecipeCardWrapper` |
-| `search_result` | 검색 결과 | `search-results/ui/index.tsx` | `RecipeSearchedCardReady` |
+| `search_trend` | 검색 페이지 > 급상승 레시피 | `search-recipe/ui/index.tsx` | `TrendRecipeCardWrapper` |
+| `search_result` | 검색 결과 페이지 | `search-results/ui/index.tsx` | `RecipeSearchedCardReady` |
 | `category_cuisine` | 카테고리 > 한식/중식 등 | `category-results/ui/index.tsx` | `CuisineRecipeCardReady` |
 | `category_recommend` | 카테고리 > 셰프/급상승 | `category-results/ui/index.tsx` | `RecommendRecipeCardReady` |
+
+> **참고**: `theme_chef`, `theme_trend`는 타입 정의에는 있으나 현재 홈 화면에 테마 레시피 섹션이 구현되지 않아 사용되지 않습니다.
 
 ### URL 경로 (2가지 entry_point)
 
@@ -50,7 +50,7 @@
 
 | 속성 | 타입 | 필수 | 설명 | 예시 |
 |-----|------|-----|------|------|
-| `source` | string | ✅ | 생성 경로 | `popular_normal`, `search_trend` 등 |
+| `source` | string | ✅ | 생성 경로 (6가지) | `popular_normal`, `popular_shorts`, `search_trend`, `search_result`, `category_cuisine`, `category_recommend` |
 | `video_type` | string | ✅ | 영상 타입 | `SHORTS`, `NORMAL` |
 | `category_type` | string | - | 카테고리 타입 (category 경로만) | `KOREAN`, `TRENDING` 등 |
 | `recipe_id` | string | - | 레시피 ID | `uuid` |
@@ -66,7 +66,7 @@
 
 | 속성 | 타입 | 필수 | 설명 | 예시 |
 |-----|------|-----|------|------|
-| `source` | string | ✅ | 생성 경로 | `popular_normal`, `search_trend` 등 |
+| `source` | string | ✅ | 생성 경로 (6가지) | `popular_normal`, `popular_shorts`, `search_trend`, `search_result`, `category_cuisine`, `category_recommend` |
 | `video_type` | string | ✅ | 영상 타입 | `SHORTS`, `NORMAL` |
 
 ---
@@ -80,10 +80,9 @@
 
 | 속성 | 타입 | 필수 | 설명 | 예시 |
 |-----|------|-----|------|------|
-| `source` | string | ✅ | 생성 경로 | `popular_normal`, `search_trend` 등 |
+| `source` | string | ✅ | 생성 경로 (6가지) | `popular_normal`, `popular_shorts`, `search_trend`, `search_result`, `category_cuisine`, `category_recommend` |
 | `video_type` | string | ✅ | 영상 타입 | `SHORTS`, `NORMAL` |
 | `recipe_id` | string | ✅ | 생성된 레시피 ID | `uuid` |
-| `duration_ms` | number | ✅ | 생성 소요 시간 | `1500` |
 
 ---
 
@@ -96,10 +95,9 @@
 
 | 속성 | 타입 | 필수 | 설명 | 예시 |
 |-----|------|-----|------|------|
-| `source` | string | ✅ | 생성 경로 | `popular_normal`, `search_trend` 등 |
+| `source` | string | ✅ | 생성 경로 (6가지) | `popular_normal`, `popular_shorts`, `search_trend`, `search_result`, `category_cuisine`, `category_recommend` |
 | `error_type` | string | ✅ | 에러 유형 | `network`, `server`, `unknown` |
 | `error_message` | string | - | 에러 메시지 | `Request failed` |
-| `duration_ms` | number | ✅ | 실패까지 소요 시간 | `3000` |
 
 ---
 
@@ -146,7 +144,6 @@
 | `entry_point` | string | ✅ | 진입 경로 | `external_share`, `floating_button` |
 | `recipe_id` | string | ✅ | 생성된 레시피 ID | `uuid` |
 | `has_target_category` | boolean | ✅ | 카테고리 지정 여부 | `true`, `false` |
-| `duration_ms` | number | ✅ | 생성 소요 시간 | `1500` |
 
 ---
 
@@ -162,7 +159,6 @@
 | `entry_point` | string | ✅ | 진입 경로 | `external_share`, `floating_button` |
 | `error_type` | string | ✅ | 에러 유형 | `network`, `server`, `unknown` |
 | `error_message` | string | - | 에러 메시지 | `Request failed` |
-| `duration_ms` | number | ✅ | 실패까지 소요 시간 | `3000` |
 
 ---
 
@@ -285,7 +281,6 @@ export function RecipeCardWrapper({
                 videoType: recipe.videoType,
                 recipeTitle: recipe.recipeTitle,
                 // 내부 추적용
-                _startTime: Date.now(),
                 _source: source,
                 _creationMethod: 'card',
               });
@@ -361,7 +356,6 @@ const TrendRecipeCardWrapper = ({ recipe }: { recipe: ThemeRecipe }) => {
             recipeId: recipe.recipeId,
             videoType: recipe.videoType,
             recipeTitle: recipe.recipeTitle,
-            _startTime: Date.now(),
             _source: 'search_trend',
             _creationMethod: 'card',
           });
@@ -412,7 +406,6 @@ const handleCardClick = async () => {
 
     await create({
       youtubeUrl: `https://www.youtube.com/watch?v=${searchResults.videoInfo.videoId}`,
-      _startTime: Date.now(),
       _source: 'search_result',
       _creationMethod: 'card',
     });
@@ -464,7 +457,6 @@ const CuisineRecipeCardReady = ({
 
       await create({
         youtubeUrl: `https://www.youtube.com/watch?v=${videoId}`,
-        _startTime: Date.now(),
         _source: 'category_cuisine',
         _creationMethod: 'card',
       });
@@ -573,8 +565,6 @@ export function RecipeCreatingView() {
     close,
   } = useRecipeCreatingViewOpenStore();
 
-  const [startTime, setStartTime] = useState<number | null>(null);
-
   // start 이벤트
   useEffect(() => {
     if (isOpen && entryPoint) {
@@ -582,7 +572,6 @@ export function RecipeCreatingView() {
         entry_point: entryPoint,
         has_prefilled_url: url.trim().length > 0,
       });
-      setStartTime(Date.now());
     }
   }, [isOpen, entryPoint]);
 
@@ -598,7 +587,6 @@ export function RecipeCreatingView() {
       create({
         youtubeUrl: url,
         targetCategoryId: selectedCategoryId,
-        _startTime: startTime || Date.now(),
         _entryPoint: entryPoint,
         _creationMethod: 'url',
         _hasTargetCategory: !!selectedCategoryId,
@@ -628,7 +616,6 @@ interface CreateRecipeParams {
   videoType?: VideoType;
   recipeTitle?: string;
   // 내부 추적용
-  _startTime?: number;
   _source?: string;
   _entryPoint?: string;
   _creationMethod?: 'card' | 'url';
@@ -642,15 +629,12 @@ export function useCreateRecipe() {
     },
 
     onSuccess: (data, variables) => {
-      const duration = variables._startTime ? Date.now() - variables._startTime : 0;
-
       if (variables._creationMethod === 'card') {
         // 카드 경로 성공
         track(AMPLITUDE_EVENT.RECIPE_CREATE_SUCCESS_CARD, {
           source: variables._source,
           video_type: variables.videoType || 'NORMAL',
           recipe_id: data.recipeId,
-          duration_ms: duration,
         });
       } else {
         // URL 경로 성공
@@ -658,7 +642,6 @@ export function useCreateRecipe() {
           entry_point: variables._entryPoint,
           recipe_id: data.recipeId,
           has_target_category: variables._hasTargetCategory || false,
-          duration_ms: duration,
         });
       }
 
@@ -666,7 +649,6 @@ export function useCreateRecipe() {
     },
 
     onError: (error, variables, ctx) => {
-      const duration = variables._startTime ? Date.now() - variables._startTime : 0;
       const errorType = getErrorType(error);
 
       if (variables._creationMethod === 'card') {
@@ -675,7 +657,6 @@ export function useCreateRecipe() {
           source: variables._source,
           error_type: errorType,
           error_message: error.message,
-          duration_ms: duration,
         });
       } else {
         // URL 경로 실패
@@ -683,7 +664,6 @@ export function useCreateRecipe() {
           entry_point: variables._entryPoint,
           error_type: errorType,
           error_message: error.message,
-          duration_ms: duration,
         });
       }
 
@@ -711,17 +691,26 @@ function getErrorType(error: Error): string {
 |-----|----------|
 | 앱 제공 레시피 vs 직접 탐색 비율? | `success_card` vs `success_url` 카운트 |
 | 어느 경로 전환율이 높은가? | 각각 `start → success` 퍼널 |
-| 인기레시피 vs 검색 중 어디가 많은가? | `source` 분포 분석 |
 | 외부 공유 기능 효과? | `entry_point = 'external_share'` 추이 |
+
+### Source별 분석 (카드 경로 6가지)
+
+| 질문 | 확인 방법 |
+|-----|----------|
+| 가장 많이 사용되는 source는? | `source` 분포 분석 |
+| 홈 vs 검색 vs 카테고리 성과 비교? | `popular_*` vs `search_*` vs `category_*` 집계 |
+| 인기 레시피 일반 vs 쇼츠 선호도? | `popular_normal` vs `popular_shorts` 비교 |
+| 검색 급상승 vs 검색 결과 전환율? | `search_trend` vs `search_result` 전환율 |
+| 음식 카테고리 vs 추천 카테고리 성과? | `category_cuisine` vs `category_recommend` 비교 |
 
 ### 세부 분석
 
 | 질문 | 확인 방법 |
 |-----|----------|
 | 쇼츠 vs 일반 영상 선호도? | `video_type` 분포 |
-| 카테고리별 인기 레시피? | `category_type` 분포 |
-| 생성 소요 시간 분포? | `duration_ms` 히스토그램 |
+| 카테고리별 인기 레시피? | `category_type` 분포 (category source에서만) |
 | 주요 에러 유형? | `error_type` 분포 |
+| Source별 실패율 비교? | `fail_card` 이벤트의 `source`별 집계 |
 
 ---
 
@@ -729,31 +718,42 @@ function getErrorType(error: Error): string {
 
 ### 코드 수정
 
+**기본 설정:**
 - [ ] `amplitudeEvents.ts` - 8개 이벤트 상수 추가
+- [ ] `useUserRecipe.ts` - success/fail 이벤트 (카드/URL 분기)
+
+**카드 경로 구현 (6가지):**
 - [ ] `recipeCardWrapper.tsx` - source prop 추가, start/submit 이벤트
 - [ ] `popularRecipes.tsx` - source="popular_normal" 전달
 - [ ] `popularShortsRecipes.tsx` - source="popular_shorts" 전달
-- [ ] `themeRecipeSection.tsx` - source="theme_chef", "theme_trend" 전달
-- [ ] `search-recipe/ui/index.tsx` - TrendRecipeCardWrapper에 이벤트 추가
-- [ ] `search-results/ui/index.tsx` - start/submit 이벤트 추가
-- [ ] `category-results/ui/index.tsx` - categoryType prop + 이벤트 추가
+- [ ] `search-recipe/ui/index.tsx` - source="search_trend" 이벤트 추가
+- [ ] `search-results/ui/index.tsx` - source="search_result" 이벤트 추가
+- [ ] `category-results/ui/index.tsx` - source="category_cuisine", "category_recommend" 이벤트 추가
+
+**URL 경로 구현 (2가지):**
 - [ ] `recipeCreatingViewOpenStore.ts` - entryPoint 상태 추가
-- [ ] `_app.tsx` - open() 호출 시 entryPoint 전달
-- [ ] `floatingButton.tsx` - open() 호출 시 entryPoint 전달
+- [ ] `_app.tsx` - open() 호출 시 entryPoint="external_share" 전달
+- [ ] `floatingButton.tsx` - open() 호출 시 entryPoint="floating_button" 전달
 - [ ] `recipeCreatingView.tsx` - start/submit 이벤트 추가
-- [ ] `useUserRecipe.ts` - success/fail 이벤트 (카드/URL 분기)
+
+**미구현 (향후 추가 시):**
+- [ ] `themeRecipeSection.tsx` - source="theme_chef", "theme_trend" 전달 (테마 레시피 섹션 구현 필요)
 
 ### 테스트
 
+**카드 경로 (6가지):**
 - [ ] 인기 레시피 경로 (popular_normal)
 - [ ] 인기 쇼츠 경로 (popular_shorts)
-- [ ] 셰프 추천 경로 (theme_chef)
-- [ ] 트렌드 경로 (theme_trend)
-- [ ] 검색창 급상승 경로 (search_trend)
+- [ ] 검색 급상승 경로 (search_trend)
 - [ ] 검색 결과 경로 (search_result)
 - [ ] 카테고리 음식 경로 (category_cuisine)
 - [ ] 카테고리 추천 경로 (category_recommend)
+
+**URL 경로 (2가지):**
 - [ ] 외부 공유 경로 (external_share)
 - [ ] 플로팅 버튼 경로 (floating_button)
+
+**공통:**
 - [ ] 성공/실패 이벤트가 올바른 이벤트명으로 발송되는지 확인
-- [ ] duration_ms가 정확하게 계산되는지 확인
+- [ ] video_type이 정확하게 전달되는지 확인 (NORMAL/SHORTS)
+
