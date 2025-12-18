@@ -16,6 +16,7 @@ export interface RawAuthorizationTokenResponse {
 }
 
 interface RawUserResponse {
+  provider_sub: string;
   gender: Gender | null;
   nickname: string;
   date_of_birth: string | null;
@@ -40,6 +41,7 @@ function convertRawUserResponseToUserResponse(
   rawUserResponse: RawUserResponse,
 ): UserResponse {
   return {
+    provider_sub: rawUserResponse.provider_sub,
     gender: rawUserResponse.gender,
     nickname: rawUserResponse.nickname,
     date_of_birth: rawUserResponse.date_of_birth,
@@ -52,6 +54,7 @@ function convertRawUserResponseToUserResponse(
 }
 
 export interface UserResponse {
+  provider_sub: string;
   gender: Gender | null;
   nickname: string;
   date_of_birth: string | null;
