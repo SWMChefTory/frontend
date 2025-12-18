@@ -80,6 +80,7 @@ enum payloadType {
   LOCK_ORIENTATION = "LOCK_ORIENTATION",
   UNLOCK_ORIENTATION = "UNLOCK_ORIENTATION",
   OPEN_YOUTUBE = "OPEN_YOUTUBE",
+  OPEN_EXTERNAL_URL = "OPEN_EXTERNAL_URL",
   SAFE_AREA = "SAFE_AREA",
 }
 
@@ -199,6 +200,17 @@ export function useHandleMessage({
                 }
               } catch (error) {
                 await Linking.openURL("https://www.youtube.com");
+              }
+              break;
+            }
+            case payloadType.OPEN_EXTERNAL_URL: {
+              const { url } = req.payload;
+              if (url) {
+                try {
+                  await Linking.openURL(url);
+                } catch (error) {
+                  console.error("[OPEN_EXTERNAL_URL] 실패:", error);
+                }
               }
               break;
             }
