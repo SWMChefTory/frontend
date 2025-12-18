@@ -14,7 +14,6 @@
   },
   "dependencies": {
     "@amplitude/analytics-react-native": "^1.5.16",
-    "@amplitude/plugin-session-replay-react-native": "^0.4.5",
     "@bacons/apple-targets": "^3.0.2",
     "@expo-google-fonts/bagel-fat-one": "^0.4.0",
     "@expo-google-fonts/do-hyeon": "^0.4.0",

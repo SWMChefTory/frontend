@@ -1,5 +1,4 @@
-import { init, add, setUserId, reset } from "@amplitude/analytics-react-native";
-import { SessionReplayPlugin } from "@amplitude/plugin-session-replay-react-native";
+import { init, setUserId, reset } from "@amplitude/analytics-react-native";
 
 const AMPLITUDE_API_KEY = process.env.EXPO_PUBLIC_AMPLITUDE_API_KEY!;
 
@@ -17,9 +16,6 @@ export const initAmplitude = async () => {
     // userId 없이 익명으로 초기화
     await init(AMPLITUDE_API_KEY).promise;
     console.log("[Amplitude] init 완료 (익명)");
-
-    await add(new SessionReplayPlugin({ sampleRate: 1 })).promise;
-    console.log("[Amplitude] SessionReplay 추가 완료");
   } catch (error) {
     console.error("[Amplitude] 초기화 에러:", error);
   }
