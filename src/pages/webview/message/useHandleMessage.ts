@@ -197,7 +197,12 @@ export function useHandleMessage({
               const { url } = req.payload;
               if (url) {
                 try {
-                  await Linking.openURL(url);
+                  const canOpen = await Linking.canOpenURL(url);
+                  if (canOpen) {
+                    await Linking.openURL(url);
+                  } else {
+                    console.warn("[OPEN_EXTERNAL_URL] URL을 열 수 없음:", url);
+                  }
                 } catch (error) {
                   console.error("[OPEN_EXTERNAL_URL] 실패:", error);
                 }
