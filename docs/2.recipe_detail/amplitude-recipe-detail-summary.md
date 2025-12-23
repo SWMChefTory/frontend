@@ -29,6 +29,7 @@
 | `recipe_title` | string | 레시피 제목 | `"김치찌개 만들기"` |
 | `is_first_view` | boolean | 첫 진입 여부 (1시간 기준) | `true`, `false` |
 | `total_steps` | number | 전체 스텝 수 | `5` |
+| `total_details` | number | 전체 세부 항목 수 | `12` |
 | `total_ingredients` | number | 전체 재료 수 | `8` |
 | `has_video` | boolean | 영상 존재 여부 | `true`, `false` |
 
@@ -67,6 +68,7 @@
 | `step_order` | number | 클릭한 스텝 순서 | `2` |
 | `step_title` | string | 스텝 제목 | `"재료 손질하기"` |
 | `video_time` | number | 이동한 영상 시간 (초) | `125` |
+| `detail_index` | number | 클릭한 세부 항목 인덱스 (Step 내 0-indexed) | `1` |
 
 ### 5. Feature Click 이벤트 (`recipe_detail_feature_click`)
 
@@ -127,6 +129,7 @@ View → Cooking Start
 |----------|------------|
 | 스텝-영상 연동 사용률 | Video Seek 이벤트 발생 비율 |
 | 많이 참조되는 스텝 | `step_order` 분포 |
+| 많이 참조되는 세부 항목 | `step_order` + `detail_index` 조합 |
 | 영상 탐색 시간대 | `video_time` 분포 |
 
 #### 부가 기능 활용도
@@ -193,6 +196,41 @@ View → Cooking Start
 | 조회-요리시작 전환율 | 앱 스토어 메시지에 전환율 활용 |
 | 평균 체류 시간 | 사용자 참여도 마케팅 지표로 활용 |
 | 인기 레시피 패턴 | 콘텐츠 추천 알고리즘 개선 |
+
+---
+
+## 주의사항: Step vs Detail 구조
+
+### Step과 Detail의 관계
+
+- **Step**: 대분류 단계 (예: "재료 준비", "볶기")
+- **Detail**: Step 내 세부 항목 (예: "양파를 썰어주세요", "마늘을 다져주세요")
+
+```text
+Step 1 (재료 준비):
+  ├── Detail 0: "양파를 썰어주세요"
+  ├── Detail 1: "마늘을 다져주세요"
+  └── Detail 2: "고기를 손질해주세요"
+Step 2 (볶기):
+  ├── Detail 0: "팬에 기름을 두르세요"
+  └── Detail 1: "양파를 먼저 볶아주세요"
+```
+
+### detail_index 해석
+
+- `detail_index`는 **Step 내 상대적 인덱스** (0-indexed)
+- `step_order`와 함께 해석해야 정확한 위치 파악 가능
+
+> 예시: `step_order=1, detail_index=2` = "Step 1의 세 번째 세부 항목"
+
+### recipe-detail vs recipe-step 데이터 차이
+
+| 페이지 | 이벤트 | 인트로 포함 | 예시 (서버 Step 2개, 각 Detail 2개) |
+|-------|--------|-----------|-----------------------------------|
+| recipe-detail | `RECIPE_DETAIL_VIEW` | ❌ | `total_steps=2`, `total_details=4` |
+| recipe-step | `COOKING_MODE_*` | ✅ | `total_steps=3`, `total_details=5` |
+
+> **분석 시 주의**: 같은 레시피라도 페이지에 따라 값이 다를 수 있음
 
 ---
 
