@@ -118,12 +118,7 @@ export function RecipeWebViewContent() {
         true;
       `}
             ref={webviewRef}
-            source={{
-              uri: webviewUrl,
-              headers: {
-                "ngrok-skip-browser-warning": "true",
-              },
-            }}
+            source={{ uri: webviewUrl }}
             style={[styles.webview]}
             userAgent={getUserAgent()}
             onMessage={handleMessage}
