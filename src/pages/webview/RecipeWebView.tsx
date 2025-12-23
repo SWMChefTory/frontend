@@ -37,14 +37,7 @@ export function RecipeWebViewContent() {
   const [error, setError] = useState<Error | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [canGoBack, setCanGoBack] = useState(false);
-  useFocusEffect(useCallback(() => {
-    const sub = BackHandler.addEventListener("hardwareBackPress", () => {
-      if (canGoBack) { webviewRef.current?.goBack(); return true; } // ← 앱 종료 막고 웹 뒤로
-      return false; // 뒤로갈 데 없으면 기본(종료) 또는 여기서 confirm
-    });
-    return () => sub.remove();
-  }, [canGoBack]));
-  
+
   useEffect(()=>{
     tryGrantPermission();
   },[]);

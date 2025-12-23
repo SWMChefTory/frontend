@@ -3,6 +3,7 @@ import { DateOnly } from "@/src/modules/shared/utils/dateOnly";
 import { Gender } from "@/src/modules/user/enums/Gender";
 
 export interface UserResponse {
+  provider_sub: string;
   gender: Gender | null;
   is_marketing_agreed: boolean;
   is_privacy_agreed: boolean;
@@ -12,6 +13,7 @@ export interface UserResponse {
 }
 
 interface RawUserResponse {
+  provider_sub: string;
   gender: Gender | null;
   marketing_agreed_at: DateOnly | null;
   privacy_agreed_at: DateOnly | null;
@@ -22,6 +24,7 @@ interface RawUserResponse {
 
 function convertResponseFormat(rawUserResponse: RawUserResponse): UserResponse {
   return {
+    provider_sub: rawUserResponse.provider_sub,
     gender: rawUserResponse.gender,
     nickname: rawUserResponse.nickname,
     date_of_birth: rawUserResponse.date_of_birth

@@ -18,6 +18,10 @@ import { DateOnly } from "@/src/modules/shared/utils/dateOnly";
 import { useSignupModalStore } from "@/src/pages/login/ui/button";
 import { trackNative } from "@/src/modules/shared/analytics";
 import { AmplitudeEvent } from "@/src/modules/shared/analytics/amplitudeEvents";
+import {
+  setAmplitudeUserId,
+  resetAmplitudeUser,
+} from "@/src/modules/shared/analytics/amplitude";
 
 export function useLoginViewModel() {
   const { setUser } = useUserStore();
@@ -42,6 +46,7 @@ export function useLoginViewModel() {
         user,
         access_token: data.access_token,
         refresh_token: data.refresh_token,
+        provider_sub: data.user_info.provider_sub,
       };
     },
     onSuccess: (data, variables) => {
@@ -49,6 +54,7 @@ export function useLoginViewModel() {
       console.log("user", JSON.stringify(data.user));
       setUser(data.user);
       storeAuthToken(data.access_token, data.refresh_token);
+      setAmplitudeUserId(data.provider_sub);
       trackNative(AmplitudeEvent.LOGIN_SUCCESS, {
         provider: variables.provider.toLowerCase(),
         is_new_user: false,
@@ -85,6 +91,7 @@ export function useSignupViewModel() {
           isTermsOfUseAgreed: data.user_info.is_terms_of_use_agreed,
         }),
       );
+      setAmplitudeUserId(data.user_info.provider_sub);
       trackNative(AmplitudeEvent.LOGIN_SUCCESS, {
         provider: variables.provider.toLowerCase(),
         is_new_user: true,
@@ -111,11 +118,13 @@ export function useLogoutViewModel() {
     },
     onSuccess: () => {
       trackNative(AmplitudeEvent.LOGOUT);
+      resetAmplitudeUser();
       removeAuthToken();
       removeUser();
     },
     onError: (error) => {
       trackNative(AmplitudeEvent.LOGOUT);
+      resetAmplitudeUser();
       removeAuthToken();
       removeUser();
     },
@@ -139,6 +148,7 @@ export function useDeleteUserViewModel() {
       }
     },
     onSuccess: () => {
+      resetAmplitudeUser();
       removeUser();
       removeAuthToken();
     },

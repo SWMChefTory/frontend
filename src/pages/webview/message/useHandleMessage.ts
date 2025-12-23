@@ -15,7 +15,6 @@ import {
   resumeActivity,
   endActivity,
 } from "@/src/pages/webview/timer/live-activity/liveActivity";
-import { trackFromWebView } from "@/src/modules/shared/analytics";
 import { useUserStore } from "@/src/modules/user/business/store/userStore";
 import { Alert, Linking, Platform } from "react-native";
 import { comsumeReservedMessage } from "@/src/shared/webview/sendMessage";
@@ -79,9 +78,9 @@ enum payloadType {
   LOCK_ORIENTATION = "LOCK_ORIENTATION",
   UNLOCK_ORIENTATION = "UNLOCK_ORIENTATION",
   OPEN_YOUTUBE = "OPEN_YOUTUBE",
+  OPEN_EXTERNAL_URL = "OPEN_EXTERNAL_URL",
   SAFE_AREA = "SAFE_AREA",
   SYSTEM_VOLUME = "SYSTEM_VOLUME",
-  TRACK_AMPLITUDE = "TRACK_AMPLITUDE",
 }
 
 class InvalidJsonError extends Error {
@@ -194,6 +193,17 @@ export function useHandleMessage({
               }
               break;
             }
+            case payloadType.OPEN_EXTERNAL_URL: {
+              const { url } = req.payload;
+              if (url) {
+                try {
+                  await Linking.openURL(url);
+                } catch (error) {
+                  console.error("[OPEN_EXTERNAL_URL] 실패:", error);
+                }
+              }
+              break;
+            }
 
             case payloadType.SCHEDULE_TIMER_NOTIFICATION: {
               const { timerId, recipeId, remainingSeconds, recipeTitle } =
@@ -268,11 +278,6 @@ export function useHandleMessage({
                   ? { isEixsts: bottom.isExists, color: bottom.color }
                   : { isEixsts: true, color: "#FFFFFF" },
               });
-              break;
-            }
-            case payloadType.TRACK_AMPLITUDE: {
-              const { eventName, properties } = req.payload;
-              trackFromWebView(eventName, properties);
               break;
             }
           }
