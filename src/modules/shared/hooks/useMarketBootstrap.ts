@@ -3,11 +3,11 @@ import { useMarketStore } from "../store/marketStore";
 import { getMarket } from "../api/marketApi";
 
 export function useMarketBootstrap() {
-  const { setMarket, setLoading, setError, isLoading } = useMarketStore();
+  const { setMarket, setError, isLoading } = useMarketStore();
 
   useEffect(() => {
     const init = async () => {
-      setLoading(true);
+      // marketStore 초기값이 이미 isLoading: true이므로 setLoading(true) 불필요
       try {
         const response = await getMarket();
         setMarket(response.market, response.country_code);
@@ -26,7 +26,7 @@ export function useMarketBootstrap() {
     };
 
     init();
-  }, [setMarket, setLoading, setError]);
+  }, [setMarket, setError]);
 
   return { isLoading };
 }

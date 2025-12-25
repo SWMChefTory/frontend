@@ -82,8 +82,7 @@ function useOnlineManager() {
   }, []);
 }
 
-function RootNavigator() {
-  const { isLoggedIn } = useAppBootstrap();
+function RootNavigator({ isLoggedIn }: { isLoggedIn: boolean }) {
   const theme = useTheme();
 
   console.log("isLoggedIn!!!!!", isLoggedIn);
@@ -158,6 +157,9 @@ const theme = {
 };
 
 export default function RootLayout() {
+  // Bootstrap 로직을 최상위에서 한 번만 실행
+  const { isReady, isLoggedIn } = useAppBootstrap();
+
   useOnlineManager();
 
   useAppState(onAppStateChange);
@@ -192,8 +194,8 @@ export default function RootLayout() {
           <PaperProvider theme={theme}>
             <BottomSheetModalProvider>
               <GlobalErrorBoundary>
-                <SplashScreenController>
-                  <RootNavigator />
+                <SplashScreenController isReady={isReady}>
+                  <RootNavigator isLoggedIn={isLoggedIn} />
                 </SplashScreenController>
               </GlobalErrorBoundary>
             </BottomSheetModalProvider>
