@@ -1,5 +1,6 @@
 import { clientWithoutAuth } from "./clientWithoutAuth";
 import type { Market, MarketResponse, MarketConfig } from "../types/market";
+import { getLocalePathFromMarket } from "../utils/marketUtils";
 
 /**
  * 백엔드에서 현재 Market 정보 조회
@@ -14,7 +15,7 @@ export const getMarket = async (): Promise<MarketResponse> => {
   } catch (error) {
     console.error("Market 조회 실패, KOREA로 폴백:", error);
 
-    // 폴백: 네트워크 오류시 한국으로 기본 설정
+    // 폴백: API 요청 실패 시 한국으로 기본 설정
     return {
       market: "KOREA",
       country_code: "KR",
@@ -29,6 +30,6 @@ export function createMarketConfig(
   return {
     market,
     countryCode,
-    webviewPath: market === "KOREA" ? "/ko" : "/en",
+    webviewPath: getLocalePathFromMarket(market),
   };
 }

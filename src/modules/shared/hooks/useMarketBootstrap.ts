@@ -11,10 +11,6 @@ export function useMarketBootstrap() {
       try {
         const response = await getMarket();
         setMarket(response.market, response.country_code);
-
-        console.log(
-          `Market 초기화 완료: ${response.market} (${response.country_code})`,
-        );
       } catch (error) {
         // getMarket()은 절대 reject하지 않음 (API 오류 시 KOREA 폴백 반환)
         // 이 catch는 예기치 않은 프로그래밍 오류만 처리

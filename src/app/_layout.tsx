@@ -85,8 +85,6 @@ function useOnlineManager() {
 function RootNavigator({ isLoggedIn }: { isLoggedIn: boolean }) {
   const theme = useTheme();
 
-  console.log("isLoggedIn!!!!!", isLoggedIn);
-
   return (
     <Stack
       screenOptions={{

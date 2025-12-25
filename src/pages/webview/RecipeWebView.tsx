@@ -77,7 +77,6 @@ export function RecipeWebViewContent() {
   useFocusEffect(
     useCallback(() => {
       const sub = BackHandler.addEventListener("hardwareBackPress", () => {
-        console.log("canGoBack", canGoBack);
         if (canGoBack) {
           webviewRef.current?.goBack();
           return true;

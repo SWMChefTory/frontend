@@ -1,5 +1,6 @@
 import { Platform } from "react-native";
 import type { Market } from "@/src/modules/shared/types/market";
+import { getLocalePathFromMarket } from "@/src/modules/shared/utils/marketUtils";
 
 export const WEBVIEW_CONFIG = {
   BASE_URL: process.env.EXPO_PUBLIC_WEBVIEW_URL,
@@ -18,6 +19,6 @@ export const getUserAgent = (): string => {
 
 export function getWebViewUrl(market: Market): string {
   const baseUrl = WEBVIEW_CONFIG.BASE_URL || "";
-  const localePath = market === "KOREA" ? "/ko" : "/en";
+  const localePath = getLocalePathFromMarket(market);
   return `${baseUrl}${localePath}`;
 }
