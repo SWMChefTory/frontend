@@ -11,7 +11,7 @@ import * as ExpoSplashScreen from "expo-splash-screen";
 import { GlobalErrorBoundary } from "../modules/shared/components/error/GlobalErrorBoundary";
 import { SplashScreenController } from "../modules/shared/splash/SplashScreenController";
 import { useEffect } from "react";
-import { useAuthBootstrap } from "../modules/user/authBootstrap";
+import { useAppBootstrap } from "../modules/shared/hooks/useAppBootstrap";
 
 import * as Network from "expo-network";
 import { AppState, AppStateStatus, Platform } from "react-native";
@@ -82,11 +82,8 @@ function useOnlineManager() {
   }, []);
 }
 
-function RootNavigator() {
-  const { isLoggedIn } = useAuthBootstrap();
+function RootNavigator({ isLoggedIn }: { isLoggedIn: boolean }) {
   const theme = useTheme();
-
-  console.log("isLoggedIn!!!!!", isLoggedIn);
 
   return (
     <Stack
@@ -158,6 +155,9 @@ const theme = {
 };
 
 export default function RootLayout() {
+  // Bootstrap 로직을 최상위에서 한 번만 실행
+  const { isReady, isLoggedIn } = useAppBootstrap();
+
   useOnlineManager();
 
   useAppState(onAppStateChange);
@@ -192,8 +192,8 @@ export default function RootLayout() {
           <PaperProvider theme={theme}>
             <BottomSheetModalProvider>
               <GlobalErrorBoundary>
-                <SplashScreenController>
-                  <RootNavigator />
+                <SplashScreenController isReady={isReady}>
+                  <RootNavigator isLoggedIn={isLoggedIn} />
                 </SplashScreenController>
               </GlobalErrorBoundary>
             </BottomSheetModalProvider>

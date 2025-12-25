@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useAuthBootstrap } from "@/src/modules/user/authBootstrap";
 import * as ExpoSplashScreen from "expo-splash-screen";
 
 import Animated, {
@@ -20,10 +19,11 @@ import MainText from "@/src/modules/shared/splash/logo/MainText";
 //splash screen의 각 요소 애니메이션 조절
 export function SplashScreenController({
   children,
+  isReady,
 }: {
   children: React.ReactNode;
+  isReady: boolean;
 }) {
-  const { loading } = useAuthBootstrap();
   const [showChildren, setShowChildren] = useState(false);
 
   // Reanimated 값들
@@ -112,7 +112,7 @@ export function SplashScreenController({
       </View>
 
       {/* Children - 애니메이션 완료 후 페이드 인 */}
-      {!loading && showChildren && (
+      {isReady && showChildren && (
         <Animated.View
           style={[StyleSheet.absoluteFillObject, animatedChildrenStyle]}
         >
