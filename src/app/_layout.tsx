@@ -11,8 +11,7 @@ import * as ExpoSplashScreen from "expo-splash-screen";
 import { GlobalErrorBoundary } from "../modules/shared/components/error/GlobalErrorBoundary";
 import { SplashScreenController } from "../modules/shared/splash/SplashScreenController";
 import { useEffect } from "react";
-import { useAuthBootstrap } from "../modules/user/authBootstrap";
-import { useMarketBootstrap } from "../modules/shared/hooks/useMarketBootstrap";
+import { useAppBootstrap } from "../modules/shared/hooks/useAppBootstrap";
 
 import * as Network from "expo-network";
 import { AppState, AppStateStatus, Platform } from "react-native";
@@ -84,14 +83,8 @@ function useOnlineManager() {
 }
 
 function RootNavigator() {
-  const { isLoggedIn } = useAuthBootstrap();
-  const { isLoading: marketLoading } = useMarketBootstrap();
+  const { isLoggedIn } = useAppBootstrap();
   const theme = useTheme();
-
-  // Market 로딩 중이면 스플래시 화면 유지
-  if (marketLoading) {
-    return null; // SplashScreenController가 처리
-  }
 
   console.log("isLoggedIn!!!!!", isLoggedIn);
 
