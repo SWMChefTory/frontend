@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { WebView } from "react-native-webview";
 import { getUserAgent, getWebViewUrl } from "./WebViewConfig";
 import { BackHandler, Platform, StyleSheet, View } from "react-native";
+import { useMarketStore } from "@/src/modules/shared/store/marketStore";
 import { useHandleMessage } from "@/src/pages/webview/message/useHandleMessage";
 import { subscribeMessage } from "@/src/shared/webview/sendMessage";
 import { useKeyboardAvoidingAnimation } from "@/src/shared/keyboard/useKeyboardAvoiding";
@@ -33,10 +34,17 @@ export type SafeArea = {
 };
 
 export function RecipeWebViewContent() {
+  const { market } = useMarketStore();
   const webviewRef = useRef<WebView>(null);
   const [error, setError] = useState<Error | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [canGoBack, setCanGoBack] = useState(false);
+
+  // 방어 코드: _layout에서 이미 처리하지만 안전장치
+  if (!market) {
+    console.warn("Market이 없습니다. 이 경우는 발생하지 않아야 합니다.");
+    return <WebviewLoadingView />;
+  }
 
   useEffect(()=>{
     tryGrantPermission();
@@ -82,7 +90,7 @@ export function RecipeWebViewContent() {
     return () => sub.remove();
   }, [canGoBack]));
 
-  const webviewUrl = getWebViewUrl();
+  const webviewUrl = getWebViewUrl(market);
 
   if (error) {
     throw error;

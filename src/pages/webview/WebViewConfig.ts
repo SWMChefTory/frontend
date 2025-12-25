@@ -1,4 +1,5 @@
 import { Platform } from "react-native";
+import type { Market } from "@/src/modules/shared/types/market";
 
 export const WEBVIEW_CONFIG = {
   BASE_URL: process.env.EXPO_PUBLIC_WEBVIEW_URL,
@@ -21,8 +22,8 @@ export const enrollPath = (newPath: string) => {
   path = newPath;
 };
 
-export function getWebViewUrl(): string {
-  return WEBVIEW_CONFIG.BASE_URL || "";
-  // return "http://localhost:3000";
-  // return "https://webview-v2-git-feature-tory-325-front-faa4fa-cheftorys-projects.vercel.app";
+export function getWebViewUrl(market: Market): string {
+  const baseUrl = WEBVIEW_CONFIG.BASE_URL || "";
+  const path = market === "KOREA" ? "/ko" : "/en";
+  return `${baseUrl}${path}`;
 }
