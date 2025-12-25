@@ -16,14 +16,8 @@ export const getUserAgent = (): string => {
     : WEBVIEW_CONFIG.USER_AGENTS.ANDROID;
 };
 
-let path = "";
-
-export const enrollPath = (newPath: string) => {
-  path = newPath;
-};
-
 export function getWebViewUrl(market: Market): string {
   const baseUrl = WEBVIEW_CONFIG.BASE_URL || "";
-  const path = market === "KOREA" ? "/ko" : "/en";
-  return `${baseUrl}${path}`;
+  const localePath = market === "KOREA" ? "/ko" : "/en";
+  return `${baseUrl}${localePath}`;
 }

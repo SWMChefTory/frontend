@@ -16,12 +16,11 @@ import { useFocusEffect } from "@react-navigation/native";
 import { tryGrantPermission } from "./timer/notifications/timerNotifications";
 import { WebviewLoadingView } from "./load/LoadingView";
 
-
 export function RecipeWebView() {
   return <RecipeWebViewContent />;
 }
 
-export type SafeAreaProps = { 
+export type SafeAreaProps = {
   isEixsts: boolean;
   color: string;
 };
@@ -40,16 +39,6 @@ export function RecipeWebViewContent() {
   const [isLoading, setIsLoading] = useState(true);
   const [canGoBack, setCanGoBack] = useState(false);
 
-  // 방어 코드: _layout에서 이미 처리하지만 안전장치
-  if (!market) {
-    console.warn("Market이 없습니다. 이 경우는 발생하지 않아야 합니다.");
-    return <WebviewLoadingView />;
-  }
-
-  useEffect(()=>{
-    tryGrantPermission();
-  },[]);
-
   const [safeArea, setSafeArea] = useState<SafeArea>({
     left: { isEixsts: false, color: "#FFFFFF" },
     right: { isEixsts: false, color: "#FFFFFF" },
@@ -67,28 +56,43 @@ export function RecipeWebViewContent() {
 
   const { animatedStyle } = useKeyboardAvoidingAnimation();
 
+  const handleError = useCallback((error: any) => {
+    setError(
+      new Error(
+        `WebView 에러: ${error.nativeEvent?.description || "Unknown error"}`,
+      ),
+    );
+  }, []);
+
+  useEffect(() => {
+    tryGrantPermission();
+  }, []);
+
   useEffect(() => {
     subscribeMessage((message) => {
       webviewRef.current?.postMessage(message);
     });
   }, []);
 
-  const handleError = useCallback((error: any) => {
-    setError(
-      new Error(
-        `WebView 에러: ${error.nativeEvent?.description || "Unknown error"}`
-      )
-    );
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      const sub = BackHandler.addEventListener("hardwareBackPress", () => {
+        console.log("canGoBack", canGoBack);
+        if (canGoBack) {
+          webviewRef.current?.goBack();
+          return true;
+        } // ← 앱 종료 막고 웹 뒤로
+        return false; // 뒤로갈 데 없으면 기본(종료) 또는 여기서 confirm
+      });
+      return () => sub.remove();
+    }, [canGoBack]),
+  );
 
-  useFocusEffect(useCallback(() => {
-    const sub = BackHandler.addEventListener("hardwareBackPress", () => {
-      console.log("canGoBack", canGoBack);
-      if (canGoBack) { webviewRef.current?.goBack(); return true; } // ← 앱 종료 막고 웹 뒤로
-      return false; // 뒤로갈 데 없으면 기본(종료) 또는 여기서 confirm
-    });
-    return () => sub.remove();
-  }, [canGoBack]));
+  // 방어 코드: _layout에서 이미 처리하지만 안전장치
+  if (!market) {
+    console.warn("Market이 없습니다. 이 경우는 발생하지 않아야 합니다.");
+    return <WebviewLoadingView />;
+  }
 
   const webviewUrl = getWebViewUrl(market);
 
@@ -134,13 +138,13 @@ export function RecipeWebViewContent() {
             onRenderProcessGone={(e) => {
               webviewRef.current?.reload();
             }}
-            onLoadEnd={()=>{
+            onLoadEnd={() => {
               setIsLoading(false);
             }}
             onContentProcessDidTerminate={() => {
               webviewRef.current?.reload();
             }}
-            onNavigationStateChange={s => setCanGoBack(s.canGoBack)}
+            onNavigationStateChange={(s) => setCanGoBack(s.canGoBack)}
             mediaPlaybackRequiresUserAction={false}
             allowsInlineMediaPlayback={true}
             mediaCapturePermissionGrantType="grant"
