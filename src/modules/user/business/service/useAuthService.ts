@@ -57,7 +57,6 @@ export function useLoginViewModel() {
       setAmplitudeUserId(data.provider_sub);
       trackNative(AmplitudeEvent.LOGIN_SUCCESS, {
         provider: variables.provider.toLowerCase(),
-        is_new_user: false,
       });
     },
     throwOnError: false,
@@ -92,9 +91,8 @@ export function useSignupViewModel() {
         }),
       );
       setAmplitudeUserId(data.user_info.provider_sub);
-      trackNative(AmplitudeEvent.LOGIN_SUCCESS, {
+      trackNative(AmplitudeEvent.SIGNUP_SUCCESS, {
         provider: variables.provider.toLowerCase(),
-        is_new_user: true,
       });
     },
     onError: (error) => {
