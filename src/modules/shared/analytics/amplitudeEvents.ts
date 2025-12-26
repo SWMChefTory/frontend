@@ -4,16 +4,9 @@ export enum AmplitudeEvent {
   APP_LAUNCHED = "app_launched",
 
   // Native - 인증
-  LOGIN_SUCCESS = "login_success",
+  LOGIN_SUCCESS = "login_success",   // 기존 유저 로그인
+  SIGNUP_SUCCESS = "signup_success", // 신규 유저 회원가입
   LOGOUT = "logout",
-
-  // 레시피 관련
-  RECIPE_CREATE = "recipe_create",
-  RECIPE_VIEW = "recipe_view",
-
-  // 조리 관련
-  COOKING_START = "cooking_start",
-  COOKING_END = "cooking_end",
 
   // 필요할 때 계속 추가...
 }
