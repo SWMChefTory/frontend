@@ -15,6 +15,7 @@ import {
 
 import { useEffect } from "react";
 import { client } from "@/src/modules/shared/api/client";
+import { useMarketStore } from "@/src/modules/shared/store/marketStore";
 
 Image.prefetch("@/assets/images/mainCharacter.png", "disk");
 Image.prefetch("@/assets/images/voiceNear.png", "disk");
@@ -23,6 +24,8 @@ Image.prefetch("@/assets/images/mainText.png", "disk");
 Image.prefetch("@/assets/images/mainText-en.png", "disk");
 
 export function LoginPage() {
+  const { market, cachedMarket } = useMarketStore();
+
   useEffect(() => {
     client
       .get("/server-message")
@@ -33,6 +36,13 @@ export function LoginPage() {
         // nothing
       });
   }, []);
+
+  // 서버 확인된 market 우선, 없으면 cachedMarket, 둘 다 없으면 KOREA 폴백
+  const currentMarket = market ?? cachedMarket ?? "KOREA";
+  const logoSource =
+    currentMarket === "GLOBAL"
+      ? require("@/assets/images/mainText-en.png")
+      : require("@/assets/images/mainText.png");
 
   const banner = (
     <View
@@ -54,8 +64,12 @@ export function LoginPage() {
         style={logoStyle.voiceFarLogin}
       />
       <Image
-        source={require("@/assets/images/mainText.png")}
-        style={logoStyle.cheftoryLogin}
+        source={logoSource}
+        style={
+          currentMarket === "GLOBAL"
+            ? logoStyle.cheftoryEnLogin
+            : logoStyle.cheftoryLogin
+        }
       />
     </View>
   );
@@ -66,13 +80,15 @@ export function LoginPage() {
       <View style={styles.container}>
         <View style={styles.titleContainer}>
           <Text style={styles.subTitle}>
-            지금 쉐프토리와 요리를 시작해보세요
+            {currentMarket === "GLOBAL"
+              ? "Start cooking with Cheftory"
+              : "지금 쉐프토리와 요리를 시작해보세요"}
           </Text>
         </View>
         <View style={styles.buttonCotainer}>
-          <GoogleLoginButton />
+          <GoogleLoginButton market={currentMarket} />
         </View>
-        <AppleLoginButton />
+        <AppleLoginButton market={currentMarket} />
       </View>
       <TermsAndConditionsModal />
     </View>

@@ -27,9 +27,14 @@ function MainText({
       withTiming(1, { duration: fadeDuration }),
     );
   }, []);
+
+  // market에 따라 기본 스타일 선택
+  const baseStyle =
+    market === "GLOBAL" ? logoStyle.cheftoryEn : logoStyle.cheftory;
+
   const cheftoryAnimatedStyle = useAnimatedStyle(() => {
     return {
-      ...logoStyle.cheftory,
+      ...baseStyle,
       transform: [{ translateY: translateY.value }],
       opacity: cheftoryOpacity.value,
     };
