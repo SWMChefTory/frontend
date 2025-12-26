@@ -20,6 +20,7 @@ Image.prefetch("@/assets/images/mainCharacter.png", "disk");
 Image.prefetch("@/assets/images/voiceNear.png", "disk");
 Image.prefetch("@/assets/images/voiceFar.png", "disk");
 Image.prefetch("@/assets/images/mainText.png", "disk");
+Image.prefetch("@/assets/images/mainText-en.png", "disk");
 
 export function LoginPage() {
   useEffect(() => {
