@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     left: logoMainLeft + OFFSETS.voiceFar.dx,
   },
 
-  // cheftory
+  // cheftory (한글)
   cheftory: {
     position: "absolute",
     width: 280,
@@ -85,6 +85,22 @@ const styles = StyleSheet.create({
     height: 75,
     top: logoMainTop + OFFSETS.cheftory.dy + HEIGHT_DIFF,
     left: (width - 280) / 2, // ← 동일하게 중앙
+  },
+
+  // cheftory (영문) - 비율 5.19:1 (779x149 원본)
+  cheftoryEn: {
+    position: "absolute",
+    width: 280,
+    height: 54,
+    top: logoMainTop + OFFSETS.cheftory.dy + 10.5, // ← 시각적 중앙 정렬 보정
+    left: (width - 280) / 2,
+  },
+  cheftoryEnLogin: {
+    position: "absolute",
+    width: 280,
+    height: 54,
+    top: logoMainTop + OFFSETS.cheftory.dy + HEIGHT_DIFF + 10.5,
+    left: (width - 280) / 2,
   },
 });
 

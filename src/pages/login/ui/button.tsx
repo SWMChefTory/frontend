@@ -21,6 +21,7 @@ import {
 import TermsAndConditionsModalContent from "@/src/pages/login/ui/TermsAndConditionsModalContent";
 import { useEffect, useRef, useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import type { Market } from "@/src/modules/shared/types/market";
 
 GoogleSignin.configure({
   webClientId: process.env.EXPO_PUBLIC_WEB_ID,
@@ -30,9 +31,24 @@ GoogleSignin.configure({
   iosClientId: process.env.EXPO_PUBLIC_IOS_ID,
 });
 
-export function GoogleLoginButton() {
+/**
+ * 로그인 버튼 텍스트 관리
+ * Market별 버튼 텍스트를 한 곳에서 관리
+ */
+const BUTTON_TEXT = {
+  KOREA: {
+    google: "Google로 시작하기",
+    apple: "Apple로 시작하기",
+  },
+  GLOBAL: {
+    google: "Start with Google",
+    apple: "Start with Apple",
+  },
+} as const;
+
+export function GoogleLoginButton({ market }: { market: Market }) {
   const { handleSignInGoogle, isLoading } = useLoginWithGoogle();
-  const description = "Google로 시작하기";
+  const description = BUTTON_TEXT[market].google;
 
   console.log("isLoading!!!", isLoading);
 
@@ -48,9 +64,9 @@ export function GoogleLoginButton() {
   );
 }
 
-export function AppleLoginButton() {
+export function AppleLoginButton({ market }: { market: Market }) {
   const { handleSignInApple } = useLoginWithApple();
-  const description = "Apple로 시작하기";
+  const description = BUTTON_TEXT[market].apple;
 
   return (
     <>
