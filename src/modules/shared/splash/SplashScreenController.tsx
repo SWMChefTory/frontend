@@ -15,6 +15,7 @@ import MainCharacter from "@/src/modules/shared/splash/logo/MainCharacter";
 import NearVoice from "@/src/modules/shared/splash/logo/NearVoice";
 import FarVoice from "@/src/modules/shared/splash/logo/FarVoice";
 import MainText from "@/src/modules/shared/splash/logo/MainText";
+import { useMarketStore } from "../store/marketStore";
 
 //splash screen의 각 요소 애니메이션 조절
 export function SplashScreenController({
@@ -25,6 +26,7 @@ export function SplashScreenController({
   isReady: boolean;
 }) {
   const [showChildren, setShowChildren] = useState(false);
+  const { cachedMarket } = useMarketStore();
 
   // Reanimated 값들
   const translateY = useSharedValue(0);
@@ -107,6 +109,7 @@ export function SplashScreenController({
             translateY={translateY}
             fadeStart={mainTextFadeInStart}
             fadeDuration={mainTextFadeInDuration}
+            market={cachedMarket}
           />
         </Animated.View>
       </View>
