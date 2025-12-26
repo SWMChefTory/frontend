@@ -8,6 +8,7 @@ import Animated, {
 import logoStyle from "./style/logostyle";
 import { useEffect } from "react";
 import type { Market } from "@/src/modules/shared/types/market";
+import { getMarketLogo } from "@/src/modules/shared/constants/marketAssets";
 
 function MainText({
   translateY,
@@ -40,11 +41,8 @@ function MainText({
     };
   });
 
-  // GLOBAL 사용자는 영문 로고, 그 외(KOREA 또는 null)는 한글 로고
-  const imageSource =
-    market === "GLOBAL"
-      ? require("@/assets/images/mainText-en.png")
-      : require("@/assets/images/mainText.png");
+  // Market에 따른 로고 이미지 (중앙 관리)
+  const imageSource = getMarketLogo(market);
 
   return <Animated.Image source={imageSource} style={cheftoryAnimatedStyle} />;
 }

@@ -31,10 +31,24 @@ GoogleSignin.configure({
   iosClientId: process.env.EXPO_PUBLIC_IOS_ID,
 });
 
+/**
+ * 로그인 버튼 텍스트 관리
+ * Market별 버튼 텍스트를 한 곳에서 관리
+ */
+const BUTTON_TEXT = {
+  KOREA: {
+    google: "Google로 시작하기",
+    apple: "Apple로 시작하기",
+  },
+  GLOBAL: {
+    google: "Start with Google",
+    apple: "Start with Apple",
+  },
+} as const;
+
 export function GoogleLoginButton({ market }: { market: Market }) {
   const { handleSignInGoogle, isLoading } = useLoginWithGoogle();
-  const description =
-    market === "GLOBAL" ? "Start with Google" : "Google로 시작하기";
+  const description = BUTTON_TEXT[market].google;
 
   console.log("isLoading!!!", isLoading);
 
@@ -52,8 +66,7 @@ export function GoogleLoginButton({ market }: { market: Market }) {
 
 export function AppleLoginButton({ market }: { market: Market }) {
   const { handleSignInApple } = useLoginWithApple();
-  const description =
-    market === "GLOBAL" ? "Start with Apple" : "Apple로 시작하기";
+  const description = BUTTON_TEXT[market].apple;
 
   return (
     <>

@@ -16,12 +16,35 @@ import {
 import { useEffect } from "react";
 import { client } from "@/src/modules/shared/api/client";
 import { useMarketStore } from "@/src/modules/shared/store/marketStore";
+import { getMarketLogo } from "@/src/modules/shared/constants/marketAssets";
 
 Image.prefetch("@/assets/images/mainCharacter.png", "disk");
 Image.prefetch("@/assets/images/voiceNear.png", "disk");
 Image.prefetch("@/assets/images/voiceFar.png", "disk");
 Image.prefetch("@/assets/images/mainText.png", "disk");
 Image.prefetch("@/assets/images/mainText-en.png", "disk");
+
+/**
+ * 로그인 페이지 텍스트 관리
+ * Market별 UI 텍스트를 한 곳에서 관리
+ */
+const LOGIN_TEXT = {
+  KOREA: {
+    subtitle: "지금 쉐프토리와 요리를 시작해보세요",
+  },
+  GLOBAL: {
+    subtitle: "Start cooking with Cheftory",
+  },
+} as const;
+
+/**
+ * 로그인 페이지 로고 스타일 관리
+ * Market별 로고 스타일을 한 곳에서 관리
+ */
+const LOGO_STYLE = {
+  KOREA: logoStyle.cheftoryLogin,
+  GLOBAL: logoStyle.cheftoryEnLogin,
+} as const;
 
 export function LoginPage() {
   const { market, cachedMarket } = useMarketStore();
@@ -39,10 +62,7 @@ export function LoginPage() {
 
   // 서버 확인된 market 우선, 없으면 cachedMarket, 둘 다 없으면 KOREA 폴백
   const currentMarket = market ?? cachedMarket ?? "KOREA";
-  const logoSource =
-    currentMarket === "GLOBAL"
-      ? require("@/assets/images/mainText-en.png")
-      : require("@/assets/images/mainText.png");
+  const logoSource = getMarketLogo(currentMarket);
 
   const banner = (
     <View
@@ -65,11 +85,7 @@ export function LoginPage() {
       />
       <Image
         source={logoSource}
-        style={
-          currentMarket === "GLOBAL"
-            ? logoStyle.cheftoryEnLogin
-            : logoStyle.cheftoryLogin
-        }
+        style={LOGO_STYLE[currentMarket === "GLOBAL" ? "GLOBAL" : "KOREA"]}
       />
     </View>
   );
@@ -80,9 +96,7 @@ export function LoginPage() {
       <View style={styles.container}>
         <View style={styles.titleContainer}>
           <Text style={styles.subTitle}>
-            {currentMarket === "GLOBAL"
-              ? "Start cooking with Cheftory"
-              : "지금 쉐프토리와 요리를 시작해보세요"}
+            {LOGIN_TEXT[currentMarket === "GLOBAL" ? "GLOBAL" : "KOREA"].subtitle}
           </Text>
         </View>
         <View style={styles.buttonCotainer}>
