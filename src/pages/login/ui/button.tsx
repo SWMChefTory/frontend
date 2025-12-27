@@ -22,6 +22,7 @@ import TermsAndConditionsModalContent from "@/src/pages/login/ui/TermsAndConditi
 import { useEffect, useRef, useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import type { Market } from "@/src/modules/shared/types/market";
+import { getErrorMessage } from "@/src/locales/errors";
 
 GoogleSignin.configure({
   webClientId: process.env.EXPO_PUBLIC_WEB_ID,
@@ -47,7 +48,7 @@ const BUTTON_TEXT = {
 } as const;
 
 export function GoogleLoginButton({ market }: { market: Market }) {
-  const { handleSignInGoogle, isLoading } = useLoginWithGoogle();
+  const { handleSignInGoogle, isLoading } = useLoginWithGoogle(market);
   const description = BUTTON_TEXT[market].google;
 
   console.log("isLoading!!!", isLoading);
@@ -65,7 +66,7 @@ export function GoogleLoginButton({ market }: { market: Market }) {
 }
 
 export function AppleLoginButton({ market }: { market: Market }) {
-  const { handleSignInApple } = useLoginWithApple();
+  const { handleSignInApple } = useLoginWithApple(market);
   const description = BUTTON_TEXT[market].apple;
 
   return (
@@ -80,7 +81,7 @@ export function AppleLoginButton({ market }: { market: Market }) {
   );
 }
 
-function useLoginWithGoogle() {
+function useLoginWithGoogle(market: Market) {
   const { login, isLoading, error } = useLoginViewModel();
   console.log("isLoading!!", isLoading);
   console.log("error!!", error);
@@ -95,18 +96,21 @@ function useLoginWithGoogle() {
         const { idToken } = response.data;
         if (!idToken) {
           console.error("로그인 에러: idToken이 없습니다");
-          Alert.alert("오류", "로그인에 실패했습니다.");
+          Alert.alert(
+            getErrorMessage(market, "error"),
+            getErrorMessage(market, "loginFailed"),
+          );
           return;
         }
         setIdToken(idToken);
         login({ id_token: idToken, provider: OauthProvider.GOOGLE });
       } else {
         console.log("구글에 문제가 생겼습니다.", response.type);
-        Alert.alert("구글에 문제가 생겼습니다.", response.type);
+        Alert.alert(getErrorMessage(market, "googleError"), response.type);
       }
     } catch (err) {
       console.error("서버에 문제가 있습니다." + err);
-      Alert.alert("서버에 문제가 있습니다." + err);
+      Alert.alert(getErrorMessage(market, "serverError") + err);
     }
   }
 
@@ -166,7 +170,7 @@ function isNotUserError(error: any) {
   return false;
 }
 
-function useLoginWithApple() {
+function useLoginWithApple(market: Market) {
   const { login, isLoading, error } = useLoginViewModel();
   const { openModal } = useSignupModalStore();
   const [idToken, setIdToken] = useState<string | null>(null);
@@ -174,7 +178,10 @@ function useLoginWithApple() {
   async function handleSignInApple() {
     const available = await AppleAuthentication.isAvailableAsync();
     if (!available) {
-      Alert.alert("오류", "이 기기에서는 Apple 로그인을 사용할 수 없습니다.");
+      Alert.alert(
+        getErrorMessage(market, "error"),
+        getErrorMessage(market, "appleUnavailable"),
+      );
       return;
     }
 
@@ -187,7 +194,10 @@ function useLoginWithApple() {
     });
 
     if (!appleAuthRequestResponse.identityToken) {
-      Alert.alert("오류", "Apple 로그인에 실패했습니다.");
+      Alert.alert(
+        getErrorMessage(market, "error"),
+        getErrorMessage(market, "appleLoginFailed"),
+      );
       return;
     }
 
@@ -209,7 +219,10 @@ function useLoginWithApple() {
       setIdToken(appleAuthRequestResponse.identityToken);
       return;
     }
-    Alert.alert("오류", "Apple 로그인에 실패했습니다.");
+    Alert.alert(
+      getErrorMessage(market, "error"),
+      getErrorMessage(market, "appleLoginFailed"),
+    );
   }
 
   useEffect(() => {

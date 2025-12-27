@@ -8,6 +8,7 @@ import { useSignupModalStore } from "@/src/pages/login/ui/button";
 import { useSignupViewModel } from "@/src/modules/user/business/service/useAuthService";
 import useRandomName from "@/src/pages/login/model/useRandomName";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useMarketStore } from "@/src/modules/shared/store/marketStore";
 
 export interface AgreeValue {
   isServiceAgree: boolean;
@@ -23,13 +24,33 @@ const localColor = {
   },
 };
 
+const TERMS_TEXT = {
+  KOREA: {
+    allAgree: "전체 동의하기",
+    serviceAgree: "[필수] 서비스 이용약관 동의",
+    privacyAgree: "[필수] 개인정보 처리방침 동의",
+    marketingAgree: "[선택] 마케팅 수신 동의",
+    signup: "회원가입",
+  },
+  GLOBAL: {
+    allAgree: "Agree to all",
+    serviceAgree: "[Required] Terms of Service",
+    privacyAgree: "[Required] Privacy Policy",
+    marketingAgree: "[Optional] Marketing consent",
+    signup: "Sign Up",
+  },
+} as const;
+
 export default function TermsAndConditionsModalContent() {
   const { idToken, provider, closeModal } = useSignupModalStore();
   const { signup } = useSignupViewModel();
   const { nickname } = useRandomName();
   const insets = useSafeAreaInsets();
+  const { market, cachedMarket } = useMarketStore();
 
   const router = useRouter();
+  const currentMarket = market ?? cachedMarket ?? "KOREA";
+  const text = TERMS_TEXT[currentMarket];
   const [agreeValue, setAgreeValue] = useState<AgreeValue>({
     isServiceAgree: false,
     isPrivacyAgree: false,
@@ -100,7 +121,7 @@ export default function TermsAndConditionsModalContent() {
             ]}
           >
             {" "}
-            전체 동의하기
+            {text.allAgree}
           </Text>
         </TouchableOpacity>
       </View>
@@ -133,7 +154,7 @@ export default function TermsAndConditionsModalContent() {
             ]}
           >
             {" "}
-            [필수] 서비스 이용약관 동의
+            {text.serviceAgree}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -182,7 +203,7 @@ export default function TermsAndConditionsModalContent() {
             ]}
           >
             {" "}
-            [필수] 개인정보 처리방침 동의
+            {text.privacyAgree}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -232,7 +253,7 @@ export default function TermsAndConditionsModalContent() {
             ]}
           >
             {" "}
-            [선택] 마케팅 수신 동의
+            {text.marketingAgree}
           </Text>
         </TouchableOpacity>
       </View>
@@ -243,7 +264,7 @@ export default function TermsAndConditionsModalContent() {
           <SquareButton
             disabled={!isServiceAgree || !isPrivacyAgree}
             onPress={() => handleSignupPress()}
-            label="회원가입"
+            label={text.signup}
           />
         </View>
       </View>
