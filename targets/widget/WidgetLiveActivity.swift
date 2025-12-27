@@ -108,7 +108,7 @@ struct LockScreenLiveActivityView: View {
                 }
                 VStack(alignment: .leading, spacing: 6) {
                     HStack {
-                        Text("진행률")
+                        Text("liveactivity_progress_label")
                             .font(.system(size: 12, weight: .medium, design: .rounded))
                             .foregroundColor(ChefTheme.subtext)
                     }
@@ -169,7 +169,7 @@ struct TimerDisplay: View {
                 Image(systemName: "checkmark.circle.fill")
                     .foregroundColor(ChefTheme.mint)
                     .font(.system(size: size * 0.6))
-                Text("완료")
+                Text("liveactivity_status_completed")
                     .foregroundColor(ChefTheme.mint)
                     .font(.system(size: size, weight: .bold, design: .rounded))
             }
@@ -202,12 +202,12 @@ struct TimerDisplay: View {
 struct StatusChip: View {
     let state: LiveActivityAttributes.ContentState
     var body: some View {
-        let (text, color): (String, Color) = {
-            if state.isCompleted() { return ("완료", ChefTheme.mint) }
-            if state.getCurrentState() == "paused" { return ("일시정지", ChefTheme.accent) }
-            return ("진행중", ChefTheme.primary)
+        let (textKey, color): (LocalizedStringKey, Color) = {
+            if state.isCompleted() { return ("liveactivity_status_completed", ChefTheme.mint) }
+            if state.getCurrentState() == "paused" { return ("liveactivity_status_paused", ChefTheme.accent) }
+            return ("liveactivity_status_running", ChefTheme.primary)
         }()
-        return Text(text)
+        return Text(textKey)
             .font(.system(size: 11, weight: .semibold, design: .rounded))
             .foregroundColor(.black)
             .padding(.horizontal, 10).padding(.vertical, 6)
@@ -227,7 +227,12 @@ struct ActivityIcon: View {
 }
 
 extension LiveActivityAttributes {
-    fileprivate static var cookPreview: LiveActivityAttributes { .init(activityName: "요리", deepLink: "cheftory://timer") }
+    fileprivate static var cookPreview: LiveActivityAttributes {
+        .init(
+            activityName: NSLocalizedString("liveactivity_preview_activity_name", comment: ""),
+            deepLink: "cheftory://timer"
+        )
+    }
 }
 extension LiveActivityAttributes.ContentState {
     fileprivate static var runningState: Self { .init(startedAt: Date().addingTimeInterval(-300), pausedAt: nil, duration: 1500, totalPausedTime: 0) }
