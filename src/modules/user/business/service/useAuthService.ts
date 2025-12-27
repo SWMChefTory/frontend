@@ -93,10 +93,10 @@ export function useSignupViewModel() {
       trackNative(AmplitudeEvent.SIGNUP_SUCCESS, {
         provider: variables.provider.toLowerCase(),
       });
+      closeModal();
     },
     onError: (error) => {
       console.log("signup error", error);
-      closeModal();
     },
     throwOnError: true,
   });

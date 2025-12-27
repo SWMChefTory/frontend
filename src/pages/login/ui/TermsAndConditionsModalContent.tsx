@@ -60,7 +60,6 @@ export default function TermsAndConditionsModalContent() {
       is_privacy_agreed: isPrivacyAgree,
       is_terms_of_use_agreed: isServiceAgree,
     });
-    closeModal();
   };
 
   return (
