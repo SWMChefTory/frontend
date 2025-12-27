@@ -1,108 +1,20 @@
 import UIKit
 import SwiftUI
-import UniformTypeIdentifiers
 import Foundation
 
-final class ShareViewController: UIViewController, UIGestureRecognizerDelegate {
-  private var tasksAfterPresented: [() -> Void] = []
-  private weak var contentView: UIView? // 추가된 프로퍼티
+final class ShareViewController: UIViewController {
 
-  override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-    super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-    view.backgroundColor = .clear
-  }
-  
-  required init?(coder: NSCoder) {
-    super.init(coder: coder)
-    view.backgroundColor = .clear
-  }
-  
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    // setSheetHeight(ratio: 0.0)
-    // view.backgroundColor = .lightGray.withAlphaComponent(0.0)
-    view.backgroundColor = .clear 
-  }
-  
+  private var lastSheetHeight: CGFloat = 0
+
+  private let barHeight: CGFloat = 80
+  private let bottomExtraPadding: CGFloat = 12
+
   override func viewDidLoad() {
     super.viewDidLoad()
-    
-    // extensionItem과 itemProvider 확인
-    guard
-      let extensionItem = extensionContext?.inputItems.first as? NSExtensionItem,
-      let itemProvider = extensionItem.attachments?.first
-    else {
-      close()
-      return
-    }
-    
-    
-    if itemProvider.canLoadObject(ofClass: URL.self) {
-      itemProvider.loadObject(ofClass: URL.self) { [weak self] url, error in
-        if let error {
-          self?.tasksAfterPresented.append {
-            self?.hostErrorView(message: "URL 로드 실패", error: error)
-          }
-          return
-        }
-        
-        guard let text = url?.absoluteString else {
-          self?.tasksAfterPresented.append {
-            self?.hostErrorView(message: "변환 실패", error: nil)
-          }
-          return
-        }
-        
-        self?.tasksAfterPresented.append { [weak self] in
-          let encoded = text.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
-          guard let videoId = self?.extractYouTubeVideoId(from: encoded) as? String else{
-            guard let url = URL(string: encoded) else {
-              return;
-            }
-            let path = url.path(percentEncoded: false)
-            self?.hostErrorView(message: path, error:nil)
-            return;
-          }
-          self?.hostView(videoId:videoId)
-        }
-        return;
-      }
-    }
-    
-    else if itemProvider.hasItemConformingToTypeIdentifier("public.plain-text"){
-      itemProvider.loadItem(forTypeIdentifier: "public.plain-text", options: nil) { [weak self] (url, error) in
-        if let error {
-          self?.tasksAfterPresented.append {
-            self?.hostErrorView(message: "URL 로드 실패", error: error)
-          }
-          return
-        }
-        
-        guard let text =  url as? String else {
-          self?.tasksAfterPresented.append {
-            self?.hostErrorView(message: "변환 실패", error: nil)
-          }
-          return
-        }
-        self?.tasksAfterPresented.append { [weak self] in
-          let encoded = text.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
-          guard let videoId = self?.extractYouTubeVideoId(from: encoded) as? String else{
-            self?.hostErrorView(message: URL(string: encoded)?.path(percentEncoded: false) ?? "Invalid URL", error:nil)
-            return;
-          }
-          self?.hostView(videoId:videoId)
-        }
-      }
-    }
-    else {
-      self.tasksAfterPresented.append { [weak self] in
-        self?.hostErrorView(
-          message: "지원하지 않는 콘텐츠 형식입니다.",
-          error: NSError(domain: "", code: 0)
-        )
-      }
-    }
-    
+
+    view.backgroundColor = .clear
+    view.isOpaque = false
+
     NotificationCenter.default.addObserver(
       forName: NSNotification.Name("close"),
       object: nil,
@@ -110,126 +22,195 @@ final class ShareViewController: UIViewController, UIGestureRecognizerDelegate {
     ) { [weak self] _ in
       self?.close()
     }
-  } 
-  
-  override func viewDidAppear(_ animated: Bool) {
-    super.viewDidAppear(animated)
 
-    setSheetHeight(ratio: 0.0)
-
-    if #available(iOS 26.0, *) {
-    view.superview?.backgroundColor = .clear
-    view.superview?.superview?.backgroundColor = .clear
-    
-    // Window hierarchy 전체를 투명하게
-    var currentView = view.superview
-    while currentView != nil {
-      currentView?.backgroundColor = .clear
-      currentView = currentView?.superview
+    guard
+      let extensionItem = extensionContext?.inputItems.first as? NSExtensionItem,
+      let itemProvider = extensionItem.attachments?.first
+    else {
+      close()
+      return
     }
-  }
-  
-    tasksAfterPresented.forEach { $0() }
-    tasksAfterPresented.removeAll()
-  }
-  
-  private func hostView(videoId: String) {
-    let contentVC = UIHostingController(rootView: ShareExtensionView(
-      close: { [weak self] in
-        self?.close()
-      },
-      deepLink: {
-        guard let deepLinkUrl = URL(string: "cheftory://?video-id=\(videoId)&external=true") else {
-            print("딥링크 URL 생성 실패")
-            return
+
+    if itemProvider.canLoadObject(ofClass: URL.self) {
+      itemProvider.loadObject(ofClass: URL.self) { [weak self] object, error in
+        if let error {
+          self?.enqueueOnMain { [weak self] in
+            self?.hostErrorView(message: "URL 로드 실패", error: error)
+          }
+          return
         }
 
-        print("딥링크 시도: \(deepLinkUrl)")
-        
-        print(deepLinkUrl)
-        
-        EnvironmentValues().openURL(deepLinkUrl, completion: { success in
-          print("앱 열기 성공 여부: \(success)")
-        })      }
-    ))
-    
+        guard let url = object as? URL else {
+          self?.enqueueOnMain { [weak self] in
+            self?.hostErrorView(message: "변환 실패", error: nil)
+          }
+          return
+        }
+
+        self?.handleIncomingText(url.absoluteString)
+      }
+    } else if itemProvider.hasItemConformingToTypeIdentifier("public.plain-text") {
+      itemProvider.loadItem(forTypeIdentifier: "public.plain-text", options: nil) { [weak self] item, error in
+        if let error {
+          self?.enqueueOnMain { [weak self] in
+            self?.hostErrorView(message: "URL 로드 실패", error: error)
+          }
+          return
+        }
+
+        guard let text = item as? String else {
+          self?.enqueueOnMain { [weak self] in
+            self?.hostErrorView(message: "변환 실패", error: nil)
+          }
+          return
+        }
+
+        self?.handleIncomingText(text)
+      }
+    } else {
+      enqueueOnMain { [weak self] in
+        self?.hostErrorView(
+          message: "지원하지 않는 콘텐츠 형식입니다.",
+          error: NSError(domain: "", code: 0)
+        )
+      }
+    }
+  }
+
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    view.backgroundColor = .clear
+    view.isOpaque = false
+  }
+
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    makePresentationContainerTransparentIfPossible()
+  }
+
+  override func viewDidLayoutSubviews() {
+    super.viewDidLayoutSubviews()
+
+    let target = barHeight + bottomExtraPadding + view.safeAreaInsets.bottom + 12
+    if abs(target - lastSheetHeight) > 0.5 {
+      lastSheetHeight = target
+      setSheetHeight(height: target)
+    }
+
+    makePresentationContainerTransparentIfPossible()
+  }
+
+  private func handleIncomingText(_ text: String) {
+    let encoded = text.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? text
+
+    enqueueOnMain { [weak self] in
+      guard let self else { return }
+
+      if let videoId = self.extractYouTubeVideoId(from: encoded) {
+        self.hostView(videoId: videoId)
+      } else {
+        let path = URL(string: encoded)?.path(percentEncoded: false) ?? "Invalid URL"
+        self.hostErrorView(message: path, error: nil)
+      }
+    }
+  }
+
+  private func enqueueOnMain(_ block: @escaping () -> Void) {
+    if Thread.isMainThread {
+      block()
+    } else {
+      DispatchQueue.main.async { block() }
+    }
+  }
+
+  private func hostView(videoId: String) {
+    var components = URLComponents()
+    components.scheme = "cheftory"
+    components.host = "" // cheftory://? 로 만들기
+    components.queryItems = [
+      URLQueryItem(name: "video-id", value: videoId),
+      URLQueryItem(name: "external", value: "true")
+    ]
+
+    guard let deepLinkUrl = components.url else {
+      hostErrorView(message: "딥링크 URL 생성 실패", error: nil)
+      return
+    }
+
+    let contentVC = UIHostingController(
+      rootView: ShareExtensionView(
+        close: { [weak self] in self?.close() },
+        deepLinkURL: deepLinkUrl
+      )
+    )
+
+    contentVC.view.backgroundColor = .clear
+    contentVC.view.isOpaque = false
+
     addChild(contentVC)
     view.addSubview(contentVC.view)
     contentVC.view.translatesAutoresizingMaskIntoConstraints = false
-    
+
     NSLayoutConstraint.activate([
       contentVC.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
       contentVC.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-      contentVC.view.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-      contentVC.view.heightAnchor.constraint(equalTo: view.heightAnchor)
+      contentVC.view.topAnchor.constraint(equalTo: view.topAnchor),
+      contentVC.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
     ])
-    
-    contentVC.view.backgroundColor = .clear
-    
-    
-    contentVC.view.layer.cornerRadius = 16
-    contentVC.view.layer.masksToBounds = true  // 자식 뷰들도 잘리게 함
-    contentVC.view.clipsToBounds = true
-    
+
     contentVC.didMove(toParent: self)
   }
-  
-  
-  func extractYouTubeVideoId(from urlString: String) -> String? {
-      guard let url = URL(string: urlString) else { return nil }
-      // youtu.be 형식
-      if url.host?.contains("youtu.be") == true {
-        let components =  url.path.components(separatedBy: "/")
-        if(components[1]=="shorts"){
-          return components[2]
-        }
-        return String(url.path.dropFirst()) 
-      }
-      
-      // youtube.com 형식
-      if url.host?.contains("youtube.com") == true {
-        let components =  url.path.components(separatedBy: "/")
-        if(components[1]=="shorts"){
-          return components[2]
-        }
-        let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false)
-        return urlComponents?.queryItems?.first(where: { $0.name == "v" })?.value
-      }
-      
-      return nil
-  }
-  
+
   private func hostErrorView(message: String, error: Error?) {
     let vc = UIHostingController(
       rootView: ShareErrorView(message: message) { [weak self] in
         self?.close(isSuccess: false, error: error)
       }
     )
+
+    vc.view.backgroundColor = .clear
+    vc.view.isOpaque = false
+
     addChild(vc)
     view.addSubview(vc.view)
     vc.view.translatesAutoresizingMaskIntoConstraints = false
+
     NSLayoutConstraint.activate([
       vc.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
       vc.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-      vc.view.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-      vc.view.heightAnchor.constraint(equalTo: view.heightAnchor)
+      vc.view.topAnchor.constraint(equalTo: view.topAnchor),
+      vc.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
     ])
-    vc.view.backgroundColor = .clear
-    
-    vc.view.layer.cornerRadius = 16
-    vc.view.layer.masksToBounds = true  // 자식 뷰들도 잘리게 함
-    vc.view.clipsToBounds = true
-    
+
     vc.didMove(toParent: self)
   }
-  
-  private func setSheetHeight(ratio: CGFloat) {
-    let screenH = UIScreen.main.bounds.height
-    let targetH = max(200, screenH * ratio)
-    
-    self.preferredContentSize = CGSize(width: 0, height: targetH)
-    guard let sheet = self.sheetPresentationController else { return }
-    
+
+  func extractYouTubeVideoId(from urlString: String) -> String? {
+    guard let url = URL(string: urlString) else { return nil }
+    let host = url.host ?? ""
+
+    if host.contains("youtu.be") {
+      let parts = url.path.split(separator: "/").map(String.init)
+      if parts.count >= 2, parts[0] == "shorts" { return parts[1] }
+      return parts.first
+    }
+
+    if host.contains("youtube.com") {
+      let parts = url.path.split(separator: "/").map(String.init)
+      if parts.count >= 2, parts[0] == "shorts" { return parts[1] }
+
+      let comps = URLComponents(url: url, resolvingAgainstBaseURL: false)
+      return comps?.queryItems?.first(where: { $0.name == "v" })?.value
+    }
+
+    return nil
+  }
+
+  private func setSheetHeight(height: CGFloat) {
+    let targetH = max(1, height)
+    preferredContentSize = CGSize(width: 0, height: targetH)
+
+    guard let sheet = sheetPresentationController else { return }
     if #available(iOS 16.0, *) {
       let id = UISheetPresentationController.Detent.Identifier("compact")
       let compact = UISheetPresentationController.Detent.custom(identifier: id) { _ in targetH }
@@ -237,16 +218,18 @@ final class ShareViewController: UIViewController, UIGestureRecognizerDelegate {
       sheet.selectedDetentIdentifier = id
       sheet.prefersGrabberVisible = false
       sheet.prefersScrollingExpandsWhenScrolledToEdge = false
-      // sheet.largestUndimmedDetentIdentifier = nil
-
-      sheet.largestUndimmedDetentIdentifier = id
-    
-    if #available(iOS 26.0, *) {
-      sheet.preferredCornerRadius = 0 
-    }
     }
   }
-  
+
+  private func makePresentationContainerTransparentIfPossible() {
+    var v: UIView? = view
+    while let s = v?.superview {
+      s.backgroundColor = .clear
+      s.isOpaque = false
+      v = s
+    }
+  }
+
   private func close(isSuccess: Bool = false, error: Error? = nil) {
     if isSuccess {
       extensionContext?.completeRequest(returningItems: [], completionHandler: nil)
