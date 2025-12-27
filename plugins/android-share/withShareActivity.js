@@ -9,6 +9,18 @@ function withShareActivity(config) {
       const platformProjectRoot = config.modRequest.platformProjectRoot;
       const packageName = config.android?.package || "com.cheftory.cheftory";
       const packagePath = packageName.replace(/\./g, "/");
+      const stringResources = [
+        {
+          name: "share_callout_title",
+          ko: "레시피 생성이 가능합니다!",
+          en: "You can create a recipe!",
+        },
+        {
+          name: "share_action_create",
+          ko: "생성하기",
+          en: "Create",
+        },
+      ];
 
       // 1. ShareActivity.java 생성 (간단한 버전)
       const activityDir = path.join(
@@ -180,7 +192,7 @@ public class ShareActivity extends Activity {
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="레시피 생성이 가능합니다!"
+            android:text="@string/share_callout_title"
             android:textColor="#FFFFFF"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -192,7 +204,7 @@ public class ShareActivity extends Activity {
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/white_button_bg"
-            android:text="생성하기"
+            android:text="@string/share_action_create"
             android:textColor="#FF6B35"
             android:textSize="14sp"
             android:textStyle="bold"
@@ -207,6 +219,52 @@ public class ShareActivity extends Activity {
         path.join(layoutDir, "share_activity.xml"),
         layoutContent,
       );
+
+      const valuesDir = path.join(
+        platformProjectRoot,
+        "app/src/main/res/values",
+      );
+      const valuesEnDir = path.join(
+        platformProjectRoot,
+        "app/src/main/res/values-en",
+      );
+
+      function upsertStringsFile(targetDir, entries, languageKey) {
+        if (!fs.existsSync(targetDir)) {
+          fs.mkdirSync(targetDir, { recursive: true });
+        }
+
+        const stringsPath = path.join(targetDir, "strings.xml");
+        let xml = `<?xml version="1.0" encoding="utf-8"?>\n<resources>\n</resources>\n`;
+
+        if (fs.existsSync(stringsPath)) {
+          xml = fs.readFileSync(stringsPath, "utf8");
+          if (!xml.includes("<resources")) {
+            xml = `<?xml version="1.0" encoding="utf-8"?>\n<resources>\n</resources>\n`;
+          }
+        }
+
+        let updated = false;
+        entries.forEach((entry) => {
+          const matcher = new RegExp(`<string\\s+name=["']${entry.name}["']`);
+          if (matcher.test(xml)) {
+            return;
+          }
+          const value = entry[languageKey];
+          xml = xml.replace(
+            /<\/resources>\s*$/,
+            `  <string name="${entry.name}">${value}</string>\n</resources>\n`,
+          );
+          updated = true;
+        });
+
+        if (updated) {
+          fs.writeFileSync(stringsPath, xml);
+        }
+      }
+
+      upsertStringsFile(valuesDir, stringResources, "ko");
+      upsertStringsFile(valuesEnDir, stringResources, "en");
 
       // 3. Drawable 리소스들 생성 (간단한 버전)
       const drawableDir = path.join(
