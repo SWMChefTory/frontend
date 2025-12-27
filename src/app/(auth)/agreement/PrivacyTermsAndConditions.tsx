@@ -2,11 +2,11 @@ import PrivacyTermsAndConditionsPage from "@/src/pages/privacy-terms-and-conditi
 import { useEffect } from "react";
 import { track } from "@/src/modules/shared/utils/analytics";
 
-function ServiceTermsAndConditions() {
+function PrivacyTermsAndConditions() {
   useEffect(() => {
-    track.screen("AgreementServiceTermsAndConditions");
+    track.screen("AgreementPrivacyTermsAndConditions");
   }, []);
   return <PrivacyTermsAndConditionsPage />;
 }
 
-export default ServiceTermsAndConditions;
+export default PrivacyTermsAndConditions;

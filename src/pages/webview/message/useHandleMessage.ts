@@ -16,7 +16,9 @@ import {
   endActivity,
 } from "@/src/pages/webview/timer/live-activity/liveActivity";
 import { useUserStore } from "@/src/modules/user/business/store/userStore";
+import { useMarketStore } from "@/src/modules/shared/store/marketStore";
 import { Alert, Linking, Platform } from "react-native";
+import { getErrorMessage } from "@/src/locales/errors";
 import { comsumeReservedMessage } from "@/src/shared/webview/sendMessage";
 import * as ScreenOrientation from "expo-screen-orientation";
 import { SafeArea } from "../RecipeWebView";
@@ -110,6 +112,7 @@ export function useHandleMessage({
   const { logout } = useLogoutViewModel();
   const { deleteUser } = useDeleteUserViewModel();
   const { removeUser } = useUserStore();
+  const { market, cachedMarket } = useMarketStore();
   const reply = <T>(id: string, result: T) => {
     postMessage({ message: JSON.stringify(createReplyResponse(id, result)) });
   };
@@ -139,7 +142,9 @@ export function useHandleMessage({
                 reply(req.id, { token: newToken });
               } catch (e: any) {
                 removeUser();
-                Alert.alert("로그아웃 되었습니다.");
+                Alert.alert(
+                  getErrorMessage(market ?? cachedMarket, "loggedOut"),
+                );
                 fail(req.id, e?.message ?? "Unhandled error");
               }
               break;
@@ -218,6 +223,7 @@ export function useHandleMessage({
                 recipeId,
                 recipeTitle,
                 remainingSeconds,
+                market ?? cachedMarket,
               );
               break;
             }

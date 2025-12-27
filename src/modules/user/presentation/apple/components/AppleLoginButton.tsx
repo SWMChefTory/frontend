@@ -2,6 +2,8 @@ import * as AppleAuthentication from "expo-apple-authentication";
 import { useLoginViewModel } from "@/src/modules/user/business/service/useAuthService";
 import { OauthProvider } from "@/src/modules/user/enums/OauthProvider";
 import { Alert } from "react-native";
+import { useMarketStore } from "@/src/modules/shared/store/marketStore";
+import { getErrorMessage } from "@/src/locales/errors";
 import { FullScreenLoader } from "@/src/modules/shared/splash/loading/lottieview/FullScreenLoader";
 import LoginButtonTemplate from "../../login/LoginButtonTemplate";
 import {
@@ -11,12 +13,16 @@ import {
 
 export function AppleLoginButton({ isReal }: { isReal: boolean }) {
   const { login, isLoading } = useLoginViewModel();
+  const { market, cachedMarket } = useMarketStore();
   const description = "Apple로 시작하기";
 
   async function handleSignInAppleReal() {
     const available = await AppleAuthentication.isAvailableAsync();
     if (!available) {
-      Alert.alert("오류", "이 기기에서는 Apple 로그인을 사용할 수 없습니다.");
+      Alert.alert(
+        getErrorMessage(market ?? cachedMarket, "error"),
+        getErrorMessage(market ?? cachedMarket, "appleUnavailable"),
+      );
       return;
     }
 
@@ -29,7 +35,10 @@ export function AppleLoginButton({ isReal }: { isReal: boolean }) {
     });
 
     if (!appleAuthRequestResponse.identityToken) {
-      Alert.alert("오류", "Apple 로그인에 실패했습니다.");
+      Alert.alert(
+        getErrorMessage(market ?? cachedMarket, "error"),
+        getErrorMessage(market ?? cachedMarket, "appleLoginFailed"),
+      );
       return;
     }
 
@@ -52,7 +61,10 @@ export function AppleLoginButton({ isReal }: { isReal: boolean }) {
       return;
     }
 
-    Alert.alert("오류", "Apple 로그인에 실패했습니다.");
+    Alert.alert(
+      getErrorMessage(market ?? cachedMarket, "error"),
+      getErrorMessage(market ?? cachedMarket, "appleLoginFailed"),
+    );
   }
 
   async function handleSignInAppleFake() {
