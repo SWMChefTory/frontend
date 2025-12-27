@@ -2,7 +2,7 @@ export default {
   expo: {
     name: "쉐프토리",
     slug: "cheftory",
-    version: "1.0.9",
+    version: "1.0.11",
     orientation: "portrait",
     icon: "./assets/images/mainCharacter.png",
     scheme: "cheftory",
@@ -56,6 +56,7 @@ export default {
       },
     },
     android: {
+      versionCode: 41,
       googleServicesFile:
         process.env.GOOGLE_SERVICES_JSON || "./firebase/google-services.json",
       permissions: [
@@ -93,6 +94,7 @@ export default {
       "@react-native-google-signin/google-signin",
       "@react-native-firebase/app",
       "./plugins/android-share",
+      "./plugins/android-keystore",
       [
         "expo-build-properties",
         {

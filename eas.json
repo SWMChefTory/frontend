@@ -1,7 +1,7 @@
 {
   "cli": {
     "version": ">= 12.0.0",
-    "appVersionSource": "remote"
+    "appVersionSource": "local"
   },
   "build": {
     "development": {
@@ -52,6 +52,12 @@
         "EXPO_PUBLIC_ANDROID_ID": "@EXPO_PUBLIC_ANDROID_ID",
         "EXPO_PUBLIC_API_URL": "@EXPO_PUBLIC_API_URL",
         "WEBVIEW_URL": "@WEBVIEW_URL"
+      },
+      "channel": "production"
+    },
+    "local-production": {
+      "android": {
+        "buildType": "app-bundle"
       },
       "channel": "production"
     }
