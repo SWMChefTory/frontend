@@ -8,6 +8,7 @@ import { useSignupModalStore } from "@/src/pages/login/ui/button";
 import { useSignupViewModel } from "@/src/modules/user/business/service/useAuthService";
 import useRandomName from "@/src/pages/login/model/useRandomName";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useMarketStore } from "@/src/modules/shared/store/marketStore";
 
 export interface AgreeValue {
   isServiceAgree: boolean;
@@ -26,7 +27,9 @@ const localColor = {
 export default function TermsAndConditionsModalContent() {
   const { idToken, provider, closeModal } = useSignupModalStore();
   const { signup } = useSignupViewModel();
-  const { nickname } = useRandomName();
+  const { market, cachedMarket } = useMarketStore();
+  const currentMarket = market ?? cachedMarket ?? "KOREA";
+  const { nickname } = useRandomName(currentMarket === "GLOBAL" ? "en" : "ko");
   const insets = useSafeAreaInsets();
 
   const router = useRouter();
