@@ -10,7 +10,7 @@ import { getLocalePathFromMarket } from "../utils/marketUtils";
  */
 export const getMarket = async (): Promise<MarketResponse> => {
   try {
-    const response = await clientWithoutAuth.get<MarketResponse>("/api/v1/market");
+    const response = await clientWithoutAuth.get<MarketResponse>("/market");
     return response.data;
   } catch (error) {
     console.error("Market 조회 실패, KOREA로 폴백:", error);

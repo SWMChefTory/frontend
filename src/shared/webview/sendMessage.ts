@@ -38,8 +38,15 @@ export const comsumeReservedMessage = () => {
 //payload는 무조건 객체여야 함. 문자열 아님!!
 //payload를 postMessage를 통해 웹뷰로 보냄!
 export const subscribeMessage = (postMessage: (payload: string) => void) => {
-  eventEmitter.on(EVENT_TYPE, (payload) => {
+  const handler = (payload: string) => {
     const payloadParsed = JSON.parse(payload);
     postMessage(createMessage({ payload: payloadParsed }));
-  });
+  };
+
+  eventEmitter.on(EVENT_TYPE, handler);
+
+  // ✅ cleanup 함수 반환
+  return () => {
+    eventEmitter.off(EVENT_TYPE, handler);
+  };
 };

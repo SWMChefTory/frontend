@@ -10,7 +10,6 @@ export default function WebViewScreen() {
     track.screen("RecipeDetail");
   }, []);
 
-  //백그라운드 처리 되어 있나?
   useEffect(() => {
     (async () => {
       try {
@@ -48,9 +47,9 @@ export default function WebViewScreen() {
   }, []);
 
   return (
-      <View style={{ flex: 1, backgroundColor: "white" }}>
-        <Stack.Screen options={{ headerShown: false }} />
-        <RecipeWebView />
-      </View>
+    <View style={{ flex: 1, backgroundColor: "white" }}>
+      <Stack.Screen options={{ headerShown: false }} />
+      <RecipeWebView />
+    </View>
   );
 }

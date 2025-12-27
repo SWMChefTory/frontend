@@ -7,7 +7,6 @@ import {
 } from "@/src/modules/shared/api/apiWithoutAuth";
 import { useUserStore } from "@/src/modules/user/business/store/userStore";
 import {
-  findAccessToken,
   findRefreshToken,
   removeAuthToken,
   storeAuthToken,
@@ -109,7 +108,7 @@ export function useLogoutViewModel() {
   const { removeUser } = useUserStore();
   const { mutate: logout, isPending: isLoading } = useMutation({
     mutationFn: async () => {
-      const refreshToken = findRefreshToken();
+      const refreshToken = await findRefreshToken();
       if (refreshToken) {
         logoutUser(refreshToken);
       }
@@ -140,7 +139,7 @@ export function useDeleteUserViewModel() {
     error,
   } = useMutation({
     mutationFn: async () => {
-      const refreshToken = findRefreshToken();
+      const refreshToken = await findRefreshToken();
       if (refreshToken) {
         return deleteAccount(refreshToken);
       }

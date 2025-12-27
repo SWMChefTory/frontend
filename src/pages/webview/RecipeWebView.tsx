@@ -38,6 +38,22 @@ export function RecipeWebViewContent() {
   const [error, setError] = useState<Error | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [canGoBack, setCanGoBack] = useState(false);
+  const [accessToken, setAccessToken] = useState("");
+  const [refreshToken, setRefreshToken] = useState("");
+  const [tokenLoaded, setTokenLoaded] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const at = await findAccessToken();
+        const rt = await findRefreshToken();
+        setAccessToken(at ?? "");
+        setRefreshToken(rt ?? "");
+      } finally {
+        setTokenLoaded(true);
+      }
+    })();
+  }, []);
 
   const [safeArea, setSafeArea] = useState<SafeArea>({
     left: { isEixsts: false, color: "#FFFFFF" },
@@ -69,9 +85,13 @@ export function RecipeWebViewContent() {
   }, []);
 
   useEffect(() => {
-    subscribeMessage((message) => {
+    const unsubscribe = subscribeMessage((message) => {
       webviewRef.current?.postMessage(message);
     });
+
+    return () => {
+      unsubscribe?.();
+    };
   }, []);
 
   useFocusEffect(
@@ -90,6 +110,10 @@ export function RecipeWebViewContent() {
   // 방어 코드: _layout에서 이미 처리하지만 안전장치
   if (!market) {
     console.warn("Market이 없습니다. 이 경우는 발생하지 않아야 합니다.");
+    return <WebviewLoadingView />;
+  }
+
+  if (!tokenLoaded) {
     return <WebviewLoadingView />;
   }
 
@@ -116,18 +140,25 @@ export function RecipeWebViewContent() {
         />
         <Animated.View style={[animatedStyle, { flex: 1 }]}>
           <WebView
+            injectedJavaScriptBeforeContentLoaded={`
+            (function() {
+              try {
+                localStorage.setItem('MAIN_ACCESS_TOKEN', ${JSON.stringify(accessToken)});
+                localStorage.setItem('REFRESH_TOKEN', ${JSON.stringify(refreshToken)});
+              } catch (e) {}
+            })();
+            true;
+          `}
             injectedJavaScript={`
-        (function() {
-          const originalLog = console.log;
-          console.log = function(...args) {
-            window.ReactNativeWebView.postMessage(args.join(" "));
-            originalLog.apply(console, args);
-             localStorage.setItem('MAIN_ACCESS_TOKEN', '${findAccessToken() || ""}');
-             localStorage.setItem('REFRESH_TOKEN', '${findRefreshToken() || ""}');
-          };
-        })();
-        true;
-      `}
+            (function() {
+              const originalLog = console.log;
+              console.log = function(...args) {
+                try { window.ReactNativeWebView.postMessage(args.join(" ")); } catch (e) {}
+                return originalLog.apply(console, args);
+              };
+            })();
+            true;
+          `}
             ref={webviewRef}
             source={{ uri: webviewUrl }}
             style={[styles.webview]}
@@ -136,6 +167,9 @@ export function RecipeWebViewContent() {
             onError={handleError}
             onRenderProcessGone={(e) => {
               webviewRef.current?.reload();
+            }}
+            onLoadStart={() => {
+              setIsLoading(true);
             }}
             onLoadEnd={() => {
               setIsLoading(false);
