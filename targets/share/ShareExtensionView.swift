@@ -39,7 +39,7 @@ struct ShareExtensionView: View {
 
           HStack(spacing: 0) {
             VStack {
-              Text("You can create recipe!")
+              Text("share_callout_title")
                 .font(.system(size: 16, weight: .bold))
                 .multilineTextAlignment(.center)
                 .foregroundColor(Color(hex: "#FFFFFF"))
@@ -56,7 +56,7 @@ struct ShareExtensionView: View {
                   animateAndClose()
                 }
               } label: {
-                Text("Create")
+                Text("share_action_create")
                   .font(.system(size: 16, weight: .medium))
                   .foregroundColor(Color(hex: "#FA8839"))
               }

@@ -23,10 +23,7 @@ import {
 
 import * as Notifications from "expo-notifications";
 import { useNotificationObserver } from "@/src/pages/webview/timer/notifications/useNotificationObserver";
-import {
-  initialWindowMetrics,
-  SafeAreaProvider,
-} from "react-native-safe-area-context";
+import { initialWindowMetrics, SafeAreaProvider } from "react-native-safe-area-context";
 import * as ScreenOrientation from "expo-screen-orientation";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { initAmplitude, trackNative } from "../modules/shared/analytics";
@@ -45,12 +42,8 @@ Notifications.setNotificationHandler({
 
 const queryClient = new QueryClient({
   defaultOptions: {
-    queries: {
-      throwOnError: false,
-    },
-    mutations: {
-      throwOnError: false,
-    },
+    queries: { throwOnError: false },
+    mutations: { throwOnError: false },
   },
 });
 
@@ -63,22 +56,20 @@ function onAppStateChange(status: AppStateStatus) {
 function useAppState(onChange: (status: AppStateStatus) => void) {
   useEffect(() => {
     const subscription = AppState.addEventListener("change", onChange);
-    return () => {
-      subscription.remove();
-    };
+    return () => subscription.remove();
   }, [onChange]);
 }
 
 function useOnlineManager() {
   useEffect(() => {
-    if (Platform.OS !== "web") {
-      return onlineManager.setEventListener((setOnline) => {
-        const eventSubscription = Network.addNetworkStateListener((state) => {
-          setOnline(!!state.isConnected);
-        });
-        return eventSubscription.remove;
+    if (Platform.OS === "web") return;
+
+    return onlineManager.setEventListener((setOnline) => {
+      const eventSubscription = Network.addNetworkStateListener((state) => {
+        setOnline(!!state.isConnected);
       });
-    }
+      return eventSubscription.remove;
+    });
   }, []);
 }
 
@@ -90,12 +81,8 @@ function RootNavigator({ isLoggedIn }: { isLoggedIn: boolean }) {
       screenOptions={{
         headerBackVisible: false,
         headerLeft: () => <CustomBackButton />,
-        headerStyle: {
-          backgroundColor: theme.colors.primary, // 헤더 배경색
-        },
-        contentStyle: {
-          backgroundColor: theme.colors.background, // 화면 컨텐츠 배경색
-        },
+        headerStyle: { backgroundColor: theme.colors.primary },
+        contentStyle: { backgroundColor: theme.colors.background },
       }}
     >
       <Stack.Protected guard={isLoggedIn}>
@@ -123,66 +110,24 @@ const theme = {
     surface: "#ffffff",
     background: "#ffffff",
   },
-
-  sizes: {
-    button: {
-      height: 48, // 공통 높이
-      small: {
-        paddingHorizontal: 16,
-        width: "22%", // 4개 배치용
-      },
-      medium: {
-        paddingHorizontal: 20,
-        width: "47%", // 2개 배치용
-      },
-      large: {
-        paddingHorizontal: 24,
-        width: "100%", // 1개 배치용
-      },
-    },
-    input: {
-      height: 56,
-      paddingHorizontal: 16,
-    },
-    spacing: {
-      xs: 4,
-      sm: 8,
-      md: 16,
-      lg: 24,
-      xl: 32,
-    },
-  },
 };
 
 export default function RootLayout() {
-  // Bootstrap 로직을 최상위에서 한 번만 실행
   const { isReady, isLoggedIn } = useAppBootstrap();
 
   useOnlineManager();
-
   useAppState(onAppStateChange);
   useNotificationObserver();
 
-  useOnlineManager();
-
-  useAppState(onAppStateChange);
-
   useEffect(() => {
-    async function changeScreenOrientation() {
-      await ScreenOrientation.lockAsync(
-        ScreenOrientation.OrientationLock.PORTRAIT_UP,
-      );
-    }
-    changeScreenOrientation();
+    ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP).catch(() => {});
   }, []);
 
-  // Amplitude 초기화 + 앱 실행 이벤트
   useEffect(() => {
-    const setupAmplitude = async () => {
+    (async () => {
       await initAmplitude();
       trackNative(AmplitudeEvent.APP_LAUNCHED);
-    };
-    setupAmplitude();
+    })();
   }, []);
 
   return (

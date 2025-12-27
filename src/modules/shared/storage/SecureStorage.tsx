@@ -3,12 +3,12 @@ import * as SecureStore from "expo-secure-store";
 const ACCESS_TOKEN_KEY = "access_token";
 const REFRESH_TOKEN_KEY = "refresh_token";
 
-export const findRefreshToken: () => string | null = () => {
-  return SecureStore.getItem(REFRESH_TOKEN_KEY);
+export const findRefreshToken = async (): Promise<string | null> => {
+  return await SecureStore.getItemAsync(REFRESH_TOKEN_KEY);
 };
 
-export const findAccessToken: () => string | null = () => {
-  return SecureStore.getItem(ACCESS_TOKEN_KEY);
+export const findAccessToken = async (): Promise<string | null> => {
+  return await SecureStore.getItemAsync(ACCESS_TOKEN_KEY);
 };
 export const storeAccessToken = async (accessToken: string) => {
   console.debug("Storing access token", accessToken);

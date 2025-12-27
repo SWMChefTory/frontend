@@ -43,7 +43,7 @@ struct ShareErrorView: View {
               Button {
                 close()
               } label: {
-                Text("닫기")
+                Text("share_action_close")
                   .font(.system(size: 16, weight: .medium))
                   .foregroundColor(Color(hex: "#FA8839"))
               }

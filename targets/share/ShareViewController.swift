@@ -35,14 +35,20 @@ final class ShareViewController: UIViewController {
       itemProvider.loadObject(ofClass: URL.self) { [weak self] object, error in
         if let error {
           self?.enqueueOnMain { [weak self] in
-            self?.hostErrorView(message: "URL 로드 실패", error: error)
+            self?.hostErrorView(
+              message: NSLocalizedString("share_error_url_load_failed", comment: ""),
+              error: error
+            )
           }
           return
         }
 
         guard let url = object as? URL else {
           self?.enqueueOnMain { [weak self] in
-            self?.hostErrorView(message: "변환 실패", error: nil)
+            self?.hostErrorView(
+              message: NSLocalizedString("share_error_conversion_failed", comment: ""),
+              error: nil
+            )
           }
           return
         }
@@ -53,14 +59,20 @@ final class ShareViewController: UIViewController {
       itemProvider.loadItem(forTypeIdentifier: "public.plain-text", options: nil) { [weak self] item, error in
         if let error {
           self?.enqueueOnMain { [weak self] in
-            self?.hostErrorView(message: "URL 로드 실패", error: error)
+            self?.hostErrorView(
+              message: NSLocalizedString("share_error_url_load_failed", comment: ""),
+              error: error
+            )
           }
           return
         }
 
         guard let text = item as? String else {
           self?.enqueueOnMain { [weak self] in
-            self?.hostErrorView(message: "변환 실패", error: nil)
+            self?.hostErrorView(
+              message: NSLocalizedString("share_error_conversion_failed", comment: ""),
+              error: nil
+            )
           }
           return
         }
@@ -70,7 +82,7 @@ final class ShareViewController: UIViewController {
     } else {
       enqueueOnMain { [weak self] in
         self?.hostErrorView(
-          message: "지원하지 않는 콘텐츠 형식입니다.",
+          message: NSLocalizedString("share_error_unsupported_content", comment: ""),
           error: NSError(domain: "", code: 0)
         )
       }
@@ -109,7 +121,8 @@ final class ShareViewController: UIViewController {
       if let videoId = self.extractYouTubeVideoId(from: encoded) {
         self.hostView(videoId: videoId)
       } else {
-        let path = URL(string: encoded)?.path(percentEncoded: false) ?? "Invalid URL"
+        let path = URL(string: encoded)?.path(percentEncoded: false)
+          ?? NSLocalizedString("share_error_invalid_url", comment: "")
         self.hostErrorView(message: path, error: nil)
       }
     }
@@ -133,7 +146,10 @@ final class ShareViewController: UIViewController {
     ]
 
     guard let deepLinkUrl = components.url else {
-      hostErrorView(message: "딥링크 URL 생성 실패", error: nil)
+      hostErrorView(
+        message: NSLocalizedString("share_error_deeplink_failed", comment: ""),
+        error: nil
+      )
       return
     }
 

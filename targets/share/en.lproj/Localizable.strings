@@ -1,0 +1,8 @@
+"share_action_close" = "Close";
+"share_action_create" = "Create";
+"share_callout_title" = "You can create a recipe!";
+"share_error_conversion_failed" = "Conversion failed";
+"share_error_deeplink_failed" = "Failed to create deep link URL";
+"share_error_invalid_url" = "Invalid URL";
+"share_error_unsupported_content" = "Unsupported content type.";
+"share_error_url_load_failed" = "Failed to load URL";

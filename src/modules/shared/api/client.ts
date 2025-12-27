@@ -45,7 +45,7 @@ class TokenRefreshManager {
 
   private async executeRefresh(): Promise<string> {
     try {
-      const refreshToken = findRefreshToken();
+      const refreshToken = await findRefreshToken();
       console.log(
         "token을 갱신하기 위해 refreshToken을 가져옵니다.",
         refreshToken,
@@ -76,7 +76,7 @@ client.interceptors.request.use(
     if (config.skipAuth) {
       return config;
     }
-    const token = findAccessToken();
+    const token = await findAccessToken();
     if (!token) {
       return config;
     }
