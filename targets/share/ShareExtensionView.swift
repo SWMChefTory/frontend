@@ -1,28 +1,45 @@
 import SwiftUI
 
 struct ShareExtensionView: View {
+  @Environment(\.openURL) private var openURL
+
   let close: () -> Void
-  let deepLink: () -> Void
-  
+  let deepLinkURL: URL
+
+  @State private var isClosing = false
+  @State private var cardOffset: CGFloat = 0
+  @State private var globalOpacity: Double = 1.0
+
+  private func animateAndClose() {
+    withAnimation(.easeInOut(duration: 0.22)) {
+      isClosing = true
+      cardOffset = 40
+      globalOpacity = 0.0
+    }
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.26) {
+      close()
+    }
+  }
+
   var body: some View {
     let totalWidth = UIScreen.main.bounds.width
     let totalHeight = UIScreen.main.bounds.height
-    
+
     GeometryReader { geometry in
       ZStack {
-        Color.black.opacity(0.001)
-                  .contentShape(Rectangle())
-                  .onTapGesture {
-                    print("background tapped!")
-                    close()
-                  }
-                  .frame(width: totalWidth, height: totalHeight)
+        Color.black.opacity(isClosing ? 0.0 : 0.06)
+          .onTapGesture {
+            animateAndClose()
+          }
+          .frame(width: geometry.size.width, height: geometry.size.height)
+          .ignoresSafeArea()
+
         VStack {
           Spacer()
-          
+
           HStack(spacing: 0) {
             VStack {
-              Text("레시피 생성이 가능합니다!")
+              Text("You can create recipe!")
                 .font(.system(size: 16, weight: .bold))
                 .multilineTextAlignment(.center)
                 .foregroundColor(Color(hex: "#FFFFFF"))
@@ -31,13 +48,15 @@ struct ShareExtensionView: View {
             .padding()
             .frame(width: totalWidth * 0.6, height: totalHeight * 0.1)
             .shadow(radius: 10)
-            
+
             VStack {
               Button {
-                deepLink()
-                close()
+                openURL(deepLinkURL) { success in
+                  print("앱 열기 성공 여부: \(success)")
+                  animateAndClose()
+                }
               } label: {
-                Text("생성하기")
+                Text("Create")
                   .font(.system(size: 16, weight: .medium))
                   .foregroundColor(Color(hex: "#FA8839"))
               }
@@ -51,12 +70,18 @@ struct ShareExtensionView: View {
           .frame(width: totalWidth, height: totalHeight * 0.1)
           .background(Color(hex: "#FA8839"))
           .clipShape(RoundedRectangle(cornerRadius: 20))
-          
+          .offset(y: isClosing ? cardOffset : 0)
+          .opacity(isClosing ? 0.0 : 1.0)
+          .animation(.easeInOut(duration: 0.18), value: isClosing)
+
           Spacer()
             .frame(height: geometry.safeAreaInsets.bottom + totalHeight * 0.1)
         }
       }
+      .opacity(globalOpacity)
+      .allowsHitTesting(!isClosing)
     }
+    .background(Color.clear)
     .ignoresSafeArea()
   }
 }
