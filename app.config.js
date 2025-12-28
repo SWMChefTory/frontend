@@ -20,7 +20,7 @@ export default {
         process.env.GOOGLE_SERVICES_PLIST ||
         "./firebase/GoogleService-Info.plist",
       deploymentTarget: "17.2",
-      appleTeamId: "TCMRDSDB39",
+      appleTeamId: "2UFFR3J3LQ",
       supportsTablet: true,
       bundleIdentifier: "com.cheftory.cheftory",
       usesAppleSignIn: true,
@@ -107,6 +107,7 @@ export default {
         },
       ],
       ["expo-screen-orientation", { initialOrientation: "PORTRAIT_UP" }],
+      "./plugins/app-localization",
     ],
     experiments: {
       typedRoutes: true,
