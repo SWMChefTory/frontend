@@ -36,7 +36,6 @@ export function RecipeWebViewContent() {
   const { market } = useMarketStore();
   const webviewRef = useRef<WebView>(null);
   const [error, setError] = useState<Error | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
   const [canGoBack, setCanGoBack] = useState(false);
   const [accessToken, setAccessToken] = useState("");
   const [refreshToken, setRefreshToken] = useState("");
@@ -168,12 +167,6 @@ export function RecipeWebViewContent() {
             onRenderProcessGone={(e) => {
               webviewRef.current?.reload();
             }}
-            onLoadStart={() => {
-              setIsLoading(true);
-            }}
-            onLoadEnd={() => {
-              setIsLoading(false);
-            }}
             onContentProcessDidTerminate={() => {
               webviewRef.current?.reload();
             }}
@@ -204,7 +197,6 @@ export function RecipeWebViewContent() {
               setSupportMultipleWindows: false,
             })}
           />
-          {isLoading && <WebviewLoadingView />}
         </Animated.View>
         <View
           style={{
