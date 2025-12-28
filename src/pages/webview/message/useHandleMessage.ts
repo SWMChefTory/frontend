@@ -22,6 +22,7 @@ import { getErrorMessage } from "@/src/locales/errors";
 import { comsumeReservedMessage } from "@/src/shared/webview/sendMessage";
 import * as ScreenOrientation from "expo-screen-orientation";
 import { SafeArea } from "../RecipeWebView";
+import { useIsLoadingViewOpen } from "../load/LoadingViewStore";
 //webview입장에서 요청
 type RequestMsgBlockingFromWebView = {
   intended: true;
@@ -120,6 +121,8 @@ export function useHandleMessage({
     postMessage({ message: JSON.stringify(createFailResponse(id, error)) });
   };
 
+  const {closeLoadingView} = useIsLoadingViewOpen();
+
   const handleMessage = async (event: any) => {
     try {
       const req = (() => {
@@ -177,6 +180,10 @@ export function useHandleMessage({
             }
             case payloadType.DELETE_USER: {
               deleteUser();
+              break;
+            }
+            case payloadType.LOAD_END :{
+              closeLoadingView();
               break;
             }
             case payloadType.OPEN_YOUTUBE: {

@@ -7,10 +7,6 @@ import { useHandleMessage } from "@/src/pages/webview/message/useHandleMessage";
 import { subscribeMessage } from "@/src/shared/webview/sendMessage";
 import { useKeyboardAvoidingAnimation } from "@/src/shared/keyboard/useKeyboardAvoiding";
 import Animated from "react-native-reanimated";
-import {
-  findRefreshToken,
-  findAccessToken,
-} from "@/src/modules/shared/storage/SecureStorage";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useFocusEffect } from "@react-navigation/native";
 import { tryGrantPermission } from "./timer/notifications/timerNotifications";
@@ -37,22 +33,9 @@ export function RecipeWebViewContent() {
   const webviewRef = useRef<WebView>(null);
   const [error, setError] = useState<Error | null>(null);
   const [canGoBack, setCanGoBack] = useState(false);
-  const [accessToken, setAccessToken] = useState("");
-  const [refreshToken, setRefreshToken] = useState("");
-  const [tokenLoaded, setTokenLoaded] = useState(false);
+  
+  // const [isLoading,setIsLoading] = useState(true);
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const at = await findAccessToken();
-        const rt = await findRefreshToken();
-        setAccessToken(at ?? "");
-        setRefreshToken(rt ?? "");
-      } finally {
-        setTokenLoaded(true);
-      }
-    })();
-  }, []);
 
   const [safeArea, setSafeArea] = useState<SafeArea>({
     left: { isEixsts: false, color: "#FFFFFF" },
@@ -112,13 +95,11 @@ export function RecipeWebViewContent() {
     return <WebviewLoadingView />;
   }
 
-  if (!tokenLoaded) {
-    return <WebviewLoadingView />;
-  }
 
   const webviewUrl = getWebViewUrl(market);
 
   if (error) {
+    console.log("이 에러냐??")
     throw error;
   }
 
@@ -139,15 +120,6 @@ export function RecipeWebViewContent() {
         />
         <Animated.View style={[animatedStyle, { flex: 1 }]}>
           <WebView
-            injectedJavaScriptBeforeContentLoaded={`
-            (function() {
-              try {
-                localStorage.setItem('MAIN_ACCESS_TOKEN', ${JSON.stringify(accessToken)});
-                localStorage.setItem('REFRESH_TOKEN', ${JSON.stringify(refreshToken)});
-              } catch (e) {}
-            })();
-            true;
-          `}
             injectedJavaScript={`
             (function() {
               const originalLog = console.log;
@@ -211,12 +183,12 @@ export function RecipeWebViewContent() {
           backgroundColor: safeArea.bottom.color,
         }}
       />
+      <WebviewLoadingView/>
     </View>
   );
   // Android 하드웨어 뒤로가기 버튼 처리: 웹뷰로 BACK_PRESSED 전송
 }
 
-// {isLoading && <WebviewLoadingView/>}
 
 const styles = StyleSheet.create({
   webview: {
