@@ -10,7 +10,7 @@ export default {
     newArchEnabled: true,
     owner: "cheftory",
     ios: {
-      buildNumber: "3",
+      buildNumber: "4",
       entitlements: {
         "com.apple.security.application-groups": [
           "group.com.cheftory.cheftory",
