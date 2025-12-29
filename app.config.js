@@ -2,7 +2,7 @@ export default {
   expo: {
     name: "쉐프토리",
     slug: "cheftory",
-    version: "1.0.9",
+    version: "1.0.11",
     orientation: "portrait",
     icon: "./assets/images/mainCharacter.png",
     scheme: "cheftory",
@@ -10,6 +10,7 @@ export default {
     newArchEnabled: true,
     owner: "cheftory",
     ios: {
+      buildNumber: "4",
       entitlements: {
         "com.apple.security.application-groups": [
           "group.com.cheftory.cheftory",
@@ -19,7 +20,7 @@ export default {
         process.env.GOOGLE_SERVICES_PLIST ||
         "./firebase/GoogleService-Info.plist",
       deploymentTarget: "17.2",
-      appleTeamId: "TCMRDSDB39",
+      appleTeamId: "2UFFR3J3LQ",
       supportsTablet: true,
       bundleIdentifier: "com.cheftory.cheftory",
       usesAppleSignIn: true,
@@ -56,6 +57,7 @@ export default {
       },
     },
     android: {
+      versionCode: 43,
       googleServicesFile:
         process.env.GOOGLE_SERVICES_JSON || "./firebase/google-services.json",
       permissions: [
@@ -93,6 +95,7 @@ export default {
       "@react-native-google-signin/google-signin",
       "@react-native-firebase/app",
       "./plugins/android-share",
+      "./plugins/android-keystore",
       [
         "expo-build-properties",
         {
@@ -104,6 +107,7 @@ export default {
         },
       ],
       ["expo-screen-orientation", { initialOrientation: "PORTRAIT_UP" }],
+      "./plugins/app-localization",
     ],
     experiments: {
       typedRoutes: true,

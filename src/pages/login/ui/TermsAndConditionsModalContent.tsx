@@ -48,7 +48,6 @@ export default function TermsAndConditionsModalContent() {
   const currentMarket = market ?? cachedMarket ?? "KOREA";
   const { nickname } = useRandomName(currentMarket === "GLOBAL" ? "en" : "ko");
   const insets = useSafeAreaInsets();
-
   const router = useRouter();
   const text = TERMS_TEXT[currentMarket];
   const [agreeValue, setAgreeValue] = useState<AgreeValue>({
