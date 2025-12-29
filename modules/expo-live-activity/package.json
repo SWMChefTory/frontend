@@ -1,0 +1,6 @@
+{
+  "name": "expo-live-activity",
+  "version": "0.1.0",
+  "main": "src/index.ts",
+  "react-native": "src/index.ts"
+}

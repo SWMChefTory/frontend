@@ -1,0 +1,18 @@
+# EAS Build Ignore File
+# Files and directories listed here will be ignored during EAS builds
+# This overrides .gitignore for EAS builds
+
+# Keep firebase directory for builds (override .gitignore)
+!firebase/
+
+# Keep keystore for production builds (override .gitignore)
+!@cheftory__cheftory.jks
+
+# Ignore these directories
+node_modules/
+.expo/
+.expo-shared/
+
+# Ignore local environment files (use EAS secrets instead)
+.env.local
+.env.*.local

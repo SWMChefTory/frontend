@@ -1,0 +1,74 @@
+{
+  "cli": {
+    "version": ">= 12.0.0",
+    "appVersionSource": "local"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "ios": {
+        "simulator": true,
+        "image": "macos-sequoia-15.5-xcode-16.4",
+        "cocoapods": "1.16.2"
+      },
+      "env": {
+        "EXPO_PUBLIC_WEB_ID": "@EXPO_PUBLIC_WEB_ID",
+        "EXPO_PUBLIC_IOS_ID": "@EXPO_PUBLIC_IOS_ID",
+        "EXPO_PUBLIC_ANDROID_ID": "@EXPO_PUBLIC_ANDROID_ID",
+        "EXPO_PUBLIC_API_URL": "@EXPO_PUBLIC_API_URL",
+        "WEBVIEW_URL": "@WEBVIEW_URL"
+      },
+      "channel": "development"
+    },
+    "preview": {
+      "distribution": "internal",
+      "prebuildCommand": "npx expo prebuild --platform ios --clean",
+      "ios": {
+        "image": "macos-sequoia-15.5-xcode-16.4",
+        "cocoapods": "1.16.2",
+        "scheme": "ChefTory"
+      },
+      "env": {
+        "EXPO_PUBLIC_WEB_ID": "@EXPO_PUBLIC_WEB_ID",
+        "EXPO_PUBLIC_IOS_ID": "@EXPO_PUBLIC_IOS_ID",
+        "EXPO_PUBLIC_ANDROID_ID": "@EXPO_PUBLIC_ANDROID_ID",
+        "EXPO_PUBLIC_API_URL": "@EXPO_PUBLIC_API_URL",
+        "WEBVIEW_URL": "@WEBVIEW_URL"
+      },
+      "channel": "preview"
+    },
+    "production": {
+      "autoIncrement": true,
+      "prebuildCommand": "npx expo prebuild --platform ios --clean",
+      "ios": {
+        "image": "macos-sequoia-15.5-xcode-16.4",
+        "cocoapods": "1.16.2",
+        "scheme": "ChefTory"
+      },
+      "env": {
+        "EXPO_PUBLIC_WEB_ID": "@EXPO_PUBLIC_WEB_ID",
+        "EXPO_PUBLIC_IOS_ID": "@EXPO_PUBLIC_IOS_ID",
+        "EXPO_PUBLIC_ANDROID_ID": "@EXPO_PUBLIC_ANDROID_ID",
+        "EXPO_PUBLIC_API_URL": "@EXPO_PUBLIC_API_URL",
+        "WEBVIEW_URL": "@WEBVIEW_URL"
+      },
+      "channel": "production"
+    },
+    "local-production": {
+      "android": {
+        "buildType": "app-bundle"
+      },
+      "channel": "production"
+    }
+  },
+  "submit": {
+    "production": {
+      "ios": {
+        "appleId": "chieftory72@gmail.com",
+        "ascAppId": "6749204027",
+        "appleTeamId": "TCMRDSDB39"
+      }
+    }
+  }
+}

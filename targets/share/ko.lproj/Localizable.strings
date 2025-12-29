@@ -1,0 +1,8 @@
+"share_action_close" = "닫기";
+"share_action_create" = "만들기";
+"share_callout_title" = "레시피를 만들 수 있어요!";
+"share_error_conversion_failed" = "변환 실패";
+"share_error_deeplink_failed" = "딥링크 URL 생성 실패";
+"share_error_invalid_url" = "유효하지 않은 URL";
+"share_error_unsupported_content" = "지원하지 않는 콘텐츠 형식입니다.";
+"share_error_url_load_failed" = "URL 로드 실패";
